@@ -1,0 +1,37 @@
+<%#= render 'devise/shared/navbar' %>
+<div class="row">
+  <div class="col-md-3 hidden-sm-down"></div>
+  <div class="col">
+    <h2>Prihlásenie</h2>
+    <hr>
+
+    <%= form_tag(sessions_path) do %>
+      <div class="row">
+        <div class="col">
+          <div class="field form-group">
+            <%= label_tag :email, 'Email' %><br />
+            <%= email_field_tag :email, '', autofocus: true, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="field form-group">
+            <%= label_tag :password, 'Heslo' %><br />
+            <%= password_field_tag :password, '', autocomplete: "off", class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="actions">
+            <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-3 hidden-sm-down"></div>
+</div>
