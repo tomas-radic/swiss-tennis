@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe 'Session management', :type => :request do
-  describe 'Requesting new session' do
+describe 'Sessions', :type => :request do
+  describe 'GET /sessions/new' do
     subject { get '/sessions/new' }
 
     it 'Renders new template' do

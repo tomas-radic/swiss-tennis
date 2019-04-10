@@ -1,0 +1,19 @@
+<%= form_with(model: category, local: true) do |form| %>
+  <div class="row">
+    <div class="col">
+      <div class="field form-group">
+        <%= form.label :name, 'Názov' %><br />
+        <%= form.text_field :name, autofocus: true, class: add_error_class_to('form-control', @category, :name) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="actions">
+        <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+        <%= link_to 'Zrušiť', categories_path, class: 'btn btn-lg btn-outline-success my-1' %>
+      </div>
+    </div>
+  </div>
+<% end %>

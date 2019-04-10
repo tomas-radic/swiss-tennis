@@ -1,0 +1,28 @@
+<%= link_to 'Vytvoriť novú', new_category_path, class: 'btn btn-sm btn-success my-1' %>
+<% if @categories.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Názov</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @categories.each do |category| %>
+          <tr>
+            <td><%= category.name %></td>
+            <td>
+              <%= link_to 'Upraviť', edit_category_path(category), class: 'btn btn-sm btn-success' %>
+              <% unless @undeletable_category_ids.include?(category.id) %>
+                <%= link_to 'Odstrániť', category_path(category), method: :delete, data: { confirm: "Táto kategória bude zmazaná." }, class: 'btn btn-sm btn-danger' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="lead text-center">Žiadne kategórie.</p>
+<% end %>

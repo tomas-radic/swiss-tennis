@@ -1,0 +1,79 @@
+//
+// Navbar
+
+.navbar {
+  background-color: #252525;
+  color: white;
+
+  .navbar-brand {
+    font-size: inherit;
+  }
+
+  a {
+    color: #eceaea;
+  }
+}
+
+.dropdown-menu {
+  background-color: #252525;
+}
+
+//
+// Footer
+
+.footer {
+  background-color: #252525;
+  color: #eceaea;
+}
+.footer a {
+  color: #eceaea;
+}
+
+//
+
+.jumbotron {
+  background-color: inherit;
+  -webkit-box-shadow: 10px 10px 30px -25px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 30px -25px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 30px -25px rgba(0,0,0,0.75);
+}
+
+//
+// Tables
+
+.table thead th, .table td {
+  border: none;
+}
+
+.table .thead-dark th {
+  background-color: #252525;
+}
+
+//
+
+.img-banner {
+  height: 192px;
+  width: 100%;
+  background-image: url("banner-img2.jpg");
+  background-position: 0% 60%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+//
+// Form errors
+
+.field-error {
+  outline: 3px solid red !important;
+}
+
+.field_with_errors { display: inline; }
+
+//
+// Media queries
+
+@media only screen and (min-width: 768px) {
+  .img-banner {
+    height: 328px;
+  }
+}

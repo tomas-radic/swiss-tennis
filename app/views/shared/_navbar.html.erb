@@ -1,32 +1,35 @@
-<nav class="navbar navbar-expand-lg navbar-light mb-2 background-clay-dark">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<div class=".navbar-expand-sm">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <%= link_to 'Hráči', players_path, class: 'navbar-brand' %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-
-      <li class="nav-item">
-        <%= link_to 'Hráči', players_path, class: 'nav-link' %>
-      </li>
-    </ul>
-  </div>
-  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-    <ul class="navbar-nav ml-auto">
-      <% if user_signed_in? %>
-        <li class="nav-item">
-          <%= content_tag :span, class: 'nav-link' do %>
-            <%= current_user.email %>
-          <% end %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'Odhlásiť sa', logout_path, class: 'nav-link' %>
-        </li>
-      <% else %>
-        <li class="nav-item">
-          <%= link_to 'Prihlásiť sa', login_path, class: 'nav-link'  %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</nav>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to 'Kategórie', categories_path, class: 'nav-link'  %>
+          </li>
+        <% end %>
+      </ul>
+      <ul class="navbar-nav">
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= current_user.email %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to 'Odhlásiť sa', logout_path, class: 'dropdown-item' %>
+              <%= link_to 'Zmeniť heslo', edit_user_path(current_user), class: 'dropdown-item' %>
+            </div>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'Prihlásiť sa', login_path, class: 'nav-link'  %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+</div>

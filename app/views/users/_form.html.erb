@@ -1,0 +1,44 @@
+<%= form_with(model: user, local: true) do |form| %>
+  <div class="row">
+    <div class="col">
+      <div class="field form-group">
+        <%= form.label :email, @user.email %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="field form-group">
+        <%= label_tag :current_password, 'Súčasné heslo' %>
+        <%= password_field_tag :current_password, '', class: add_error_class_to('form-control', @user, :current_password) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="field form-group">
+        <%= form.label :password, 'Nové heslo' %>
+        <%= form.password_field :password, class: add_error_class_to('form-control', @user, :password) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="field form-group">
+        <%= form.label :password_confirmation, 'Potvrdenie nového hesla' %>
+        <%= form.password_field :password_confirmation, class: add_error_class_to('form-control', @user, :password_confirmation) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="actions">
+        <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+      </div>
+    </div>
+  </div>
+<% end %>

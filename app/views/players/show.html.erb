@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+  <div class="col">
+    <h1 class="float-left"><%= PlayerDecorator.new(@player).name %></h1>
+    <% if user_signed_in? %>
+      <%= link_to 'Upraviť', edit_player_path(@player), class: 'btn btn-success my-1 float-right' %>
+    <% end %>
+    <%= link_to 'Naspäť', players_path, class: 'btn btn-outline-success my-1 float-right' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <p class="lead text-center"><%= @player.phone.present? ? @player.phone : '-' %></p>
+        <p class="lead text-center"><%= @player.email.present? ? @player.email : '-' %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <p class="lead text-center"><%= @player.birth_year.present? ? @player.birth_year : '-' %></p>
+        <p class="lead text-center"><%= @player.category.name %></p>
+      </div>
+    </div>
+  </div>
+</div>
