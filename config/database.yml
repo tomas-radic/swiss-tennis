@@ -23,5 +23,5 @@ test:
 production:
   <<: *default
   database: swiss_tennis_production
-  username: matotenis
+  username: <%= ENV['MATOTENIS_DATABASE_USERNAME'] %>
   password: <%= ENV['MATOTENIS_DATABASE_PASSWORD'] %>
