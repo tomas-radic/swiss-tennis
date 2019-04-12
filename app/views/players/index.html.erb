@@ -1,6 +1,7 @@
 <% if user_signed_in? %>
   <%= link_to 'Nový hráč', new_player_path, class: 'btn btn-sm btn-success my-1' %>
 <% end %>
+<p class="lead">Zoznam hráčov (<%= @players.count %>)</p>
 <% if @players.any? %>
   <div class="table-responsive my-1">
     <table class="table table-sm">
