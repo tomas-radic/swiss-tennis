@@ -10,4 +10,6 @@ Rails.application.routes.draw do
 
   resources :categories
   resources :players
+
+  get '/pages/about', to: 'pages#about'
 end
