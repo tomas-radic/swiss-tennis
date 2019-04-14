@@ -3,7 +3,7 @@ class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy]
 
   def index
-    @players = Player.all.includes(:category).order('categories.name')
+    @players = Player.all.includes(:category).order('categories.name').order('players.created_at')
   end
 
   def show
@@ -29,7 +29,7 @@ class PlayersController < ApplicationController
 
   def update
     @heading = PlayerDecorator.new(@player).name
-    
+
     if @player.update(player_params)
       redirect_to players_path
     else
