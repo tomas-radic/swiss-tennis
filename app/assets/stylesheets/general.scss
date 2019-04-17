@@ -46,14 +46,14 @@
 }
 
 //
+// Image banner
 
 .img-banner {
   height: 192px;
   width: 100%;
   background-image: url("banner-img2.jpg");
-  background-position: 0% 60%;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-attachment: fixed;
 }
 
 //
@@ -71,5 +71,9 @@
 @media only screen and (min-width: 768px) {
   .img-banner {
     height: 328px;
+  }
+
+  .narrow {
+    width: 500px;
   }
 }

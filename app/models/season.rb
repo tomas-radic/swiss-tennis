@@ -1,5 +1,5 @@
-class Category < ApplicationRecord
-  has_many :players, dependent: :restrict_with_error
+class Season < ApplicationRecord
+  has_many :rounds, dependent: :restrict_with_error
 
   validates :name, presence: true
 

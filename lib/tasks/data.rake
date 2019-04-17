@@ -24,4 +24,14 @@ namespace :data do
 
     puts 'Done.'
   end
+
+  desc "Creates default seasons"
+  task create_seasons: :environment do
+    %w{2019}.each do |season|
+      puts "Creating #{season} ..."
+      Season.where(name: season).first_or_create!
+    end
+
+    puts 'Done.'
+  end
 end

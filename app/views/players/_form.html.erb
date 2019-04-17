@@ -1,12 +1,12 @@
 <%= form_with(model: player, local: true) do |form| %>
   <div class="row">
-    <div class="col-sm-12 col-md-6">
+    <div class="col-lg-6">
       <div class="field form-group">
         <%= form.label :first_name, 'Meno' %><br />
         <%= form.text_field :first_name, autofocus: true, class: add_error_class_to('form-control', @player, :first_name) %>
       </div>
     </div>
-    <div class="col-sm-12 col-md-6">
+    <div class="col-lg-6">
       <div class="field form-group">
         <%= form.label :last_name, 'Priezvisko' %><br />
         <%= form.text_field :last_name, class: add_error_class_to('form-control', @player, :last_name) %>
@@ -15,13 +15,13 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-12 col-md-6">
+    <div class="col-lg-6">
       <div class="field form-group">
         <%= form.label :phone, 'Telefónne číslo' %><br />
         <%= form.text_field :phone, class: 'form-control' %>
       </div>
     </div>
-    <div class="col-sm-12 col-md-6">
+    <div class="col-lg-6">
       <div class="field form-group">
         <%= form.label :email, 'Email' %><br />
         <%= form.email_field :email, class: 'form-control' %>
@@ -30,13 +30,13 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-12 col-md-6">
+    <div class="col-lg-6">
       <div class="field form-group">
         <%= form.label :birth_year, 'Rok narodenia' %><br />
         <%= form.number_field :birth_year, class: 'form-control' %>
       </div>
     </div>
-    <div class="col-sm-12 col-md-6">
+    <div class="col-lg-6">
       <div class="form-group">
         <%= form.label :category_id, 'Kategória' %><br />
         <%= form.collection_select :category_id, Category.default, :id, :name, {}, { class: add_error_class_to('form-control', @player, :category_id) } %>

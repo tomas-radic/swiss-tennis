@@ -1,0 +1,39 @@
+<%= form_with(model: round, local: true) do |form| %>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <%= form.label :season_id, 'Sezóna' %><br />
+        <%= form.collection_select :season_id, Season.default, :id, :name, {}, { class: add_error_class_to('form-control', @round, :season_id) } %>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="field form-group">
+        <%= form.label :label, 'Označenie' %><br />
+        <%= form.text_field :label, autofocus: true, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="field form-group">
+        <%= form.label :period_begins, 'Začiatok' %><br />
+        <%= form.date_field :period_begins, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="field form-group">
+        <%= form.label :period_ends, 'Koniec' %><br />
+        <%= form.date_field :period_ends, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="actions">
+        <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+        <%= link_to 'Zrušiť', rounds_path, class: 'btn btn-lg btn-outline-success my-1' %>
+      </div>
+    </div>
+  </div>
+<% end %>

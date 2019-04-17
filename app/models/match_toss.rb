@@ -1,0 +1,3 @@
+class MatchToss < Match
+
+end

@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+  <div class="col">
+    <h1 class="float-left"><%= RoundDecorator.new(@round).full_label %></h1>
+    <%= link_to 'Upraviť', edit_round_path(@round), class: 'btn btn-success my-1 float-right' %>
+    <%= link_to 'Naspäť', rounds_path, class: 'btn btn-outline-success my-1 float-right' %>
+  </div>
+</div>
+<div class="table-responsive my-1">
+  <table class="table table-sm narrow">
+    <tbody>
+      <tr>
+        <td><strong>Označenie</strong></td>
+        <td><%= @round.label %></td>
+      </tr>
+      <tr>
+        <td><strong>Začiatok</strong></td>
+        <td><%= @round.period_begins&.to_formatted_s(:short) %></td>
+      </tr>
+      <tr>
+        <td><strong>Koniec</strong></td>
+        <td><%= @round.period_ends&.to_formatted_s(:short) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<hr>
+<p class="lead">Zápasy v tomto kole</p>
+...

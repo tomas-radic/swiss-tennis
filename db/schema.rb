@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_09_191523) do
+ActiveRecord::Schema.define(version: 2019_04_17_172453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -20,6 +20,23 @@ ActiveRecord::Schema.define(version: 2019_04_09_191523) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "matches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player1_id", null: false
+    t.uuid "player2_id", null: false
+    t.uuid "winner_id"
+    t.uuid "round_id", null: false
+    t.string "type", null: false
+    t.boolean "published", default: false, null: false
+    t.boolean "finished", default: false, null: false
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player1_id"], name: "index_matches_on_player1_id"
+    t.index ["player2_id"], name: "index_matches_on_player2_id"
+    t.index ["round_id"], name: "index_matches_on_round_id"
+    t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -34,6 +51,24 @@ ActiveRecord::Schema.define(version: 2019_04_09_191523) do
     t.index ["category_id"], name: "index_players_on_category_id"
   end
 
+  create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "season_id"
+    t.integer "position"
+    t.string "label"
+    t.date "period_begins"
+    t.date "period_ends"
+    t.boolean "closed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_rounds_on_season_id"
+  end
+
+  create_table "seasons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -42,5 +77,10 @@ ActiveRecord::Schema.define(version: 2019_04_09_191523) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "matches", "players", column: "player1_id"
+  add_foreign_key "matches", "players", column: "player2_id"
+  add_foreign_key "matches", "players", column: "winner_id"
+  add_foreign_key "matches", "rounds"
   add_foreign_key "players", "categories"
+  add_foreign_key "rounds", "seasons"
 end

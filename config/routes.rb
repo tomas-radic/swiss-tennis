@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :matches
+  resources :seasons
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: 'players#index'
@@ -10,6 +12,7 @@ Rails.application.routes.draw do
 
   resources :categories
   resources :players
+  resources :rounds
 
   get '/pages/about', to: 'pages#about'
 end
