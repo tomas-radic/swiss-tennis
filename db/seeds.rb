@@ -1,6 +1,26 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+
 #
+# Methods
+
+def sample_match_score
+  result = {}
+
+  if rand(0..1) > 0
+    result[:set1_player1_score] = 6
+    result[:set2_player1_score] = 6
+    result[:set1_player2_score] = rand(0..4)
+    result[:set2_player2_score] = rand(0..4)
+  else
+    result[:set1_player1_score] = rand(0..4)
+    result[:set2_player1_score] = rand(0..4)
+    result[:set1_player2_score] = 6
+    result[:set2_player2_score] = 6
+  end
+
+  result
+end
 
 #
 # Users
@@ -65,12 +85,14 @@ ROUNDS_TO_CREATE.times do |i|
     winner = nil
     finished = false
 
-    if i < (ROUNDS_TO_CREATE - 1)  # unless last round
+    # Finish matches of previous rounds and some of the current last round
+    if (i < (ROUNDS_TO_CREATE - 1)) || ((rand(1..30) / 3) == 0)
       winner = [player1, player2].sample
       finished = true
     end
 
-    round.matches.manual.new(player1: player1, player2: player2, winner: winner, published: true)
+    round.matches.manual.new({ player1: player1, player2: player2,
+        winner: winner, published: true }.merge(sample_match_score))
   end
 
   round.save!

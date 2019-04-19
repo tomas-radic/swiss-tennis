@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_17_172453) do
+ActiveRecord::Schema.define(version: 2019_04_19_112251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -31,6 +31,12 @@ ActiveRecord::Schema.define(version: 2019_04_17_172453) do
     t.boolean "published", default: false, null: false
     t.boolean "finished", default: false, null: false
     t.string "note"
+    t.integer "set1_player1_score"
+    t.integer "set1_player2_score"
+    t.integer "set2_player1_score"
+    t.integer "set2_player2_score"
+    t.integer "set3_player1_score"
+    t.integer "set3_player2_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["player1_id"], name: "index_matches_on_player1_id"
@@ -63,6 +69,18 @@ ActiveRecord::Schema.define(version: 2019_04_17_172453) do
     t.index ["season_id"], name: "index_rounds_on_season_id"
   end
 
+  create_table "scores", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.uuid "round_id", null: false
+    t.integer "points", null: false
+    t.integer "handicap", null: false
+    t.integer "games_difference", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_scores_on_player_id"
+    t.index ["round_id"], name: "index_scores_on_round_id"
+  end
+
   create_table "seasons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -83,4 +101,6 @@ ActiveRecord::Schema.define(version: 2019_04_17_172453) do
   add_foreign_key "matches", "rounds"
   add_foreign_key "players", "categories"
   add_foreign_key "rounds", "seasons"
+  add_foreign_key "scores", "players"
+  add_foreign_key "scores", "rounds"
 end
