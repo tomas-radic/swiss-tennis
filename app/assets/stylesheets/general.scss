@@ -52,8 +52,7 @@
   width: 100%;
   background-image: url("banner-img2.jpg");
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center center;
+  background-position: 0% 60%;
   background-size: cover;
 }
 
@@ -72,5 +71,7 @@
 @media only screen and (min-width: 768px) {
   .img-banner {
     height: 328px;
+    background-attachment: fixed;
+    background-position: center center;
   }
 }
