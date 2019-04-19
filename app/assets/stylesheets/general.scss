@@ -51,8 +51,9 @@
   height: 192px;
   width: 100%;
   background-image: url("banner-img2.jpg");
-  background-position: 0% 60%;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
   background-size: cover;
 }
 
