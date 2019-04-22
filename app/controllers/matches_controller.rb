@@ -1,8 +1,11 @@
 class MatchesController < ApplicationController
+  before_action :load_season, only: [:index]
+  before_action :load_round, only: [:index]
   before_action :set_match, only: [:show, :edit, :update, :destroy]
 
   def index
-    @matches = Match.all
+    @finished_matches = @round.matches.published.finished.includes(:player1, :player2, :winner)
+    @planned_matches = @round.matches.published.planned.includes(:player1, :player2, :winner)
   end
 
   def show
@@ -39,6 +42,22 @@ class MatchesController < ApplicationController
   end
 
   private
+
+  def load_season
+    @season = if params[:season_id]
+      Season.find(params[:season_id])
+    else
+      Season.default.first  # TODO: change later after seasons support added
+    end
+  end
+
+  def load_round
+    @round = if params[:round_id]
+      @season.rounds.find(params[:round_id])
+    else
+      @season.rounds.default.first
+    end
+  end
 
   def set_match
     @match = Match.find(params[:id])

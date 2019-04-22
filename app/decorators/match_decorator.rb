@@ -1,6 +1,6 @@
 class MatchDecorator < SimpleDelegator
   def score
-    [set1, set2, set3].reject(&:blank?).join(', ')
+    [set1, set2, set3].reject(&:blank?).join(' | ')
   end
 
   def set1
@@ -16,5 +16,9 @@ class MatchDecorator < SimpleDelegator
   def set3
     return '' if set3_player1_score.nil? || set3_player2_score.nil?
     "#{set3_player1_score}:#{set3_player2_score}"
+  end
+
+  def play_time
+    ''
   end
 end

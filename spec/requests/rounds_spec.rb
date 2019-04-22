@@ -39,7 +39,7 @@ RSpec.describe "Rounds", type: :request do
       before(:each) do
         login(user, 'nbusr123')
       end
-      
+
       it "Renders show template and responds with success" do
         get_round
         expect(response).to render_template(:show)
@@ -213,38 +213,6 @@ RSpec.describe "Rounds", type: :request do
       it 'Does not update the round' do
         put_rounds
         expect(round.season).not_to eq other_season
-      end
-    end
-  end
-
-  describe "DELETE /rounds/abc" do
-    subject(:delete_rounds) { delete round_path(round) }
-
-    let!(:round) { create(:round) }
-
-    context 'When logged in' do
-      before(:each) do
-        login(user, 'nbusr123')
-      end
-
-      it "Destroys the requested round" do
-        expect { delete_rounds }.to change(Round, :count).by(-1)
-      end
-
-      it "Redirects to the rounds list" do
-        delete_rounds
-        expect(response).to redirect_to(rounds_path)
-      end
-    end
-
-    context 'When logged out' do
-      it 'Redirects to login' do
-        delete_rounds
-        expect(response).to redirect_to login_path
-      end
-
-      it 'Does not destroy the round' do
-        expect { delete_rounds }.not_to change(Round, :count)
       end
     end
   end

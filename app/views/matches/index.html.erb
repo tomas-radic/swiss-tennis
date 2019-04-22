@@ -1,39 +1,29 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col">
+    <p class="lead float-left"><%= "Zoznam zápasov, #{@round.full_label}" %></p>
+    <div class="form-group float-right">
+      <%= select_tag :round_id, options_from_collection_for_select(@season.rounds.default, "id", "full_label", @round.id), class: 'form-control reloading-page', data: { url: request.path, param_name: 'round' } %>
+    </div>
+  </div>
+</div>
 
-<h1>Matches</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Player1</th>
-      <th>Player2</th>
-      <th>Winner</th>
-      <th>Round</th>
-      <th>Type</th>
-      <th>Published</th>
-      <th>Note</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @matches.each do |match| %>
-      <tr>
-        <td><%= match.player1 %></td>
-        <td><%= match.player2 %></td>
-        <td><%= match.winner %></td>
-        <td><%= match.round %></td>
-        <td><%= match.type %></td>
-        <td><%= match.published %></td>
-        <td><%= match.note %></td>
-        <td><%= link_to 'Show', match %></td>
-        <td><%= link_to 'Edit', edit_match_path(match) %></td>
-        <td><%= link_to 'Destroy', match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Match', new_match_path %>
+<div class="row">
+  <div class="col">
+    <ul class="nav nav-tabs" id="tab-matches" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#finished" role="tab" aria-controls="finished" aria-selected="true">Odohraté</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#planned" role="tab" aria-controls="planned" aria-selected="false">Naplánované</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="tab-matches-content">
+      <div class="tab-pane fade show active" id="finished" role="tabpanel" aria-labelledby="home-tab">
+        <%= render 'table', matches: @finished_matches %>
+      </div>
+      <div class="tab-pane fade" id="planned" role="tabpanel" aria-labelledby="profile-tab">
+        <%= render 'table', matches: @planned_matches %>
+      </div>
+    </div>
+  </div>
+</div>

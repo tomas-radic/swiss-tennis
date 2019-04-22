@@ -1,7 +1,8 @@
 FactoryBot.define do
-  factory :score do
-    player { nil }
-    round { nil }
+  factory :ranking do
+    association :player
+    association :round
+
     points { 1 }
     handicap { 1 }
     games_difference { 1 }

@@ -22,80 +22,99 @@ def sample_match_score
   result
 end
 
-#
-# Users
-puts "\nCreating users ..."
-%w{tomas.radic@gmail.com ondrejemilbabala@gmail.com}.each do |email|
-  User.create!(email: email, password: 'nbusr123')
-end unless User.any?
+def sample_round_ranking_attributes_for(player, round_index)
+  {
+    player: player,
+    points: rand(0..(round_index + 1)),
+    handicap: rand(0..round_index),
+    games_difference: rand(-15..20)
+  }
+end
 
-#
-# Seasons
+ActiveRecord::Base.transaction do
 
-puts "\nCreating seasons ..."
-Season.create!(name: '2019') unless Season.any?
-season = Season.all.order(:created_at).last
+  #
+  # Users
+  puts "\nCreating users ..."
+  %w{tomas.radic@gmail.com ondrejemilbabala@gmail.com}.each do |email|
+    User.create!(email: email, password: 'nbusr123')
+  end unless User.any?
 
-#
-# Categories
+  #
+  # Seasons
 
-puts "\nCreating categories ..."
-%w{60r+ 50r+ Registrovaný Neregistrovaný}.each do |category|
-  Category.create!(name: category)
-end unless Category.any?
+  puts "\nCreating seasons ..."
+  Season.create!(name: '2019') unless Season.any?
+  season = Season.all.order(:created_at).last
 
-categories = Category.all
+  #
+  # Categories
 
-#
-# Players
+  puts "\nCreating categories ..."
+  %w{60r+ 50r+ Registrovaný Neregistrovaný}.each do |category|
+    Category.create!(name: category)
+  end unless Category.any?
 
-puts "\nCreating players ..."
-20.times do
-  Player.create!(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    email: Faker::Internet.email,
-    phone: Faker::PhoneNumber.cell_phone,
-    birth_year: rand(1960..2000),
-    category: categories.sample
-  )
-end unless Player.any?
+  categories = Category.all
 
-#
-# Rounds
+  #
+  # Players
 
-puts "\nCreating rounds ..."
-ROUNDS_TO_CREATE = 3
+  puts "\nCreating players ..."
+  20.times do
+    Player.create!(
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email: Faker::Internet.email,
+      phone: Faker::PhoneNumber.cell_phone,
+      birth_year: rand(1960..2000),
+      category: categories.sample
+    )
+  end unless Player.any?
 
-ROUNDS_TO_CREATE.times do |i|
-  round_begin_date = Date.today - ((ROUNDS_TO_CREATE - i - 1) * 2).weeks
+  #
+  # Rounds
 
-  round = season.rounds.new(
-    period_begins: round_begin_date,
-    period_ends: round_begin_date + 2.weeks,
-    closed: i < (ROUNDS_TO_CREATE - 1)
-  )
+  puts "\nCreating rounds ..."
+  ROUNDS_TO_CREATE = 3
 
-  players = Player.all.to_a
-  matches = []
+  ROUNDS_TO_CREATE.times do |i|
+    round_begin_date = Date.today - ((ROUNDS_TO_CREATE - i - 1) * 2).weeks
 
-  while players.length > 1 do
-    player1 = players.delete(players.sample)
-    player2 = players.delete(players.sample)
-    winner = nil
-    finished = false
+    round = season.rounds.new(
+      period_begins: round_begin_date,
+      period_ends: round_begin_date + 2.weeks,
+      closed: i < (ROUNDS_TO_CREATE - 1)
+    )
 
-    # Finish matches of previous rounds and some of the current last round
-    if (i < (ROUNDS_TO_CREATE - 1)) || ((rand(1..30) / 3) == 0)
-      winner = [player1, player2].sample
-      finished = true
+    players = Player.all.to_a
+    matches = []
+
+    while players.length > 1 do
+      player1 = players.delete(players.sample)
+      player2 = players.delete(players.sample)
+      attributes = {
+        player1: player1,
+        player2: player2,
+        published: true
+      }
+
+      # Finish matches of previous rounds and some of the current last round
+      if (i < (ROUNDS_TO_CREATE - 1)) || (rand(0..2) == 0)
+        attributes[:winner] = [player1, player2].sample
+        attributes[:finished] = true
+        attributes.merge!(sample_match_score)
+
+        player1_previous_round = player1.rounds.find_by(position: i)
+        round.rankings.new(sample_round_ranking_attributes_for(player1, i))
+        round.rankings.new(sample_round_ranking_attributes_for(player2, i))
+      end
+
+      round.matches.manual.new(attributes)
     end
 
-    round.matches.manual.new({ player1: player1, player2: player2,
-        winner: winner, published: true }.merge(sample_match_score))
-  end
+    round.save!
+  end unless Round.any?
 
-  round.save!
-end unless Round.any?
-
-puts "\nDone."
+  puts "\nDone."
+end

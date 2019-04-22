@@ -15,7 +15,7 @@ class RoundsController < ApplicationController
   end
 
   def edit
-    @heading = RoundDecorator.new(@round).full_label
+    @heading = @round.full_label
   end
 
   def create

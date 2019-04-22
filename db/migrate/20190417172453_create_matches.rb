@@ -6,6 +6,9 @@ class CreateMatches < ActiveRecord::Migration[5.2]
       t.references :winner, type: :uuid, foreign_key: { to_table: :players }
       t.references :round, type: :uuid, foreign_key: true,                        null: false
       t.string :type,         null: false
+      t.date :play_date
+      t.integer :play_hour
+      t.integer :play_minute
       t.boolean :published,   null: false, default: false
       t.boolean :finished,    null: false, default: false
       t.string :note

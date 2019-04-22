@@ -10,9 +10,10 @@ Rails.application.routes.draw do
 
   # resources :seasons
   resources :categories
-  resources :players
-  resources :rounds
-  resources :matches
+  resources :players, except: [:destroy]
+  resources :rounds, except: [:destroy]
+  resources :matches, only: [:index, :show, :new, :create]
+  resources :rankings, only: :index
 
   # Static pages
   get '/pages/about', to: 'pages#about'

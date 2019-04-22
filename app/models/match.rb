@@ -5,9 +5,21 @@ class Match < ApplicationRecord
   belongs_to :round
 
   validates :type, presence: true
+  validates :play_hour, inclusion: { in: (6..22).map(&:to_s) }, allow_nil: true
+  validates :play_minute, inclusion: { in: %w{00 15 30 45} }, allow_nil: true
+  validate :players_are_different
+  validate :winner_is_player
+  validates :set1_player1_score,
+            :set1_player2_score,
+            :winner,
+            presence: true, if: :finished?
 
+  scope :default, -> { order(:finished, :play_date, :play_hour, :play_minute) }
   scope :manual, -> { where(type: 'MatchManual') }
   scope :toss, -> { where(type: 'MatchToss') }
+  scope :published, -> { where(published: true) }
+  scope :finished, -> { where(finished: true) }
+  scope :planned, -> { where(finished: false) }
 
   # 3.times do |i|
   #   set_number = i + 1
@@ -18,4 +30,18 @@ class Match < ApplicationRecord
   #     "#{player1_score}:#{player2_score}"
   #   end
   # end
+
+  private
+
+  def players_are_different
+    errors.add(:player2, 'Hráč nemôže hrať sám so sebou') if player1 == player2
+  end
+
+  def winner_is_player
+    return unless winner.present?
+
+    if winner != player1 && winner != player2
+      errors.add(:winner, 'Víťaz zápasu musí byť jeden z priradených hráčov')
+    end
+  end
 end

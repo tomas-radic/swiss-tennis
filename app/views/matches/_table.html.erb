@@ -1,0 +1,32 @@
+<% if matches.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Hráč 1</th>
+          <th scope="col">Hráč 2</th>
+          <th scope="col">Dátum</th>
+          <th scope="col">Výsledok</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% matches.each do |match| %>
+          <tr>
+            <td><%= PlayerDecorator.new(match.player1).name %></td>
+            <td><%= PlayerDecorator.new(match.player2).name %></td>
+            <td><%= MatchDecorator.new(match).play_time %></td>
+            <td><%= MatchDecorator.new(match).score %></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Žiadne zápasy.</p>
+    </div>
+  </div>
+<% end %>

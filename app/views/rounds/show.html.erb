@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col">
-    <h1 class="float-left"><%= RoundDecorator.new(@round).full_label %></h1>
+    <h1 class="float-left"><%= @round.full_label %></h1>
     <%= link_to 'Upraviť', edit_round_path(@round), class: 'btn btn-success my-1 float-right' %>
     <%= link_to 'Naspäť', rounds_path, class: 'btn btn-outline-success my-1 float-right' %>
   </div>

@@ -28,6 +28,9 @@ ActiveRecord::Schema.define(version: 2019_04_19_112251) do
     t.uuid "winner_id"
     t.uuid "round_id", null: false
     t.string "type", null: false
+    t.date "play_date"
+    t.integer "play_hour"
+    t.integer "play_minute"
     t.boolean "published", default: false, null: false
     t.boolean "finished", default: false, null: false
     t.string "note"
@@ -57,6 +60,19 @@ ActiveRecord::Schema.define(version: 2019_04_19_112251) do
     t.index ["category_id"], name: "index_players_on_category_id"
   end
 
+  create_table "rankings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.uuid "round_id", null: false
+    t.integer "points", null: false
+    t.integer "handicap", null: false
+    t.integer "games_difference", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id", "round_id"], name: "index_rankings_on_player_id_and_round_id", unique: true
+    t.index ["player_id"], name: "index_rankings_on_player_id"
+    t.index ["round_id"], name: "index_rankings_on_round_id"
+  end
+
   create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "season_id"
     t.integer "position"
@@ -67,18 +83,6 @@ ActiveRecord::Schema.define(version: 2019_04_19_112251) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["season_id"], name: "index_rounds_on_season_id"
-  end
-
-  create_table "scores", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "player_id", null: false
-    t.uuid "round_id", null: false
-    t.integer "points", null: false
-    t.integer "handicap", null: false
-    t.integer "games_difference", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_scores_on_player_id"
-    t.index ["round_id"], name: "index_scores_on_round_id"
   end
 
   create_table "seasons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -100,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_112251) do
   add_foreign_key "matches", "players", column: "winner_id"
   add_foreign_key "matches", "rounds"
   add_foreign_key "players", "categories"
+  add_foreign_key "rankings", "players"
+  add_foreign_key "rankings", "rounds"
   add_foreign_key "rounds", "seasons"
-  add_foreign_key "scores", "players"
-  add_foreign_key "scores", "rounds"
 end

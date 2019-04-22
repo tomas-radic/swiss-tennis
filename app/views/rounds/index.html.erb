@@ -15,7 +15,7 @@
         <% @rounds.each do |round| %>
           <tr>
             <td><%= round.position %></td>
-            <td><%= RoundDecorator.new(round).full_label %></td>
+            <td><%= round.full_label %></td>
             <td>
               <%= link_to 'Detail', round_path(round), class: 'btn btn-sm btn-success' %>
               <%= link_to 'Upraviť', edit_round_path(round), class: 'btn btn-sm btn-success' %>
