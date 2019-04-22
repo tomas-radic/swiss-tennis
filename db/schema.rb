@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_09_191523) do
+ActiveRecord::Schema.define(version: 2019_04_22_193849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -22,6 +22,32 @@ ActiveRecord::Schema.define(version: 2019_04_09_191523) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "matches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player1_id", null: false
+    t.uuid "player2_id", null: false
+    t.uuid "winner_id"
+    t.uuid "round_id", null: false
+    t.string "type", null: false
+    t.date "play_date"
+    t.integer "play_hour"
+    t.integer "play_minute"
+    t.boolean "published", default: false, null: false
+    t.boolean "finished", default: false, null: false
+    t.string "note"
+    t.integer "set1_player1_score"
+    t.integer "set1_player2_score"
+    t.integer "set2_player1_score"
+    t.integer "set2_player2_score"
+    t.integer "set3_player1_score"
+    t.integer "set3_player2_score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player1_id"], name: "index_matches_on_player1_id"
+    t.index ["player2_id"], name: "index_matches_on_player2_id"
+    t.index ["round_id"], name: "index_matches_on_round_id"
+    t.index ["winner_id"], name: "index_matches_on_winner_id"
+  end
+
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -31,7 +57,40 @@ ActiveRecord::Schema.define(version: 2019_04_09_191523) do
     t.uuid "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "dummy", default: false, null: false
     t.index ["category_id"], name: "index_players_on_category_id"
+  end
+
+  create_table "rankings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.uuid "round_id", null: false
+    t.integer "points", null: false
+    t.integer "handicap", null: false
+    t.integer "games_difference", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id", "round_id"], name: "index_rankings_on_player_id_and_round_id", unique: true
+    t.index ["player_id"], name: "index_rankings_on_player_id"
+    t.index ["round_id"], name: "index_rankings_on_round_id"
+  end
+
+  create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "season_id"
+    t.integer "position"
+    t.string "label"
+    t.date "period_begins"
+    t.date "period_ends"
+    t.boolean "closed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_rounds_on_season_id"
+  end
+
+  create_table "seasons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -42,5 +101,12 @@ ActiveRecord::Schema.define(version: 2019_04_09_191523) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "matches", "players", column: "player1_id"
+  add_foreign_key "matches", "players", column: "player2_id"
+  add_foreign_key "matches", "players", column: "winner_id"
+  add_foreign_key "matches", "rounds"
   add_foreign_key "players", "categories"
+  add_foreign_key "rankings", "players"
+  add_foreign_key "rankings", "rounds"
+  add_foreign_key "rounds", "seasons"
 end
