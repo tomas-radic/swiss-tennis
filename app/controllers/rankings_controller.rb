@@ -3,7 +3,7 @@ class RankingsController < ApplicationController
   before_action :load_round, only: [:index]
 
   def index
-    @rankings = @round.rankings
+    @rankings = RankingQuery.call(round: @round)
   end
 
   private
@@ -17,7 +17,9 @@ class RankingsController < ApplicationController
   end
 
   def load_round
-    @round = @season.rounds.find_by(id params[:round_id]) if params[:round_id]
+    return if @season.nil?
+
+    @round = @season.rounds.find_by(id: params[:round_id]) if params[:round_id]
     @round ||= @season.rounds.default.first
   end
 end

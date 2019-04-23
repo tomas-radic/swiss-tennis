@@ -116,6 +116,11 @@ RSpec.describe "Rounds", type: :request do
           { round: { season_id: season.id } }
         end
 
+        it 'Calls service object' do
+          expect(CreateRound).to receive(:call)
+          post_rounds
+        end
+
         it "Creates new round" do
           expect { post_rounds }.to change(Round, :count).by(1)
         end

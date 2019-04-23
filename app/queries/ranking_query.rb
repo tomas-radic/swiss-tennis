@@ -4,9 +4,12 @@ class RankingQuery < Patterns::Query
   private
 
   def query
-    relation.joins(:player).where(round: round)
+    relation.joins(:player)
+        .where('players.dummy is false')
+        .where(round: round)
         .order(points: :desc, handicap: :desc, games_difference: :desc)
         .order('players.created_at asc')
+        .includes(:player)
   end
 
   def round

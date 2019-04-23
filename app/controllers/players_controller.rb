@@ -37,11 +37,6 @@ class PlayersController < ApplicationController
     end
   end
 
-  def destroy
-    @player.destroy
-    redirect_to players_url
-  end
-
   private
 
   def set_player

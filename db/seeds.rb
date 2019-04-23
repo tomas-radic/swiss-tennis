@@ -61,16 +61,22 @@ ActiveRecord::Base.transaction do
   # Players
 
   puts "\nCreating players ..."
-  20.times do
-    Player.create!(
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-      email: Faker::Internet.email,
-      phone: Faker::PhoneNumber.cell_phone,
-      birth_year: rand(1960..2000),
-      category: categories.sample
-    )
-  end unless Player.any?
+  unless Player.any?
+    20.times do
+      Player.create!(
+        first_name: Faker::Name.first_name,
+        last_name: Faker::Name.last_name,
+        email: Faker::Internet.email,
+        phone: Faker::PhoneNumber.cell_phone,
+        birth_year: rand(1960..2000),
+        category: categories.sample,
+        seasons: [season]
+      )
+    end
+
+    category = Category.find_by(name: 'Neregistrovaný')
+    Player.create!(dummy: true, first_name: 'Večný', last_name: 'Looser', category: category)
+  end
 
   #
   # Rounds
@@ -87,7 +93,7 @@ ActiveRecord::Base.transaction do
       closed: i < (ROUNDS_TO_CREATE - 1)
     )
 
-    players = Player.all.to_a
+    players = Player.where(dummy: false).to_a
     matches = []
 
     while players.length > 1 do
@@ -106,11 +112,11 @@ ActiveRecord::Base.transaction do
         attributes.merge!(sample_match_score)
 
         player1_previous_round = player1.rounds.find_by(position: i)
-        round.rankings.new(sample_round_ranking_attributes_for(player1, i))
-        round.rankings.new(sample_round_ranking_attributes_for(player2, i))
       end
 
       round.matches.manual.new(attributes)
+      round.rankings.new(sample_round_ranking_attributes_for(player1, i))
+      round.rankings.new(sample_round_ranking_attributes_for(player2, i))
     end
 
     round.save!

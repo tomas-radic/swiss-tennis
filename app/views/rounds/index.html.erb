@@ -1,6 +1,6 @@
 <%= link_to 'Nové kolo', new_round_path, class: 'btn btn-sm btn-success my-1' %>
 
-<p class="lead">Kolá sezóny <%= @season.name %></p>
+<p class="lead">Všetky kolá</p>
 <% if @rounds.any? %>
   <div class="table-responsive my-1">
     <table class="table table-sm">
@@ -19,7 +19,6 @@
             <td>
               <%= link_to 'Detail', round_path(round), class: 'btn btn-sm btn-success' %>
               <%= link_to 'Upraviť', edit_round_path(round), class: 'btn btn-sm btn-success' %>
-              <%= link_to 'Odstrániť', round_path(round), method: :delete, data: { confirm: "Toto kolo bude zmazané aj s plánovanými zápasmi." }, class: 'btn btn-sm btn-danger' %>
             </td>
           </tr>
         <% end %>
@@ -29,7 +28,7 @@
 <% else %>
   <div class="row">
     <div class="col">
-      <p class="lead text-center">Žiadne kolá.</p>
+      <p class="lead text-center">V tejto sezóne ešte nebolo vypísané žiadne kolo.</p>
     </div>
   </div>
 <% end %>

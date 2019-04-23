@@ -1,9 +1,11 @@
 <div class="row">
   <div class="col">
-    <p class="lead float-left"><%= "Zoznam zápasov, #{@round.full_label}" %></p>
-    <div class="form-group float-right">
-      <%= select_tag :round_id, options_from_collection_for_select(@season.rounds.default, "id", "full_label", @round.id), class: 'form-control reloading-page', data: { url: request.path, param_name: 'round' } %>
-    </div>
+    <p class="lead float-left"><%= ["Zoznam zápasov", @round&.full_label].compact.join(' | ') %></p>
+    <% if @season && @round %>
+      <div class="form-group float-right">
+        <%= select_tag :round_id, options_from_collection_for_select(@season.rounds.default, "id", "full_label", @round.id), class: 'form-control reloading-page', data: { url: request.path, param_name: 'round' } %>
+      </div>
+    <% end %>
   </div>
 </div>
 
@@ -11,18 +13,26 @@
   <div class="col">
     <ul class="nav nav-tabs" id="tab-matches" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#finished" role="tab" aria-controls="finished" aria-selected="true">Odohraté</a>
+        <a class="nav-link active" id="finished-tab" data-toggle="tab" href="#finished" role="tab" aria-controls="finished" aria-selected="true">Odohraté</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#planned" role="tab" aria-controls="planned" aria-selected="false">Naplánované</a>
+        <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Naplánované</a>
       </li>
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <a class="nav-link" id="draft-tab" data-toggle="tab" href="#draft" role="tab" aria-controls="draft" aria-selected="false">Nezverejnené</a>
+        </li>
+      <% end %>
     </ul>
     <div class="tab-content" id="tab-matches-content">
-      <div class="tab-pane fade show active" id="finished" role="tabpanel" aria-labelledby="home-tab">
+      <div class="tab-pane fade show active" id="finished" role="tabpanel" aria-labelledby="finished-tab">
         <%= render 'table', matches: @finished_matches %>
       </div>
-      <div class="tab-pane fade" id="planned" role="tabpanel" aria-labelledby="profile-tab">
-        <%= render 'table', matches: @planned_matches %>
+      <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+        <%= render 'table', matches: @pending_matches %>
+      </div>
+      <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
+        <%= render 'table', matches: @draft_matches %>
       </div>
     </div>
   </div>

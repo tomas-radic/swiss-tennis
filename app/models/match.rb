@@ -5,10 +5,9 @@ class Match < ApplicationRecord
   belongs_to :round
 
   validates :type, presence: true
-  validates :play_hour, inclusion: { in: (6..22).map(&:to_s) }, allow_nil: true
-  validates :play_minute, inclusion: { in: %w{00 15 30 45} }, allow_nil: true
   validate :players_are_different
   validate :winner_is_player
+  validate :finished_when_published
   validates :set1_player1_score,
             :set1_player2_score,
             :winner,
@@ -18,8 +17,11 @@ class Match < ApplicationRecord
   scope :manual, -> { where(type: 'MatchManual') }
   scope :toss, -> { where(type: 'MatchToss') }
   scope :published, -> { where(published: true) }
-  scope :finished, -> { where(finished: true) }
-  scope :planned, -> { where(finished: false) }
+  scope :draft, -> { where(published: false) }
+  scope :finished, -> { published.where.not(finished_at: nil) }
+  scope :pending, -> { published.where(finished_at: nil) }
+
+  time_for_a_boolean :finished
 
   # 3.times do |i|
   #   set_number = i + 1
@@ -42,6 +44,12 @@ class Match < ApplicationRecord
 
     if winner != player1 && winner != player2
       errors.add(:winner, 'Víťaz zápasu musí byť jeden z priradených hráčov')
+    end
+  end
+
+  def finished_when_published
+    if finished && !published
+      errors.add(:published, 'Zápas musí byť verejný, ak je už skončený')
     end
   end
 end

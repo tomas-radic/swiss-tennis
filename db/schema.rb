@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_112251) do
+ActiveRecord::Schema.define(version: 2019_04_22_193849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -22,17 +22,25 @@ ActiveRecord::Schema.define(version: 2019_04_19_112251) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "enrollments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "season_id", null: false
+    t.uuid "player_id", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_enrollments_on_player_id"
+    t.index ["season_id", "player_id"], name: "index_enrollments_on_season_id_and_player_id", unique: true
+    t.index ["season_id"], name: "index_enrollments_on_season_id"
+  end
+
   create_table "matches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player1_id", null: false
     t.uuid "player2_id", null: false
     t.uuid "winner_id"
     t.uuid "round_id", null: false
     t.string "type", null: false
-    t.date "play_date"
-    t.integer "play_hour"
-    t.integer "play_minute"
     t.boolean "published", default: false, null: false
-    t.boolean "finished", default: false, null: false
+    t.datetime "finished_at"
     t.string "note"
     t.integer "set1_player1_score"
     t.integer "set1_player2_score"
@@ -57,6 +65,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_112251) do
     t.uuid "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "dummy", default: false, null: false
     t.index ["category_id"], name: "index_players_on_category_id"
   end
 
@@ -99,6 +108,8 @@ ActiveRecord::Schema.define(version: 2019_04_19_112251) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "enrollments", "players"
+  add_foreign_key "enrollments", "seasons"
   add_foreign_key "matches", "players", column: "player1_id"
   add_foreign_key "matches", "players", column: "player2_id"
   add_foreign_key "matches", "players", column: "winner_id"

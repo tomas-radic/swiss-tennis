@@ -3,7 +3,6 @@ class RoundsController < ApplicationController
   before_action :set_round, only: [:show, :edit, :update, :destroy]
 
   def index
-    load_default_season
     @rounds = Round.all
   end
 
@@ -21,7 +20,6 @@ class RoundsController < ApplicationController
   def create
     @round = Round.new(round_params)
 
-
     if @round.save
       redirect_to @round
     else
@@ -30,17 +28,11 @@ class RoundsController < ApplicationController
   end
 
   def update
-
     if @round.update(round_params)
       redirect_to @round
     else
       render :edit
     end
-  end
-
-  def destroy
-    @round.destroy
-    redirect_to rounds_url
   end
 
   private
@@ -50,10 +42,6 @@ class RoundsController < ApplicationController
   end
 
   def round_params
-    params.require(:round).permit(:label, :period_begins, :period_ends, :season_id)
-  end
-
-  def load_default_season
-    @season = Season.last
+    params.require(:round).permit(:label, :period_begins, :period_ends)
   end
 end

@@ -21,7 +21,6 @@
               <%= link_to 'Detail', player_path(player), class: 'btn btn-sm btn-success' %>
               <% if user_signed_in? %>
                 <%= link_to 'Upraviť', edit_player_path(player), class: 'btn btn-sm btn-success' %>
-                <%= link_to 'Odstrániť', player_path(player), method: :delete, data: { confirm: "Tento hráč bude zmazaný." }, class: 'btn btn-sm btn-danger' %>
               <% end %>
             </td>
           </tr>

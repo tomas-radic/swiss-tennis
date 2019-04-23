@@ -94,4 +94,12 @@ describe RankingQuery do
       expect(result[2].player).to eq player1
     end
   end
+
+  describe 'Querying nil round' do
+    let(:round) { nil }
+
+    it 'Returns empty resultset' do
+      expect(ranking_query).to be_empty
+    end
+  end
 end

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :categories
   resources :players, except: [:destroy]
   resources :rounds, except: [:destroy]
-  resources :matches, only: [:index, :show, :new, :create]
+  resources :matches
   resources :rankings, only: :index
 
   # Static pages

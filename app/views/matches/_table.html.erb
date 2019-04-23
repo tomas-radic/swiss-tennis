@@ -1,4 +1,4 @@
-<% if matches.any? %>
+<% if matches.present? && matches.any? %>
   <div class="table-responsive my-1">
     <table class="table table-sm">
       <thead class="thead-dark">
@@ -12,6 +12,7 @@
       </thead>
       <tbody>
         <% matches.each do |match| %>
+          <% next if !user_signed_in? && (match.player1.dummy? || match.player2.dummy?) %>
           <tr>
             <td><%= PlayerDecorator.new(match.player1).name %></td>
             <td><%= PlayerDecorator.new(match.player2).name %></td>

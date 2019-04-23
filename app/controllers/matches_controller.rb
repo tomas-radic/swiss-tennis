@@ -1,11 +1,15 @@
 class MatchesController < ApplicationController
+  before_action :verify_user_logged_in, except: [:index, :show]
   before_action :load_season, only: [:index]
   before_action :load_round, only: [:index]
   before_action :set_match, only: [:show, :edit, :update, :destroy]
 
   def index
-    @finished_matches = @round.matches.published.finished.includes(:player1, :player2, :winner)
-    @planned_matches = @round.matches.published.planned.includes(:player1, :player2, :winner)
+    if @round.present?
+      @finished_matches = @round.matches.finished.includes(:player1, :player2, :winner).order(finished_at: :desc)
+      @pending_matches = @round.matches.pending.joins(:player1, :player2).includes(:player1, :player2, :winner).order(:note)
+      @draft_matches = @round.matches.draft.includes(:player1, :player2).order(created_at: :desc)
+    end
   end
 
   def show
@@ -52,6 +56,8 @@ class MatchesController < ApplicationController
   end
 
   def load_round
+    return if @season.nil?
+
     @round = if params[:round_id]
       @season.rounds.find(params[:round_id])
     else

@@ -194,36 +194,4 @@ RSpec.describe "Players", type: :request do
       end
     end
   end
-
-  describe "DELETE /players/abc" do
-    subject(:delete_players) { delete player_path(player) }
-
-    let!(:player) { create(:player) }
-
-    context 'When logged in' do
-      before(:each) do
-        login(user, 'nbusr123')
-      end
-
-      it "Destroys the requested player" do
-        expect { delete_players }.to change(Player, :count).by(-1)
-      end
-
-      it "Redirects to the players list" do
-        delete_players
-        expect(response).to redirect_to(players_path)
-      end
-    end
-
-    context 'When logged out' do
-      it 'Redirects to login' do
-        delete_players
-        expect(response).to redirect_to login_path
-      end
-
-      it 'Does not destroy the player' do
-        expect { delete_players }.not_to change(Player, :count)
-      end
-    end
-  end
 end
