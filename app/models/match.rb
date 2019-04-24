@@ -1,10 +1,14 @@
 class Match < ApplicationRecord
+  has_many :match_assignments, dependent: :destroy
+  has_many :players, through: :match_assignments
   belongs_to :player1, class_name: 'Player', foreign_key: :player1_id
   belongs_to :player2, class_name: 'Player', foreign_key: :player2_id
   belongs_to :winner, class_name: 'Player', foreign_key: :winner_id, optional: true
   belongs_to :round
 
   validates :type, presence: true
+  # validates :players, length: { is: 2 }
+  # validate :has_two_players
   validate :players_are_different
   validate :winner_is_player
   validate :finished_when_published
@@ -34,6 +38,10 @@ class Match < ApplicationRecord
   # end
 
   private
+
+  # def has_two_players
+  #   errors.add(:players, 'Zápas musí mať presne dvoch hráčov') if players.length != 2
+  # end
 
   def players_are_different
     errors.add(:player2, 'Hráč nemôže hrať sám so sebou') if player1 == player2

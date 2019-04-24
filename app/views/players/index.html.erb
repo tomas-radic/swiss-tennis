@@ -19,9 +19,6 @@
             <td><span class="badge badge-pill badge-light"><%= player.category.name %></span></td>
             <td>
               <%= link_to 'Detail', player_path(player), class: 'btn btn-sm btn-success' %>
-              <% if user_signed_in? %>
-                <%= link_to 'Upraviť', edit_player_path(player), class: 'btn btn-sm btn-success' %>
-              <% end %>
             </td>
           </tr>
         <% end %>

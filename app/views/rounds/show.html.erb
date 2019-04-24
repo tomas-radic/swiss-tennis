@@ -3,8 +3,10 @@
 <div class="row">
   <div class="col">
     <h1 class="float-left"><%= @round.full_label %></h1>
-    <%= link_to 'Upraviť', edit_round_path(@round), class: 'btn btn-success my-1 float-right' %>
-    <%= link_to 'Naspäť', rounds_path, class: 'btn btn-outline-success my-1 float-right' %>
+    <div class="float-right">
+      <%= link_to 'Upraviť', edit_round_path(@round), class: 'btn btn-success my-1' %>
+      <%= link_to 'Naspäť', rounds_path, class: 'btn btn-outline-success my-1' %>
+    </div>
   </div>
 </div>
 <div class="table-responsive my-1">
@@ -25,6 +27,63 @@
     </tbody>
   </table>
 </div>
+
+<hr>
+<% if @players_without_match.any? %>
+  <p class="lead">Hráči bez zápasu (<%= @players_without_match.count %>)</p>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Meno</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @players_without_match.each do |player| %>
+          <tr>
+            <td><%= PlayerDecorator.new(player).name %></td>
+            <td>
+              <%= link_to 'Detail', player_path(player), class: 'btn btn-sm btn-success' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Všetci hráči sú v tomto kole priradení na zápas.</p>
+    </div>
+  </div>
+<% end %>
+
 <hr>
 <p class="lead">Zápasy v tomto kole</p>
-...
+<div class="row">
+  <div class="col">
+    <ul class="nav nav-tabs" id="tab-matches" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="finished-tab" data-toggle="tab" href="#finished" role="tab" aria-controls="finished" aria-selected="true">Odohraté</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Naplánované</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="draft-tab" data-toggle="tab" href="#draft" role="tab" aria-controls="draft" aria-selected="false">Nezverejnené</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="tab-matches-content">
+      <div class="tab-pane fade show active" id="finished" role="tabpanel" aria-labelledby="finished-tab">
+        <%= render 'matches/table', matches: @round.matches.finished %>
+      </div>
+      <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+        <%= render 'matches/table', matches: @round.matches.pending %>
+      </div>
+      <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
+        <%= render 'matches/table', matches: @round.matches.draft %>
+      </div>
+    </div>
+  </div>
+</div>

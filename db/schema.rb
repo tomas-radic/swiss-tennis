@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_22_193849) do
+ActiveRecord::Schema.define(version: 2019_04_24_175320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 2019_04_22_193849) do
     t.index ["player_id"], name: "index_enrollments_on_player_id"
     t.index ["season_id", "player_id"], name: "index_enrollments_on_season_id_and_player_id", unique: true
     t.index ["season_id"], name: "index_enrollments_on_season_id"
+  end
+
+  create_table "match_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id"
+    t.uuid "match_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_match_assignments_on_match_id"
+    t.index ["player_id", "match_id"], name: "index_match_assignments_on_player_id_and_match_id", unique: true
+    t.index ["player_id"], name: "index_match_assignments_on_player_id"
   end
 
   create_table "matches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -65,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_04_22_193849) do
     t.uuid "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
     t.boolean "dummy", default: false, null: false
     t.index ["category_id"], name: "index_players_on_category_id"
   end
@@ -110,6 +121,8 @@ ActiveRecord::Schema.define(version: 2019_04_22_193849) do
 
   add_foreign_key "enrollments", "players"
   add_foreign_key "enrollments", "seasons"
+  add_foreign_key "match_assignments", "matches"
+  add_foreign_key "match_assignments", "players"
   add_foreign_key "matches", "players", column: "player1_id"
   add_foreign_key "matches", "players", column: "player2_id"
   add_foreign_key "matches", "players", column: "winner_id"

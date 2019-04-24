@@ -1,9 +1,9 @@
 class PlayersController < ApplicationController
   before_action :verify_user_logged_in, except: [:index, :show]
-  before_action :set_player, only: [:show, :edit, :update, :destroy]
+  before_action :set_player, only: [:show, :edit, :update]
 
   def index
-    @players = Player.all.includes(:category).order('categories.name').order('players.created_at')
+    @players = Player.default.includes(:category).order('categories.name').order('players.created_at')
   end
 
   def show
@@ -40,7 +40,7 @@ class PlayersController < ApplicationController
   private
 
   def set_player
-    @player = Player.find(params[:id])
+    @player = Player.default.find(params[:id])
   end
 
   def player_params

@@ -87,19 +87,26 @@ ActiveRecord::Base.transaction do
   ROUNDS_TO_CREATE.times do |i|
     round_begin_date = Date.today - ((ROUNDS_TO_CREATE - i - 1) * 2).weeks
 
-    round = season.rounds.new(
+    round = season.rounds.create!(
       period_begins: round_begin_date,
       period_ends: round_begin_date + 2.weeks,
       closed: i < (ROUNDS_TO_CREATE - 1)
     )
+  end unless Round.any?
 
-    players = Player.where(dummy: false).to_a
+  #
+  # Matches
+
+  puts "\nCreating matches ..."
+  Round.all.each_with_index do |round, i|
+    players = Player.default.to_a
     matches = []
 
     while players.length > 1 do
       player1 = players.delete(players.sample)
       player2 = players.delete(players.sample)
       attributes = {
+        round: round,
         player1: player1,
         player2: player2,
         published: true
@@ -110,17 +117,14 @@ ActiveRecord::Base.transaction do
         attributes[:winner] = [player1, player2].sample
         attributes[:finished] = true
         attributes.merge!(sample_match_score)
-
-        player1_previous_round = player1.rounds.find_by(position: i)
       end
 
-      round.matches.manual.new(attributes)
-      round.rankings.new(sample_round_ranking_attributes_for(player1, i))
-      round.rankings.new(sample_round_ranking_attributes_for(player2, i))
-    end
+      match = Match.manual.create!(attributes.merge(players: [player1, player2]))
 
-    round.save!
-  end unless Round.any?
+      round.rankings.create!(sample_round_ranking_attributes_for(player1, i))
+      round.rankings.create!(sample_round_ranking_attributes_for(player2, i))
+    end
+  end unless Match.any?
 
   puts "\nDone."
 end
