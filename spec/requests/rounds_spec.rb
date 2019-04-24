@@ -26,6 +26,7 @@ RSpec.describe "Rounds", type: :request do
 
         it 'Redirects to root' do
           expect(response).to redirect_to root_path
+          get_rounds
         end
       end
     end

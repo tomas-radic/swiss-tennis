@@ -46,6 +46,8 @@ class RoundsController < ApplicationController
     else
       Season.default.first  # TODO: change later after seasons support added
     end
+
+    redirect_to root_path and return unless @season.present?
   end
 
   def set_round
