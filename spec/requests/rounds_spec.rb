@@ -120,37 +120,19 @@ RSpec.describe "Rounds", type: :request do
         login(user, 'nbusr123')
       end
 
-      context "With valid params" do
-        let(:params) do
-          { round: { season_id: season.id } }
-        end
-
-        it 'Calls service object' do
-          expect(CreateRound).to receive(:call)
-          post_rounds
-        end
-
-        it "Creates new round" do
-          expect { post_rounds }.to change(Round, :count).by(1)
-        end
-
-        it "Redirects to created round" do
-          post_rounds
-          round = Round.order(:created_at).last
-          expect(response).to redirect_to round_path(round)
-        end
+      let(:params) do
+        { round: { season_id: season.id, label: 'Finals' } }
       end
 
-      xcontext "With invalid params" do
-        let(:params) do
-          { round: { season_id: nil } }
-        end
+      it "Creates new round" do
+        expect { post_rounds }.to change(Round, :count).by(1)
+      end
 
-        it "Does not create new round and renders new template" do
-          expect{ post_rounds }.not_to change(Round, :count)
-          expect(response).to render_template(:new)
-          expect(response).to have_http_status(200)
-        end
+      it "Redirects to created round" do
+        post_rounds
+        round = Round.find_by(label: 'Finals')
+
+        expect(response).to redirect_to round_path(round)
       end
     end
 
@@ -161,6 +143,7 @@ RSpec.describe "Rounds", type: :request do
 
       it 'Redirects to login' do
         post_rounds
+
         expect(response).to redirect_to login_path
       end
 
@@ -181,56 +164,45 @@ RSpec.describe "Rounds", type: :request do
         login(user, 'nbusr123')
       end
 
-      context "With valid params" do
-        let(:params) do
-          # { round: { season_id: other_season.id } }
-          { round: { period_begins: Date.today.to_s, period_ends: Date.tomorrow.to_s } }
-        end
-
-        it "Updates the requested round" do
-          expect { put_rounds }.not_to change(Round, :count)
-          round.reload
-
-          # expect(round.season).to eq other_season
-          expect(round.period_begins).to eq Date.today
-          expect(round.period_ends).to eq Date.tomorrow
-        end
-
-        it "Redirects to updated round" do
-          put_rounds
-          expect(response).to redirect_to round_path(round)
-        end
+      let(:params) do
+        { round: { season_id: other_season.id, period_begins: Date.today.to_s, period_ends: Date.tomorrow.to_s } }
       end
 
-      xcontext "With invalid params" do
-        let(:params) do
-          { round: { season_id: nil } }
-        end
+      it "Updates given round" do
+        put_rounds
+        round.reload
 
-        it "Does not change the round and renders edit template" do
-          put_rounds
-          round.reload
+        expect(round.period_begins).to eq Date.today
+        expect(round.period_ends).to eq Date.tomorrow
+      end
 
-          expect(round.season).not_to be_nil
-          expect(response).to render_template(:edit)
-        end
+      it 'Does not update season' do
+        put_rounds
+
+        expect(round.season).not_to eq other_season
+      end
+
+      it "Redirects to updated round" do
+        put_rounds
+
+        expect(response).to redirect_to round_path(round)
       end
     end
 
     context 'When logged out' do
       let(:params) do
-        # { round: { season_id: other_season.id } }
         { round: { period_begins: Date.today.to_s, period_ends: Date.tomorrow.to_s } }
       end
 
       it 'Redirects to login' do
         put_rounds
+
         expect(response).to redirect_to login_path
       end
 
       it 'Does not update the round' do
         put_rounds
-        # expect(round.season).not_to eq other_season
+
         expect { put_rounds }.not_to change(round, :period_begins)
         expect { put_rounds }.not_to change(round, :period_ends)
       end

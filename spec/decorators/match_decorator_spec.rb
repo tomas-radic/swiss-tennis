@@ -1,8 +1,15 @@
 require 'rails_helper'
 
 describe MatchDecorator do
-  let(:match) { create(:match, set1_player1_score: 6, set1_player2_score: 4,
-      set2_player1_score: 6, set2_player2_score: 3, set3_player1_score: 6) }
+  let!(:player1) { create(:player) }
+  let!(:player2) { create(:player) }
+
+  let(:match) do
+    create(:match, player1: player1, player2: player2, players: [player1, player2],
+        set1_player1_score: 6, set1_player2_score: 4,
+        set2_player1_score: 6, set2_player2_score: 3,
+        set3_player1_score: 6)
+  end
 
   describe 'score' do
     subject(:score) { described_class.new(match).score }

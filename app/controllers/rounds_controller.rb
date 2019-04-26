@@ -1,6 +1,6 @@
 class RoundsController < ApplicationController
   before_action :verify_user_logged_in
-  before_action :load_season, only: [:index, :show, :create]
+  before_action :load_season, only: [:index, :show, :new, :create]
   before_action :set_round, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -13,7 +13,7 @@ class RoundsController < ApplicationController
   end
 
   def new
-    @round = Round.new
+    @round = @season.rounds.new
   end
 
   def edit
@@ -21,9 +21,11 @@ class RoundsController < ApplicationController
   end
 
   def create
-    @round = @season.rounds.new(round_params)
+    @round = CreateRound.call(
+      params.require(:round).permit(:label, :period_begins, :period_ends, :season_id)
+    ).result
 
-    if @round.save
+    if @round.persisted?
       redirect_to @round
     else
       render :new
@@ -31,7 +33,7 @@ class RoundsController < ApplicationController
   end
 
   def update
-    if @round.update(round_params)
+    if @round.update(whitelisted_params)
       redirect_to @round
     else
       render :edit
@@ -54,7 +56,7 @@ class RoundsController < ApplicationController
     @round = Round.find(params[:id])
   end
 
-  def round_params
+  def whitelisted_params
     params.require(:round).permit(:label, :period_begins, :period_ends)
   end
 end

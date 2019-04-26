@@ -8,7 +8,7 @@ class Match < ApplicationRecord
 
   validates :type, presence: true
   # validates :players, length: { is: 2 }
-  # validate :has_two_players
+  validate :has_two_players
   validate :players_are_different
   validate :winner_is_player
   validate :finished_when_published
@@ -39,9 +39,9 @@ class Match < ApplicationRecord
 
   private
 
-  # def has_two_players
-  #   errors.add(:players, 'Zápas musí mať presne dvoch hráčov') if players.length != 2
-  # end
+  def has_two_players
+    errors.add(:players, 'Zápas musí mať presne dvoch hráčov') if players.length != 2
+  end
 
   def players_are_different
     errors.add(:player2, 'Hráč nemôže hrať sám so sebou') if player1 == player2

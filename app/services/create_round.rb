@@ -2,6 +2,12 @@ class CreateRound < Patterns::Service
   pattr_initialize :attributes
 
   def call
+    create_round
+  end
+
+  private
+
+  def create_round
     new_round = season.rounds.new(whitelisted_attributes)
 
     season.players.each do |player|
@@ -24,14 +30,12 @@ class CreateRound < Patterns::Service
       end
     end
 
-    new_round.save!
+    new_round.save
     new_round
   end
 
-  private
-
   def season
-    @season ||= Season.order(:created_at).last
+    @season ||= Season.find(attributes[:season_id])
   end
 
   def whitelisted_attributes
