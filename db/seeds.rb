@@ -75,7 +75,13 @@ ActiveRecord::Base.transaction do
     end
 
     category = Category.find_by(name: 'Neregistrovaný')
-    Player.create!(dummy: true, first_name: 'Večný', last_name: 'Looser', category: category)
+    Player.create!(
+      dummy: true,
+      first_name: 'Večný',
+      last_name: 'Looser',
+      category: category,
+      seasons: [season]
+    )
   end
 
   #

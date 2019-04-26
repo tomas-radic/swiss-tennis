@@ -8,8 +8,7 @@ class RoundsController < ApplicationController
   end
 
   def show
-    @players_without_match = @season.players.left_joins(:matches)
-        .where('match_assignments.player_id is null')
+    @players_without_match = PlayersWithoutMatch.call(round: @round)
   end
 
   def new
