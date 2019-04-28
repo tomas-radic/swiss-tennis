@@ -6,9 +6,14 @@ class MatchesController < ApplicationController
 
   def index
     if @round.present?
-      @finished_matches = @round.matches.finished.includes(:player1, :player2, :winner).order(finished_at: :desc)
-      @pending_matches = @round.matches.pending.joins(:player1, :player2).includes(:player1, :player2, :winner).order(:note)
-      @draft_matches = @round.matches.draft.includes(:player1, :player2).order(created_at: :desc)
+      @published_matches = PublishedMatchesQuery.call(round: @round)
+
+      if user_signed_in?
+        @draft_matches = DraftMatchesQuery.call(round: @round)
+      end
+    else
+      @published_matches = Match.none
+      @draft_matches = Match.none
     end
   end
 
@@ -19,17 +24,17 @@ class MatchesController < ApplicationController
     @match = Match.new
   end
 
-  def edit
-  end
-
   def create
-    @match = Match.new(match_params)
+    @match = CreateMatch.call(match_params.merge(type: 'MatchManual')).result
 
-    if @match.save
+    if @match.persisted?
       redirect_to @match
     else
       render :new
     end
+  end
+
+  def edit
   end
 
   def update
@@ -66,10 +71,10 @@ class MatchesController < ApplicationController
   end
 
   def set_match
-    @match = Match.find(params[:id])
+    @match = policy_scope(Match).find(params[:id])
   end
 
   def match_params
-    params.require(:match).permit(:player1_id, :player2_id, :winner_id, :round_id, :type, :published, :note)
+    params.require(:match).permit(:player1_id, :player2_id, :round_id, :published, :note)
   end
 end

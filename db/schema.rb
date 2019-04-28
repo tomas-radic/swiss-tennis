@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_175320) do
     t.string "type", null: false
     t.boolean "published", default: false, null: false
     t.datetime "finished_at"
+    t.date "play_date"
     t.string "note"
     t.integer "set1_player1_score"
     t.integer "set1_player2_score"

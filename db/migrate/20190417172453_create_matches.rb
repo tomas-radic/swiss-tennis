@@ -8,6 +8,7 @@ class CreateMatches < ActiveRecord::Migration[5.2]
       t.string :type,         null: false
       t.boolean :published,   null: false, default: false
       t.datetime :finished_at
+      t.date :play_date
       t.string :note
       t.integer :set1_player1_score
       t.integer :set1_player2_score

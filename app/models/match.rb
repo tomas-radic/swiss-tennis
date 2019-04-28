@@ -18,11 +18,11 @@ class Match < ApplicationRecord
             :winner,
             presence: true, if: :finished?
 
-  scope :default, -> { order(:finished, :play_date, :play_hour, :play_minute) }
+  scope :default, -> { order(:finished_at, :play_date, :note) }
   scope :manual, -> { where(type: 'MatchManual') }
   scope :toss, -> { where(type: 'MatchToss') }
-  scope :published, -> { where(published: true) }
-  scope :draft, -> { where(published: false) }
+  scope :published, -> { default.where(published: true) }
+  scope :draft, -> { default.where(published: false) }
   scope :finished, -> { published.where.not(finished_at: nil) }
   scope :pending, -> { published.where(finished_at: nil) }
 

@@ -9,8 +9,8 @@ describe PlayersWithoutMatch do
   let!(:player5) { create(:player) }
   let!(:player6) { create(:player) }
   let!(:player7) { create(:player, :dummy) }
-  let!(:match1) { create(:match, round: round, players: [player1, player2], player1: player1, player2: player2) }
-  let!(:match2) { create(:match, round: round, players: [player3, player4], player1: player3, player2: player4) }
+  let!(:match1) { create(:match, round: round, player1: player1, player2: player2) }
+  let!(:match2) { create(:match, round: round, player1: player3, player2: player4) }
 
   context 'Not to include dummy' do
     subject(:players_without_match) { described_class.call(round: round) }
