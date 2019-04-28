@@ -12,6 +12,7 @@ class Match < ApplicationRecord
   validate :players_are_different
   validate :winner_is_player
   validate :finished_when_published
+  validate :players_available
   validates :set1_player1_score,
             :set1_player2_score,
             :winner,
@@ -59,5 +60,16 @@ class Match < ApplicationRecord
     if finished && !published
       errors.add(:published, 'Zápas musí byť verejný, ak je už skončený')
     end
+  end
+
+  def players_available
+    conflicting_matches = Match.joins(:round, :players)
+        .where('rounds.id = ?', round_id)
+        .where('players.id = ? or players.id = ?', player1_id, player2_id)
+
+    errors.add(
+      :players,
+      'Niektorý z hráčov už je v tomto kole priradený do iného zápasu'
+    ) if conflicting_matches.any?
   end
 end
