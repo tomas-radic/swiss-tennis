@@ -7,6 +7,7 @@ class Round < ApplicationRecord
   acts_as_list scope: :season
 
   scope :default, -> { order(position: :desc) }
+  scope :open, -> { default.where(closed: false) }
 
   def full_label
     ["Kolo #{position}", label].reject(&:blank?).join(', ')

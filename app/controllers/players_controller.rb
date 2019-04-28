@@ -1,5 +1,6 @@
 class PlayersController < ApplicationController
   before_action :verify_user_logged_in, except: [:index, :show]
+  before_action :load_season, only: [:create]
   before_action :set_player, only: [:show, :edit, :update]
 
   def index
@@ -18,9 +19,9 @@ class PlayersController < ApplicationController
   end
 
   def create
-    @player = Player.new(player_params)
+    @player = CreatePlayer.call(player_params, @season).result
 
-    if @player.save
+    if @player.persisted?
       redirect_to players_path
     else
       render :new
@@ -47,5 +48,11 @@ class PlayersController < ApplicationController
     params.require(:player).permit(
       :first_name, :last_name, :phone, :email, :birth_year, :category_id
     )
+  end
+
+  def load_season
+    @season = Season.default.first  # TODO: change later after seasons support added
+
+    redirect_to root_path and return unless @season.present?
   end
 end

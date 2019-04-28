@@ -80,6 +80,10 @@ RSpec.describe "Players", type: :request do
   describe "POST /players" do
     subject(:post_players) { post players_path, params: params }
 
+    let!(:season) { create(:season) }
+    let!(:round1) { create(:round, season: season) }
+    let!(:round2) { create(:round, season: season) }
+
     context 'When logged in' do
       before(:each) do
         login(user, 'nbusr123')
@@ -92,6 +96,14 @@ RSpec.describe "Players", type: :request do
 
         it "Creates new player" do
           expect { post_players }.to change(Player, :count).by(1)
+        end
+
+        it "Adds player to current season" do
+          expect { post_players }.to change(Enrollment, :count).by(1)
+        end
+
+        it "Adds player to current round" do
+          expect { post_players }.to change(Ranking, :count).by(1)
         end
 
         it "Redirects to list of players" do
