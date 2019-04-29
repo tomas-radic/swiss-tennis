@@ -1,39 +1,32 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col">
+    <h1 class="float-left"><%= MatchDecorator.new(@match).label %></h1>
+    <div class="float-right">
+      <% if user_signed_in? && !@match.finished? %>
+        <%= link_to 'Upraviť', edit_match_path(@match), class: 'btn btn-success my-1' %>
+      <% end %>
+      <%= link_to 'Naspäť', matches_path(round_id: @match.round_id), class: 'btn btn-outline-success my-1' %>
+    </div>
+  </div>
+</div>
+<% if @match.finished? %>
+  <div class="row">
+    <div class="col">
+      <h2 class="text-center"><%= MatchDecorator.new(@match).score %></h2>
+    </div>
+  </div>
+<% end %>
+<hr>
+<p class="lead text-center"><%= @match.round.full_label %></p>
+<p class="lead text-center"><%= @match.play_date&.to_formatted_s(:short) %></p>
+<p class="lead text-center"><%= @match.note %></p>
 
-<p>
-  <strong>Player1:</strong>
-  <%= @match.player1 %>
-</p>
-
-<p>
-  <strong>Player2:</strong>
-  <%= @match.player2 %>
-</p>
-
-<p>
-  <strong>Winner:</strong>
-  <%= @match.winner %>
-</p>
-
-<p>
-  <strong>Round:</strong>
-  <%= @match.round %>
-</p>
-
-<p>
-  <strong>Type:</strong>
-  <%= @match.type %>
-</p>
-
-<p>
-  <strong>Published:</strong>
-  <%= @match.published %>
-</p>
-
-<p>
-  <strong>Note:</strong>
-  <%= @match.note %>
-</p>
-
-<%= link_to 'Edit', edit_match_path(@match) %> |
-<%= link_to 'Back', matches_path %>
+<% if user_signed_in? %>
+  <hr>
+  <p class="lead text-center">
+    <%= published_pill(@match) unless @match.finished? %>
+  </p>
+  <% if @match.from_toss? %>
+    <p class="lead text-center"><small><i>Zápas vznikol automatickým žrebovaním.</i></small></p>
+  <% end %>
+<% end %>

@@ -4,7 +4,7 @@ class PlayersWithoutMatch < Patterns::Query
   private
 
   def query
-    players = relation.where.not(id: Player.joins(matches: :round).where('rounds.id = ?', round.id))
+    players = relation.active.where.not(id: Player.joins(matches: :round).where('rounds.id = ?', round.id)).order(:last_name)
     players = players.where.not(dummy: true) unless include_dummy?
     players
   end

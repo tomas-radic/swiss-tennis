@@ -25,7 +25,7 @@
         <% @rankings.each_with_index do |ranking, i| %>
           <tr>
             <td><%= i + 1 %></td>
-            <td><%= PlayerDecorator.new(ranking.player).name %></td>
+            <td><%= ranking.player.name %></td>
             <td><%= ranking.points %></td>
             <td><%= ranking.handicap %></td>
             <td><%= ranking.games_difference %></td>

@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 2019_04_24_175320) do
     t.uuid "player2_id", null: false
     t.uuid "winner_id"
     t.uuid "round_id", null: false
-    t.string "type", null: false
     t.boolean "published", default: false, null: false
+    t.boolean "from_toss", default: false, null: false
     t.datetime "finished_at"
     t.date "play_date"
     t.string "note"

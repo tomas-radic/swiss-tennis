@@ -15,7 +15,7 @@ class PlayersController < ApplicationController
   end
 
   def edit
-    @heading = PlayerDecorator.new(@player).name
+    @heading = @player.name
   end
 
   def create
@@ -29,7 +29,7 @@ class PlayersController < ApplicationController
   end
 
   def update
-    @heading = PlayerDecorator.new(@player).name
+    @heading = @player.name
 
     if @player.update(player_params)
       redirect_to players_path

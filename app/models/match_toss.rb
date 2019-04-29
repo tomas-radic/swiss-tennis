@@ -1,3 +1,0 @@
-class MatchToss < Match
-
-end

@@ -10,5 +10,9 @@ FactoryBot.define do
     trait :dummy do
       dummy { true }
     end
+
+    trait :inactive do
+      active { false }
+    end
   end
 end

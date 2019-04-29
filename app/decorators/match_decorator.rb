@@ -18,7 +18,7 @@ class MatchDecorator < SimpleDelegator
     "#{set3_player1_score}:#{set3_player2_score}"
   end
 
-  def play_time
-    ''
+  def label
+    [player1.name, player2.name].join(' vs ')
   end
 end

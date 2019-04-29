@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :match do
     association :round
 
-    type { 'MatchManual' }
+    from_toss { false }
     published { true }
 
     before(:create) do |match|

@@ -1,5 +1,39 @@
-<h1>New Match</h1>
+<div class="row">
+  <div class="col-md-3 hidden-sm-down"></div>
+  <div class="col">
+    <h2>Nový zápas</h2>
+    <hr>
 
-<%= render 'form', match: @match %>
+    <%= form_with(model: @match, local: true) do |form| %>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <%= form.label :player1_id, 'Hráč 1' %><br />
+            <%= form.collection_select :player1_id, @available_players, :id, :name, {}, { class: add_error_class_to('form-control', @match, :player1_id) } %>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <%= form.label :player2_id, 'Hráč 2' %><br />
+            <%= form.collection_select :player2_id, @available_players, :id, :name, {}, { class: add_error_class_to('form-control', @match, :player2_id) } %>
+          </div>
+        </div>
+      </div>
+      <%= form.hidden_field :round_id %>
 
-<%= link_to 'Back', matches_path %>
+      <div class="row">
+        <div class="col">
+          <div class="actions">
+            <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+            <%= link_to 'Zrušiť', round_path(@round), class: 'btn btn-lg btn-outline-success my-1' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+
+
+
+  </div>
+  <div class="col-md-3 hidden-sm-down"></div>
+</div>

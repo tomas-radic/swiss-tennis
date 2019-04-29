@@ -21,15 +21,21 @@ class MatchesController < ApplicationController
   end
 
   def new
-    @match = Match.new
+    @season = Season.default.first
+    @round = @season.rounds.find(params[:round_id])
+    @match = Match.new(round: @round)
+    @available_players = PlayersWithoutMatch.call(round: @round)
   end
 
   def create
-    @match = CreateMatch.call(match_params.merge(type: 'MatchManual')).result
+    @match = CreateMatch.call(match_params.merge(from_toss: false)).result
 
     if @match.persisted?
-      redirect_to @match
+      redirect_to @match.round
     else
+      @season = Season.default.first
+      @round = @season.rounds.find(@match.round_id)
+      @available_players = PlayersWithoutMatch.call(round: @round)
       render :new
     end
   end
@@ -75,6 +81,13 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:player1_id, :player2_id, :round_id, :published, :note)
+    params.require(:match).permit(
+      :player1_id,
+      :player2_id,
+      :round_id,
+      :published,
+      :play_date,
+      :note
+    )
   end
 end

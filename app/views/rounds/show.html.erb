@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <div class="row">
   <div class="col">
     <h1 class="float-left"><%= @round.full_label %></h1>
@@ -31,6 +29,7 @@
 <hr>
 <% if @players_without_match.any? %>
   <p class="lead">Hráči bez zápasu (<%= @players_without_match.count %>)</p>
+  <p><%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %></p>
   <div class="table-responsive my-1">
     <table class="table table-sm">
       <thead class="thead-dark">
@@ -42,7 +41,7 @@
       <tbody>
         <% @players_without_match.each do |player| %>
           <tr>
-            <td><%= PlayerDecorator.new(player).name %></td>
+            <td><%= player.name %></td>
             <td>
               <%= link_to 'Detail', player_path(player), class: 'btn btn-sm btn-success' %>
             </td>

@@ -6,7 +6,6 @@ class Match < ApplicationRecord
   belongs_to :winner, class_name: 'Player', foreign_key: :winner_id, optional: true
   belongs_to :round
 
-  validates :type, presence: true
   # validates :players, length: { is: 2 }
   validate :has_two_players
   validate :players_are_different
@@ -19,8 +18,8 @@ class Match < ApplicationRecord
             presence: true, if: :finished?
 
   scope :default, -> { order(:finished_at, :play_date, :note) }
-  scope :manual, -> { where(type: 'MatchManual') }
-  scope :toss, -> { where(type: 'MatchToss') }
+  scope :manual, -> { where(from_toss: false) }
+  scope :toss, -> { where(from_toss: true) }
   scope :published, -> { default.where(published: true) }
   scope :draft, -> { default.where(published: false) }
   scope :finished, -> { published.where.not(finished_at: nil) }
@@ -64,6 +63,7 @@ class Match < ApplicationRecord
 
   def players_available
     conflicting_matches = Match.joins(:round, :players)
+        .where('matches.id != ?', id)
         .where('rounds.id = ?', round_id)
         .where('players.id = ? or players.id = ?', player1_id, player2_id)
 

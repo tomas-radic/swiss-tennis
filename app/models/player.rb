@@ -16,4 +16,9 @@ class Player < ApplicationRecord
             presence: true
 
   scope :default, -> { where(dummy: false, active: true) }
+  scope :active, -> { where(active: true) }
+
+  def name
+    [first_name, last_name].join(' ')
+  end
 end

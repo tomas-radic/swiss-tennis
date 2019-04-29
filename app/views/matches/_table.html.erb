@@ -14,11 +14,13 @@
         <% matches.each do |match| %>
           <% next if !user_signed_in? && (match.player1.dummy? || match.player2.dummy?) %>
           <tr>
-            <td><%= PlayerDecorator.new(match.player1).name %></td>
-            <td><%= PlayerDecorator.new(match.player2).name %></td>
-            <td><%= MatchDecorator.new(match).play_time %></td>
+            <td><%= match.player1.name %></td>
+            <td><%= match.player2.name %></td>
+            <td><%= match.play_date&.to_formatted_s(:short) %></td>
             <td><%= MatchDecorator.new(match).score %></td>
-            <td></td>
+            <td>
+              <%= link_to 'Detail', match_path(match), class: 'btn btn-sm btn-success' %>
+            </td>
           </tr>
         <% end %>
       </tbody>

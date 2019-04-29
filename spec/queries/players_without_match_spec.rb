@@ -9,13 +9,14 @@ describe PlayersWithoutMatch do
   let!(:player5) { create(:player) }
   let!(:player6) { create(:player) }
   let!(:player7) { create(:player, :dummy) }
+  let!(:player8) { create(:player, :inactive) }
   let!(:match1) { create(:match, round: round, player1: player1, player2: player2) }
   let!(:match2) { create(:match, round: round, player1: player3, player2: player4) }
 
   context 'Not to include dummy' do
     subject(:players_without_match) { described_class.call(round: round) }
 
-    it 'Returns players having no match in given round excluding dummy players' do
+    it 'Returns active players having no match in given round excluding dummy' do
       players = players_without_match
       expect(players.size).to eq 2
       expect(players).to include(player5, player6)
@@ -25,7 +26,7 @@ describe PlayersWithoutMatch do
   context 'To include dummy' do
     subject(:players_without_match) { described_class.call(round: round, include_dummy: true) }
 
-    it 'Returns players having no match in given round including dummy players' do
+    it 'Returns active players having no match in given round including dummy players' do
       players = players_without_match
       expect(players.size).to eq 3
       expect(players).to include(player5, player6, player7)

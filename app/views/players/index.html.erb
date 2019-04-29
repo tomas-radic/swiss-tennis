@@ -15,7 +15,7 @@
       <tbody>
         <% @players.each do |player| %>
           <tr>
-            <td><%= PlayerDecorator.new(player).name %></td>
+            <td><%= player.name %></td>
             <td><span class="badge badge-pill badge-light"><%= player.category.name %></span></td>
             <td>
               <%= link_to 'Detail', player_path(player), class: 'btn btn-sm btn-success' %>
