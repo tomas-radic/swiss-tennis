@@ -18,7 +18,7 @@
   </div>
 <% end %>
 <hr>
-<p class="lead text-center"><%= @match.round.full_label %></p>
+<p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
 <p class="lead text-center"><%= @match.play_date&.to_formatted_s(:short) %></p>
 <p class="lead text-center"><%= @match.note %></p>
 

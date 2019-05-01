@@ -1,6 +1,9 @@
 <div class="row">
   <div class="col">
-    <p class="lead float-left"><%= ["Zoznam zápasov", @round&.full_label].compact.join(' | ') %></p>
+    <p class="lead float-left">
+      Zoznam zápasov |
+      <%= round_element(@round, current_user) %>
+    </p>
     <% if @season && @round %>
       <div class="form-group float-right">
         <%= select_tag :round_id, options_from_collection_for_select(@season.rounds.default, "id", "full_label", @round.id), class: 'form-control reloading-page', data: { url: request.path, param_name: 'round' } %>
