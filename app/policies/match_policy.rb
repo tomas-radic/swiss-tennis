@@ -8,4 +8,16 @@ class MatchPolicy < ApplicationPolicy
       end
     end
   end
+
+  def edit?
+    update?
+  end
+
+  def update?
+    !record.finished?
+  end
+
+  def destroy?
+    update?
+  end
 end

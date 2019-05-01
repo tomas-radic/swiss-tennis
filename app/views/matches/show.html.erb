@@ -2,10 +2,11 @@
   <div class="col">
     <h1 class="float-left"><%= MatchDecorator.new(@match).label %></h1>
     <div class="float-right">
+      <%= link_to 'Naspäť', matches_path(round_id: @match.round_id), class: 'btn btn-outline-success my-1' %>
       <% if user_signed_in? && !@match.finished? %>
         <%= link_to 'Upraviť', edit_match_path(@match), class: 'btn btn-success my-1' %>
+        <%= link_to 'Vymazať', match_path(@match), method: :delete, data: { confirm: "Naozaj vymazať zápas #{MatchDecorator.new(@match).label}?" }, class: 'btn btn-danger my-1' %>
       <% end %>
-      <%= link_to 'Naspäť', matches_path(round_id: @match.round_id), class: 'btn btn-outline-success my-1' %>
     </div>
   </div>
 </div>

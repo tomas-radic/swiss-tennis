@@ -9,16 +9,40 @@
         <div class="col-lg-6">
           <div class="form-group">
             <%= form.label :player1_id, 'Hráč 1' %><br />
-            <%= form.collection_select :player1_id, @available_players, :id, :name, {}, { class: add_error_class_to('form-control', @match, :player1_id) } %>
+            <%= form.collection_select :player1_id, @available_players, :id, :name, { include_blank: 'Žiadny hráč' }, { class: add_error_class_to('form-control', @match, :player1) } %>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="form-group">
             <%= form.label :player2_id, 'Hráč 2' %><br />
-            <%= form.collection_select :player2_id, @available_players, :id, :name, {}, { class: add_error_class_to('form-control', @match, :player2_id) } %>
+            <%= form.collection_select :player2_id, @available_players, :id, :name, { include_blank: 'Žiadny hráč' }, { class: add_error_class_to('form-control', @match, :player2) } %>
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <%= form.label :play_date, 'Dátum zápasu' %><br />
+            <%= form.date_field :play_date, class: 'form-control' %>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="custom-control custom-checkbox">
+            <br><br>
+            <%= form.check_box :published, class: 'custom-control-input' %>
+            <%= form.label :published, 'Zápas je zverejnený', class: 'custom-control-label' %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <%= form.label :note, 'Poznámka' %>
+            <%= form.text_area :note, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
       <%= form.hidden_field :round_id %>
 
       <div class="row">
@@ -30,10 +54,6 @@
         </div>
       </div>
     <% end %>
-
-
-
-
   </div>
   <div class="col-md-3 hidden-sm-down"></div>
 </div>

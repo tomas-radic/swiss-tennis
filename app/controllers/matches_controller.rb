@@ -28,7 +28,7 @@ class MatchesController < ApplicationController
   end
 
   def create
-    @match = CreateMatch.call(match_params.merge(from_toss: false)).result
+    @match = CreateMatch.call(create_params.merge(from_toss: false)).result
 
     if @match.persisted?
       redirect_to @match.round
@@ -41,10 +41,13 @@ class MatchesController < ApplicationController
   end
 
   def edit
+    authorize @match
   end
 
   def update
-    if @match.update(match_params)
+    authorize @match
+
+    if @match.update(update_params)
       redirect_to @match
     else
       render :edit
@@ -52,8 +55,10 @@ class MatchesController < ApplicationController
   end
 
   def destroy
-    @match.destroy
-    redirect_to matches_url
+    authorize @match
+
+    round = @match.destroy.round
+    redirect_to round_path(round)
   end
 
   private
@@ -80,11 +85,19 @@ class MatchesController < ApplicationController
     @match = policy_scope(Match).find(params[:id])
   end
 
-  def match_params
+  def create_params
     params.require(:match).permit(
       :player1_id,
       :player2_id,
       :round_id,
+      :published,
+      :play_date,
+      :note
+    )
+  end
+
+  def update_params
+    params.require(:match).permit(
       :published,
       :play_date,
       :note

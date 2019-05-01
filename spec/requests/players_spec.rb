@@ -52,7 +52,7 @@ RSpec.describe "Players", type: :request do
     end
   end
 
-  describe "GET /players/abc/edit" do
+  describe "GET /player/abc/edit" do
     subject(:get_player_edit) { get edit_player_path(player) }
 
     let!(:player) { create(:player) }
