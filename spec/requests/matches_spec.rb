@@ -298,7 +298,20 @@ RSpec.describe "Matches", type: :request do
   end
 
   describe "POST /match/abc/finish" do
-    subject(:finish_match) { post finish_match_path(match) }
+    subject(:finish_match) do
+      post finish_match_path(match, params:
+        {
+          score: {
+            set1_player1: '6',
+            set1_player2: '4',
+            set2_player1: '6',
+            set2_player2: '3',
+            set3_player1: '',
+            set3_player2: ''
+          }
+        }
+      )
+    end
 
     context 'When logged in' do
       before(:each) do
@@ -308,7 +321,7 @@ RSpec.describe "Matches", type: :request do
       context 'With unfinished match' do
         let!(:match) { create(:match, round: round) }
 
-        it "Redirects to the match" do 
+        it "Redirects to the match" do
           finish_match
 
           expect(response).to redirect_to(match_path(match))
@@ -333,7 +346,7 @@ RSpec.describe "Matches", type: :request do
         expect(response).to redirect_to login_path
       end
 
-      it 'Does not destroy the match' do
+      it 'Does not finish the match' do
         expect { subject }.not_to change(Match, :count)
       end
     end

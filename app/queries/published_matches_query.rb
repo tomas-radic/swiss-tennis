@@ -4,9 +4,7 @@ class PublishedMatchesQuery < Patterns::Query
   private
 
   def query
-    round.matches.published
-        .includes(:player1, :player2)
-        .order(finished_at: :desc, play_date: :desc, created_at: :desc)
+    round.matches.published.includes(:player1, :player2)
   end
 
   def round
