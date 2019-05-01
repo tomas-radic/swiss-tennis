@@ -24,7 +24,7 @@ class MatchesController < ApplicationController
     @season = Season.default.first
     @round = @season.rounds.find(params[:round_id])
     @match = Match.new(round: @round)
-    @available_players = PlayersWithoutMatch.call(round: @round)
+    @available_players = PlayersWithoutMatch.call(round: @round, include_dummy: true)
   end
 
   def create
