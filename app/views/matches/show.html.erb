@@ -3,9 +3,16 @@
     <h1 class="float-left"><%= MatchDecorator.new(@match).label %></h1>
     <div class="float-right">
       <%= link_to 'Naspäť', matches_path(round_id: @match.round_id), class: 'btn btn-outline-success my-1' %>
-      <% if user_signed_in? && !@match.finished? %>
+      <% if policy(@match).update? %>
         <%= link_to 'Upraviť', edit_match_path(@match), class: 'btn btn-success my-1' %>
+      <% end %>
+      <% if policy(@match).destroy? %>
         <%= link_to 'Vymazať', match_path(@match), method: :delete, data: { confirm: "Naozaj vymazať zápas #{MatchDecorator.new(@match).label}?" }, class: 'btn btn-danger my-1' %>
+      <% end %>
+      <% if policy(@match).finish? %>
+        <button type="button" class="btn btn-outline-danger my-1" data-toggle="modal" data-target="#finish-match-modal">
+          Finalizovať
+        </button>
       <% end %>
     </div>
   </div>
@@ -18,9 +25,10 @@
   </div>
 <% end %>
 <hr>
+
 <p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
-<p class="lead text-center"><%= @match.play_date&.to_formatted_s(:short) %></p>
-<p class="lead text-center"><%= @match.note %></p>
+<p class="lead text-center"><%= @match.play_date&.to_formatted_s(:short) || content_tag(:i) { 'žiadny dátum' } %></p>
+<p class="lead text-center"><%= @match.note.presence || content_tag(:i) { 'žiadna poznámka' } %></p>
 
 <% if user_signed_in? %>
   <hr>
@@ -31,3 +39,104 @@
     <p class="lead text-center"><small><i>Zápas vznikol automatickým žrebovaním.</i></small></p>
   <% end %>
 <% end %>
+
+<!-- Modal -->
+<div class="modal fade" id="finish-match-modal" tabindex="-1" role="dialog" aria-labelledby="finish-match-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <%= form_tag finish_match_path(@match) do %>
+        <div class="modal-header">
+          <h5 class="modal-title" id="finish-match-modal-label"><%= MatchDecorator.new(@match).label %></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h2 class="text-center">Set 1</h2>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set1_player1_score, '', min: 0, step: 1,
+                      name: 'score[set1_player1]', class: 'form-control float-right text-right' %>
+                </div>
+                <p class="text-right"><small><%= @match.player1.name %></small></p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set1_player2_score, '', min: 0, step: 1,
+                      name: 'score[set1_player2]', class: 'form-control float-left text-left replace-input-field' %>
+                </div>
+                <p><small><%= @match.player2.name %></small></p>
+              </div>
+            </div>
+          </div>
+          <h2 class="text-center">Set 2</h2>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set2_player1_score, '', min: 0, step: 1,
+                      name: 'score[set2_player1]', class: 'form-control float-right text-right' %>
+                </div>
+                <p class="text-right"><small><%= @match.player1.name %></small></p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set2_player2_score, '', min: 0, step: 1,
+                      name: 'score[set2_player2]', class: 'form-control float-left text-left replace-input-field' %>
+                </div>
+                <p><small><%= @match.player2.name %></small></p>
+              </div>
+            </div>
+          </div>
+          <h2 class="text-center">Set 3</h2>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set3_player1_score, '', min: 0, step: 1,
+                      name: 'score[set3_player1]', class: 'form-control float-right text-right' %>
+                </div>
+                <p class="text-right"><small><%= @match.player1.name %></small></p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set3_player2_score, '', min: 0, step: 1,
+                      name: 'score[set3_player2]', class: 'form-control float-left text-left replace-input-field' %>
+                </div>
+                <p><small><%= @match.player2.name %></small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="form-check">
+            <input class="form-check-input button-enabler" data-button-id="finish-confirmation-button" type="checkbox" value="" id="finish-confirmation-checkbox">
+            <label class="form-check-label" for="finish-confirmation-checkbox">
+              <small>
+                Skontroloval som skóre a chcem ho naozaj potvrdiť. POTVRDENÉ SKÓRE SA UŽ NEDÁ ZMENIŤ a ja to chápem a súhlasím s tým.
+              </small>
+            </label>
+          </div>
+          <button type="button" class="btn btn-outline-success" data-dismiss="modal">Zrušiť</button>
+          <%= submit_tag 'Finalizovať', class: 'btn btn-danger', id: 'finish-confirmation-button', disabled: true %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#finish-match-modal').on('shown.bs.modal', function (e) {
+    debugger;
+    $('#finish-confirmation-checkbox').prop('checked', false);
+    $('#finish-confirmation-button').prop('disabled', true);
+  });
+</script>

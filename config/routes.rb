@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   # resources :seasons, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
     resources :players, except: [:destroy]
     resources :rounds, except: [:destroy]
-    resources :matches
+    resources :matches do
+      post 'finish', on: :member
+    end
     resources :rankings, only: :index
   # end
 

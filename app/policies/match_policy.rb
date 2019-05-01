@@ -10,14 +10,24 @@ class MatchPolicy < ApplicationPolicy
   end
 
   def edit?
-    update?
+    user.present? && update?
   end
 
   def update?
-    !record.finished?
+    user.present? && match_not_finished?
   end
 
   def destroy?
-    update?
+    user.present? && match_not_finished?
+  end
+
+  def finish?
+    user.present? && match_not_finished?
+  end
+
+  private
+
+  def match_not_finished?
+    !record.finished?
   end
 end

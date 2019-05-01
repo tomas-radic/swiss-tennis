@@ -2,7 +2,7 @@ class MatchesController < ApplicationController
   before_action :verify_user_logged_in, except: [:index, :show]
   before_action :load_season, only: [:index]
   before_action :load_round, only: [:index]
-  before_action :set_match, only: [:show, :edit, :update, :destroy]
+  before_action :set_match, only: [:show, :edit, :update, :destroy, :finish]
 
   def index
     if @round.present?
@@ -59,6 +59,13 @@ class MatchesController < ApplicationController
 
     round = @match.destroy.round
     redirect_to round_path(round)
+  end
+
+  def finish
+    authorize @match
+
+    FinishMatch.call(@match, params[:score])
+    redirect_to @match
   end
 
   private

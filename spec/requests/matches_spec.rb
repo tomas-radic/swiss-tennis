@@ -263,13 +263,55 @@ RSpec.describe "Matches", type: :request do
         let!(:match) { create(:match, round: round) }
 
         it "Destroys the requested match" do
-          expect { subject }.to change(Match, :count).by(-1)
+          expect { delete_matches }.to change(Match, :count).by(-1)
         end
 
         it "Redirects to the match round" do
-          subject
+          delete_matches
 
           expect(response).to redirect_to(round_path(round))
+        end
+      end
+
+      context 'With finished match' do
+        let!(:match) { create(:match, :finished, round: round) }
+
+        it 'Raises error' do
+          expect { delete_matches }.to raise_error Pundit::NotAuthorizedError
+        end
+      end
+    end
+
+    context 'When logged out' do
+      let!(:match) { create(:match, round: round) }
+
+      it 'Redirects to login' do
+        delete_matches
+
+        expect(response).to redirect_to login_path
+      end
+
+      it 'Does not destroy the match' do
+        expect { delete_matches }.not_to change(Match, :count)
+      end
+    end
+  end
+
+  describe "POST /match/abc/finish" do
+    subject(:finish_match) { post finish_match_path(match) }
+
+    context 'When logged in' do
+      before(:each) do
+        login(user, 'nbusr123')
+      end
+
+      context 'With unfinished match' do
+        let!(:match) { create(:match, round: round) }
+
+        it "Redirects to the match" do 
+          finish_match
+
+          expect(response).to redirect_to(match_path(match))
         end
       end
 

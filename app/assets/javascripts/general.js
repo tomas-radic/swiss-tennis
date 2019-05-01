@@ -7,4 +7,9 @@ $(document).on('turbolinks:load', function() {
         $(this).val();
     location.href = targetUrl;
   });
+
+  $('.button-enabler').change(function() {
+    var button = $('#' + $(this).data('button-id'));
+    $(button).prop('disabled', !$(this).is(":checked"));
+  });
 });
