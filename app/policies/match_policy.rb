@@ -9,8 +9,16 @@ class MatchPolicy < ApplicationPolicy
     end
   end
 
+  def new?
+    create?
+  end
+
+  def create?
+    user.present?
+  end
+
   def edit?
-    user.present? && update?
+    update?
   end
 
   def update?

@@ -12,7 +12,7 @@
   </div>
 </div>
 
-<% if @season && @round %>
+<% if @season && @round && policy(Match).create? %>
   <div class="row">
     <div class="col">
       <p><%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %></p>
