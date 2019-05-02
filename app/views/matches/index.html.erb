@@ -12,6 +12,14 @@
   </div>
 </div>
 
+<% if @season && @round %>
+  <div class="row">
+    <div class="col">
+      <p><%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %></p>
+    </div>
+  </div>
+<% end %>
+
 <div class="row">
   <div class="col">
     <ul class="nav nav-tabs" id="tab-matches" role="tablist">

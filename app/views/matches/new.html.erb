@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-3 hidden-sm-down"></div>
   <div class="col">
-    <h2>Nový zápas</h2>
+    <h2><%= "Nový zápas, #{@round.full_label}" %></h2>
     <hr>
 
     <%= form_with(model: @match, local: true) do |form| %>
