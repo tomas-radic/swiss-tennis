@@ -10,10 +10,10 @@
     </ul>
     <div class="tab-content" id="tab-matches-content">
       <div class="tab-pane fade show active" id="published" role="tabpanel" aria-labelledby="published-tab">
-        <%= render 'table', matches: @published_matches %>
+        <%= render 'matches/table', matches: published_matches %>
       </div>
       <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
-        <%= render 'table', matches: @draft_matches %>
+        <%= render 'matches/table', matches: draft_matches %>
       </div>
     </div>
   </div>
