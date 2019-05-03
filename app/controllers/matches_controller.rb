@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
 
   def index
     if @round.present?
-      @published_matches = PublishedMatchesQuery.call(round: @round)
+      @published_matches = PublishedMatchesQuery.call(round: @round).includes(:winner)
 
       if user_signed_in?
         @draft_matches = DraftMatchesQuery.call(round: @round)

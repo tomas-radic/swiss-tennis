@@ -3,9 +3,9 @@
     <table class="table table-sm">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Hráč 1</th>
-          <th scope="col">Hráč 2</th>
-          <th scope="col">Dátum</th>
+          <th scope="col">Hráč 1 - kurt</th>
+          <th scope="col">Hráč 2 - lopty</th>
+          <th scope="col">Poznámka</th>
           <th scope="col">Výsledok</th>
           <th></th>
         </tr>
@@ -16,7 +16,7 @@
           <tr>
             <td><%= match.player1.name %></td>
             <td><%= match.player2.name %></td>
-            <td><%= match.play_date&.to_formatted_s(:short) %></td>
+            <td><%= match.note %></td>
             <td><%= MatchDecorator.new(match).score %></td>
             <td>
               <%= link_to 'Detail', match_path(match), class: 'btn btn-sm btn-success' %>
