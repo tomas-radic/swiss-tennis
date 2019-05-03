@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col">
+    <p class="lead float-left">
+      Zoznam zápasov |
+      <%= round_element(@round, current_user) %>
+    </p>
+    <% if @season && @round %>
+      <div class="form-group float-right">
+        <%= select_tag :round_id, options_from_collection_for_select(@season.rounds.default, "id", "full_label", @round.id), class: 'form-control reloading-page', data: { url: request.path, param_name: 'round' } %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @season && @round && policy(Match).create? %>
+  <div class="row">
+    <div class="col">
+      <p><%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %></p>
+    </div>
+  </div>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= render 'list_admin', published_matches: @published_matches, draft_matches: @draft_matches %>
+<% else %>
+  <%= render 'list_public', matches: @published_matches %>
+<% end %>

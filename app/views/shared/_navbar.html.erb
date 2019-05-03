@@ -7,17 +7,27 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item">
-            <%= link_to 'Kategórie', categories_path, class: 'nav-link'  %>
-          </li>
-        <% end %>
+        <li class="nav-item">
+          <%= link_to 'Zápasy', matches_path, class: 'nav-link'  %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Rebríček', rankings_path, class: 'nav-link'  %>
+        </li>
         <li class="nav-item">
           <%= link_to 'O súťaži', pages_about_path, class: 'nav-link'  %>
         </li>
       </ul>
       <ul class="navbar-nav">
         <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Administrácia
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to 'Kolá', rounds_path, class: 'dropdown-item' %>
+              <%= link_to 'Kategórie', categories_path, class: 'dropdown-item'  %>
+            </div>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <%= current_user.email %>

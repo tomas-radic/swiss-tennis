@@ -9,7 +9,15 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
   resources :categories
-  resources :players
+  # resources :seasons, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
+    resources :players, except: [:destroy]
+    resources :rounds, except: [:destroy]
+    resources :matches do
+      post 'finish', on: :member
+    end
+    resources :rankings, only: :index
+  # end
 
+  # Static pages
   get '/pages/about', to: 'pages#about'
 end

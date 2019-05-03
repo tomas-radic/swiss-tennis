@@ -1,0 +1,33 @@
+<%= link_to 'Nové kolo', new_round_path, class: 'btn btn-sm btn-success my-1' %>
+
+<p class="lead">Všetky kolá</p>
+<% if @rounds.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Označenie</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @rounds.each do |round| %>
+          <tr>
+            <td><%= round.position %></td>
+            <td><%= round.full_label %></td>
+            <td>
+              <%= link_to 'Detail', round_path(round), class: 'btn btn-sm btn-success' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">V tejto sezóne ešte nebolo vypísané žiadne kolo.</p>
+    </div>
+  </div>
+<% end %>

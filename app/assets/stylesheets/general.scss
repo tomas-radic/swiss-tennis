@@ -14,6 +14,10 @@
   }
 }
 
+.nav-tabs .nav-link {
+  color:inherit;
+}
+
 .dropdown-menu {
   background-color: #252525;
 }
@@ -38,6 +42,11 @@
   box-shadow: 10px 10px 30px -25px rgba(0,0,0,0.75);
 }
 
+p.lead .bagge-pill-wider {
+  padding: 0.7em 1.6em;
+  border-radius: 0.3rem;
+}
+
 //
 // Tables
 
@@ -45,7 +54,12 @@
   background-color: #252525;
 }
 
+.phone-nr-width {
+  min-width: 135px;
+}
+
 //
+// Image banner
 
 .img-banner {
   height: 192px;
@@ -73,5 +87,9 @@
     height: 328px;
     background-attachment: fixed;
     background-position: center center;
+  }
+
+  .narrow {
+    width: 500px;
   }
 }

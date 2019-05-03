@@ -52,7 +52,7 @@ RSpec.describe "Players", type: :request do
     end
   end
 
-  describe "GET /players/abc/edit" do
+  describe "GET /player/abc/edit" do
     subject(:get_player_edit) { get edit_player_path(player) }
 
     let!(:player) { create(:player) }
@@ -80,6 +80,10 @@ RSpec.describe "Players", type: :request do
   describe "POST /players" do
     subject(:post_players) { post players_path, params: params }
 
+    let!(:season) { create(:season) }
+    let!(:round1) { create(:round, season: season) }
+    let!(:round2) { create(:round, season: season) }
+
     context 'When logged in' do
       before(:each) do
         login(user, 'nbusr123')
@@ -92,6 +96,14 @@ RSpec.describe "Players", type: :request do
 
         it "Creates new player" do
           expect { post_players }.to change(Player, :count).by(1)
+        end
+
+        it "Adds player to current season" do
+          expect { post_players }.to change(Enrollment, :count).by(1)
+        end
+
+        it "Adds player to current round" do
+          expect { post_players }.to change(Ranking, :count).by(1)
         end
 
         it "Redirects to list of players" do
@@ -191,38 +203,6 @@ RSpec.describe "Players", type: :request do
         expect(player.first_name).not_to eq 'Stefanos'
         expect(player.last_name).not_to eq 'Tsitsipas'
         expect(player.category).not_to eq category
-      end
-    end
-  end
-
-  describe "DELETE /players/abc" do
-    subject(:delete_players) { delete player_path(player) }
-
-    let!(:player) { create(:player) }
-
-    context 'When logged in' do
-      before(:each) do
-        login(user, 'nbusr123')
-      end
-
-      it "Destroys the requested player" do
-        expect { delete_players }.to change(Player, :count).by(-1)
-      end
-
-      it "Redirects to the players list" do
-        delete_players
-        expect(response).to redirect_to(players_path)
-      end
-    end
-
-    context 'When logged out' do
-      it 'Redirects to login' do
-        delete_players
-        expect(response).to redirect_to login_path
-      end
-
-      it 'Does not destroy the player' do
-        expect { delete_players }.not_to change(Player, :count)
       end
     end
   end

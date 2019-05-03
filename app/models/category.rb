@@ -3,5 +3,5 @@ class Category < ApplicationRecord
 
   validates :name, presence: true
 
-  scope :default, -> { order(created_at: :desc) }
+  scope :default, -> { order(created_at: :desc) } # (default_scope is not preferred)
 end

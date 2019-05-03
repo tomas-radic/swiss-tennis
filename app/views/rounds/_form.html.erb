@@ -1,0 +1,38 @@
+<%= form_with(model: round, local: true) do |form| %>
+
+  <%= form.hidden_field :season_id %>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="field form-group">
+        <%= form.label :period_begins, 'Začiatok' %><br />
+        <%= form.date_field :period_begins, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="field form-group">
+        <%= form.label :period_ends, 'Koniec' %><br />
+        <%= form.date_field :period_ends, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="field form-group">
+        <%= form.label :label, 'Označenie' %><br />
+        <%= form.text_field :label, class: 'form-control' %>
+        <small class="font-italic font-weight-light">
+          Označenie stačí iba pre niečim významné kolá, napr. "finále"
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="actions">
+        <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+        <%= link_to 'Zrušiť', rounds_path, class: 'btn btn-lg btn-outline-success my-1' %>
+      </div>
+    </div>
+  </div>
+<% end %>

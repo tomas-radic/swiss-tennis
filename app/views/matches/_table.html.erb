@@ -1,0 +1,45 @@
+<% if matches.present? && matches.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th class="phone-nr-width" scope="col">Hráč 1 - kurt</th>
+          <th class="phone-nr-width" scope="col">Hráč 2 - lopty</th>
+          <th scope="col">Poznámka</th>
+          <th scope="col">Výsledok</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% matches.each do |match| %>
+          <% next if !user_signed_in? && (match.player1.dummy? || match.player2.dummy?) %>
+          <tr>
+            <td>
+              <%= match.player1.name %><br>
+              <small>
+                <i><%= link_to "#{match.player1.phone}", "tel:#{match.player1.phone}" %></i>
+              </small>
+            </td>
+            <td>
+              <%= match.player2.name %><br>
+              <small>
+                <i><%= link_to "#{match.player2.phone}", "tel:#{match.player2.phone}" %></i>
+              </small>
+            </td>
+            <td><%= match.note %></td>
+            <td><%= MatchDecorator.new(match).score %></td>
+            <td>
+              <%= link_to 'Detail', match_path(match), class: 'btn btn-sm btn-success' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Žiadne zápasy.</p>
+    </div>
+  </div>
+<% end %>

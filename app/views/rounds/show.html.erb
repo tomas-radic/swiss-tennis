@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col">
+    <h1 class="float-left"><%= @round.full_label %></h1>
+    <div class="float-right">
+      <%= link_to 'Upraviť', edit_round_path(@round), class: 'btn btn-success my-1' %>
+      <%= link_to 'Naspäť', rounds_path, class: 'btn btn-outline-success my-1' %>
+    </div>
+  </div>
+</div>
+<div class="table-responsive my-1">
+  <table class="table table-sm narrow">
+    <tbody>
+      <tr>
+        <td><strong>Označenie</strong></td>
+        <td><%= @round.label %></td>
+      </tr>
+      <tr>
+        <td><strong>Začiatok</strong></td>
+        <td><%= @round.period_begins&.to_formatted_s(:short) %></td>
+      </tr>
+      <tr>
+        <td><strong>Koniec</strong></td>
+        <td><%= @round.period_ends&.to_formatted_s(:short) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+<p class="lead">Zápasy v tomto kole</p>
+<%= render 'matches/list_admin',
+    published_matches: @round.matches.published.includes(:player1, :player2),
+    draft_matches: @round.matches.draft.includes(:player1, :player2) %>
+
+<hr>
+<% if @players_without_match.any? %>
+  <p class="lead">Hráči bez zápasu (<%= @players_without_match.count %>)</p>
+  <p><%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %></p>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Meno</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @players_without_match.each do |player| %>
+          <tr>
+            <td><%= player.name %></td>
+            <td>
+              <%= link_to 'Detail', player_path(player), class: 'btn btn-sm btn-success' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Všetci hráči sú v tomto kole priradení na zápas.</p>
+    </div>
+  </div>
+<% end %>

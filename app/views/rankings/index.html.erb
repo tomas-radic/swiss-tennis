@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col">
+    <p class="lead float-left"><%= ["Poradie hráčov", @round&.full_label].compact.join(' | ') %></p>
+    <% if @season && @round %>
+      <div class="form-group float-right">
+        <%= select_tag :round_id, options_from_collection_for_select(@season.rounds.default, "id", "full_label", @round.id), class: 'form-control reloading-page', data: { url: request.path, param_name: 'round' } %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @rankings.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th></th>
+          <th scope="col">Meno</th>
+          <th scope="col">Body</th>
+          <th scope="col">Body súperov</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @rankings.each_with_index do |ranking, i| %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= ranking.player.name %></td>
+            <td><%= ranking.points %></td>
+            <td><%= ranking.handicap %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Žiadne údaje.</p>
+    </div>
+  </div>
+<% end %>

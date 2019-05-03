@@ -43,6 +43,10 @@ gem 'mini_racer'
 gem 'attr_extras'
 gem 'rails-patterns'
 gem 'pundit'
+gem 'acts_as_list'
+gem 'time_for_a_boolean'
+gem "select2-rails"
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
