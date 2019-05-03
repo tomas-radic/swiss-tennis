@@ -36,12 +36,12 @@
 <hr>
 <p class="lead text-center">
   <%= @match.player1.name %>
-  <i><%= link_to "(#{@match.player1.phone})", "tel:#{@match.player1.phone}" %></i>
+  <i>(tel.č. <%= link_to "#{@match.player1.phone}", "tel:#{@match.player1.phone}" %>)</i>
   <b>zabezpečuje <i>kurt</i></b>.
 </p>
 <p class="lead text-center">
   <%= @match.player2.name %>
-  <i><%= link_to "(#{@match.player2.phone})", "tel:#{@match.player2.phone}" %></i>
+  <i>(tel.č. <%= link_to "#{@match.player2.phone}", "tel:#{@match.player2.phone}" %>)</i>
   <b>zabezpečuje <i>lopty</i></b>.
 </p>
 <hr>
