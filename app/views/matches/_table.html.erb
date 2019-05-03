@@ -3,8 +3,8 @@
     <table class="table table-sm">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Hráč 1 - kurt</th>
-          <th scope="col">Hráč 2 - lopty</th>
+          <th class="phone-nr-width" scope="col">Hráč 1 - kurt</th>
+          <th class="phone-nr-width" scope="col">Hráč 2 - lopty</th>
           <th scope="col">Poznámka</th>
           <th scope="col">Výsledok</th>
           <th></th>
@@ -17,13 +17,13 @@
             <td>
               <%= match.player1.name %><br>
               <small>
-                <i>(tel.č. <%= link_to "#{match.player1.phone}", "tel:#{match.player1.phone}" %>)</i>
+                <i><%= link_to "#{match.player1.phone}", "tel:#{match.player1.phone}" %></i>
               </small>
             </td>
             <td>
               <%= match.player2.name %><br>
               <small>
-                <i>(tel.č. <%= link_to "#{match.player2.phone}", "tel:#{match.player2.phone}" %>)</i>
+                <i><%= link_to "#{match.player2.phone}", "tel:#{match.player2.phone}" %></i>
               </small>
             </td>
             <td><%= match.note %></td>

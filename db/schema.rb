@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_175320) do
     t.string "label"
     t.date "period_begins"
     t.date "period_ends"
-    t.boolean "closed"
+    t.boolean "closed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["season_id"], name: "index_rounds_on_season_id"

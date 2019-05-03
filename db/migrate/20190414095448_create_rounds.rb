@@ -6,7 +6,7 @@ class CreateRounds < ActiveRecord::Migration[5.2]
       t.string :label
       t.date :period_begins
       t.date :period_ends
-      t.boolean :closed
+      t.boolean :closed, null: false, default: false
 
       t.timestamps
     end
