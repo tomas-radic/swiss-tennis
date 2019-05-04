@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     <p class="lead float-left">
-      Zoznam zápasov |
+      Zoznam zápasov (<%= @matches_count %>) |
       <%= round_element(@round, current_user) %>
     </p>
     <% if @season && @round %>
@@ -11,6 +11,8 @@
     <% end %>
   </div>
 </div>
+
+<%= round_range_info(@round) if @round.present? %>
 
 <% if @season && @round && policy(Match).create? %>
   <div class="row">
