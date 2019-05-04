@@ -5,11 +5,17 @@ class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy, :finish]
 
   def index
+    @matches_count = 0
+
     if @round.present?
       @published_matches = PublishedMatchesQuery.call(round: @round).includes(:winner)
+      @matches_count += @published_matches.size
 
       if user_signed_in?
         @draft_matches = DraftMatchesQuery.call(round: @round)
+        @matches_count += @draft_matches.size
+      else
+        @draft_matches = Match.none
       end
     else
       @published_matches = Match.none

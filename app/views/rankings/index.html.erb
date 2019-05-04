@@ -9,6 +9,8 @@
   </div>
 </div>
 
+<%= round_range_info(@round) if @round.present? %>
+
 <% if @rankings.any? %>
   <div class="table-responsive my-1">
     <table class="table table-sm">
