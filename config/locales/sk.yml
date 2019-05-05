@@ -1,0 +1,23 @@
+sk:
+  date:
+    formats:
+      date_month: '%-d. %b'
+      date_month_year: '%-d. %b %Y'
+    abbr_month_names:
+      -
+      - jan
+      - feb
+      - mar
+      - apr
+      - máj
+      - jún
+      - júl
+      - aug
+      - sep
+      - okt
+      - nov
+      - dec
+  time:
+    formats:
+      date_month: '%-d. %b'
+      date_month_year: '%-d. %b %Y'

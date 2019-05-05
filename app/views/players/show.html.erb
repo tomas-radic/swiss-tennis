@@ -30,6 +30,6 @@
 </div>
 <div class="row">
   <div class="col">
-    <p>Registrácia <%= @player.created_at.to_formatted_s(:short) %></p>
+    <p>Registrácia <%= I18n.localize(@player.created_at, format: :date_month_year) %></p>
   </div>
 </div>

@@ -11,5 +11,15 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe RoundsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'round_range_info' do
+    subject(:method) { round_range_info(round) }
+
+    context 'When there are no dates specified' do
+      let!(:round) { create(:round, period_begins: nil, period_ends: nil) }
+
+      it 'Does not raise an error' do
+        expect { method }.not_to raise_error
+      end
+    end
+  end
 end
