@@ -17,5 +17,6 @@ module SwissTennis
     # the framework and any gems in your application.
 
     config.i18n.default_locale = :sk
+    config.time_zone = 'Bratislava'
   end
 end

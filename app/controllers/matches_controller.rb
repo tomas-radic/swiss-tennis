@@ -9,6 +9,7 @@ class MatchesController < ApplicationController
 
     if @round.present?
       @published_matches = PublishedMatchesQuery.call(round: @round).includes(:winner)
+      @last_update_time = @published_matches.pluck(:updated_at).max&.in_time_zone
       @matches_count += @published_matches.size
 
       if user_signed_in?

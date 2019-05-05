@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col">
-    <p class="lead float-left"><%= ["Poradie hráčov", @round&.full_label].compact.join(' | ') %></p>
+    <p class="lead float-left">
+      <%= ["Poradie hráčov", @round&.full_label].compact.join(' | ') %>
+    </p>
     <% if @season && @round %>
       <div class="form-group float-right">
         <%= select_tag :round_id, options_from_collection_for_select(@season.rounds.default, "id", "full_label", @round.id), class: 'form-control reloading-page', data: { url: request.path, param_name: 'round' } %>
@@ -12,6 +14,9 @@
 <%= round_range_info(@round) if @round.present? %>
 
 <% if @rankings.any? %>
+  <% if @last_update_time.present? %>
+    <i><small>(aktualizácia: <%= I18n.localize(@last_update_time, format: :date_with_time) %>)</small></i>
+  <% end %>
   <div class="table-responsive my-1">
     <table class="table table-sm">
       <thead class="thead-dark">
