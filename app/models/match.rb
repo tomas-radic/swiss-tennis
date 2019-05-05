@@ -17,7 +17,7 @@ class Match < ApplicationRecord
             :winner,
             presence: true, if: :finished?
 
-  scope :default, -> { order('matches.finished_at desc nulls last, matches.play_date desc nulls last, matches.created_at desc') }
+  scope :default, -> { order('matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.note nulls last, matches.updated_at desc') }
   scope :manual, -> { where(from_toss: false) }
   scope :toss, -> { where(from_toss: true) }
   scope :published, -> { default.where(published: true) }
