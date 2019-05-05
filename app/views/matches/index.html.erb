@@ -14,13 +14,26 @@
 
 <%= round_range_info(@round) if @round.present? %>
 
-<% if @season && @round && policy(Match).create? %>
-  <div class="row">
-    <div class="col">
-      <p><%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %></p>
-    </div>
+<p class="text-center">
+  <% if @season && @round && policy(Match).create? %>
+    <%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success' %>
+  <% end %>
+
+  <button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target="#match-instructions" aria-expanded="false" aria-controls="match-instructions">
+    Inštrukcie k zápasom
+  </button>
+</p>
+<div class="collapse" id="match-instructions">
+  <div class="card card-body text-justify">
+    <small>
+      Termín a miesto zápasu je najlepšie dohodnúť čím skôr po vyžrebovaní každého hracieho kola.
+      <b>Po dohodnutí zápasu môžu hráči informovať organizátora o mieste a čase dohodnutého zápasu, aby boli tieto informácie verejné pre ostatných (SMS na č. <%= link_to ' 0911-503-355', 'tel:0911503355' %>).</b>
+      Oficiálnymi loptami súťaže sú DUNLOP FORT, WILSON AO, HEAD ATP. Iné lopty možno použiť len so súhlasom súpera.
+      <p class="text-center"><button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target="#match-instructions" aria-expanded="false" aria-controls="match-instructions">Ok</button></p>
+      <p class="text-center"><%= link_to 'viac info', pages_about_path, class: 'text-center' %></p>
+    </small>
   </div>
-<% end %>
+</div>
 
 <% if user_signed_in? %>
   <%= render 'list_admin', published_matches: @published_matches, draft_matches: @draft_matches %>

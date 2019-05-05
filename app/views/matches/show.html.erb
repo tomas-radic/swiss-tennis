@@ -45,7 +45,13 @@
   <b>zabezpečuje <i>lopty</i></b>.
 </p>
 <hr>
-<p class="lead text-center"><%= @match.play_date&.to_formatted_s(:short) || content_tag(:i) { 'žiadny dátum' } %></p>
+<p class="lead text-center">
+  <% if @match.play_date.present? %>
+    <%= I18n.localize(@match.play_date, format: :date_month) %>
+  <% else %>
+    žiadny dátum
+  <% end %>
+</p>
 <p class="lead text-center"><%= @match.note.presence || content_tag(:i) { 'žiadna poznámka' } %></p>
 
 <% if user_signed_in? %>

@@ -16,11 +16,19 @@
       </tr>
       <tr>
         <td><strong>Začiatok</strong></td>
-        <td><%= @round.period_begins&.to_formatted_s(:short) %></td>
+        <td>
+          <% if @round.period_begins.present? %>
+            <%= I18n.localize(@round.period_begins, format: :date_month) %>
+          <% end %>
+        </td>
       </tr>
       <tr>
         <td><strong>Koniec</strong></td>
-        <td><%= @round.period_ends&.to_formatted_s(:short) %></td>
+        <td>
+          <% if @round.period_ends.present? %>
+            <%= I18n.localize(@round.period_ends, format: :date_month) %>
+          <% end %>
+        </td>
       </tr>
     </tbody>
   </table>
