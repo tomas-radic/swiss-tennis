@@ -4,6 +4,7 @@ class RankingsController < ApplicationController
 
   def index
     @rankings = RankingQuery.call(round: @round)
+    @last_update_time = @rankings.pluck(:updated_at).max&.in_time_zone
   end
 
   private

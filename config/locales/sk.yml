@@ -21,3 +21,4 @@ sk:
     formats:
       date_month: '%-d. %b'
       date_month_year: '%-d. %b %Y'
+      date_with_time: '%-d. %b %Y, %k:%M'
