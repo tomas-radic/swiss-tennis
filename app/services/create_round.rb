@@ -18,14 +18,18 @@ class CreateRound < Patterns::Service
           player: player,
           points: last_ranking.points,
           handicap: last_ranking.handicap,
-          games_difference: last_ranking.games_difference
+          sets_difference: last_ranking.sets_difference,
+          games_difference: last_ranking.games_difference,
+          relevant: last_ranking.relevant
         )
       else
         new_round.rankings.new(
           player: player,
           points: 0,
           handicap: 0,
-          games_difference: 0
+          sets_difference: 0,
+          games_difference: 0,
+          relevant: false
         )
       end
     end

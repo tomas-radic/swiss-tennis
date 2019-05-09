@@ -27,7 +27,9 @@ class CreatePlayer < Patterns::Service
         player: player,
         points: 0,
         handicap: 0,
-        games_difference: 0
+        sets_difference: 0,
+        games_difference: 0,
+        relevant: false
       )
     ]
   end

@@ -11,10 +11,10 @@ describe FinishMatch do
 
   let!(:match) { create(:match, :draft, round: round2, player1: player1, player2: player2) }
 
-  let!(:ranking11) { create(:ranking, round: round1, player: player1, points: 0, handicap: 0, games_difference: 4) }
-  let!(:ranking12) { create(:ranking, round: round1, player: player2, points: 1, handicap: 0, games_difference: 2) }
-  let!(:ranking21) { create(:ranking, round: round2, player: player1, points: 0, handicap: 0, games_difference: 4) }
-  let!(:ranking22) { create(:ranking, round: round2, player: player2, points: 1, handicap: 0, games_difference: 2) }
+  let!(:ranking11) { create(:ranking, round: round1, player: player1, points: 0, handicap: 0, sets_difference: 1, games_difference: 4) }
+  let!(:ranking12) { create(:ranking, round: round1, player: player2, points: 1, handicap: 0, sets_difference: -1, games_difference: 2) }
+  let!(:ranking21) { create(:ranking, round: round2, player: player1, points: 0, handicap: 0, sets_difference: 3, games_difference: 4) }
+  let!(:ranking22) { create(:ranking, round: round2, player: player2, points: 1, handicap: 0, sets_difference: -2, games_difference: 2) }
   # NOTE: before finishing match in round 2, rankings are copies of previous rankings from round 1
 
   describe 'Finishing unfinished match' do
@@ -50,15 +50,19 @@ describe FinishMatch do
       it 'Updates rankings of current round for both players' do
         finish_match
 
-        expect(ranking21.reload).to have_attributes(points: 1, handicap: 1, games_difference: 7)
-        expect(ranking22.reload).to have_attributes(points: 1, handicap: 0, games_difference: -1)
+        expect(ranking21.reload).to have_attributes(
+            points: 1, handicap: 1, sets_difference: 4, games_difference: 7, relevant: true)
+        expect(ranking22.reload).to have_attributes(
+            points: 1, handicap: 0, sets_difference: -3, games_difference: -1, relevant: true)
       end
 
       it 'Does not update rankings of previous round' do
         finish_match
 
-        expect(ranking11.reload).to have_attributes(points: 0, handicap: 0, games_difference: 4)
-        expect(ranking12.reload).to have_attributes(points: 1, handicap: 0, games_difference: 2)
+        expect(ranking11.reload).to have_attributes(
+            points: 0, handicap: 0, sets_difference: 1, games_difference: 4, relevant: false)
+        expect(ranking12.reload).to have_attributes(
+            points: 1, handicap: 0, sets_difference: -1, games_difference: 2, relevant: false)
       end
 
       it 'Sets match finished and published' do
@@ -89,15 +93,19 @@ describe FinishMatch do
         it 'Updates rankings of current round for both players' do
           finish_match
 
-          expect(ranking21.reload).to have_attributes(points: 0, handicap: 1, games_difference: -5)
-          expect(ranking22.reload).to have_attributes(points: 2, handicap: 0, games_difference: 11)
+          expect(ranking21.reload).to have_attributes(
+              points: 0, handicap: 1, sets_difference: 1, games_difference: -5, relevant: true)
+          expect(ranking22.reload).to have_attributes(
+              points: 2, handicap: 0, sets_difference: 0, games_difference: 11, relevant: true)
         end
 
         it 'Does not update rankings of previous round' do
           finish_match
 
-          expect(ranking11.reload).to have_attributes(points: 0, handicap: 0, games_difference: 4)
-          expect(ranking12.reload).to have_attributes(points: 1, handicap: 0, games_difference: 2)
+          expect(ranking11.reload).to have_attributes(
+              points: 0, handicap: 0, sets_difference: 1, games_difference: 4, relevant: false)
+          expect(ranking12.reload).to have_attributes(
+              points: 1, handicap: 0, sets_difference: -1, games_difference: 2, relevant: false)
         end
 
         it 'Sets score for the match' do
@@ -148,10 +156,14 @@ describe FinishMatch do
         it 'Does not update rankings of players' do
           finish_match
 
-          expect(ranking11.reload).to have_attributes(points: 0, handicap: 0, games_difference: 4)
-          expect(ranking12.reload).to have_attributes(points: 1, handicap: 0, games_difference: 2)
-          expect(ranking21.reload).to have_attributes(points: 0, handicap: 0, games_difference: 4)
-          expect(ranking22.reload).to have_attributes(points: 1, handicap: 0, games_difference: 2)
+          expect(ranking11.reload).to have_attributes(
+            points: 0, handicap: 0, sets_difference: 1, games_difference: 4, relevant: false)
+          expect(ranking12.reload).to have_attributes(
+            points: 1, handicap: 0, sets_difference: -1, games_difference: 2, relevant: false)
+          expect(ranking21.reload).to have_attributes(
+            points: 0, handicap: 0, sets_difference: 3, games_difference: 4, relevant: false)
+          expect(ranking22.reload).to have_attributes(
+            points: 1, handicap: 0, sets_difference: -2, games_difference: 2, relevant: false)
         end
 
         it 'Does not set match finished nor published' do
@@ -193,15 +205,19 @@ describe FinishMatch do
         it 'Updates rankings of current round for both players' do
           finish_match
 
-          expect(ranking21.reload).to have_attributes(points: 0, handicap: 1, games_difference: 3)
-          expect(ranking22.reload).to have_attributes(points: 2, handicap: 0, games_difference: 3)
+          expect(ranking21.reload).to have_attributes(
+              points: 0, handicap: 1, sets_difference: 2, games_difference: 3, relevant: true)
+          expect(ranking22.reload).to have_attributes(
+              points: 2, handicap: 0, sets_difference: -1, games_difference: 3, relevant: true)
         end
 
         it 'Does not update rankings of previous round' do
           finish_match
 
-          expect(ranking11.reload).to have_attributes(points: 0, handicap: 0, games_difference: 4)
-          expect(ranking12.reload).to have_attributes(points: 1, handicap: 0, games_difference: 2)
+          expect(ranking11.reload).to have_attributes(
+              points: 0, handicap: 0, sets_difference: 1, games_difference: 4, relevant: false)
+          expect(ranking12.reload).to have_attributes(
+              points: 1, handicap: 0, sets_difference: -1, games_difference: 2, relevant: false)
         end
 
         it 'Sets match finished and published' do
@@ -239,10 +255,14 @@ describe FinishMatch do
         it 'Does not update rankings of players' do
           finish_match
 
-          expect(ranking11.reload).to have_attributes(points: 0, handicap: 0, games_difference: 4)
-          expect(ranking12.reload).to have_attributes(points: 1, handicap: 0, games_difference: 2)
-          expect(ranking21.reload).to have_attributes(points: 0, handicap: 0, games_difference: 4)
-          expect(ranking22.reload).to have_attributes(points: 1, handicap: 0, games_difference: 2)
+          expect(ranking11.reload).to have_attributes(
+              points: 0, handicap: 0, sets_difference: 1, games_difference: 4, relevant: false)
+          expect(ranking12.reload).to have_attributes(
+              points: 1, handicap: 0, sets_difference: -1, games_difference: 2, relevant: false)
+          expect(ranking21.reload).to have_attributes(
+              points: 0, handicap: 0, sets_difference: 3, games_difference: 4, relevant: false)
+          expect(ranking22.reload).to have_attributes(
+              points: 1, handicap: 0, sets_difference: -2, games_difference: 2, relevant: false)
         end
 
         it 'Does not set match finished nor published' do

@@ -27,7 +27,9 @@ def sample_round_ranking_attributes_for(player, round_index)
     player: player,
     points: rand(0..(round_index + 1)),
     handicap: rand(0..round_index),
-    games_difference: rand(-15..20)
+    sets_difference: rand(-5..7),
+    games_difference: rand(-15..20),
+    relevant: true
   }
 end
 

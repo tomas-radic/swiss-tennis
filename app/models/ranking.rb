@@ -5,6 +5,7 @@ class Ranking < ApplicationRecord
   validates :player, uniqueness: { scope: :round }
   validates :points,
             :handicap,
+            :sets_difference,
             :games_difference,
             presence: true
 
