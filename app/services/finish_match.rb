@@ -6,6 +6,7 @@ class FinishMatch < Patterns::Service
       normalize_scores
 
       begin
+        evaluate_played_sets
         set_match_winner
         set_match_score
         mark_match_finished
@@ -24,6 +25,7 @@ class FinishMatch < Patterns::Service
 
   attr_reader :player1_current_points, :player2_current_points
   attr_reader :set1_player1, :set1_player2, :set2_player1, :set2_player2, :set3_player1, :set3_player2
+  attr_reader :player1_sets_won, :player2_sets_won
 
   class Set
     pattr_initialize :player1_score, :player2_score
@@ -44,29 +46,31 @@ class FinishMatch < Patterns::Service
     end
   end
 
-  def set_match_winner
+  def evaluate_played_sets
     sets = [
       Set.new(set1_player1, set1_player2),
       Set.new(set2_player1, set2_player2),
       Set.new(set3_player1, set3_player2)
     ]
 
-    player1 = 0
-    player2 = 0
+    @player1_sets_won = 0
+    @player2_sets_won = 0
 
     sets.each do |set|
       games_difference = set.games_difference
 
       if games_difference > 0
-        player1 += 1
+        @player1_sets_won += 1
       elsif games_difference < 0
-        player2 += 1
+        @player2_sets_won += 1
       end
     end
+  end
 
-    if player1 > player2
+  def set_match_winner
+    if player1_sets_won > player2_sets_won
       match.winner = match.player1
-    elsif player1 < player2
+    elsif player1_sets_won < player2_sets_won
       match.winner = match.player2
     else
       raise ScoreInvalidError
@@ -105,15 +109,19 @@ class FinishMatch < Patterns::Service
 
   def update_player1_ranking!
     player1_ranking.handicap += player2_current_points
+    player1_ranking.sets_difference += (player1_sets_won - player2_sets_won)
     player1_ranking.games_difference += (player1_games_won - player2_games_won)
     player1_ranking.points += 1 if player1_won?
+    player1_ranking.relevant = true
     player1_ranking.save!
   end
 
   def update_player2_ranking!
     player2_ranking.handicap += player1_current_points
+    player2_ranking.sets_difference += (player2_sets_won - player1_sets_won)
     player2_ranking.games_difference += (player2_games_won - player1_games_won)
     player2_ranking.points += 1 if player2_won?
+    player2_ranking.relevant = true
     player2_ranking.save!
   end
 

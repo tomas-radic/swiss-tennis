@@ -5,6 +5,12 @@ FactoryBot.define do
 
     points { 1 }
     handicap { 1 }
+    sets_difference { 1 }
     games_difference { 1 }
+    relevant { false }
+
+    trait :relevant do
+      relevant { true }
+    end
   end
 end
