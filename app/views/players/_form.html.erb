@@ -39,7 +39,7 @@
     <div class="col-lg-6">
       <div class="form-group">
         <%= form.label :category_id, 'Kategória' %><br />
-        <%= form.collection_select :category_id, Category.default, :id, :name, {}, { class: add_error_class_to('form-control', @player, :category_id) } %>
+        <%= form.collection_select :category_id, Category.default, :id, :name, {}, { class: add_error_class_to('form-control', @player, :category) } %>
       </div>
     </div>
   </div>
