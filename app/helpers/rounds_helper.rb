@@ -9,27 +9,36 @@ module RoundsHelper
     end
   end
 
-  def round_range_info(round)
-    return nil if round.period_begins.nil? && round.period_ends.nil?
+  def round_progress_info(round)
+    return nil if round.nil?
 
-    text = "Kolo #{round.position} sa hrá"
-    text += " od #{I18n.localize(round.period_begins, format: :date_month)}" if round.period_begins.present?
-    text += " do #{I18n.localize(round.period_ends, format: :date_month)}" if round.period_ends.present?
-    text += '.'
+    published_matches_count = round.matches.published.size
+    finished_matches_count = round.matches.finished.size
+    highlight = (published_matches_count - finished_matches_count > 0) && last_days?(round)
+    text = "#{finished_matches_count} z #{published_matches_count} zápasov odohraných."
+    result_html = "<div class='progress' style='height: 4px;'>
+                    <div class='progress-bar #{highlight ? 'bg-danger' : 'bg-success'}' role='progressbar' style='width: #{(finished_matches_count / published_matches_count.to_f) * 100}%;' aria-valuenow='#{finished_matches_count}' aria-valuemin='0' aria-valuemax='#{published_matches_count}'></div>
+                  </div>
+                  <p>
+                    <small><i>#{text}"
 
-    result_html = "<p><i><small>#{text}"
-    if pending_matches?(round) && last_days?(round)
-      result_html += " <b><span class=\"text-danger\">Prosíme hráčov aby odohrali a nahlásili výsledok svojho zápasu do termínu #{I18n.localize(round.period_ends, format: :date_month)}.</span></b>"
+    if round.period_begins.present? || round.period_ends.present?
+      text = " Kolo #{round.position} sa hrá"
+      text += " od #{I18n.localize(round.period_begins, format: :date_month)}" if round.period_begins.present?
+      text += " do #{I18n.localize(round.period_ends, format: :date_month)}" if round.period_ends.present?
+      text += '.'
+      result_html += "#{text}"
+
+      if highlight
+        result_html += " <b><span class=\"text-danger\">Prosíme hráčov aby odohrali a nahlásili výsledok svojho zápasu do termínu #{I18n.localize(round.period_ends, format: :date_month)}.</span></b>"
+      end
     end
-    result_html += "</small></i></p>"
+
+    result_html += "</i></small></p>"
     result_html.html_safe
   end
 
   private
-
-  def pending_matches?(round)
-    round.matches.published.pending.any?
-  end
 
   def last_days?(round)
     return false unless round.period_ends.present?
