@@ -80,6 +80,17 @@ p.lead .bagge-pill-wider {
 .field_with_errors { display: inline; }
 
 //
+// Colors
+
+.bg-green {
+  background-color: #b9f1b636; // grey #abc1aa36
+}
+
+.bg-yellow {
+  background-color: #dff15236;
+}
+
+//
 // Media queries
 
 @media only screen and (min-width: 768px) {
