@@ -15,7 +15,11 @@
 
 <% if @rankings.any? %>
   <% if @last_update_time.present? %>
-    <i><small>(aktualizácia: <%= I18n.localize(@last_update_time, format: :date_with_time) %>)</small></i>
+    <i>
+      <small>
+        (aktualizácia: <%= I18n.localize(@last_update_time, format: :date_with_time) %>)
+      </small>
+    </i>
   <% end %>
   <div class="table-responsive my-1">
     <table class="table table-sm">
@@ -29,16 +33,12 @@
       </thead>
       <tbody>
         <% @rankings.each_with_index do |ranking, i| %>
-          <tr>
-            <td><%= i + 1 %></td>
-            <td><%= ranking.player.name %></td>
-            <td><%= ranking.points %></td>
-            <td><%= ranking.handicap %></td>
-          </tr>
+          <%= ranking_table_row(ranking, i + 1) %>
         <% end %>
       </tbody>
     </table>
   </div>
+  <p class="text-center"><i><small><span class="bg-green px-2 py-1">zápas v kole odohratý</span></small></i></p>
 <% else %>
   <div class="row">
     <div class="col">
