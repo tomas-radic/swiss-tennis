@@ -57,7 +57,7 @@
 <% if user_signed_in? %>
   <hr>
   <p class="lead text-center">
-    <%= published_pill(@match) unless @match.finished? %>
+    <%= published_pill(@match) %>
   </p>
   <% if @match.from_toss? %>
     <p class="lead text-center"><small><i>Zápas vznikol automatickým žrebovaním.</i></small></p>
