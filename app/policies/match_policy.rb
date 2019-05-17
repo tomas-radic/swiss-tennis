@@ -22,7 +22,7 @@ class MatchPolicy < ApplicationPolicy
   end
 
   def update?
-    user.present? && match_not_finished?
+    user.present?
   end
 
   def destroy?
