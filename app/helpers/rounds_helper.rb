@@ -28,10 +28,7 @@ module RoundsHelper
       text += " do #{I18n.localize(round.period_ends, format: :date_month)}" if round.period_ends.present?
       text += '.'
       result_html += "#{text}"
-
-      if highlight
-        result_html += " <b><span class=\"text-danger\">Prosíme hráčov aby odohrali a nahlásili výsledok svojho zápasu do termínu #{I18n.localize(round.period_ends, format: :date_month)}.</span></b>"
-      end
+      result_html += " <b><span class=\"#{highlight ? 'text-danger' : 'text-success'}\">Prosíme hráčov aby odohrali a nahlásili výsledok svojho zápasu do termínu #{I18n.localize(round.period_ends, format: :date_month)} 20:00.</span></b>"
     end
 
     result_html += "</i></small></p>"
