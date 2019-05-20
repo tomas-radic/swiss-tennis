@@ -3,7 +3,7 @@ class RankingsController < ApplicationController
   before_action :load_round, only: [:index]
 
   def index
-    @rankings = RankingQuery.call(round: @round)
+    @rankings = RankingsQuery.call(round: @round)
     @last_update_time = @rankings.pluck(:updated_at).max&.in_time_zone
   end
 

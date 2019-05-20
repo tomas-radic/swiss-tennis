@@ -10,9 +10,10 @@ require 'rails_helper'
 #     end
 #   end
 # end
+
 RSpec.describe RoundsHelper, type: :helper do
-  describe 'round_range_info' do
-    subject(:method) { round_range_info(round) }
+  describe 'round_progress_info' do
+    subject(:method) { round_progress_info(round) }
 
     context 'When there are no dates specified' do
       let!(:round) { create(:round, period_begins: nil, period_ends: nil) }

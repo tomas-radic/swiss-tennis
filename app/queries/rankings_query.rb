@@ -1,4 +1,4 @@
-class RankingQuery < Patterns::Query
+class RankingsQuery < Patterns::Query
   queries Ranking
 
   private
