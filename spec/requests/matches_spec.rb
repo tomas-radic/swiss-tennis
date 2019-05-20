@@ -152,22 +152,12 @@ RSpec.describe "Matches", type: :request do
         login(user, 'nbusr123')
       end
 
-      context 'With unfinished match' do
-        let!(:match) { create(:match) }
+      let!(:match) { create(:match) }
 
-        it "returns a success response" do
-          get_match_edit
-          expect(response).to render_template(:edit)
-          expect(response).to have_http_status(200)
-        end
-      end
-
-      context 'With finished match' do
-        let(:match) { create(:match, :finished) }
-
-        it 'Raises error' do
-          expect { get_match_edit }.to raise_error Pundit::NotAuthorizedError
-        end
+      it "returns a success response" do
+        get_match_edit
+        expect(response).to render_template(:edit)
+        expect(response).to have_http_status(200)
       end
     end
 
@@ -203,34 +193,24 @@ RSpec.describe "Matches", type: :request do
         login(user, 'nbusr123')
       end
 
-      context 'With unfinished match' do
-        let!(:match) { create(:match) }
+      let!(:match) { create(:match) }
 
-        it "Updates only allowed attributes" do
-          put_matches
-          match.reload
+      it "Updates only allowed attributes" do
+        put_matches
+        match.reload
 
-          expect(match.play_date).to eq(Date.tomorrow)
-          expect(match.note).to eq('Any note')
-          expect(match.published).to be false
-          expect(match.player1).not_to eq(player1)
-          expect(match.player2).not_to eq(player2)
-          expect(match.from_toss?).not_to be true
-          expect(match.round).not_to eq(round)
-        end
-
-        it "Redirects to the match" do
-          put_matches
-          expect(response).to redirect_to match_path(match)
-        end
+        expect(match.play_date).to eq(Date.tomorrow)
+        expect(match.note).to eq('Any note')
+        expect(match.published).to be false
+        expect(match.player1).not_to eq(player1)
+        expect(match.player2).not_to eq(player2)
+        expect(match.from_toss?).not_to be true
+        expect(match.round).not_to eq(round)
       end
 
-      context "With finished match" do
-        let!(:match) { create(:match, :finished) }
-
-        it "Raises error" do
-          expect { put_matches }.to raise_error Pundit::NotAuthorizedError
-        end
+      it "Redirects to the match" do
+        put_matches
+        expect(response).to redirect_to match_path(match)
       end
     end
 

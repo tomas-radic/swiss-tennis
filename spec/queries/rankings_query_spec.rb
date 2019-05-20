@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe RankingQuery do
-  subject(:ranking_query) { RankingQuery.call(round: round) }
+describe RankingsQuery do
+  subject(:rankings_query) { RankingsQuery.call(round: round) }
 
 =begin    TESTING SCHEMA
       r p h s g c  (r: relevant, p: points, h: handicap, s: sets_difference, g: games_difference, c: created_at)
@@ -60,7 +60,7 @@ describe RankingQuery do
     let(:round) { round5 }
 
     it 'Orders results correctly' do
-      result = ranking_query
+      result = rankings_query
 
       expect(result[0].player).to eq player1
       expect(result[1].player).to eq player2
@@ -72,7 +72,7 @@ describe RankingQuery do
     let(:round) { round4 }
 
     it 'Orders results correctly' do
-      result = ranking_query
+      result = rankings_query
 
       expect(result[0].player).to eq player2
       expect(result[1].player).to eq player1
@@ -84,7 +84,7 @@ describe RankingQuery do
     let(:round) { round3 }
 
     it 'Orders results correctly' do
-      result = ranking_query
+      result = rankings_query
 
       expect(result[0].player).to eq player1
       expect(result[1].player).to eq player2
@@ -96,7 +96,7 @@ describe RankingQuery do
     let(:round) { round2 }
 
     it 'Orders results correctly' do
-      result = ranking_query
+      result = rankings_query
 
       expect(result[0].player).to eq player2
       expect(result[1].player).to eq player3
@@ -108,7 +108,7 @@ describe RankingQuery do
     let(:round) { round1 }
 
     it 'Orders results correctly' do
-      result = ranking_query
+      result = rankings_query
 
       expect(result[0].player).to eq player3
       expect(result[1].player).to eq player2
@@ -120,7 +120,7 @@ describe RankingQuery do
     let(:round) { nil }
 
     it 'Returns empty resultset' do
-      expect(ranking_query).to be_empty
+      expect(rankings_query).to be_empty
     end
   end
 end

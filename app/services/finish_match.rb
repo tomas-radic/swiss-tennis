@@ -100,29 +100,41 @@ class FinishMatch < Patterns::Service
   end
 
   def update_rankings!
-    raise RankingMissingError if player1_ranking.nil? || player2_ranking.nil?
-    @player1_current_points = player1_ranking.points
-    @player2_current_points = player2_ranking.points
-    update_player1_ranking!
-    update_player2_ranking!
+    raise RankingMissingError if player1_rankings.empty?
+    raise RankingMissingError if player2_rankings.empty?
+
+    @player1_current_points ||= match.round.rankings.find_by(player: match.player1).points
+    @player2_current_points ||= match.round.rankings.find_by(player: match.player2).points
+    update_player1_rankings!
+    update_player2_rankings!
   end
 
-  def update_player1_ranking!
-    player1_ranking.handicap += player2_current_points
-    player1_ranking.sets_difference += (player1_sets_won - player2_sets_won)
-    player1_ranking.games_difference += (player1_games_won - player2_games_won)
-    player1_ranking.points += 1 if player1_won?
-    player1_ranking.relevant = true
-    player1_ranking.save!
+  def update_player1_rankings!
+    sets_difference_delta = player1_sets_won - player2_sets_won
+    games_difference_delta = player1_games_won - player2_games_won
+
+    player1_rankings.each do |ranking|
+      ranking.handicap += player2_current_points
+      ranking.sets_difference += sets_difference_delta
+      ranking.games_difference += games_difference_delta
+      ranking.points += 1 if player1_won?
+      ranking.relevant = true
+      ranking.save!
+    end
   end
 
-  def update_player2_ranking!
-    player2_ranking.handicap += player1_current_points
-    player2_ranking.sets_difference += (player2_sets_won - player1_sets_won)
-    player2_ranking.games_difference += (player2_games_won - player1_games_won)
-    player2_ranking.points += 1 if player2_won?
-    player2_ranking.relevant = true
-    player2_ranking.save!
+  def update_player2_rankings!
+    sets_difference_delta = player2_sets_won - player1_sets_won
+    games_difference_delta = player2_games_won - player1_games_won
+
+    player2_rankings.each do |ranking|
+      ranking.handicap += player1_current_points
+      ranking.sets_difference += sets_difference_delta
+      ranking.games_difference += games_difference_delta
+      ranking.points += 1 if player2_won?
+      ranking.relevant = true
+      ranking.save!
+    end
   end
 
   def player1_won?
@@ -141,12 +153,12 @@ class FinishMatch < Patterns::Service
     @player2_games_won ||= set1_player2 + set2_player2 + set3_player2
   end
 
-  def player1_ranking
-    @player1_ranking ||= match.round.rankings.find_by(player: match.player1)
+  def player1_rankings
+    @player1_rankings ||= PlayerRankingsSinceRoundQuery.call(player: match.player1, round: match.round)
   end
 
-  def player2_ranking
-    @player2_ranking ||= match.round.rankings.find_by(player: match.player2)
+  def player2_rankings
+    @player2_rankings ||= PlayerRankingsSinceRoundQuery.call(player: match.player2, round: match.round)
   end
 
   def normalize_scores
@@ -162,5 +174,8 @@ class FinishMatch < Patterns::Service
   end
 
   class RankingMissingError < StandardError
+  end
+
+  class MatchFinishedError < StandardError
   end
 end
