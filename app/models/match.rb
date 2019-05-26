@@ -4,6 +4,7 @@ class Match < ApplicationRecord
   belongs_to :player1, class_name: 'Player', foreign_key: :player1_id
   belongs_to :player2, class_name: 'Player', foreign_key: :player2_id
   belongs_to :winner, class_name: 'Player', foreign_key: :winner_id, optional: true
+  belongs_to :retired_player, class_name: 'Player', foreign_key: :retired_player_id, optional: true
   belongs_to :round
 
   # validates :players, length: { is: 2 }
@@ -12,10 +13,7 @@ class Match < ApplicationRecord
   validate :winner_is_player
   validate :finished_when_published
   validate :players_available
-  validates :set1_player1_score,
-            :set1_player2_score,
-            :winner,
-            presence: true, if: :finished?
+  validates :winner, presence: true, if: :finished?
 
   scope :default, -> { order('matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.note nulls last, matches.updated_at desc') }
   scope :manual, -> { where(from_toss: false) }

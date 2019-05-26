@@ -1,7 +1,7 @@
 module MatchesHelper
   def published_pill(match)
     if match.finished?
-      '<span class="badge badge-pill badge-success">Zápas je odohratý.</span>'.html_safe
+      '<span class="badge badge-pill badge-success">Zápas je uzavretý.</span>'.html_safe
     elsif match.published?
       '<span class="badge badge-pill badge-danger">Zápas je zverejnený!</span>'.html_safe
     else
@@ -24,6 +24,8 @@ module MatchesHelper
 
     if match.player1_id == match.winner_id
       result_html += "<strong>#{match.player1.name}</strong>"
+    elsif match.player1 == match.retired_player
+      result_html += "<span class=\"text-secondary\">#{match.player1.name}</span>"
     else
       result_html += match.player1.name
     end
@@ -32,6 +34,8 @@ module MatchesHelper
 
     if match.player2_id == match.winner_id
       result_html += "<strong>#{match.player2.name}</strong>"
+    elsif match.player2 == match.retired_player
+      result_html += "<span class=\"text-secondary\">#{match.player2.name}</span>"
     else
       result_html += match.player2.name
     end

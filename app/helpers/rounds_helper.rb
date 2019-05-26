@@ -15,7 +15,7 @@ module RoundsHelper
     published_matches_count = round.matches.published.size
     finished_matches_count = round.matches.finished.size
     highlight = (published_matches_count - finished_matches_count > 0) && last_days?(round)
-    text = "#{finished_matches_count} z #{published_matches_count} zápasov odohraných."
+    text = "#{finished_matches_count} z #{published_matches_count} zápasov ukončených."
     result_html = "<div class='progress' style='height: 4px;'>
                     <div class='progress-bar #{highlight ? 'bg-danger' : 'bg-success'}' role='progressbar' style='width: #{(finished_matches_count / published_matches_count.to_f) * 100}%;' aria-valuenow='#{finished_matches_count}' aria-valuemin='0' aria-valuemax='#{published_matches_count}'></div>
                   </div>
