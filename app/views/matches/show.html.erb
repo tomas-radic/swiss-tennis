@@ -32,6 +32,10 @@
 <% end %>
 <hr>
 
+<% if @match.retired_player %>
+  <p class="lead text-center"><strong><%= @match.retired_player.name %></strong> skrečoval zápas, alebo nenastúpil.</p>
+<% end %>
+
 <p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
 <hr>
 <p class="lead text-center">
@@ -139,13 +143,26 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input element-enabler" data-element-id="retired_player_id" type="checkbox" value="" id="player-retirement-checkbox">
+                  <label class="form-check-label" for="player-retirement-checkbox">
+                    Hráč skrečoval zápas
+                  </label>
+                </div>
+                <%= select_tag :retired_player_id, options_from_collection_for_select(@match.players, :id, :name), { disabled: true, include_blank: true, class: 'form-control' } %>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <div class="form-check">
-            <input class="form-check-input button-enabler" data-button-id="finish-confirmation-button" type="checkbox" value="" id="finish-confirmation-checkbox">
+            <input class="form-check-input element-enabler" data-element-id="finish-confirmation-button" type="checkbox" value="" id="finish-confirmation-checkbox">
             <label class="form-check-label" for="finish-confirmation-checkbox">
               <small>
-                Skontroloval som skóre a chcem ho naozaj potvrdiť. POTVRDENÉ SKÓRE SA UŽ NEDÁ ZMENIŤ a ja to chápem a súhlasím s tým.
+                Skontroloval som tento výsledok a chcem ho naozaj potvrdiť. POTVRDENÝ VÝSLEDOK SA UŽ NEDÁ ZMENIŤ a ja to chápem a súhlasím s tým.
               </small>
             </label>
           </div>
@@ -159,8 +176,28 @@
 
 <script type="text/javascript">
   $('#finish-match-modal').on('shown.bs.modal', function (e) {
-    debugger;
     $('#finish-confirmation-checkbox').prop('checked', false);
     $('#finish-confirmation-button').prop('disabled', true);
   });
+
+  $(document).on('turbolinks:load', function() {
+    $('#retired_player_id').change(function() {
+      if (this.value.length == 0) {
+        $('#player-retirement-checkbox').prop('checked', false);
+        $(this).prop('disabled', true);
+      }
+    });
+
+    $('#player-retirement-checkbox').change(function() {
+      if ($(this).is(":checked")) {
+        $('#retired_player_id').val($('#retired_player_id > option:last').val());
+      } else {
+        $('#retired_player_id').val($('#retired_player_id > option:first').val());
+      }
+    });
+
+    // var button = $('#' + $(this).data('element-id'));
+    // $(button).prop('disabled', !$(this).is(":checked"));
+  });
 </script>
+<!--  -->

@@ -8,8 +8,8 @@ $(document).on('turbolinks:load', function() {
     location.href = targetUrl;
   });
 
-  $('.button-enabler').change(function() {
-    var button = $('#' + $(this).data('button-id'));
+  $('.element-enabler').change(function() {
+    var button = $('#' + $(this).data('element-id'));
     $(button).prop('disabled', !$(this).is(":checked"));
   });
 });
