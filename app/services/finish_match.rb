@@ -122,14 +122,15 @@ class FinishMatch < Patterns::Service
     games_difference_delta = player1_games_won - player2_games_won
 
     player1_rankings.each do |ranking|
-      if played_sets_count > 0
+      ranking.points += 1 if player1_won?
+
+      if played_sets_count > 0 || !player1_retired?
         ranking.sets_difference += sets_difference_delta
         ranking.games_difference += games_difference_delta
+        ranking.handicap += player2_current_points
+        ranking.relevant = true
       end
 
-      ranking.handicap += player2_current_points if played_sets_count > 0 || !player1_retired?
-      ranking.points += 1 if player1_won?
-      ranking.relevant = true
       ranking.save!
     end
   end
@@ -139,14 +140,15 @@ class FinishMatch < Patterns::Service
     games_difference_delta = player2_games_won - player1_games_won
 
     player2_rankings.each do |ranking|
-      if played_sets_count > 0
+      ranking.points += 1 if player2_won?
+
+      if played_sets_count > 0 || !player2_retired?
         ranking.sets_difference += sets_difference_delta
         ranking.games_difference += games_difference_delta
+        ranking.handicap += player1_current_points
+        ranking.relevant = true
       end
 
-      ranking.handicap += player1_current_points if played_sets_count > 0 || !player2_retired?
-      ranking.points += 1 if player2_won?
-      ranking.relevant = true
       ranking.save!
     end
   end

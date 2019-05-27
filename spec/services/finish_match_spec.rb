@@ -448,11 +448,11 @@ describe FinishMatch do
       finish_match
 
       expect(ranking21.reload).to have_attributes(
-          points: 1, handicap: 1, sets_difference: 3, games_difference: 4, relevant: true)
+          points: 1, handicap: 1, sets_difference: 3, games_difference: 4, relevant: false)
       expect(ranking22.reload).to have_attributes(
           points: 3, handicap: 2, sets_difference: -2, games_difference: 2, relevant: true)
       expect(ranking31.reload).to have_attributes(
-          points: 1, handicap: 1, sets_difference: 3, games_difference: 4, relevant: true)
+          points: 1, handicap: 1, sets_difference: 3, games_difference: 4, relevant: false)
       expect(ranking32.reload).to have_attributes(
           points: 3, handicap: 2, sets_difference: -2, games_difference: 2, relevant: true)
     end
