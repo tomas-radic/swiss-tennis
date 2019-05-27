@@ -14,7 +14,8 @@ module RoundsHelper
 
     published_matches_count = round.matches.published.size
     finished_matches_count = round.matches.finished.size
-    highlight = (published_matches_count - finished_matches_count > 0) && last_days?(round)
+    missing_matches = (published_matches_count - finished_matches_count) > 0
+    highlight = missing_matches && last_days?(round)
     text = "#{finished_matches_count} z #{published_matches_count} zápasov ukončených."
     result_html = "<div class='progress' style='height: 4px;'>
                     <div class='progress-bar #{highlight ? 'bg-danger' : 'bg-success'}' role='progressbar' style='width: #{(finished_matches_count / published_matches_count.to_f) * 100}%;' aria-valuenow='#{finished_matches_count}' aria-valuemin='0' aria-valuemax='#{published_matches_count}'></div>
@@ -28,7 +29,10 @@ module RoundsHelper
       text += " do #{I18n.localize(round.period_ends, format: :date_month)}" if round.period_ends.present?
       text += '.'
       result_html += "#{text}"
-      result_html += " <b><span class=\"#{highlight ? 'text-danger' : 'text-success'}\">Prosíme hráčov aby odohrali a nahlásili výsledok svojho zápasu do termínu #{I18n.localize(round.period_ends, format: :date_month)}, 20:00.</span></b>"
+
+      if missing_matches
+        result_html += " <b><span class=\"#{highlight ? 'text-danger' : 'text-success'}\">Prosíme hráčov aby odohrali a nahlásili výsledok svojho zápasu do termínu #{I18n.localize(round.period_ends, format: :date_month)}, 20:00.</span></b>"
+      end
     end
 
     result_html += "</i></small></p>"
