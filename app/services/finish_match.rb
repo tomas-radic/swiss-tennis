@@ -11,7 +11,7 @@ class FinishMatch < Patterns::Service
         set_match_score
         mark_match_finished
         update_rankings!
-      rescue ScoreInvalidError, RankingMissingError
+      rescue ScoreInvalidError, RankingMissingError => e
         return nil
       end
 
@@ -185,7 +185,7 @@ class FinishMatch < Patterns::Service
   end
 
   def match_retired?
-    @match_retired ||= !retirement.blank?
+    @match_retired ||= retirement && retirement[:retired_player_id].present?
   end
 
   def player1_retired?
