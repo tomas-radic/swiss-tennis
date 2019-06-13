@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_09_184341) do
+ActiveRecord::Schema.define(version: 2019_06_13_115149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 2019_05_09_184341) do
     t.integer "set3_player2_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "retired_player_id"
+    t.uuid "looser_id"
     t.index ["player1_id"], name: "index_matches_on_player1_id"
     t.index ["player2_id"], name: "index_matches_on_player2_id"
     t.index ["round_id"], name: "index_matches_on_round_id"

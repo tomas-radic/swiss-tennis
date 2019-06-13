@@ -1,17 +1,16 @@
 class FinishMatch < Patterns::Service
-  pattr_initialize :match, :score
+  pattr_initialize :match, :score, [:retirement]
 
   def call
     ActiveRecord::Base.transaction do
       normalize_scores
 
       begin
-        evaluate_played_sets
-        set_match_winner
         set_match_score
+        set_match_winner_and_looser
         mark_match_finished
         update_rankings!
-      rescue ScoreInvalidError, RankingMissingError
+      rescue ScoreInvalidError, RankingMissingError => e
         return nil
       end
 
@@ -23,72 +22,41 @@ class FinishMatch < Patterns::Service
 
   private
 
-  attr_reader :player1_current_points, :player2_current_points
   attr_reader :set1_player1, :set1_player2, :set2_player1, :set2_player2, :set3_player1, :set3_player2
-  attr_reader :player1_sets_won, :player2_sets_won
+  attr_reader :remembered_winner_points
 
-  class Set
-    pattr_initialize :player1_score, :player2_score
-
-    def games_difference
-      raise ScoreInvalidError if games_played? && games_equal?
-      player1_score - player2_score
-    end
-
-    def games_played?
-      player1_score > 0 || player2_score > 0
-    end
-
-    private
-
-    def games_equal?
-      player1_score == player2_score
-    end
-  end
-
-  def evaluate_played_sets
-    sets = [
-      Set.new(set1_player1, set1_player2),
-      Set.new(set2_player1, set2_player2),
-      Set.new(set3_player1, set3_player2)
-    ]
-
-    @player1_sets_won = 0
-    @player2_sets_won = 0
-
-    sets.each do |set|
-      games_difference = set.games_difference
-
-      if games_difference > 0
-        @player1_sets_won += 1
-      elsif games_difference < 0
-        @player2_sets_won += 1
-      end
-    end
-  end
-
-  def set_match_winner
-    if player1_sets_won > player2_sets_won
-      match.winner = match.player1
-    elsif player1_sets_won < player2_sets_won
+  def set_match_winner_and_looser
+    if player1_retired?
+      match.retired_player = match.player1
+      match.looser = match.player1
       match.winner = match.player2
+    elsif player2_retired?
+      match.retired_player = match.player2
+      match.looser = match.player2
+      match.winner = match.player1
+    elsif player1_sets_delta > 0
+      match.winner = match.player1
+      match.looser = match.player2
+    elsif player2_sets_delta > 0
+      match.winner = match.player2
+      match.looser = match.player1
     else
       raise ScoreInvalidError
     end
   end
 
   def set_match_score
-    if Set.new(set1_player1, set1_player2).games_played?
+    if set1_player1 > 0 || set1_player2 > 0
       match.set1_player1_score = set1_player1
       match.set1_player2_score = set1_player2
     end
 
-    if Set.new(set2_player1, set2_player2).games_played?
+    if set2_player1 > 0 || set2_player2 > 0
       match.set2_player1_score = set2_player1
       match.set2_player2_score = set2_player2
     end
 
-    if Set.new(set3_player1, set3_player2).games_played?
+    if set3_player1 > 0 || set3_player2 > 0
       match.set3_player1_score = set3_player1
       match.set3_player2_score = set3_player2
     end
@@ -100,29 +68,53 @@ class FinishMatch < Patterns::Service
   end
 
   def update_rankings!
-    raise RankingMissingError if player1_ranking.nil? || player2_ranking.nil?
-    @player1_current_points = player1_ranking.points
-    @player2_current_points = player2_ranking.points
-    update_player1_ranking!
-    update_player2_ranking!
+    raise RankingMissingError if winner_rankings.empty?
+    raise RankingMissingError if looser_rankings.empty?
+
+    update_winner_rankings!
+    update_looser_rankings!
+    update_opponents_handicaps!
   end
 
-  def update_player1_ranking!
-    player1_ranking.handicap += player2_current_points
-    player1_ranking.sets_difference += (player1_sets_won - player2_sets_won)
-    player1_ranking.games_difference += (player1_games_won - player2_games_won)
-    player1_ranking.points += 1 if player1_won?
-    player1_ranking.relevant = true
-    player1_ranking.save!
+  def update_winner_rankings!
+    winner_rankings.each do |ranking|
+      ranking.points += 1
+      @remembered_winner_points ||= ranking.points
+      ranking.handicap += looser_rankings.first.points
+      ranking.sets_difference += winner_sets_delta
+      ranking.games_difference += winner_games_delta
+      ranking.relevant = true if match_been_played? || player2_retired?
+
+      ranking.save!
+    end
   end
 
-  def update_player2_ranking!
-    player2_ranking.handicap += player1_current_points
-    player2_ranking.sets_difference += (player2_sets_won - player1_sets_won)
-    player2_ranking.games_difference += (player2_games_won - player1_games_won)
-    player2_ranking.points += 1 if player2_won?
-    player2_ranking.relevant = true
-    player2_ranking.save!
+  def update_looser_rankings!
+    looser_rankings.each do |ranking|
+      ranking.handicap += remembered_winner_points
+      ranking.sets_difference += looser_sets_delta
+      ranking.games_difference += looser_games_delta
+      ranking.relevant = true if match_been_played?
+
+      ranking.save!
+    end
+  end
+
+  def update_opponents_handicaps!
+    winner_opponents = PlayerOpponentsUpToRoundQuery.call(player: match.winner, round: match.round)
+
+    winner_opponents.each do |opponent|
+      opponent_rankings_to_update = PlayerRankingsSinceRoundQuery.call(player: opponent, round: match.round)
+
+      opponent_rankings_to_update.each do |ranking|
+        ranking.handicap += 1
+        ranking.save!
+      end
+    end
+  end
+
+  def match_been_played?
+    set1_player1 > 0 || set1_player2 > 0
   end
 
   def player1_won?
@@ -133,20 +125,60 @@ class FinishMatch < Patterns::Service
     match.winner == match.player2
   end
 
-  def player1_games_won
-    @player1_games_won ||= set1_player1 + set2_player1 + set3_player1
+  def player1_sets_delta
+    @player1_sets_delta ||= SetsDelta.result_for(match: match, player: match.player1)
   end
 
-  def player2_games_won
-    @player2_games_won ||= set1_player2 + set2_player2 + set3_player2
+  def player2_sets_delta
+    @player2_sets_delta ||= -player1_sets_delta
   end
 
-  def player1_ranking
-    @player1_ranking ||= match.round.rankings.find_by(player: match.player1)
+  def player1_games_delta
+    @player1_games_delta ||= GamesDelta.result_for(match: match, player: match.player1)
   end
 
-  def player2_ranking
-    @player2_ranking ||= match.round.rankings.find_by(player: match.player2)
+  def player2_games_delta
+    @player2_games_delta ||= -player1_games_delta
+  end
+
+  def winner_sets_delta
+    if player1_won?
+      player1_sets_delta
+    elsif player2_won?
+      player2_sets_delta
+    end
+  end
+
+  def looser_sets_delta
+    if player1_won?
+      player2_sets_delta
+    elsif player2_won?
+      player1_sets_delta
+    end
+  end
+
+  def winner_games_delta
+    if player1_won?
+      player1_games_delta
+    elsif player2_won?
+      player2_games_delta
+    end
+  end
+
+  def looser_games_delta
+    if player1_won?
+      player2_games_delta
+    elsif player2_won?
+      player1_games_delta
+    end
+  end
+
+  def winner_rankings
+    @winner_rankings ||= PlayerRankingsSinceRoundQuery.call(player: match.winner, round: match.round)
+  end
+
+  def looser_rankings
+    @looser_rankings ||= PlayerRankingsSinceRoundQuery.call(player: match.looser, round: match.round)
   end
 
   def normalize_scores
@@ -158,9 +190,24 @@ class FinishMatch < Patterns::Service
     @set3_player2 = score[:set3_player2].to_i
   end
 
+  def match_retired?
+    @match_retired ||= retirement && retirement[:retired_player_id].present?
+  end
+
+  def player1_retired?
+    @player1_retired ||= match_retired? && retirement[:retired_player_id] == match.player1_id
+  end
+
+  def player2_retired?
+    @player2_retired ||= match_retired? && retirement[:retired_player_id] == match.player2_id
+  end
+
   class ScoreInvalidError < StandardError
   end
 
   class RankingMissingError < StandardError
+  end
+
+  class MatchFinishedError < StandardError
   end
 end
