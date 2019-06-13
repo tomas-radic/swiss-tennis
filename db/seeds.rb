@@ -4,10 +4,10 @@
 #
 # Methods
 
-def sample_match_score
+def sample_match_score(winner_idx)
   result = {}
 
-  if rand(0..1) > 0
+  if winner_idx == 0
     result[:set1_player1_score] = 6
     result[:set2_player1_score] = 6
     result[:set1_player2_score] = rand(0..4)
@@ -122,9 +122,14 @@ ActiveRecord::Base.transaction do
 
       # Finish matches of previous rounds and some of the current last round
       if (i < (ROUNDS_TO_CREATE - 1)) || (rand(0..2) == 0)
-        attributes[:winner] = [player1, player2].sample
+        winner_idx = rand(0..1)
+        assigned_players = [player1, player2]
+        winner = assigned_players.delete(assigned_players[winner_idx])
+        looser = assigned_players.first
+        attributes[:winner] = winner
+        attributes[:looser] = looser
         attributes[:finished] = true
-        attributes.merge!(sample_match_score)
+        attributes.merge!(sample_match_score(winner_idx))
       end
 
       match = Match.manual.create!(attributes.merge(players: [player1, player2]))

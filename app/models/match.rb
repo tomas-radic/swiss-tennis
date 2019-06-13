@@ -4,6 +4,7 @@ class Match < ApplicationRecord
   belongs_to :player1, class_name: 'Player', foreign_key: :player1_id
   belongs_to :player2, class_name: 'Player', foreign_key: :player2_id
   belongs_to :winner, class_name: 'Player', foreign_key: :winner_id, optional: true
+  belongs_to :looser, class_name: 'Player', foreign_key: :looser_id, optional: true
   belongs_to :retired_player, class_name: 'Player', foreign_key: :retired_player_id, optional: true
   belongs_to :round
 
@@ -11,9 +12,12 @@ class Match < ApplicationRecord
   validate :has_two_players
   validate :players_are_different
   validate :winner_is_player
+  validate :looser_is_player
   validate :finished_when_published
   validate :players_available
-  validates :winner, presence: true, if: :finished?
+  validates :winner,
+            :looser,
+            presence: true, if: :finished?
 
   scope :default, -> { order('matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.note nulls last, matches.updated_at desc') }
   scope :manual, -> { where(from_toss: false) }
@@ -50,6 +54,14 @@ class Match < ApplicationRecord
 
     if winner != player1 && winner != player2
       errors.add(:winner, 'Víťaz zápasu musí byť jeden z priradených hráčov')
+    end
+  end
+
+  def looser_is_player
+    return unless looser.present?
+
+    if looser != player1 && looser != player2
+      errors.add(:looser, 'Porazený musí byť jeden z priradených hráčov')
     end
   end
 
