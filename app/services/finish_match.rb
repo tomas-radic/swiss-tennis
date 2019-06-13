@@ -73,7 +73,7 @@ class FinishMatch < Patterns::Service
 
     update_winner_rankings!
     update_looser_rankings!
-    update_handicaps!
+    update_opponents_handicaps!
   end
 
   def update_winner_rankings!
@@ -100,8 +100,7 @@ class FinishMatch < Patterns::Service
     end
   end
 
-  def update_handicaps!
-
+  def update_opponents_handicaps!
     winner_opponents = PlayerOpponentsUpToRoundQuery.call(player: match.winner, round: match.round)
 
     winner_opponents.each do |opponent|
