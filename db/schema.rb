@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_22_175046) do
+ActiveRecord::Schema.define(version: 2019_06_11_132403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2019_05_22_175046) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "retired_player_id"
+    t.uuid "looser_id"
     t.index ["player1_id"], name: "index_matches_on_player1_id"
     t.index ["player2_id"], name: "index_matches_on_player2_id"
     t.index ["round_id"], name: "index_matches_on_round_id"
@@ -92,8 +93,6 @@ ActiveRecord::Schema.define(version: 2019_05_22_175046) do
     t.datetime "updated_at", null: false
     t.integer "sets_difference", default: 0, null: false
     t.boolean "relevant", default: false, null: false
-    t.uuid "match_id"
-    t.index ["match_id"], name: "index_rankings_on_match_id"
     t.index ["player_id", "round_id"], name: "index_rankings_on_player_id_and_round_id", unique: true
     t.index ["player_id"], name: "index_rankings_on_player_id"
     t.index ["round_id"], name: "index_rankings_on_round_id"
@@ -134,7 +133,6 @@ ActiveRecord::Schema.define(version: 2019_05_22_175046) do
   add_foreign_key "matches", "players", column: "winner_id"
   add_foreign_key "matches", "rounds"
   add_foreign_key "players", "categories"
-  add_foreign_key "rankings", "matches"
   add_foreign_key "rankings", "players"
   add_foreign_key "rankings", "rounds"
   add_foreign_key "rounds", "seasons"

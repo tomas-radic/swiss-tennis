@@ -15,6 +15,7 @@ FactoryBot.define do
     trait :finished do |match|
       before(:create) do |match|
         match.winner ||= match.player1
+        match.looser ||= match.player2
       end
 
       finished { true }
