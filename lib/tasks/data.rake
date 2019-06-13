@@ -86,6 +86,7 @@ namespace :data do
         player_name: ranking.player.name,
         round_position: ranking.round.position,
         points: 0,
+        toss_points: 0,
         handicap: 0,
         sets_difference: 0,
         games_difference: 0,
@@ -124,6 +125,7 @@ namespace :data do
 
         winner_rankings.each do |ranking|
           ranking[:points] += 1
+          ranking[:toss_points] = ranking[:points]
           ranking[:handicap] += looser_rankings.first[:points]
           ranking[:sets_difference] += winner_sets_delta
           ranking[:games_difference] += winner_games_delta
@@ -167,6 +169,7 @@ namespace :data do
     puts "Importing into DB..."
     columns_to_update = [
       :points,
+      :toss_points,
       :handicap,
       :sets_difference,
       :games_difference,

@@ -75,6 +75,14 @@ class MatchesController < ApplicationController
     redirect_to @match
   end
 
+  def toss_round_matches_init
+
+  end
+
+  def toss_round_matches
+    TossRoundMatches.call(players_standings, mandatory_players)
+  end
+
   private
 
   def load_season
