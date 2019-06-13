@@ -103,11 +103,6 @@ namespace :data do
         puts "\nMatch #{MatchDecorator.new(match).label}"
         puts "W #{match.winner.name}"
         puts "L #{match.looser.name}"
-        # winner_ranking = match.winner.rankings.find_by(round: round)
-        # looser_ranking = match.looser.rankings.find_by(round: round)
-        #
-        # raise "Missing ranking for #{match.winner.name}" unless winner_ranking.present?
-        # raise "Missing ranking for #{match.looser.name}" unless looser_ranking.present?
 
         winner_rankings = ranking_hashes.select do |h|
           h[:round_position] >= round.position && h[:player_id] == match.winner.id
@@ -116,27 +111,6 @@ namespace :data do
         looser_rankings = ranking_hashes.select do |h|
           h[:round_position] >= round.position && h[:player_id] == match.looser.id
         end
-
-        # if previous_round
-        #   pr_winner_ranking = ranking_hashes.find do |h|
-        #     h[:round_id] == previous_round.id && h[:player_id] == winner_ranking[:player_id]
-        #   end
-        #
-        #   pr_looser_ranking = ranking_hashes.find do |h|
-        #     h[:round_id] == previous_round.id && h[:player_id] == looser_ranking[:player_id]
-        #   end
-        #
-        #   winner_ranking[:points] = pr_winner_ranking[:points]
-        #   winner_ranking[:handicap] = pr_winner_ranking[:handicap] if pr_winner_ranking[:handicap] > winner_ranking[:handicap]
-        #   winner_ranking[:sets_difference] = pr_winner_ranking[:sets_difference]
-        #   winner_ranking[:games_difference] = pr_winner_ranking[:games_difference]
-        #   winner_ranking[:relevant] = pr_winner_ranking[:relevant]
-        #   looser_ranking[:points] = pr_looser_ranking[:points]
-        #   looser_ranking[:handicap] = pr_looser_ranking[:handicap] if pr_looser_ranking[:handicap] > looser_ranking[:handicap]
-        #   looser_ranking[:sets_difference] = pr_looser_ranking[:sets_difference]
-        #   looser_ranking[:games_difference] = pr_looser_ranking[:games_difference]
-        #   looser_ranking[:relevant] = pr_looser_ranking[:relevant]
-        # end
 
         puts "Rankings before this match:"
         puts "WR #{winner_rankings.to_s}"
@@ -148,7 +122,6 @@ namespace :data do
         looser_games_delta = GamesDelta.result_for(match: match, player: match.looser)
         match_played = match_been_played.call(match)
 
-# binding.pry if round.position == 3 && match.winner.name == 'Miles Hilll'
         winner_rankings.each do |ranking|
           ranking[:points] += 1
           ranking[:handicap] += looser_rankings.first[:points]
@@ -177,18 +150,6 @@ namespace :data do
           opponent_rankings = ranking_hashes.select do |h|
             h[:round_position] >= round.position && h[:player_id] == opponent.id
           end
-
-          # if previous_round
-          #   pr_opponent_ranking = ranking_hashes.find do |h|
-          #     h[:round_id] == previous_round.id && h[:player_id] == opponent.id
-          #   end
-          #
-          #   opponent_round_ranking[:points] = pr_opponent_ranking[:points]
-          #   opponent_round_ranking[:handicap] = pr_opponent_ranking[:handicap] if pr_opponent_ranking[:handicap] > opponent_round_ranking[:handicap]
-          #   opponent_round_ranking[:sets_difference] = pr_opponent_ranking[:sets_difference]
-          #   opponent_round_ranking[:games_difference] = pr_opponent_ranking[:games_difference]
-          #   opponent_round_ranking[:relevant] = pr_opponent_ranking[:relevant]
-          # end
 
           opponent_rankings.each do |ranking|
             ranking[:handicap] += 1
