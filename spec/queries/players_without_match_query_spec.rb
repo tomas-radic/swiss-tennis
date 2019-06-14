@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe PlayersWithoutMatch do
+describe PlayersWithoutMatchQuery do
   let!(:round) { create(:round) }
   let!(:player1) { create(:player) }
   let!(:player2) { create(:player) }
