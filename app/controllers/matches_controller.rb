@@ -31,7 +31,7 @@ class MatchesController < ApplicationController
     @season = Season.default.first
     @round = @season.rounds.find(params[:round_id])
     @match = Match.new(round: @round)
-    @available_players = PlayersWithoutMatch.call(round: @round, include_dummy: true)
+    @available_players = PlayersWithoutMatchQuery.call(round: @round, include_dummy: true)
   end
 
   def create
@@ -42,7 +42,7 @@ class MatchesController < ApplicationController
     else
       @season = Season.default.first
       @round = @season.rounds.find(@match.round_id)
-      @available_players = PlayersWithoutMatch.call(round: @round)
+      @available_players = PlayersWithoutMatchQuery.call(round: @round)
       render :new
     end
   end
@@ -73,6 +73,14 @@ class MatchesController < ApplicationController
 
     FinishMatch.call(@match, params[:score], retirement: { retired_player_id: params[:retired_player_id] })
     redirect_to @match
+  end
+
+  def toss_round_matches_init
+
+  end
+
+  def toss_round_matches
+    TossRoundMatches.call(players_standings, mandatory_players)
   end
 
   private

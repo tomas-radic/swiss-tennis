@@ -48,6 +48,7 @@ gem 'time_for_a_boolean'
 gem "select2-rails"
 gem 'faker'
 gem 'hirb'
+gem 'swissper'
 gem 'activerecord-import'
 
 group :development, :test do

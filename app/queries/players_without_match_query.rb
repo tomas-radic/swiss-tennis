@@ -1,4 +1,4 @@
-class PlayersWithoutMatch < Patterns::Query
+class PlayersWithoutMatchQuery < Patterns::Query
   queries Player
 
   private

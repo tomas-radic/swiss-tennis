@@ -36,6 +36,7 @@ describe CreatePlayer do
         expect(player.rankings.count).to eq 1
         expect(player.rankings.find_by(round: round2)).to have_attributes(
           points: 0,
+          toss_points: 0,
           handicap: 0,
           sets_difference: 0,
           games_difference: 0,

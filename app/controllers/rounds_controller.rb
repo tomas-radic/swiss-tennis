@@ -8,7 +8,7 @@ class RoundsController < ApplicationController
   end
 
   def show
-    @players_without_match = PlayersWithoutMatch.call(round: @round)
+    @players_without_match = PlayersWithoutMatchQuery.call(round: @round)
   end
 
   def new
