@@ -9,7 +9,7 @@ class PlayerOpponentsUpToRoundQuery < Patterns::Query
         .where('rounds.position < ?', round.position)
         .where('matches.player1_id = ? or matches.player2_id = ?', player.id, player.id)
         .where('matches.finished_at is not null')
-        .where.not(id: player.id)
+        .where.not(players: { id: player.id })
   end
 
   def player

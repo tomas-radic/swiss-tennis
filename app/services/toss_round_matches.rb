@@ -28,7 +28,10 @@ class TossRoundMatches < Patterns::Service
       toss_player.delta = player_round_ranking.toss_points
       @toss_players << toss_player
 
-      opponents = PlayerOpponentsUpToRoundQuery.call(player: player, round: round)
+      opponents = Player.joins(matches: [round: :season])
+          .where(seasons: { id: round.season_id })
+          .where('matches.player1_id = ? or matches.player2_id = ?', player.id, player.id)
+          .where('players.id != ?', player.id)
       @exclusions[player.id] = opponents.map(&:id)
     end
   end

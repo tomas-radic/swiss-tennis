@@ -5,7 +5,7 @@ describe TossRoundMatches do
     subject(:service) { described_class.call(round, player_ids) }
 
     let!(:round) { create(:round) }
-    let!(:previous_round) { create(:round) }
+    let!(:previous_round) { create(:round, season: round.season) }
     let!(:r_0p_1) { create(:ranking, round: round, toss_points: 0) }
     let!(:r_1p_1) { create(:ranking, round: round, toss_points: 1) }
     let!(:r_1p_2) { create(:ranking, round: round, toss_points: 1) }
@@ -117,6 +117,63 @@ describe TossRoundMatches do
           r_9p_pr1.player_id, r_9p_pr2.player_id
         )
       ).to be_empty
+    end
+
+    context 'With previously played matches' do
+      let!(:played_match1) do
+        create(
+          :match,
+          round: previous_round,
+          player1: r_0p_1.player,
+          player2: r_1p_1.player,
+          players: [r_0p_1.player, r_1p_1.player]
+        )
+      end
+
+      let!(:played_match2) do
+        create(
+          :match,
+          round: previous_round,
+          player1: r_0p_1.player,
+          player2: r_1p_2.player,
+          players: [r_0p_1.player, r_1p_2.player]
+        )
+      end
+
+      let!(:played_match3) do
+        create(
+          :match,
+          round: previous_round,
+          player1: r_0p_1.player,
+          player2: r_1p_3.player,
+          players: [r_0p_1.player, r_1p_3.player]
+        )
+      end
+
+      it 'Does not combine player that have already played against each other' do
+        service
+
+        expect(
+          Match.where(
+            '(player1_id = ? and player2_id = ?) or (player1_id = ? and player2_id = ?)',
+            r_0p_1.player_id, r_1p_1.player_id, r_1p_1.player_id, r_0p_1.player_id
+          ).where(round: round)
+        ).to be_empty
+
+        expect(
+          Match.where(
+            '(player1_id = ? and player2_id = ?) or (player1_id = ? and player2_id = ?)',
+            r_0p_1.player_id, r_1p_2.player_id, r_1p_2.player_id, r_0p_1.player_id
+          ).where(round: round)
+        ).to be_empty
+
+        expect(
+          Match.where(
+            '(player1_id = ? and player2_id = ?) or (player1_id = ? and player2_id = ?)',
+            r_0p_1.player_id, r_1p_3.player_id, r_1p_3.player_id, r_0p_1.player_id
+          ).where(round: round)
+        ).to be_empty
+      end
     end
   end
 
