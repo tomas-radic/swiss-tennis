@@ -1,14 +1,14 @@
 class RoundsController < ApplicationController
   before_action :verify_user_logged_in
   before_action :load_season, only: [:index, :show, :new, :create]
-  before_action :set_round, only: [:show, :edit, :update, :destroy]
+  before_action :set_round, only: [:show, :edit, :update, :toss_matches]
 
   def index
     @rounds = @season.rounds.all
   end
 
   def show
-    @players_without_match = PlayersWithoutMatchQuery.call(round: @round)
+    @players_without_match = PlayersWithoutMatchQuery.call(round: @round).includes(:rankings)
   end
 
   def new
@@ -37,6 +37,15 @@ class RoundsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def toss_matches
+    TossRoundMatches.call(
+      @round,
+      params[:players_in_toss]
+    )
+
+    redirect_to @round
   end
 
   private

@@ -43,28 +43,39 @@
 
 <hr>
 <% if @players_without_match.any? %>
-  <p class="lead">Hráči bez zápasu (<%= @players_without_match.count %>)</p>
-  <p><%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %></p>
-  <div class="table-responsive my-1">
-    <table class="table table-sm">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Meno</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @players_without_match.each do |player| %>
+  <%= form_tag toss_matches_round_path(@round) do %>
+    <p class="lead">Hráči bez zápasu (<%= @players_without_match.count %>)</p>
+    <p>
+      <%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %>
+      <%= submit_tag 'Vyžrebovať!', class: 'btn btn-sm btn-danger my-1', data: { confirm: "Spustiť žrebovanie zápasov v #{@round.full_label} pre NIŽŠIE ZAŠKRTNUTÝCH hráčov?" } %>
+    </p>
+    <div class="table-responsive my-1">
+      <table class="table table-sm">
+        <thead class="thead-dark">
           <tr>
-            <td><%= player.name %></td>
-            <td>
-              <%= link_to 'Detail', player_path(player), class: 'btn btn-sm btn-success' %>
-            </td>
+            <th scope="col"></th>
+            <th scope="col">Meno</th>
+            <th scope="col">Body</th>
+            <th scope="col">Body pre žreb</th>
+            <th></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          <% @players_without_match.each do |player| %>
+            <tr>
+              <td><%= check_box_tag 'players_in_toss[]', player.id, true %></td>
+              <td><%= player.name %></td>
+              <td><%= player.rankings.find { |r| r[:round_id] == @round.id }&.points %></td>
+              <td><%= player.rankings.find { |r| r[:round_id] == @round.id }&.toss_points %></td>
+              <td>
+                <%= link_to 'Detail', player_path(player), class: 'btn btn-sm btn-success' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 <% else %>
   <div class="row">
     <div class="col">
