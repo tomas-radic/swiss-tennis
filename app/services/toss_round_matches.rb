@@ -4,6 +4,8 @@ class TossRoundMatches < Patterns::Service
   TOSS_VARIANTS_COUNT = 10
 
   def call
+    return if player_ids.blank?
+    
     create_toss_players
     assign_exlusions_to_toss_players
     create_several_toss_variants
