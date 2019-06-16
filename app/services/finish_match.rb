@@ -79,7 +79,7 @@ class FinishMatch < Patterns::Service
   def update_winner_rankings!
     winner_rankings.each do |ranking|
       ranking.points += 1
-      ranking.toss_points += 1
+      ranking.toss_points = ranking.points
       @remembered_winner_points ||= ranking.points
       ranking.handicap += looser_rankings.first.points
       ranking.sets_difference += winner_sets_delta
@@ -92,6 +92,7 @@ class FinishMatch < Patterns::Service
 
   def update_looser_rankings!
     looser_rankings.each do |ranking|
+      ranking.toss_points = ranking.points
       ranking.handicap += remembered_winner_points
       ranking.sets_difference += looser_sets_delta
       ranking.games_difference += looser_games_delta
