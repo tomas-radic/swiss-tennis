@@ -4,7 +4,6 @@
     <div class="float-right">
       <%= link_to 'Upraviť', edit_round_path(@round), class: 'btn btn-success my-1' %>
       <%= link_to 'Naspäť', rounds_path, class: 'btn btn-outline-success my-1' %>
-      <%#= link_to 'Žreb', '#', class: 'btn btn-danger my-1' %>
     </div>
   </div>
 </div>
@@ -38,8 +37,8 @@
 <hr>
 <p class="lead">Zápasy v tomto kole</p>
 <%= render 'matches/list_admin',
-    published_matches: @round.matches.published.includes(:player1, :player2),
-    draft_matches: @round.matches.draft.includes(:player1, :player2) %>
+    published_matches: @round.matches.published.includes(player1: :rankings, player2: :rankings),
+    draft_matches: @round.matches.draft.includes(player1: :rankings, player2: :rankings) %>
 
 <hr>
 <% if @players_without_match.any? %>

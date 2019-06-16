@@ -4,7 +4,7 @@ class PublishedMatchesQuery < Patterns::Query
   private
 
   def query
-    round.matches.published.includes(:player1, :player2)
+    round.matches.published.includes(player1: :rankings, player2: :rankings)
   end
 
   def round
