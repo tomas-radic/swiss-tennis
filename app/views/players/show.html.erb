@@ -14,8 +14,8 @@
   <div class="col-sm-12 col-md-6">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <p class="lead text-center"><%= @player.phone.present? ? @player.phone : '-' %></p>
-        <p class="lead text-center"><%= @player.email.present? ? @player.email : '-' %></p>
+        <p class="lead text-center"><%= @player.phone.present? ? link_to(@player.phone, "tel:#{@player.phone}") : '-' %></p>
+        <p class="lead text-center"><%= @player.email.present? ? link_to(@player.email, "mailto:#{@player.email}") : '-' %></p>
       </div>
     </div>
   </div>
@@ -30,6 +30,15 @@
 </div>
 <div class="row">
   <div class="col">
-    <p>Registrácia <%= I18n.localize(@player.created_at, format: :date_month_year) %></p>
+    <p class="lead text-center">
+      <%= "Zápasy sezóny #{@season.name}" %>
+    </p>
+    <%= render 'matches/table', matches: PlayerSeasonMatchesQuery.call(player: @player, season: @season)
+        .includes(:round, :winner, player1: :rankings, player2: :rankings) %>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <p>Vstup do súťaže • <%= I18n.localize(@player.created_at, format: :date_month_year) %></p>
   </div>
 </div>

@@ -1,6 +1,6 @@
 class PlayersController < ApplicationController
   before_action :verify_user_logged_in, except: [:index, :show]
-  before_action :load_season, only: [:create]
+  before_action :load_season, only: [:show, :create]
   before_action :set_player, only: [:show, :edit, :update]
 
   def index

@@ -4,7 +4,7 @@ class DraftMatchesQuery < Patterns::Query
   private
 
   def query
-    round.matches.draft.includes(:player1, :player2)
+    round.matches.draft.includes(player1: :rankings, player2: :rankings)
   end
 
   def round

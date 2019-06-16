@@ -30,6 +30,7 @@ module MatchesHelper
       result_html += match.player1.name
     end
 
+    result_html += " (#{match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i}b)"
     result_html += "<br><small><i>#{link_to match.player1.phone, "tel:#{match.player1.phone}"}</i></small></td><td>"
 
     if match.player2_id == match.winner_id
@@ -40,6 +41,7 @@ module MatchesHelper
       result_html += match.player2.name
     end
 
+    result_html += " (#{match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i}b)"
     result_html += "<br><small><i>#{link_to match.player2.phone, "tel:#{match.player2.phone}"}</i></small></td>"
     result_html +=  "<td>#{match.note}</td>"
     result_html += "<td>#{MatchDecorator.new(match).score}</td>"

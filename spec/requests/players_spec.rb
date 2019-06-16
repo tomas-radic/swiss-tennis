@@ -4,6 +4,7 @@ require 'requests/authentication_helpers'
 include AuthenticationHelpers
 
 RSpec.describe "Players", type: :request do
+  let!(:season) { create(:season) }
   let!(:user) { create(:user) }
   let!(:category) { create(:category) }
 
@@ -80,7 +81,6 @@ RSpec.describe "Players", type: :request do
   describe "POST /players" do
     subject(:post_players) { post players_path, params: params }
 
-    let!(:season) { create(:season) }
     let!(:round1) { create(:round, season: season) }
     let!(:round2) { create(:round, season: season) }
 
