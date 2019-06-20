@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :matches do
       post 'finish', on: :member
     end
-    resources :rankings, only: :index
+    resources :rankings, only: [:index, :edit, :update]
   # end
 
   # Static pages
