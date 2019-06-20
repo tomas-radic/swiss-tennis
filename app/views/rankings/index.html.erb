@@ -28,7 +28,11 @@
           <th></th>
           <th scope="col">Meno</th>
           <th scope="col">Body</th>
+          <% if user_signed_in? %>
+            <th scope="col">Body pre žreb</th>
+          <% end %>
           <th scope="col">Body súperov</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
