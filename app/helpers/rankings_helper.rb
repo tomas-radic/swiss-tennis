@@ -8,7 +8,7 @@ module RankingsHelper
                       <td>#{ranking.points}</td>"
 
     if user_signed_in?
-      result_html += "<td>#{ranking.toss_points}</td>"
+      result_html += "<td class=\"#{'text-danger' if ranking.toss_points != ranking.points}\">#{ranking.toss_points}</td>"
     end
 
     result_html += "<td>#{ranking.handicap}</td>"
