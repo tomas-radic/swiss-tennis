@@ -5,7 +5,7 @@ class TossRoundMatches < Patterns::Service
 
   def call
     return if player_ids.blank?
-    
+
     create_toss_players
     assign_exlusions_to_toss_players
     create_several_toss_variants
@@ -82,9 +82,10 @@ class TossRoundMatches < Patterns::Service
       court_player_id = pair[0].id
       balls_player_id = pair[1].id
 
-      CreateMatch.call(
+      Match.create!(
         player1_id: court_player_id,
         player2_id: balls_player_id,
+        players: [players.find { |p| p[:id] == court_player_id }, players.find { |p| p[:id] == balls_player_id }],
         from_toss: true,
         round_id: round.id,
         published: false
@@ -101,7 +102,9 @@ class TossRoundMatches < Patterns::Service
   end
 
   def players
-    @players ||= PlayersWithoutMatchQuery.call(round: round).where(id: player_ids)
+    @players ||= PlayersWithoutMatchQuery.call(round: round)
+        .where(id: player_ids)
+        .includes(:rankings)
   end
 
   def court_player_counts

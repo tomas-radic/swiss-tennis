@@ -208,4 +208,59 @@ RSpec.describe "Rounds", type: :request do
       end
     end
   end
+
+  describe 'POST /rounds/abc/toss_matches' do
+    subject(:post_toss_matches_round) { post toss_matches_round_path(round), params: params }
+
+    let!(:round) { create(:round) }
+    let!(:ranking1) { create(:ranking, round: round) }
+    let!(:ranking2) { create(:ranking, round: round) }
+    let!(:ranking3) { create(:ranking, round: round) }
+    let!(:ranking4) { create(:ranking, round: round) }
+    let(:params) do
+      {
+        id: round.id,
+        players_in_toss: [
+          ranking1.player_id,
+          ranking2.player_id,
+          ranking3.player_id,
+          ranking4.player_id
+        ]
+      }
+    end
+
+    context 'When logged in' do
+      before(:each) do
+        login(user, 'nbusr123')
+      end
+
+      it "Creates matches for the round" do
+        post_toss_matches_round
+        round.reload
+
+        expect(round.matches.count).to eq 2
+      end
+
+      it "Redirects to the round" do
+        post_toss_matches_round
+
+        expect(response).to redirect_to round_path(round)
+      end
+    end
+
+    context 'When logged out' do
+      it 'Redirects to login' do
+        post_toss_matches_round
+
+        expect(response).to redirect_to login_path
+      end
+
+      it 'Does not create matches for the round' do
+        post_toss_matches_round
+        round.reload
+
+        expect(round.matches.count).to eq 0
+      end
+    end
+  end
 end

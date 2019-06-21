@@ -32,7 +32,9 @@
             <th scope="col">Body pre žreb</th>
           <% end %>
           <th scope="col">Body súperov</th>
-          <th></th>
+          <% if user_signed_in? %>
+            <th></th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
