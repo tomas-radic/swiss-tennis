@@ -9,16 +9,16 @@
     <%# end %>
     <div class="float-right">
       <%= link_to 'Naspäť', matches_path(round_id: @match.round_id), class: 'btn btn-outline-success my-1' %>
-      <% if policy(@match).update? %>
+      <% if user_signed_in? %>
         <%= link_to 'Upraviť', edit_match_path(@match), class: 'btn btn-success my-1' %>
-      <% end %>
-      <% if policy(@match).destroy? %>
-        <%= link_to 'Vymazať', match_path(@match), method: :delete, data: { confirm: "Naozaj vymazať zápas #{MatchDecorator.new(@match).label}?" }, class: 'btn btn-danger my-1' %>
-      <% end %>
-      <% if policy(@match).finish? %>
-        <button type="button" class="btn btn-outline-danger my-1" data-toggle="modal" data-target="#finish-match-modal">
-          Finalizovať
-        </button>
+        <% if policy(@match).destroy? %>
+          <%= link_to 'Vymazať', match_path(@match), method: :delete, data: { confirm: "Naozaj vymazať zápas #{MatchDecorator.new(@match).label}?" }, class: 'btn btn-danger my-1' %>
+        <% end %>
+        <% if policy(@match).finish? %>
+          <button type="button" class="btn btn-outline-danger my-1" data-toggle="modal" data-target="#finish-match-modal">
+            Finalizovať
+          </button>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -48,6 +48,11 @@
   <i>(tel.č. <%= link_to "#{@match.player2.phone}", "tel:#{@match.player2.phone}" %>)</i>
   <b>zabezpečuje <i>lopty</i></b>.
 </p>
+<% if user_signed_in? && policy(@match).swap_players? %>
+  <p class="text-center">
+    <%= link_to 'Prehodiť hráčov', swap_players_match_path(@match), class: 'btn btn-sm btn-outline-danger' %>
+  </p>
+<% end %>
 <hr>
 <p class="lead text-center">
   <% if @match.play_date.present? %>

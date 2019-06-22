@@ -8,13 +8,13 @@
       <div class="row">
         <div class="col-lg-6">
           <div class="form-group">
-            <%= form.label :player1_id, 'Hráč 1' %><br />
+            <%= form.label :player1_id, 'Hráč 1 - kurt' %><br />
             <%= form.collection_select :player1_id, @available_players, :id, :name, { include_blank: 'Žiadny hráč' }, { class: add_error_class_to('form-control', @match, :player1) } %>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="form-group">
-            <%= form.label :player2_id, 'Hráč 2' %><br />
+            <%= form.label :player2_id, 'Hráč 2 - lopty' %><br />
             <%= form.collection_select :player2_id, @available_players, :id, :name, { include_blank: 'Žiadny hráč' }, { class: add_error_class_to('form-control', @match, :player2) } %>
           </div>
         </div>

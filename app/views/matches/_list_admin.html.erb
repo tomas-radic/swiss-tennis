@@ -18,6 +18,13 @@
       </div>
       <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
         <%= render 'matches/table', matches: draft_matches %>
+        <% if draft_matches.any? %>
+          <p class="text-center">
+            <button id="publish-all-matches-btn" class="btn btn-sm btn-success">Zverejniť všetky!</button>
+            <%= link_to 'Potvrdiť!', publish_all_matches_round_path(@round), id: 'publish-all-matches-link', class: 'btn btn-sm btn-outline-danger', style: 'display: none;' %>
+            <%= render 'matches/scripts_index' %>
+          </p>
+        <% end %>
       </div>
     </div>
   </div>

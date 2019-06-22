@@ -263,4 +263,52 @@ RSpec.describe "Rounds", type: :request do
       end
     end
   end
+
+  describe "GET /rounds/abc/publish_all_matches" do
+    subject(:get_round_publish_all_matches) { get publish_all_matches_round_path(round) }
+
+    let!(:round) { create(:round) }
+    let!(:r_match1) { create(:match, :draft, round: round) }
+    let!(:r_match2) { create(:match, :draft, round: round) }
+
+    let!(:next_round) { create(:round) }
+    let!(:nr_match1) { create(:match, :draft, round: next_round) }
+    let!(:nr_match2) { create(:match, :draft, round: next_round) }
+
+    context 'When logged in' do
+      before(:each) do
+        login(user, 'nbusr123')
+      end
+
+      it 'Publishes all matches of given round' do
+        get_round_publish_all_matches
+        round.reload
+
+        expect(round.matches.published.count).to eq 2
+        expect(round.matches.draft.count).to eq 0
+      end
+
+      it 'Does not publish matches of other rounds' do
+        get_round_publish_all_matches
+        next_round.reload
+
+        expect(next_round.matches.published.count).to eq 0
+        expect(next_round.matches.draft.count).to eq 2
+      end
+
+      it "Redirects to given round" do
+        get_round_publish_all_matches
+
+        expect(response).to redirect_to round_path(round)
+      end
+    end
+
+    context 'When logged out' do
+      it 'Redirects to login' do
+        get_round_publish_all_matches
+
+        expect(response).to redirect_to login_path
+      end
+    end
+  end
 end

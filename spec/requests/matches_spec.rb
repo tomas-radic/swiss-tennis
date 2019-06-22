@@ -331,4 +331,49 @@ RSpec.describe "Matches", type: :request do
       end
     end
   end
+
+  describe "GET /match/abc/swap_players" do
+    subject(:swap_players) do
+      get swap_players_match_path(match)
+    end
+
+    context 'When logged in' do
+      before(:each) do
+        login(user, 'nbusr123')
+      end
+
+      context 'With unfinished match' do
+        let!(:match) { create(:match, round: round) }
+
+        it "Calls SwapPlayers and redirects to the match" do
+          expect(SwapMatchPlayers).to receive(:call).with(match)
+          swap_players
+
+          expect(response).to redirect_to(match_path(match))
+        end
+      end
+
+      context 'With finished match' do
+        let!(:match) { create(:match, :finished, round: round) }
+
+        it 'Raises error' do
+          expect { swap_players }.to raise_error Pundit::NotAuthorizedError
+        end
+      end
+    end
+
+    context 'When logged out' do
+      let!(:match) { create(:match, round: round) }
+
+      it 'Redirects to login' do
+        swap_players
+
+        expect(response).to redirect_to login_path
+      end
+
+      it 'Does not swap the players' do
+        expect { swap_players }.not_to change(Match, :count)
+      end
+    end
+  end
 end

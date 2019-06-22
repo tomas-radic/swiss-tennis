@@ -2,7 +2,7 @@ class MatchesController < ApplicationController
   before_action :verify_user_logged_in, except: [:index, :show]
   before_action :load_season, only: [:index]
   before_action :load_round, only: [:index]
-  before_action :set_match, only: [:show, :edit, :update, :destroy, :finish]
+  before_action :set_match, only: [:show, :edit, :update, :destroy, :finish, :swap_players]
 
   def index
     @matches_count = 0
@@ -48,12 +48,9 @@ class MatchesController < ApplicationController
   end
 
   def edit
-    authorize @match
   end
 
   def update
-    authorize @match
-
     if @match.update(update_params)
       redirect_to @match
     else
@@ -72,6 +69,13 @@ class MatchesController < ApplicationController
     authorize @match
 
     FinishMatch.call(@match, params[:score], retirement: { retired_player_id: params[:retired_player_id] })
+    redirect_to @match
+  end
+
+  def swap_players
+    authorize @match
+
+    SwapMatchPlayers.call(@match)
     redirect_to @match
   end
 
