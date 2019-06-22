@@ -9,28 +9,16 @@ class MatchPolicy < ApplicationPolicy
     end
   end
 
-  def new?
-    create?
-  end
-
-  def create?
-    user.present?
-  end
-
-  def edit?
-    update?
-  end
-
-  def update?
-    user.present?
-  end
-
   def destroy?
-    user.present? && match_not_finished?
+    match_not_finished?
   end
 
   def finish?
-    user.present? && match_not_finished?
+    match_not_finished?
+  end
+
+  def swap_players?
+    match_not_finished?
   end
 
   private

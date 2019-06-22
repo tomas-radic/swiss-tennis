@@ -1,7 +1,7 @@
 class RoundsController < ApplicationController
   before_action :verify_user_logged_in
   before_action :load_season, only: [:index, :show, :new, :create]
-  before_action :set_round, only: [:show, :edit, :update, :toss_matches]
+  before_action :set_round, only: [:show, :edit, :update, :toss_matches, :publish_all_matches]
 
   def index
     @rounds = @season.rounds.all
@@ -44,6 +44,12 @@ class RoundsController < ApplicationController
       @round,
       params[:players_in_toss]
     )
+
+    redirect_to @round
+  end
+
+  def publish_all_matches
+    @round.matches.update_all(published: true)
 
     redirect_to @round
   end
