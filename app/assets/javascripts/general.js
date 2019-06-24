@@ -12,4 +12,17 @@ $(document).on('turbolinks:load', function() {
     var button = $('#' + $(this).data('element-id'));
     $(button).prop('disabled', !$(this).is(":checked"));
   });
+
+  $('.btn-dbl-confirm').click(function() {
+    $(this).hide();
+    $(this).next().show();
+  });
+
+  $('.span-dbl-confirm .btn-cancel-confirmation').click(function() {
+    var span_dbl_confirm = $(this).parent();
+    var btn_dbl_confirm = $(span_dbl_confirm).prev();
+
+    $(span_dbl_confirm).hide();
+    $(btn_dbl_confirm).show();
+  });
 });
