@@ -50,7 +50,7 @@
 </p>
 <% if user_signed_in? && policy(@match).swap_players? %>
   <p class="text-center">
-    <%= link_to 'Prehodiť hráčov', swap_players_match_path(@match), class: 'btn btn-sm btn-outline-danger' %>
+    <%= double_confirm_button('Prehodiť hráčov', swap_players_match_path(@match), 'btn btn-sm btn-outline-danger') %>
   </p>
 <% end %>
 <hr>
