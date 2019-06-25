@@ -161,6 +161,14 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <%= label_tag :note, 'Poznámka' %>
+                <%= text_area_tag :note, @match.note, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <div class="form-check">

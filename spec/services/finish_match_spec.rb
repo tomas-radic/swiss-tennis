@@ -20,14 +20,19 @@ describe FinishMatch do
   let!(:ranking_r2_of_p2_opponent_from_r1) { create(:ranking, round: round2, player: opponent_r1_p2, points: 0, toss_points: 0, handicap: 1, sets_difference: 1, games_difference: 5, relevant: false) }
   # NOTE: before finishing match in round 2, rankings are copies of previous rankings from round 1
 
-  let!(:match) { create(:match, :draft, round: round2, player1: player1, player2: player2, players: [player1, player2]) }
+  let!(:match) { create(:match, :draft, round: round2, player1: player1, player2: player2, players: [player1, player2], note: 'Original note') }
 
   # Previous matches of player1 and player2
   let!(:match_r1_p1) { create(:match, :finished, round: round1, player1: player1, player2: opponent_r1_p1, players: [player1, opponent_r1_p1]) }
   let!(:match_r1_p2) { create(:match, :finished, round: round1, player1: opponent_r1_p2, player2: player2, players: [opponent_r1_p2, player2]) }
+  let(:attributes) do
+    {
+      attributes: { note: 'Changed note' }
+    }
+  end
 
   context 'Without retirement' do
-    subject(:finish_match) { described_class.call(match, score).result }
+    subject(:finish_match) { described_class.call(match, score, attributes).result }
 
     context 'With 3 sets match' do
       let(:score) do
@@ -94,6 +99,12 @@ describe FinishMatch do
 
         expect(match.finished?).to be true
         expect(match.published?).to be true
+      end
+
+      it 'Updates attributes' do
+        match = finish_match
+
+        expect(match.note).to eq 'Changed note'
       end
     end
 
@@ -338,6 +349,12 @@ describe FinishMatch do
           expect(match.finished?).to be false
           expect(match.published?).to be false
         end
+
+        it 'Does not updates attributes' do
+          finish_match
+
+          expect(match.reload.note).to eq 'Original note'
+        end
       end
 
       context 'Special case when there is next round with rankings already existing' do
@@ -424,7 +441,7 @@ describe FinishMatch do
       described_class.call(
         match,
         score,
-        retirement: { retired_player_id: retired_player_id }
+        attributes: { retired_player_id: retired_player_id, note: 'Changed note' }
       ).result
     end
 
@@ -496,6 +513,12 @@ describe FinishMatch do
       expect(match.finished?).to be true
       expect(match.published?).to be true
     end
+
+    it 'Updates attributes' do
+      match = finish_match
+
+      expect(match.note).to eq 'Changed note'
+    end
   end
 
   context 'With retirement with no games played' do
@@ -503,7 +526,7 @@ describe FinishMatch do
       described_class.call(
         match,
         score,
-        retirement: { retired_player_id: retired_player_id }
+        attributes: { retired_player_id: retired_player_id, note: 'Changed note' }
       ).result
     end
 
@@ -572,6 +595,12 @@ describe FinishMatch do
 
       expect(match.finished?).to be true
       expect(match.published?).to be true
+    end
+
+    it 'Updates attributes' do
+      match = finish_match
+
+      expect(match.note).to eq 'Changed note'
     end
   end
 end

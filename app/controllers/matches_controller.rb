@@ -68,7 +68,15 @@ class MatchesController < ApplicationController
   def finish
     authorize @match
 
-    FinishMatch.call(@match, params[:score], retirement: { retired_player_id: params[:retired_player_id] })
+    FinishMatch.call(
+      @match,
+      params[:score],
+      attributes: {
+        retired_player_id: params[:retired_player_id],
+        note: params[:note]
+      }
+    )
+
     redirect_to @match
   end
 
