@@ -1,5 +1,5 @@
 class FinishMatch < Patterns::Service
-  pattr_initialize :match, :score, [:retirement]
+  pattr_initialize :match, :score, [:attributes]
 
   def call
     ActiveRecord::Base.transaction do
@@ -8,6 +8,7 @@ class FinishMatch < Patterns::Service
       begin
         set_match_score
         set_match_winner_and_looser
+        set_match_attributes
         mark_match_finished
         update_rankings!
       rescue ScoreInvalidError, RankingMissingError => e
@@ -43,6 +44,10 @@ class FinishMatch < Patterns::Service
     else
       raise ScoreInvalidError
     end
+  end
+
+  def set_match_attributes
+    match.note = attributes[:note]
   end
 
   def set_match_score
@@ -193,15 +198,15 @@ class FinishMatch < Patterns::Service
   end
 
   def match_retired?
-    @match_retired ||= retirement && retirement[:retired_player_id].present?
+    @match_retired ||= attributes && attributes[:retired_player_id].present?
   end
 
   def player1_retired?
-    @player1_retired ||= match_retired? && retirement[:retired_player_id] == match.player1_id
+    @player1_retired ||= match_retired? && attributes[:retired_player_id] == match.player1_id
   end
 
   def player2_retired?
-    @player2_retired ||= match_retired? && retirement[:retired_player_id] == match.player2_id
+    @player2_retired ||= match_retired? && attributes[:retired_player_id] == match.player2_id
   end
 
   class ScoreInvalidError < StandardError
