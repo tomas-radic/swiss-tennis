@@ -19,4 +19,12 @@ class ApplicationController < ActionController::Base
   def verify_user_logged_in
     redirect_to login_path and return if current_user.nil?
   end
+
+  def current_season
+    # TODO
+  end
+
+  def current_round
+    # TODO
+  end
 end
