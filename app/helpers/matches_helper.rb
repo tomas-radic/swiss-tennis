@@ -23,22 +23,22 @@ module MatchesHelper
     result_html = "<tr class=\"#{color_class}\"><td>"
 
     if match.player1_id == match.winner_id
-      result_html += "<strong>#{match.player1.name}</strong>"
+      result_html += "<strong>#{link_to(match.player1.name, player_path(match.player1), class: 'quiet-link')}</strong>"
     elsif match.player1 == match.retired_player
-      result_html += "<span class=\"text-secondary\">#{match.player1.name}</span>"
+      result_html += "<span class=\"text-secondary\">#{link_to(match.player1.name, player_path(match.player1), class: 'quiet-link')}</span>"
     else
-      result_html += match.player1.name
+      result_html += link_to(match.player1.name, player_path(match.player1), class: 'quiet-link')
     end
 
     result_html += " (#{match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i}b)"
     result_html += "<br><small><i>#{link_to match.player1.phone, "tel:#{match.player1.phone}"}</i></small></td><td>"
 
     if match.player2_id == match.winner_id
-      result_html += "<strong>#{match.player2.name}</strong>"
+      result_html += "<strong>#{link_to(match.player2.name, player_path(match.player2), class: 'quiet-link')}</strong>"
     elsif match.player2 == match.retired_player
-      result_html += "<span class=\"text-secondary\">#{match.player2.name}</span>"
+      result_html += "<span class=\"text-secondary\">#{link_to(match.player2.name, player_path(match.player2), class: 'quiet-link')}</span>"
     else
-      result_html += match.player2.name
+      result_html += link_to(match.player2.name, player_path(match.player2), class: 'quiet-link')
     end
 
     result_html += " (#{match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i}b)"

@@ -34,6 +34,7 @@
 }
 
 //
+// General
 
 .jumbotron {
   background-color: inherit;
@@ -49,6 +50,11 @@ p.lead .bagge-pill-wider {
 
 .span-dbl-confirm {
   display: none;
+}
+
+a.quiet-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 //
