@@ -65,6 +65,16 @@ namespace :data do
     puts 'Done.'
   end
 
+  task output_season_rankings_errors: :environment do
+    season = Season.all.order(:created_at).first
+
+    if season
+      OutputSeasonRankingsErrors.call(season)
+    else
+      puts 'Season not found.'
+    end
+  end
+
   task reset_season_rankings: :environment do
     season = Season.all.order(:created_at).first
 

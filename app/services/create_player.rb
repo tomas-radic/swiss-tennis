@@ -18,7 +18,7 @@ class CreatePlayer < Patterns::Service
   end
 
   def current_round
-    @current_round ||= season.rounds.open.first
+    @current_round ||= season.rounds.default.first
   end
 
   def add_ranking
