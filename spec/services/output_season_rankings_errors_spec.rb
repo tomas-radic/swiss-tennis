@@ -1,11 +1,12 @@
 require 'rails_helper'
 
-describe ResetSeasonRankings do
+describe OutputSeasonRankingsErrors do
   subject(:service) { described_class.call(season) }
 
   let!(:season) { create(:season) }
-  let!(:ranking1) { create(:ranking) }
-  let!(:ranking2) { create(:ranking) }
+  let!(:round) { create(:round, season: season) }
+  let!(:ranking1) { create(:ranking, round: round) }
+  let!(:ranking2) { create(:ranking, round: round) }
   let(:rankings_hashes) do
     [
       {
@@ -33,26 +34,10 @@ describe ResetSeasonRankings do
     ]
   end
 
-  it 'Runs SeasonRankings calculation and updates existing rankings' do
-    expect(SeasonRankings).to receive(:result_for).with(season: season).and_return(rankings_hashes)
+  it 'Runs SeasonRankings calculation' do
+    expect(SeasonRankings).to receive(:result_for).with({ season: season })
+        .and_return(rankings_hashes)
 
     service
-
-    expect(ranking1.reload).to have_attributes(
-      points: 5,
-      toss_points: 5,
-      handicap: 15,
-      sets_difference: 25,
-      games_difference: 25,
-      relevant: true
-    )
-    expect(ranking2.reload).to have_attributes(
-      points: 7,
-      toss_points: 7,
-      handicap: 17,
-      sets_difference: 27,
-      games_difference: 27,
-      relevant: true
-    )
   end
 end
