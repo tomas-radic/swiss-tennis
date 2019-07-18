@@ -65,6 +65,7 @@ namespace :data do
     puts 'Done.'
   end
 
+  desc 'Analyzes existing rankings based on matches played in given season, outputs possible differences'
   task output_season_rankings_errors: :environment do
     season = Season.all.order(:created_at).first
 
@@ -75,6 +76,7 @@ namespace :data do
     end
   end
 
+  desc 'Resets existing rankings based on matches played in given season'
   task reset_season_rankings: :environment do
     season = Season.all.order(:created_at).first
 
