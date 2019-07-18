@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :season do
-    name { "MyString" }
+    name { "<add year here>" }
   end
 end
