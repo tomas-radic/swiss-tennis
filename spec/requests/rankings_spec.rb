@@ -5,6 +5,7 @@ include AuthenticationHelpers
 
 RSpec.describe "Rankings", type: :request do
   let!(:user) { create(:user) }
+  let!(:season) { create(:season) }
 
   describe "GET /rankings" do
     subject(:get_rankings) { get rankings_path }

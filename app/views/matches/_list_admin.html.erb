@@ -20,7 +20,7 @@
         <%= render 'matches/table', matches: draft_matches %>
         <% if draft_matches.any? %>
           <p class="text-center">
-            <%= double_confirm_button('Zverejniť všetky!', publish_all_matches_round_path(@round), 'btn btn-sm btn-success') %>
+            <%= double_confirm_button('Zverejniť všetky!', publish_all_matches_round_path(round), 'btn btn-sm btn-success') %>
           </p>
         <% end %>
       </div>

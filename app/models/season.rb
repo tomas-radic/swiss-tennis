@@ -5,5 +5,5 @@ class Season < ApplicationRecord
 
   validates :name, presence: true
 
-  scope :default, -> { order(created_at: :desc) } # (default_scope is not preferred)
+  scope :default, -> { order(name: :desc) } # (default_scope is not preferred)
 end

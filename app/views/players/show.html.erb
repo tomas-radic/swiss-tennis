@@ -31,9 +31,9 @@
 <div class="row">
   <div class="col">
     <p class="lead text-center">
-      <%= "Zápasy sezóny #{@season.name}" %>
+      <%= "Zápasy sezóny #{selected_season.name}" %>
     </p>
-    <%= render 'matches/table', matches: PlayerSeasonMatchesQuery.call(player: @player, season: @season)
+    <%= render 'matches/table', matches: PlayerSeasonMatchesQuery.call(player: @player, season: selected_season)
         .includes(:round, :winner, player1: :rankings, player2: :rankings) %>
   </div>
 </div>
