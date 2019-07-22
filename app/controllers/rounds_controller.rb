@@ -1,10 +1,9 @@
 class RoundsController < ApplicationController
   before_action :verify_user_logged_in
-  before_action :load_season, only: [:index, :show, :new, :create]
-  before_action :set_round, only: [:show, :edit, :update, :toss_matches, :publish_all_matches]
+  before_action :load_record, only: [:show, :edit, :update, :toss_matches, :publish_all_matches]
 
   def index
-    @rounds = @season.rounds.all
+    @rounds = selected_season.rounds.all
   end
 
   def show
@@ -12,7 +11,7 @@ class RoundsController < ApplicationController
   end
 
   def new
-    @round = @season.rounds.new
+    @round = selected_season.rounds.new
   end
 
   def edit
@@ -66,7 +65,7 @@ class RoundsController < ApplicationController
     redirect_to root_path and return unless @season.present?
   end
 
-  def set_round
+  def load_record
     @round = Round.find(params[:id])
   end
 

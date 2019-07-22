@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   protect_from_forgery with: :exception
-  helper_method :current_user, :user_signed_in?
+  helper_method :current_user, :user_signed_in?, :selected_season, :selected_round
 
   def current_user
     if session[:user_id]
@@ -20,11 +20,18 @@ class ApplicationController < ActionController::Base
     redirect_to login_path and return if current_user.nil?
   end
 
-  def current_season
-    # TODO
+  def selected_season
+    @selected_season ||= SelectedSeason.result_for(season_id: params[:season_id]) || not_found!
   end
 
-  def current_round
-    # TODO
+  def selected_round
+    @selected_round ||= SelectedRound.result_for(
+      selected_season,
+      round_id: params[:round_id]
+    )
+  end
+
+  def not_found!
+    raise ActionController::RoutingError.new('Not Found')
   end
 end

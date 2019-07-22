@@ -20,15 +20,6 @@ RSpec.describe "Rounds", type: :request do
         expect(response).to render_template(:index)
         expect(response).to have_http_status(200)
       end
-
-      context 'When there is no season' do
-        before { Season.destroy_all }
-
-        it 'Redirects to root' do
-          expect(response).to redirect_to root_path
-          get_rounds
-        end
-      end
     end
 
     context 'When logged out' do
