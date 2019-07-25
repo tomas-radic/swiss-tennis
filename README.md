@@ -9,24 +9,24 @@ by individual rounds.
 
 The organizer of the competition can sign in and manage the players, rounds and matches. It includes functionality for automatic swiss tossing system for next rounds to be played.
 
-* Ruby version
+## Ruby version
 2.5.3
 
-* Rails version
+## Rails version
 5.2.3
 
-* Database creation
+## Database creation
 rails db:migrate:reset
 
-* Create default data
+## Create default data
 rails data:create_users
 rails data:create_categories
 rails data:create_dummy_player
 rails data:create_season
 rails data:enroll_players_to_most_recent_season
 
-* Database seeds
+## Database seeds
 rails db:seed
 
-* How to run the test suite
+## How to run the test suite
 bundle exec rspec spec
