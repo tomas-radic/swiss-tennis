@@ -7,12 +7,12 @@ RSpec.describe "Users", type: :request do
   describe "GET /users/abc/edit" do
     subject { get "/users/#{user.id}/edit" }
 
-    let!(:user) { create(:user, email: 'john@gmail.com', password: 'nbusr123') }
+    let!(:user) { create(:user, email: 'john@gmail.com', password: 'password') }
 
     context 'With logged in user' do
       context 'Editing self' do
         before(:each) do
-          login user, 'nbusr123'
+          login user, 'password'
         end
 
         it 'Renders edit form and responds with success' do

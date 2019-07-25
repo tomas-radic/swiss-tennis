@@ -42,7 +42,7 @@ ActiveRecord::Base.transaction do
   # Users
   puts "\nCreating users ..."
   %w{tomas.radic@gmail.com ondrejemilbabala@gmail.com}.each do |email|
-    User.create!(email: email, password: 'nbusr123')
+    User.create!(email: email, password: 'password')
   end unless User.any?
 
   #
