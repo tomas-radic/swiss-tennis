@@ -1,24 +1,32 @@
-# README
+# swiss-tennis
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This web application has been developed for the new tennis competition being played in my original
+hometown organised by my friend. It is a voluntary non-profit project just to make
+the competition happen.
 
-Things you may want to cover:
+The public pages display planned and completed matches and rankings of players switchable
+by individual rounds.
+
+The organizer of the competition can sign in and manage the players, rounds and matches. It includes functionality for automatic swiss tossing system for next rounds to be played.
 
 * Ruby version
+2.5.3
 
-* System dependencies
-
-* Configuration
+* Rails version
+5.2.3
 
 * Database creation
+rails db:migrate:reset
 
-* Database initialization
+* Create default data
+rails data:create_users
+rails data:create_categories
+rails data:create_dummy_player
+rails data:create_season
+rails data:enroll_players_to_most_recent_season
+
+* Database seeds
+rails db:seed
 
 * How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+bundle exec rspec spec
