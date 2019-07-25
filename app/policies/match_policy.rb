@@ -9,6 +9,14 @@ class MatchPolicy < ApplicationPolicy
     end
   end
 
+  def new?
+   create?
+  end
+
+  def create?
+   user.present?
+  end
+
   def destroy?
     match_not_finished?
   end

@@ -18,15 +18,21 @@ by individual rounds.
 ## Database creation
 - rails db:migrate:reset
 
-## Create default data
-- rails data:create_users
-- rails data:create_categories
-- rails data:create_dummy_player
-- rails data:create_season
-- rails data:enroll_players_to_most_recent_season
-
 ## Database seeds
 - rails db:seed
 
 ## How to run the test suite
 - bundle exec rspec spec
+
+## Start the server
+- rails s
+
+## Visit homepage
+- http://localhost:3000
+
+## Tasks to run on deployed app
+- rails data:create_users
+- rails data:create_categories
+- rails data:create_dummy_player
+- rails data:create_season
+- rails data:enroll_players_to_most_recent_season
