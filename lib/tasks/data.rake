@@ -40,7 +40,7 @@ namespace :data do
     puts 'Done.'
   end
 
-  desc "Creates first season"
+  desc "Creates season"
   task create_season: :environment do
     %w{2019}.each do |season|
       puts "Creating #{season} ..."
@@ -50,9 +50,9 @@ namespace :data do
     puts 'Done.'
   end
 
-  desc "Enroll all existing players to first season"
-  task enroll_players_to_first_season: :environment do
-    season = Season.all.order(:created_at).first
+  desc "Enroll all existing players to the most recent season"
+  task enroll_players_to_most_recent_season: :environment do
+    season = SelectedSeason.result_for(season_id: nil)
 
     if season.present?
       Player.all.each do |player|
