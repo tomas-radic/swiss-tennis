@@ -42,25 +42,25 @@ class Match < ApplicationRecord
   private
 
   def has_two_players
-    errors.add(:players, 'Zápas musí mať presne dvoch hráčov') if players.length != 2
+    errors.add(:players, 'Zápas musí mať presne dvoch hráčov') if player1_id.nil? || player2_id.nil?
   end
 
   def players_are_different
-    errors.add(:player2, 'Hráč nemôže hrať sám so sebou') if player1 == player2
+    errors.add(:player2, 'Hráč nemôže hrať sám so sebou') if player1_id == player2_id
   end
 
   def winner_is_player
-    return unless winner.present?
+    return unless winner_id.present?
 
-    if winner != player1 && winner != player2
+    if winner_id != player1_id && winner_id != player2_id
       errors.add(:winner, 'Víťaz zápasu musí byť jeden z priradených hráčov')
     end
   end
 
   def looser_is_player
-    return unless looser.present?
+    return unless looser_id.present?
 
-    if looser != player1 && looser != player2
+    if looser_id != player1_id && looser_id != player2_id
       errors.add(:looser, 'Porazený musí byť jeden z priradených hráčov')
     end
   end

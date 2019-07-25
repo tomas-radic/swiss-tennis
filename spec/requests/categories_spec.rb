@@ -4,7 +4,7 @@ require 'requests/authentication_helpers'
 include AuthenticationHelpers
 
 RSpec.describe "Categories", type: :request do
-  let!(:user) { create(:user, password: 'nbusr123') }
+  let!(:user) { create(:user, password: 'password') }
   let!(:category) { create(:category) }
 
   describe "GET /categories" do
@@ -22,7 +22,7 @@ RSpec.describe "Categories", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       it "returns a success response" do
@@ -47,7 +47,7 @@ RSpec.describe "Categories", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       it "returns a success response" do
@@ -70,7 +70,7 @@ RSpec.describe "Categories", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       context "With valid params" do
@@ -122,7 +122,7 @@ RSpec.describe "Categories", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       context "With valid params" do
@@ -180,7 +180,7 @@ RSpec.describe "Categories", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       it "Destroys the requested category" do

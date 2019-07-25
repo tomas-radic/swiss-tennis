@@ -6,7 +6,7 @@ namespace :data do
 
       if user.nil?
         puts "Creating #{email} ..."
-        User.create!(email: email, password: 'nbusr123')
+        User.create!(email: email, password: 'password')
       else
         puts "#{email} already exists"
       end

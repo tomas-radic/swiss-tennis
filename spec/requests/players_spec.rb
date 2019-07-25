@@ -35,7 +35,7 @@ RSpec.describe "Players", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       it "returns a success response" do
@@ -60,7 +60,7 @@ RSpec.describe "Players", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       it "returns a success response" do
@@ -86,7 +86,7 @@ RSpec.describe "Players", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       context "With valid params" do
@@ -148,7 +148,7 @@ RSpec.describe "Players", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'nbusr123')
+        login(user, 'password')
       end
 
       context "With valid params" do
