@@ -1,8 +1,8 @@
 sk:
   date:
     formats:
-      date_month: '%-d. %b'
-      date_month_year: '%-d. %b %Y'
+      date_month: '%-d. %B'
+      date_month_year: '%-d. %B %Y'
     abbr_month_names:
       -
       - jan
@@ -17,8 +17,22 @@ sk:
       - okt
       - nov
       - dec
+    month_names:
+      -
+      - január
+      - február
+      - marec
+      - apríl
+      - máj
+      - jún
+      - júl
+      - august
+      - september
+      - október
+      - november
+      - december
   time:
     formats:
-      date_month: '%-d. %b'
-      date_month_year: '%-d. %b %Y'
-      date_with_time: '%-d. %b %Y, %k:%M'
+      date_month: '%-d. %B'
+      date_month_year: '%-d. %B %Y'
+      date_with_time: '%-d. %B %Y, %k:%M'
