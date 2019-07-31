@@ -32,7 +32,12 @@
           <% if user_signed_in? %>
             <th scope="col">Body pre žreb</th>
           <% end %>
-          <th scope="col">Body súperov</th>
+          <th scope="col">
+            Body súperov
+            <span data-toggle="tooltip" data-placement="left", title="Súčet bodov tých hráčov, s ktorými má hráč odohratý zápas v tejto sezóne vrátane tohto kola">
+              <%= fa_icon 'question-circle' %>
+            </span>
+          </th>
           <% if user_signed_in? %>
             <th></th>
           <% end %>
@@ -53,3 +58,5 @@
     </div>
   </div>
 <% end %>
+
+<%= render 'rankings/scripts' %>
