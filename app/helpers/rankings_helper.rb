@@ -5,6 +5,7 @@ module RankingsHelper
     result_html =  "<tr class=\"#{row_class}\">
                       <td>#{order_number}</td>
                       <td>#{link_to(ranking.player.name, player_path(ranking.player), class: 'quiet-link')}</td>
+                      <td>#{ranking.player.category.name}</td>
                       <td>#{ranking.points}</td>"
 
     if user_signed_in?
