@@ -15,6 +15,10 @@
 
 <%= round_progress_info(selected_round) if selected_round.present? %>
 
+<% if @most_recent_article.present? %>
+  <div class="mb-4"><%= render 'articles/tile', article: @most_recent_article %></div>
+<% end %>
+
 <p class="text-center">
   <% if selected_season && selected_round && policy(Match).create? %>
     <%= link_to 'Nový zápas', new_match_path(round_id: selected_round.id), class: 'btn btn-sm btn-success' %>

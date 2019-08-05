@@ -1,0 +1,22 @@
+<div class="clearfix">
+  <div class="float-right">
+    <%= link_to 'Všetky novinky', articles_path, class: 'btn btn-outline-success my-1' %>
+    <% if user_signed_in? %>
+      <%= link_to 'Upraviť', edit_article_path(@article), class: 'btn btn-success my-1' %>
+      <%= link_to 'Vymazať', article_path(@article), method: :delete, data: { confirm: "Naozaj vymazať?" }, class: 'btn btn-danger my-1' %>
+    <% end %>
+  </div>
+</div>
+<h1 class="display-4 text-center"><%= @article.title %></h1>
+<hr>
+<p class="text-justify">
+  <%= @article.content %>
+</p>
+<div class="clearfix">
+  <p class="text-secondary text-center">
+    <small>
+      <%= link_to @article.user.email, "mailto:#{@article.user.email}", class: 'quiet-link' %>,
+      <%= I18n.localize(@article.updated_at, format: :date_month) %>
+    </small>
+  </p>
+</div>

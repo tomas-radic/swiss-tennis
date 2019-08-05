@@ -4,6 +4,7 @@ class MatchesController < ApplicationController
 
   def index
     @matches_count = 0
+    @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
 
     if selected_round.present?
       @published_matches = PublishedMatchesQuery.call(round: selected_round).includes(:winner)

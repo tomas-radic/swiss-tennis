@@ -24,4 +24,6 @@ Rails.application.routes.draw do
 
   # Static pages
   get '/pages/about', to: 'pages#about'
+
+  resources :articles
 end
