@@ -9,7 +9,7 @@
     <div class="col-12">
       <div class="field form-group">
         <%= form.label :content, 'Obsah' %><br />
-        <%= form.text_area :content, class: add_error_class_to('form-control', @article, :content) %>
+        <%= form.text_area :content, rows: 8, class: add_error_class_to('form-control', @article, :content) %>
       </div>
     </div>
   </div>
@@ -18,6 +18,9 @@
     <div class="col-lg-6">
       <div class="field form-group">
         <%= form.label :last_date_interesting, 'Relevantné do' %><br />
+        <span data-toggle="tooltip" data-placement="left", title="Ak je tento dátum vyplnený, tento článok sa po tomto dátume už nebude zobrazovať ako 'Novinka' na stránke zápasov a stránke rebríčka">
+          <%= fa_icon 'question-circle' %>
+        </span>
         <%= form.date_field :last_date_interesting, class: 'form-control' %>
       </div>
     </div>

@@ -8,9 +8,21 @@
   </div>
 </div>
 <h1 class="display-4 text-center"><%= @article.title %></h1>
+<% if user_signed_in? %>
+  <hr>
+  <p class="lead text-center">
+    <%= article_published_pill(@article) %>
+  </p>
+  <% if @article.last_date_interesting %>
+    <p class="text-center">
+      Označený ako relevantný do <%= I18n.localize(@article.last_date_interesting, format: :date_month) %>
+    </p>
+  <% end %>
+<% end %>
+
 <hr>
 <p class="text-justify">
-  <%= @article.content %>
+  <%= simple_format(@article.content) %>
 </p>
 <div class="clearfix">
   <p class="text-secondary text-center">

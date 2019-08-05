@@ -30,6 +30,7 @@ class ArticlesController < ApplicationController
   end
 
   def edit
+    @heading = @article.title
   end
 
   def update
