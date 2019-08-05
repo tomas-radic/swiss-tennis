@@ -1,0 +1,16 @@
+<div class="card my-2">
+  <div class="card-body">
+    <div class="clearfix">
+      <h3 class="card-title float-left">
+        <%= link_to article.title, article_path(article), class: 'quiet-link' %>
+      </h3>
+      <p class="float-right text-secondary">
+        <small>
+          <%= link_to article.user.email, "mailto:#{article.user.email}", class: 'quiet-link' %>,
+          <%= I18n.localize(article.updated_at, format: :date_month) %>
+        </small>
+      </p>
+    </div>
+    <p class="card-text"><%= preview_content(article) %></p>
+  </div>
+</div>

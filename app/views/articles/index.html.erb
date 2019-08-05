@@ -1,0 +1,13 @@
+<% if selected_season && user_signed_in? %>
+  <%= link_to 'Pridať novinku', new_article_path, class: 'btn btn-sm btn-success my-1' %>
+<% end %>
+
+<p class="lead">
+  Novinky
+</p>
+
+<% if user_signed_in? %>
+  <%= render 'list_admin' %>
+<% else %>
+  <%= render 'list_public' %>
+<% end %>

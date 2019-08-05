@@ -1,0 +1,44 @@
+<%= form_with(model: article, local: true) do |form| %>
+  <div class="row">
+    <div class="col-12">
+      <div class="field form-group">
+        <%= form.label :title, 'Názov' %><br />
+        <%= form.text_field :title, autofocus: true, class: add_error_class_to('form-control', @article, :title) %>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="field form-group">
+        <%= form.label :content, 'Obsah' %><br />
+        <%= form.text_area :content, rows: 8, class: add_error_class_to('form-control', @article, :content) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="field form-group">
+        <%= form.label :last_date_interesting, 'Relevantné do' %><br />
+        <span data-toggle="tooltip" data-placement="left", title="Ak je tento dátum vyplnený, tento článok sa po tomto dátume už nebude zobrazovať ako 'Novinka' na stránke zápasov a stránke rebríčka">
+          <%= fa_icon 'question-circle' %>
+        </span>
+        <%= form.date_field :last_date_interesting, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="custom-control custom-checkbox">
+        <br><br>
+        <%= form.check_box :published, class: 'custom-control-input' %>
+        <%= form.label :published, 'Zverejnené', class: 'custom-control-label' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="actions">
+        <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+        <%= link_to 'Zrušiť', articles_path, class: 'btn btn-lg btn-outline-success my-1' %>
+      </div>
+    </div>
+  </div>
+<% end %>

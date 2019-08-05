@@ -1,5 +1,5 @@
 module MatchesHelper
-  def published_pill(match)
+  def match_published_pill(match)
     if match.finished?
       '<span class="badge badge-pill badge-success">Zápas je uzavretý.</span>'.html_safe
     elsif match.published?

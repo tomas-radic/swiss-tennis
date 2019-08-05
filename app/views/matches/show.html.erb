@@ -8,7 +8,7 @@
       <!-- <span class="float-left">(lopty)</span> -->
     <%# end %>
     <div class="float-right">
-      <%= link_to 'Naspäť', matches_path(round_id: @match.round_id), class: 'btn btn-outline-success my-1' %>
+      <%= link_to 'Všetky zápasy', matches_path(round_id: @match.round_id), class: 'btn btn-outline-success my-1' %>
       <% if user_signed_in? %>
         <%= link_to 'Upraviť', edit_match_path(@match), class: 'btn btn-success my-1' %>
         <% if policy(@match).destroy? %>
@@ -66,7 +66,7 @@
 <% if user_signed_in? %>
   <hr>
   <p class="lead text-center">
-    <%= published_pill(@match) %>
+    <%= match_published_pill(@match) %>
   </p>
   <% if @match.from_toss? %>
     <p class="lead text-center"><small><i>Zápas vznikol automatickým žrebovaním.</i></small></p>

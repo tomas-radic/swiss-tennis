@@ -49,8 +49,8 @@ ActiveRecord::Base.transaction do
   # Seasons
 
   puts "\nCreating seasons ..."
-  Season.create!(name: '2019') unless Season.any?
-  season = Season.all.order(:created_at).last
+  Season.create!(name: Date.today.year.to_s) unless Season.any?
+  season = Season.default.first
 
   #
   # Categories
@@ -141,6 +141,19 @@ ActiveRecord::Base.transaction do
       round.rankings.create!(sample_round_ranking_attributes_for(player2, i))
     end
   end unless Match.any?
+
+  #
+  # Articles
+  
+  puts "\nCreating articles ..."
+  rand(6..9).times do
+    Article.published.create!(
+      title: Faker::Lorem.words(2..4).join(' '),
+      content: Faker::Lorem.paragraph(5..25),
+      user: User.all.sample,
+      season: season
+    )
+  end unless Article.any?
 
   puts "\nDone."
 end

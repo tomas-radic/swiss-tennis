@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col">
+    <ul class="nav nav-tabs" id="tab-articles" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="published-tab" data-toggle="tab" href="#published" role="tab" aria-controls="published" aria-selected="true">
+          Zverejnené <span class="badge badge-light"><%= @articles.published.size %></span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="draft-tab" data-toggle="tab" href="#draft" role="tab" aria-controls="draft" aria-selected="false">
+          Nezverejnené <span class="badge badge-light"><%= @articles.draft.size %></span>
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content" id="tab-matches-content">
+      <div class="tab-pane fade show active" id="published" role="tabpanel" aria-labelledby="published-tab">
+        <div class="row">
+          <% if @articles.published.any? %>
+            <% @articles.published.each do |article| %>
+              <div class="col-12">
+                <%= render 'tile', article: article %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="col-12">
+              <p class="lead text-center">Žiadne novinky.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
+        <div class="row">
+          <% if @articles.draft.any? %>
+            <% @articles.draft.each do |article| %>
+              <div class="col-12">
+                <%= render 'tile', article: article %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="col-12">
+              <p class="lead text-center">Žiadne novinky.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
