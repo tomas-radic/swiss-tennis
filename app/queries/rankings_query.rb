@@ -9,7 +9,7 @@ class RankingsQuery < Patterns::Query
         .where(round: round)
         .order(relevant: :desc, points: :desc, handicap: :desc, sets_difference: :desc, games_difference: :desc)
         .order('players.created_at asc')
-        .includes(:round, player: :matches)
+        .includes(:round, player: [:matches, :category])
   end
 
   def round
