@@ -8,7 +8,7 @@ describe FinishMatch do
   let!(:player2) { create(:player, last_name: 'Player2') }
 
   let!(:opponent_r1_p1) { create(:player) } # opponent of player1 in 1st round
-  let!(:opponent_r1_p2) { create(:player, first_name: 'cicik') } # opponent of player2 in 1st round
+  let!(:opponent_r1_p2) { create(:player) } # opponent of player2 in 1st round
 
   let!(:ranking11) { create(:ranking, round: round1, player: player1, points: 0, toss_points: 0, handicap: 1, sets_difference: 1, games_difference: 4) }
   let!(:ranking12) { create(:ranking, round: round1, player: player2, points: 2, toss_points: 2, handicap: 0, sets_difference: -1, games_difference: 2) }

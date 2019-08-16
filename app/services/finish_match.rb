@@ -108,7 +108,7 @@ class FinishMatch < Patterns::Service
   end
 
   def update_opponents_handicaps!
-    winner_opponents = PlayerOpponentsUpToRoundQuery.call(player: match.winner, round: match.round)
+    winner_opponents = PlayerOpponentsInSeasonQuery.call(player: match.winner, season: match.round.season)
 
     winner_opponents.each do |opponent|
       opponent_rankings_to_update = PlayerRankingsSinceRoundQuery.call(player: opponent, round: match.round)
