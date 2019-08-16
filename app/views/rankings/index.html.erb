@@ -52,7 +52,7 @@
       </thead>
       <tbody>
         <% @rankings.each_with_index do |ranking, i| %>
-          <%= ranking_table_row(ranking, i + 1) %>
+          <%= render partial: 'rankings/table_row', locals: { ranking: ranking, order_number: i + 1 } %>
         <% end %>
       </tbody>
     </table>

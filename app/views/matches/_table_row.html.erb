@@ -1,0 +1,43 @@
+<tr class="<%= matches_table_row_color_class(match) %>">
+  <td>
+    <% if match.player1_id == match.winner_id %>
+      <strong>
+    <% elsif match.player1 == match.retired_player %>
+      <span class="text-secondary">
+    <% end %>
+    <%= link_to(match.player1.name, player_path(match.player1), class: 'quiet-link') %>
+    <% if match.player1_id == match.winner_id %>
+      </strong>
+    <% elsif match.player1 == match.retired_player %>
+      </span>
+    <% end %>
+    (<%= match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
+    <br>
+    <small><i><%= link_to match.player1.phone, "tel:#{match.player1.phone}" %></i></small>
+  </td>
+  <td>
+    <% if match.player2_id == match.winner_id %>
+      <strong>
+    <% elsif match.player2 == match.retired_player %>
+      <span class="text-secondary">
+    <% end %>
+    <%= link_to(match.player2.name, player_path(match.player2), class: 'quiet-link') %>
+    <% if match.player2_id == match.winner_id %>
+      </strong>
+    <% elsif match.player2 == match.retired_player %>
+      </span>
+    <% end %>
+    (<%= match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
+    <br>
+    <small><i><%= link_to match.player2.phone, "tel:#{match.player2.phone}" %></i></small>
+  </td>
+  <td>
+    <%= match.note %>
+  </td>
+  <td>
+    <%= MatchDecorator.new(match).score %>
+  </td>
+  <td>
+    <%= link_to 'Detail', match_path(match), class: 'btn btn-sm btn-success' %>
+  </td>
+</tr>

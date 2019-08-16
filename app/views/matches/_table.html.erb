@@ -16,7 +16,8 @@
       <tbody>
         <% matches.each do |match| %>
           <% next if !user_signed_in? && (match.player1.dummy? || match.player2.dummy?) %>
-          <%= match_table_row(match) %>
+          <%= render partial: 'matches/table_row', locals: { match: match } %>
+          <%#= match_table_row(match) %>
         <% end %>
       </tbody>
     </table>

@@ -11,6 +11,11 @@
         </small>
       </p>
     </div>
-    <p class="card-text"><%= preview_content(article) %></p>
+    <p class="card-text">
+      <%= article.content[0...ArticlesHelper::PREVIEW_CONTENT_MAX_LENGTH] %>
+      <% if article.content.length > ArticlesHelper::PREVIEW_CONTENT_MAX_LENGTH %>
+        ... <%= link_to('(dočítať celé)', article_path(article)) %>
+      <% end %>
+    </p>
   </div>
 </div>
