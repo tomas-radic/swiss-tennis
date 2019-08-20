@@ -1,6 +1,6 @@
 class MatchesController < ApplicationController
   before_action :verify_user_logged_in, except: [:index, :show]
-  before_action :set_match, only: [:show, :edit, :update, :destroy, :finish, :swap_players]
+  before_action :load_record, only: [:show, :edit, :update, :destroy, :finish, :swap_players]
 
   def index
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
@@ -81,7 +81,7 @@ class MatchesController < ApplicationController
 
   private
 
-  def set_match
+  def load_record
     @match = policy_scope(Match).find(params[:id])
   end
 

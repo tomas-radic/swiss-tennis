@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :verify_user_logged_in, except: [:index]
-  before_action :set_category, only: [:edit, :update, :destroy]
+  before_action :load_record, only: [:edit, :update, :destroy]
 
   def index
     @categories = Category.all.default
@@ -42,7 +42,7 @@ class CategoriesController < ApplicationController
 
   private
 
-  def set_category
+  def load_record
     @category = Category.find(params[:id])
   end
 
