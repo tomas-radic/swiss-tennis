@@ -7,7 +7,7 @@
 </p>
 
 <% if user_signed_in? %>
-  <%= render 'list_admin' %>
+  <%= render 'articles/list_admin' %>
 <% else %>
-  <%= render 'list_public' %>
+  <%= render 'articles/list_public' %>
 <% end %>

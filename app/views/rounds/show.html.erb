@@ -37,8 +37,7 @@
 <hr>
 <p class="lead">Zápasy v tomto kole</p>
 <%= render 'matches/list_admin',
-    published_matches: @round.matches.published.includes(player1: :rankings, player2: :rankings),
-    draft_matches: @round.matches.draft.includes(player1: :rankings, player2: :rankings),
+    matches: @round.matches.includes(:round, player1: :rankings, player2: :rankings),
     round: @round %>
 
 <hr>

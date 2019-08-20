@@ -4,7 +4,7 @@ class MatchPolicy < ApplicationPolicy
       if user.present?
         scope.all
       else
-        scope.published
+        PublishedMatchesQuery.call
       end
     end
   end

@@ -3,23 +3,15 @@ class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy, :finish, :swap_players]
 
   def index
-    @matches_count = 0
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
 
     if selected_round.present?
-      @published_matches = PublishedMatchesQuery.call(round: selected_round).includes(:winner)
-      @last_update_time = @published_matches.pluck(:updated_at).max&.in_time_zone
-      @matches_count += @published_matches.size
-
-      if user_signed_in?
-        @draft_matches = DraftMatchesQuery.call(round: selected_round)
-        @matches_count += @draft_matches.size
-      else
-        @draft_matches = Match.none
-      end
+      @matches = policy_scope(Match).default
+          .where(matches: { round_id: selected_round.id })
+          .includes(:round, player1: :rankings, player2: :rankings)
+      @last_update_time = @matches.pluck(:updated_at).max&.in_time_zone
     else
-      @published_matches = Match.none
-      @draft_matches = Match.none
+      @matches = Match.none
     end
   end
 

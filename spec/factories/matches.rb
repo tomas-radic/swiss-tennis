@@ -28,5 +28,9 @@ FactoryBot.define do
     trait :draft do
       published { false }
     end
+
+    trait :published do
+      published { true }
+    end
   end
 end

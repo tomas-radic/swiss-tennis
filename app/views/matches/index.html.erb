@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     <p class="lead float-left">
-      Zoznam zápasov (<%= @matches_count %>)
+      Zoznam zápasov (<%= @matches.count %>)
       <%= '|' if selected_round.present? %>
       <%= round_element(selected_round, current_user) %>
     </p>
@@ -41,7 +41,7 @@
 </div>
 
 <% if user_signed_in? %>
-  <%= render 'list_admin', published_matches: @published_matches, draft_matches: @draft_matches, round: selected_round %>
+  <%= render 'matches/list_admin', matches: @matches, round: selected_round %>
 <% else %>
-  <%= render 'list_public', matches: @published_matches %>
+  <%= render 'matches/list_public', matches: @matches %>
 <% end %>
