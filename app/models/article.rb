@@ -8,7 +8,7 @@ class Article < ApplicationRecord
             :content,
             presence: true
 
-  scope :sorted, -> { order(created_at: :desc) }
+  scope :sorted, -> { order(updated_at: :desc) }
   scope :published, -> { where(published: true) }
   scope :draft, -> { where(published: false) }
 end

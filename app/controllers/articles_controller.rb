@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :verify_user_logged_in, except: [:index, :show]
-  before_action :load_record, only: [:show, :edit, :update, :destroy]
+  before_action :load_record, only: [:show, :edit, :update, :destroy, :pin]
 
   def index
     @articles = Article.sorted.where(season: selected_season)
@@ -44,6 +44,12 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy
     redirect_to articles_path
+  end
+
+  def pin
+    @article.touch
+    @article.update(published: true)
+    redirect_to @article
   end
 
   private

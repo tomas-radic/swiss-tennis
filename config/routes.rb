@@ -25,5 +25,7 @@ Rails.application.routes.draw do
   # Static pages
   get '/pages/about', to: 'pages#about'
 
-  resources :articles
+  resources :articles do
+    get :pin, on: :member
+  end
 end

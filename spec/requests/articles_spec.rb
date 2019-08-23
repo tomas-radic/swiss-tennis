@@ -19,7 +19,7 @@ RSpec.describe "Articles", type: :request do
     end
   end
 
-  describe "GET /article/abc" do
+  describe "GET /article/:id" do
     subject(:get_article) { get article_path(article) }
 
     context 'With published article' do
@@ -147,7 +147,7 @@ RSpec.describe "Articles", type: :request do
     end
   end
 
-  describe "GET /article/abc/edit" do
+  describe "GET /article/:id/edit" do
     subject(:get_article_edit) { get edit_article_path(article) }
 
     context 'When logged in' do
@@ -170,7 +170,7 @@ RSpec.describe "Articles", type: :request do
     end
   end
 
-  describe "PUT /articles/abc" do
+  describe "PUT /articles/:id" do
     subject(:put_articles) { put article_path(article), params: params }
 
     let(:params) do
@@ -221,7 +221,7 @@ RSpec.describe "Articles", type: :request do
     end
   end
 
-  describe "DELETE /articles/abc" do
+  describe "DELETE /articles/:id" do
     subject(:delete_articles) { delete article_path(article) }
 
     context 'When logged in' do
@@ -249,6 +249,58 @@ RSpec.describe "Articles", type: :request do
 
       it 'Does not destroy the article' do
         expect { delete_articles }.not_to change(Article, :count)
+      end
+    end
+  end
+
+
+
+  describe "GET /articles/:id/pin" do
+    subject(:pin_article) { get pin_article_path(article) }
+
+    let!(:article) { create(:article, :draft, user: user, season: season, updated_at: 2.days.ago) }
+
+    context 'When logged in' do
+      before(:each) do
+        login(user, 'password')
+      end
+
+      it "Sets updated_at attribute of requested article" do
+        pin_article
+
+        expect(article.reload.updated_at).to be > Date.today.beginning_of_day
+      end
+
+      it "Sets article published" do
+        pin_article
+
+        expect(article.reload.published?).to be true
+      end
+
+      it "Redirects back to pinned article" do
+        pin_article
+
+        expect(response).to redirect_to(article_path(article))
+      end
+    end
+
+    context 'When logged out' do
+      it 'Redirects to login' do
+        pin_article
+
+        expect(response).to redirect_to login_path
+      end
+
+      it 'Does not set updated_at attribute of requested article' do
+        pin_article
+
+        expect(article.reload.updated_at).not_to be > Date.today.beginning_of_day
+      end
+
+      it 'Does not publish the article' do
+        pin_article
+
+        expect(article.reload.published?).to be false
       end
     end
   end
