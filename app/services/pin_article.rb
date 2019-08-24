@@ -16,7 +16,7 @@ class PinArticle < Patterns::Service
     result = { published: true }
 
     if article.last_date_interesting && article.last_date_interesting < Date.today
-      result[:last_date_interesting] = Date.today + 5.days
+      result[:last_date_interesting] = nil
     end
 
     result

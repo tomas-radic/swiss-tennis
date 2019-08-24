@@ -36,10 +36,10 @@ describe PinArticle do
       article.update!(last_date_interesting: Date.yesterday)
     end
 
-    it 'Sets last_date_interesting to 5 days from now' do
+    it 'Sets last_date_interesting to nil' do
       pin_article
 
-      expect(article.reload.last_date_interesting).to eq (Date.today + 5.days)
+      expect(article.reload.last_date_interesting).to be_nil
     end
   end
 end
