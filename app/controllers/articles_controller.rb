@@ -47,8 +47,7 @@ class ArticlesController < ApplicationController
   end
 
   def pin
-    @article.touch
-    @article.update(published: true)
+    PinArticle.call(@article)
     redirect_to @article
   end
 

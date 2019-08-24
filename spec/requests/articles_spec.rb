@@ -258,23 +258,20 @@ RSpec.describe "Articles", type: :request do
   describe "GET /articles/:id/pin" do
     subject(:pin_article) { get pin_article_path(article) }
 
-    let!(:article) { create(:article, :draft, user: user, season: season, updated_at: 2.days.ago) }
+    let!(:article) do
+      create(:article, :draft, user: user, season: season,
+          updated_at: 2.days.ago, last_date_interesting: Date.yesterday)
+    end
 
     context 'When logged in' do
       before(:each) do
         login(user, 'password')
       end
 
-      it "Sets updated_at attribute of requested article" do
+      it "Calls PinArticle service object" do
+        expect(PinArticle).to receive(:call).with(article)
+
         pin_article
-
-        expect(article.reload.updated_at).to be > Date.today.beginning_of_day
-      end
-
-      it "Sets article published" do
-        pin_article
-
-        expect(article.reload.published?).to be true
       end
 
       it "Redirects back to pinned article" do
@@ -291,16 +288,10 @@ RSpec.describe "Articles", type: :request do
         expect(response).to redirect_to login_path
       end
 
-      it 'Does not set updated_at attribute of requested article' do
+      it 'Does not call PinArticle service object' do
+        expect(PinArticle).not_to receive(:call).with(article)
+
         pin_article
-
-        expect(article.reload.updated_at).not_to be > Date.today.beginning_of_day
-      end
-
-      it 'Does not publish the article' do
-        pin_article
-
-        expect(article.reload.published?).to be false
       end
     end
   end
