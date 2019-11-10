@@ -8,15 +8,15 @@ describe CreatePlayer do
 
   context 'With valid attributes' do
     let(:attributes) do
-      { first_name: 'Stefanos', last_name: 'Tsitsipas', category_id: category.id }
+      { first_name: 'Roger', last_name: 'Federer', category_id: category.id }
     end
 
     it 'Creates new player' do
       player = create_player
 
       expect(player.persisted?).to be true
-      expect(player.first_name).to eq 'Stefanos'
-      expect(player.last_name).to eq 'Tsitsipas'
+      expect(player.first_name).to eq 'Roger'
+      expect(player.last_name).to eq 'Federer'
       expect(player.category).to eq category
     end
 
@@ -26,28 +26,16 @@ describe CreatePlayer do
       expect(player.seasons).to include(season)
     end
 
-    context 'When season has 1 closed and 1 open round' do
-      let!(:round1) { create(:round, :closed, season: season) }
-      let!(:round2) { create(:round, season: season) }
+    context 'When season has two existing rounds' do
+      let!(:round1) { create(:round, season: season, position: 1) }
+      let!(:round2) { create(:round, season: season, position: 2) }
 
-      it 'Creates ranking for the created player in the open round' do
+      it 'Creates ranking for the player and last existing round of given season' do
         player = create_player
 
-        expect(player.rankings.count).to eq 1
-        expect(player.rankings.find_by(round: round2)).to have_attributes(
-          points: 0,
-          toss_points: 0,
-          handicap: 0,
-          sets_difference: 0,
-          games_difference: 0,
-          relevant: false
-        )
-      end
-    end
-
-    context 'When season has 2 closed rounds' do
-      it 'Does not create ranking for created player' do
-        expect { create_player }.not_to change(Ranking, :count)
+        rankings_of_season = Ranking.joins(round: :season).where(rounds: { season: season })
+        expect(rankings_of_season.count).to eq 1
+        expect(rankings_of_season.first.player).to eq player
       end
     end
   end
