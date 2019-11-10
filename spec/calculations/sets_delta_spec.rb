@@ -100,6 +100,42 @@ describe SetsDelta do
     end
   end
 
+  context 'When player1 refused to play the match' do
+    let!(:match) do
+      create(
+          :match,
+          :finished,
+          player1: p1,
+          player2: p2,
+          players: [p1, p2],
+          retired_player: p1,
+          set1_player1_score: nil,
+          set1_player2_score: nil,
+          set2_player1_score: nil,
+          set2_player2_score: nil,
+          set3_player1_score: nil,
+          set3_player2_score: nil
+      )
+    end
+
+    context 'With player1' do
+      let(:player) { p1 }
+
+
+      it 'Calculates correct result' do
+        expect(calculation).to eq -2
+      end
+    end
+
+    context 'With player2' do
+      let(:player) { p2 }
+
+      it 'Calculates correct result' do
+        expect(calculation).to eq 2
+      end
+    end
+  end
+
   context 'With an unknown player' do
     let(:player) { create(:player) }
     let!(:match) do
