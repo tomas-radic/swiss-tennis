@@ -23,8 +23,9 @@ class FinishMatch2 < Patterns::Service
 
   private
 
-  attr_reader :set1_player1, :set1_player2, :set2_player1, :set2_player2, :set3_player1, :set3_player2
-  attr_reader :remembered_winner_points
+  attr_reader :set1_player1, :set1_player2,
+              :set2_player1, :set2_player2,
+              :set3_player1, :set3_player2
 
   def set_match_winner_and_looser
     if player1_retired?
@@ -74,12 +75,6 @@ class FinishMatch2 < Patterns::Service
 
   def update_rankings!
 
-    # TODO: to be removed?
-    raise RankingMissingError if winner_rankings.empty?
-    raise RankingMissingError if looser_rankings.empty?
-
-
-    # TODO: class query for this...
     rounds = Round.default.joins(:season)
                  .where(seasons: { id: match.round.season_id })
                  .where('rounds.position >= ?', match.round.position)
@@ -109,42 +104,29 @@ class FinishMatch2 < Patterns::Service
       round_looser_ranking.sets_difference += looser_sets_delta
       round_looser_ranking.games_difference += looser_games_delta
 
-      if match_been_played?
+      if match.been_played?
         round_looser_ranking.handicap += round_winner_ranking.points
         round_looser_ranking.relevant = true
       end
+
+      round_winner_ranking.save!
+      round_looser_ranking.save!
     end
 
 
-    update_winner_rankings!
-    update_looser_rankings!
     update_other_opponents_handicaps!
   end
 
-  def update_winner_rankings!
-    winner_rankings.each do |ranking|
-      ranking.points += points_to_add_to_winner
-      ranking.toss_points = ranking.points
-      @remembered_winner_points ||= ranking.points
-      ranking.handicap += looser_rankings.first.points
-      ranking.sets_difference += winner_sets_delta
-      ranking.games_difference += winner_games_delta
-      ranking.relevant = true if match_been_played? || player2_retired?
-
-      ranking.save!
-    end
+  def winner_match_points
+    @winner_match_points ||= looser_won_one_set? ? 2 : 3
   end
 
-  def update_looser_rankings!
-    looser_rankings.each do |ranking|
-      ranking.toss_points = ranking.points
-      ranking.handicap += remembered_winner_points
-      ranking.sets_difference += looser_sets_delta
-      ranking.games_difference += looser_games_delta
-      ranking.relevant = true if match_been_played?
+  def looser_match_points
+    @looser_match_points ||= looser_won_one_set? ? 1 : 0
+  end
 
-      ranking.save!
-    end
+  def looser_won_one_set?
+    NumberOfWonSets.result_for(match: match, player: match.looser) == 1
   end
 
   def update_other_opponents_handicaps!
@@ -163,10 +145,6 @@ class FinishMatch2 < Patterns::Service
     end
   end
 
-  def match_been_played?
-    set1_player1 > 0 || set1_player2 > 0
-  end
-
   def player1_won?
     match.winner == match.player1
   end
@@ -175,16 +153,32 @@ class FinishMatch2 < Patterns::Service
     match.winner == match.player2
   end
 
+  def player1_won_sets_count
+    @player1_won_sets_count ||= NumberOfWonSets.result_for(match: match, player: match.player1)
+  end
+
+  def player2_won_sets_count
+    @player2_won_sets_count ||= NumberOfWonSets.result_for(match: match, player: match.player2)
+  end
+
   def player1_sets_delta
-    @player1_sets_delta ||= SetsDelta.result_for(match: match, player: match.player1)
+    @player1_sets_delta ||= player1_won_sets_count - player2_won_sets_count
   end
 
   def player2_sets_delta
     @player2_sets_delta ||= -player1_sets_delta
   end
 
+  def player1_won_games_count
+    @player1_won_games_count ||= NumberOfWonGames.result_for(match: match, player: match.player1)
+  end
+
+  def player2_won_games_count
+    @player2_won_games_count ||= NumberOfWonGames.result_for(match: match, player: match.player2)
+  end
+
   def player1_games_delta
-    @player1_games_delta ||= GamesDelta.result_for(match: match, player: match.player1)
+    @player1_games_delta ||= player1_won_games_count - player2_won_games_count
   end
 
   def player2_games_delta

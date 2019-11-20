@@ -37,14 +37,10 @@ class GamesDelta < Patterns::Calculation
   end
 
   def count_retirement_override
-    return if match_been_played?
+    return if match.been_played?
 
     @player1_games_won = 12 if player2_retired?
     @player2_games_won = 12 if player1_retired?
-  end
-
-  def match_been_played?
-    match.set1_player1_score.to_i > 0 || match.set1_player2_score.to_i > 0
   end
 
   def player1_retired?

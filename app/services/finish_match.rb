@@ -89,7 +89,7 @@ class FinishMatch < Patterns::Service
       ranking.handicap += looser_rankings.first.points
       ranking.sets_difference += winner_sets_delta
       ranking.games_difference += winner_games_delta
-      ranking.relevant = true if match_been_played? || player2_retired?
+      ranking.relevant = true if match.been_played? || player2_retired?
 
       ranking.save!
     end
@@ -101,7 +101,7 @@ class FinishMatch < Patterns::Service
       ranking.handicap += remembered_winner_points
       ranking.sets_difference += looser_sets_delta
       ranking.games_difference += looser_games_delta
-      ranking.relevant = true if match_been_played?
+      ranking.relevant = true if match.been_played?
 
       ranking.save!
     end
@@ -121,10 +121,6 @@ class FinishMatch < Patterns::Service
         ranking.save!
       end
     end
-  end
-
-  def match_been_played?
-    set1_player1 > 0 || set1_player2 > 0
   end
 
   def player1_won?

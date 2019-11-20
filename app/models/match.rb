@@ -39,6 +39,10 @@ class Match < ApplicationRecord
   #   end
   # end
 
+  def been_played?
+    set1_player1_score.to_i > 0 || set1_player2_score.to_i > 0
+  end
+
   private
 
   def has_two_players

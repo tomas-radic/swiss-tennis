@@ -39,7 +39,7 @@ class SeasonRankings < Patterns::Calculation
         winner_games_delta = GamesDelta.result_for(match: match, player: match.winner)
         looser_sets_delta = SetsDelta.result_for(match: match, player: match.looser)
         looser_games_delta = GamesDelta.result_for(match: match, player: match.looser)
-        match_played = match_been_played?(match)
+        match_played = match.been_played?
 
         winner_rankings.each do |ranking|
           ranking[:points] += 1
@@ -72,11 +72,6 @@ class SeasonRankings < Patterns::Calculation
     end
 
     rankings_hashes
-  end
-
-  def match_been_played?(match)
-    (match.set1_player1_score && match.set1_player1_score > 0) ||
-    (match.set1_player2_score && match.set1_player2_score > 0)
   end
 
   def season
