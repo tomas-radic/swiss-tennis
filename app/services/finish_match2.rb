@@ -36,10 +36,10 @@ class FinishMatch2 < Patterns::Service
       match.retired_player = match.player2
       match.looser = match.player2
       match.winner = match.player1
-    elsif player1_sets_delta > 0
+    elsif player1_won_sets_count > player2_won_sets_count
       match.winner = match.player1
       match.looser = match.player2
-    elsif player2_sets_delta > 0
+    elsif player2_won_sets_count > player1_won_sets_count
       match.winner = match.player2
       match.looser = match.player1
     else
@@ -81,36 +81,36 @@ class FinishMatch2 < Patterns::Service
                  .includes(:rankings)
 
     rounds.each do |round|
-      round_winner_ranking = round.rankings.find do |round_ranking|
+      match_winner_ranking = round.rankings.find do |round_ranking|
         round_ranking.player_id == match.winner_id
       end
 
-      round_looser_ranking = round.rankings.find do |round_ranking|
+      match_looser_ranking = round.rankings.find do |round_ranking|
         round_ranking.player_id == match.looser_id
       end
 
-      round_winner_ranking.points += winner_match_points
-      round_winner_ranking.toss_points = round_winner_ranking.points
+      match_winner_ranking.points += winner_match_points
+      match_winner_ranking.toss_points = match_winner_ranking.points
 
-      round_looser_ranking.points += looser_match_points
-      round_looser_ranking.toss_points = round_looser_ranking.points
+      match_looser_ranking.points += looser_match_points
+      match_looser_ranking.toss_points = match_looser_ranking.points
 
-      round_winner_ranking.handicap += round_looser_ranking.points
-      round_winner_ranking.relevant = true
+      match_winner_ranking.handicap += match_looser_ranking.points
+      match_winner_ranking.relevant = true
 
-      round_winner_ranking.sets_difference += winner_sets_delta
-      round_winner_ranking.games_difference += winner_games_delta
+      match_winner_ranking.sets_difference += match_sets_difference_for(winner)
+      match_winner_ranking.games_difference += match_games_difference_for(winner)
 
-      round_looser_ranking.sets_difference += looser_sets_delta
-      round_looser_ranking.games_difference += looser_games_delta
+      match_looser_ranking.sets_difference += match_sets_difference_for(looser)
+      match_looser_ranking.games_difference += match_games_difference_for(looser)
 
       if match.been_played?
-        round_looser_ranking.handicap += round_winner_ranking.points
-        round_looser_ranking.relevant = true
+        match_looser_ranking.handicap += match_winner_ranking.points
+        match_looser_ranking.relevant = true
       end
 
-      round_winner_ranking.save!
-      round_looser_ranking.save!
+      match_winner_ranking.save!
+      match_looser_ranking.save!
     end
 
 
@@ -145,6 +145,22 @@ class FinishMatch2 < Patterns::Service
     end
   end
 
+  def match_sets_difference_for(player)
+    return 0 if player == match.looser && !match.been_played?
+
+    other_player = player == match.player1 ? player2 : player1
+    NumberOfWonSets.result_for(match: match, player: player) -
+        NumberOfWonSets.result_for(match: match, player: other_player)
+  end
+
+  def match_games_difference_for(player)
+    return 0 if player == match.looser && !match.been_played?
+
+    other_player = player == match.player1 ? player2 : player1
+    NumberOfWonGames.result_for(match: match, player: player) -
+        NumberOfWonGames.result_for(match: match, player: other_player)
+  end
+
   def player1_won?
     match.winner == match.player1
   end
@@ -159,14 +175,6 @@ class FinishMatch2 < Patterns::Service
 
   def player2_won_sets_count
     @player2_won_sets_count ||= NumberOfWonSets.result_for(match: match, player: match.player2)
-  end
-
-  def player1_sets_delta
-    @player1_sets_delta ||= player1_won_sets_count - player2_won_sets_count
-  end
-
-  def player2_sets_delta
-    @player2_sets_delta ||= -player1_sets_delta
   end
 
   def player1_won_games_count
@@ -185,37 +193,6 @@ class FinishMatch2 < Patterns::Service
     @player2_games_delta ||= -player1_games_delta
   end
 
-  def winner_sets_delta
-    if player1_won?
-      player1_sets_delta
-    elsif player2_won?
-      player2_sets_delta
-    end
-  end
-
-  def looser_sets_delta
-    if player1_won?
-      player2_sets_delta
-    elsif player2_won?
-      player1_sets_delta
-    end
-  end
-
-  def winner_games_delta
-    if player1_won?
-      player1_games_delta
-    elsif player2_won?
-      player2_games_delta
-    end
-  end
-
-  def looser_games_delta
-    if player1_won?
-      player2_games_delta
-    elsif player2_won?
-      player1_games_delta
-    end
-  end
 
   def winner_rankings
     @winner_rankings ||= PlayerRankingsSinceRoundQuery.call(player: match.winner, round: match.round)

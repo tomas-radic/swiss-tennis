@@ -7,45 +7,42 @@ class NumberOfWonSets < Patterns::Calculation
   def result
     return 0 if player_not_related_to_match?
 
-    count_scores_in_sets
-    @number_of_won_sets = number_of_won_sets_for_player
-    apply_retirement_override if retired_player.present?
-
-    number_of_won_sets
+    number_of_won_sets_for_player
   end
 
-  def count_scores_in_sets
-    @scores_in_sets_for_player = [
-        match.set1_player1_score.to_i - match.set1_player2_score.to_i,
-        match.set2_player1_score.to_i - match.set2_player2_score.to_i,
-        match.set3_player1_score.to_i - match.set3_player2_score.to_i
-    ]
+  def scores_in_sets_for_player
+    return @scores_in_sets_for_player unless @scores_in_sets_for_player.nil?
+
+    @scores_in_sets_for_player = []
+
+    3.times do |set_index|
+      set_number = set_index += 1
+      player1_set_score = match.send(:"set#{set_number}_player1_score").to_i
+      player2_set_score = match.send(:"set#{set_number}_player2_score").to_i
+
+      if player1_set_score > 0 || player2_set_score > 0
+        @scores_in_sets_for_player << player1_set_score - player2_set_score
+      end
+    end
 
     if player == match.player2
       @scores_in_sets_for_player.map! { |score_in_set| -score_in_set }
     end
+
+    @scores_in_sets_for_player
   end
 
   def number_of_won_sets_for_player
     method_result = 0
+    last_set_index = scores_in_sets_for_player.length - 1
 
-    number_of_played_sets = @scores_in_sets_for_player.length
-
-    @scores_in_sets_for_player.map.with_index do |score_in_set, index|
-      break if (index + 1) == number_of_played_sets && retired_player.present?
+    scores_in_sets_for_player.map.with_index do |score_in_set, index|
+      break if index == last_set_index && retired_player.present?
 
       method_result += 1 if score_in_set > 0
     end
 
     method_result
-  end
-
-  def apply_retirement_override
-    if (player == match.player2 && retired_player == match.player1) ||
-        (player == match.player1 && retired_player == match.player2)
-
-      @number_of_won_sets = 2
-    end
   end
 
   def player_not_related_to_match?

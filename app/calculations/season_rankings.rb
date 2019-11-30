@@ -45,13 +45,13 @@ class SeasonRankings < Patterns::Calculation
           ranking[:points] += 1
           ranking[:toss_points] = ranking[:points]
           ranking[:handicap] += looser_rankings.first[:points]
-          ranking[:sets_difference] += winner_sets_delta
+          ranking[:sets_difference] +=
           ranking[:games_difference] += winner_games_delta
           ranking[:relevant] = true
         end
 
         looser_rankings.each do |ranking|
-          ranking[:handicap] += winner_rankings.first[:points]
+          ranking[:handicap] += winner_rankings.first[:points] if match.been_played?
           ranking[:sets_difference] += looser_sets_delta
           ranking[:games_difference] += looser_games_delta
           ranking[:relevant] = true if match_played
@@ -72,6 +72,24 @@ class SeasonRankings < Patterns::Calculation
     end
 
     rankings_hashes
+  end
+
+  def winner_sets_delta(match)
+    @winner_sets_delta ||= NumberOfWonSets.result_for(match: match, player: match.winner) -
+        NumberOfWonSets.result_for(match: match, player: match.looser)
+  end
+
+  def looser_sets_delta(match)
+    @looser_sets_delta ||= NumberOfWonSets.result_for(match: match, player: match.winner) -
+        NumberOfWonSets.result_for(match: match, player: match.looser)
+  end
+
+  def winner_games_delta(match)
+
+  end
+
+  def looser_games_delta(match)
+
   end
 
   def season

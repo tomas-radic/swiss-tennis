@@ -9,11 +9,6 @@ class NumberOfWonGames < Patterns::Calculation
   def result
     return 0 if player_not_related_to_match?
 
-    unless match.been_played?
-      return 0 if player == retired_player
-      return 12 if player != retired_player
-    end
-
     if player == match.player1
       set1_player1 + set2_player1 + set3_player1
     elsif player == match.player2

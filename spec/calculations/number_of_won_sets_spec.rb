@@ -85,8 +85,8 @@ describe NumberOfWonSets do
     context 'With player2' do
       let!(:player) { player2 }
 
-      it 'Returns 2' do
-        expect(calculation).to eq(2)
+      it 'Returns 0' do
+        expect(calculation).to eq(0)
       end
     end
   end
@@ -108,8 +108,8 @@ describe NumberOfWonSets do
       context 'With player1' do
         let!(:player) { player1 }
 
-        it 'Returns 2' do
-          expect(calculation).to eq(2)
+        it 'Returns 1' do
+          expect(calculation).to eq(1)
         end
       end
 
@@ -136,8 +136,8 @@ describe NumberOfWonSets do
       context 'With player1' do
         let!(:player) { player1 }
 
-        it 'Returns 2' do
-          expect(calculation).to eq(2)
+        it 'Returns 0' do
+          expect(calculation).to eq(0)
         end
       end
 
@@ -175,8 +175,8 @@ describe NumberOfWonSets do
     context 'With player2' do
       let!(:player) { player2 }
 
-      it 'Returns 2' do
-        expect(calculation).to eq(2)
+      it 'Returns 1' do
+        expect(calculation).to eq(1)
       end
     end
   end
@@ -194,8 +194,8 @@ describe NumberOfWonSets do
     context 'With player1' do
       let!(:player) { player1 }
 
-      it 'Returns 2' do
-        expect(calculation).to eq(2)
+      it 'Returns 0' do
+        expect(calculation).to eq(0)
       end
     end
 

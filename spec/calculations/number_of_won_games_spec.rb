@@ -166,8 +166,8 @@ describe NumberOfWonGames do
     context 'With player1' do
       let!(:player) { player1 }
 
-      it 'Returns 12' do
-        expect(calculation).to eq(12)
+      it 'Returns 0' do
+        expect(calculation).to eq(0)
       end
     end
 

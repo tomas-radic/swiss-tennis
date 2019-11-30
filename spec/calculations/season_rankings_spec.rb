@@ -67,7 +67,7 @@ describe SeasonRankings do
       expect(result.find { |r| r[:id] == ranking_1_2.id }).to include(points: 0, toss_points: 0, handicap: 1, sets_difference: -1, games_difference: -2, relevant: true)
       expect(result.find { |r| r[:id] == ranking_1_3.id }).to include(points: 0, toss_points: 0, handicap: 1, sets_difference: -1, games_difference: -4, relevant: true)
       expect(result.find { |r| r[:id] == ranking_1_4.id }).to include(points: 1, toss_points: 1, handicap: 0, sets_difference: 1, games_difference: 4, relevant: true)
-      expect(result.find { |r| r[:id] == ranking_1_5.id }).to include(points: 0, toss_points: 0, handicap: 1, sets_difference: -2, games_difference: 0, relevant: false)
+      expect(result.find { |r| r[:id] == ranking_1_5.id }).to include(points: 0, toss_points: 0, handicap: 0, sets_difference: 0, games_difference: 0, relevant: false)
       expect(result.find { |r| r[:id] == ranking_1_6.id }).to include(points: 1, toss_points: 1, handicap: 0, sets_difference: 2, games_difference: 0, relevant: true)
       expect(result.find { |r| r[:id] == ranking_1_7.id }).to include(points: 0, toss_points: 0, handicap: 1, sets_difference: -2, games_difference: -2, relevant: true)
       expect(result.find { |r| r[:id] == ranking_1_8.id }).to include(points: 1, toss_points: 1, handicap: 0, sets_difference: 2, games_difference: 2, relevant: true)

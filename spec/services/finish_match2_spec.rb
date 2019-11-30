@@ -239,8 +239,8 @@ describe FinishMatch2 do
       it 'Updates sets difference of both players' do
         finish_match
 
-        expect(ranking_of_player1_round1.reload.sets_difference).to eq 2
-        expect(ranking_of_player2_round1.reload.sets_difference).to eq -2
+        expect(ranking_of_player1_round1.reload.sets_difference).to eq 1
+        expect(ranking_of_player2_round1.reload.sets_difference).to eq -1
       end
 
       it 'Updates games difference of both players' do
@@ -288,8 +288,8 @@ describe FinishMatch2 do
       it 'Updates sets difference of both players' do
         finish_match
 
-        expect(ranking_of_player1_round1.reload.sets_difference).to eq -1
-        expect(ranking_of_player2_round1.reload.sets_difference).to eq 1
+        expect(ranking_of_player1_round1.reload.sets_difference).to eq 0
+        expect(ranking_of_player2_round1.reload.sets_difference).to eq 0
       end
 
       it 'Updates games difference of both players' do
