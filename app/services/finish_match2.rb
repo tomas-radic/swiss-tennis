@@ -23,10 +23,6 @@ class FinishMatch2 < Patterns::Service
 
   private
 
-  attr_reader :set1_player1, :set1_player2,
-              :set2_player1, :set2_player2,
-              :set3_player1, :set3_player2
-
   def set_match_winner_and_looser
     if player1_retired?
       match.retired_player = match.player1
@@ -48,23 +44,23 @@ class FinishMatch2 < Patterns::Service
   end
 
   def set_match_attributes
-    match.note = attributes[:note]
+    match.note = attributes[:note] unless attributes.blank?
   end
 
   def set_match_score
-    if set1_player1 > 0 || set1_player2 > 0
-      match.set1_player1_score = set1_player1
-      match.set1_player2_score = set1_player2
+    if @set1_player1 > 0 || @set1_player2 > 0
+      match.set1_player1_score = @set1_player1
+      match.set1_player2_score = @set1_player2
     end
 
-    if set2_player1 > 0 || set2_player2 > 0
-      match.set2_player1_score = set2_player1
-      match.set2_player2_score = set2_player2
+    if @set2_player1 > 0 || @set2_player2 > 0
+      match.set2_player1_score = @set2_player1
+      match.set2_player2_score = @set2_player2
     end
 
-    if set3_player1 > 0 || set3_player2 > 0
-      match.set3_player1_score = set3_player1
-      match.set3_player2_score = set3_player2
+    if @set3_player1 > 0 || @set3_player2 > 0
+      match.set3_player1_score = @set3_player1
+      match.set3_player2_score = @set3_player2
     end
   end
 
@@ -75,10 +71,11 @@ class FinishMatch2 < Patterns::Service
 
   def update_rankings!
 
-    rounds = Round.default.joins(:season)
+    rounds = Round.joins(:season)
                  .where(seasons: { id: match.round.season_id })
                  .where('rounds.position >= ?', match.round.position)
                  .includes(:rankings)
+                 .order(position: :asc)
 
     rounds.each do |round|
       match_winner_ranking = round.rankings.find do |round_ranking|
@@ -89,22 +86,22 @@ class FinishMatch2 < Patterns::Service
         round_ranking.player_id == match.looser_id
       end
 
-      match_winner_ranking.points += winner_match_points
+      match_winner_ranking.points += points_for_winner
       match_winner_ranking.toss_points = match_winner_ranking.points
 
-      match_looser_ranking.points += looser_match_points
+      match_looser_ranking.points += points_for_looser
       match_looser_ranking.toss_points = match_looser_ranking.points
 
-      match_winner_ranking.handicap += match_looser_ranking.points
+      match_winner_ranking.handicap += match_looser_ranking.points  # !!!!!! ??????
       match_winner_ranking.relevant = true
 
-      match_winner_ranking.sets_difference += match_sets_difference_for(winner)
-      match_winner_ranking.games_difference += match_games_difference_for(winner)
+      match_winner_ranking.sets_difference += sets_difference_for_winner
+      match_winner_ranking.games_difference += games_difference_for_winner
 
-      match_looser_ranking.sets_difference += match_sets_difference_for(looser)
-      match_looser_ranking.games_difference += match_games_difference_for(looser)
+      match_looser_ranking.sets_difference += sets_difference_for_looser
+      match_looser_ranking.games_difference += games_difference_for_looser
 
-      if match.been_played?
+      if match_been_played?
         match_looser_ranking.handicap += match_winner_ranking.points
         match_looser_ranking.relevant = true
       end
@@ -113,60 +110,90 @@ class FinishMatch2 < Patterns::Service
       match_looser_ranking.save!
     end
 
-
-    update_other_opponents_handicaps!
+    update_rankings_of_winner_opponents
+    update_rankings_of_looser_opponents if points_for_looser > 0
   end
 
-  def winner_match_points
-    @winner_match_points ||= looser_won_one_set? ? 2 : 3
-  end
+  def update_rankings_of_winner_opponents
+    opponents = Player.joins(matches: [round: :season])
+                    .where('matches.player1_id = ? or matches.player2_id = ?', match.winner_id, match.winner_id) # only players that have common match with match winner
+                    .where('matches.set1_player1_score is not null and matches.set1_player2_score is not null')  # only players from matches that have at least started
+                    .where.not(players: { id: match.winner_id })          # but exclude the match winner
+                    .where(seasons: { id: match.round.season_id })        # only opponents of match season
+                    .where('rounds.position < ?', match.round.position)   # only those the winner faced before this match
 
-  def looser_match_points
-    @looser_match_points ||= looser_won_one_set? ? 1 : 0
-  end
+    rankings = Ranking.joins(:player, round: :season)
+                   .where(seasons: { id: match.round.season_id })
+                   .where('rounds.position >= ?', match.round.position)
+                   .where(players: { id: opponents.ids })
 
-  def looser_won_one_set?
-    NumberOfWonSets.result_for(match: match, player: match.looser) == 1
-  end
-
-  def update_other_opponents_handicaps!
-    other_winner_opponents = PlayerOpponentsInSeasonQuery.call(
-      player: match.winner,
-      season: match.round.season
-    ).where.not(id: match.looser_id)
-
-    other_winner_opponents.each do |opponent|
-      opponent_rankings_to_update = PlayerRankingsSinceRoundQuery.call(player: opponent, round: match.round)
-
-      opponent_rankings_to_update.each do |ranking|
-        ranking.handicap += 1
-        ranking.save!
-      end
+    rankings.map do |ranking|
+      ranking.handicap += points_for_winner
+      ranking.save!
     end
   end
 
-  def match_sets_difference_for(player)
-    return 0 if player == match.looser && !match.been_played?
+  def update_rankings_of_looser_opponents
+    opponents = Player.joins(matches: [round: :season])
+                    .where('matches.player1_id = ? or matches.player2_id = ?', match.looser_id, match.looser_id) # only players that have common match with match looser
+                    .where('matches.set1_player1_score is not null and matches.set1_player2_score is not null')  # only players from matches that have at least started
+                    .where.not(players: { id: match.looser_id })          # but exclude the match looser
+                    .where(seasons: { id: match.round.season_id })        # only opponents of match season
+                    .where('rounds.position < ?', match.round.position)   # only those the winner faced before this match
 
-    other_player = player == match.player1 ? player2 : player1
-    NumberOfWonSets.result_for(match: match, player: player) -
-        NumberOfWonSets.result_for(match: match, player: other_player)
+    rankings = Ranking.joins(:player, round: :season)
+                   .where(seasons: { id: match.round.season_id })
+                   .where('rounds.position >= ?', match.round.position)
+                   .where(players: { id: opponents.ids })
+
+    rankings.map do |ranking|
+      ranking.handicap += points_for_looser
+      ranking.save!
+    end
   end
 
-  def match_games_difference_for(player)
-    return 0 if player == match.looser && !match.been_played?
-
-    other_player = player == match.player1 ? player2 : player1
-    NumberOfWonGames.result_for(match: match, player: player) -
-        NumberOfWonGames.result_for(match: match, player: other_player)
+  def points_for_winner
+    @points_for_winner ||= looser_won_one_set? ? 2 : 3
   end
 
-  def player1_won?
-    match.winner == match.player1
+  def points_for_looser
+    @points_for_looser ||= looser_won_one_set? ? 1 : 0
   end
 
-  def player2_won?
-    match.winner == match.player2
+  def looser_won_one_set?
+    @looser_won_one_set ||= NumberOfWonSets.result_for(match: match, player: match.looser) == 1
+  end
+
+  def sets_difference_for_winner
+    return @sets_difference_for_winner unless @sets_difference_for_winner.nil?
+
+    if !match_been_played?
+      @sets_difference_for_winner = 2
+    elsif match.player1 == match.winner
+      @sets_difference_for_winner = player1_won_sets_count - player2_won_sets_count
+    elsif match.player2 == match.winner
+      @sets_difference_for_winner = player2_won_sets_count - player1_won_sets_count
+    end
+  end
+
+  def sets_difference_for_looser
+    @sets_difference_for_looser ||= -@sets_difference_for_winner
+  end
+
+  def games_difference_for_winner
+    return @games_difference_for_winner unless @games_difference_for_winner.nil?
+
+    if !match_been_played?
+      @games_difference_for_winner = 12
+    elsif match.player1 == match.winner
+      @games_difference_for_winner = player1_won_games_count - player2_won_games_count
+    elsif match.player2 == match.winner
+      @games_difference_for_winner = player2_won_games_count - player1_won_games_count
+    end
+  end
+
+  def games_difference_for_looser
+    @games_difference_for_looser ||= -@games_difference_for_winner
   end
 
   def player1_won_sets_count
@@ -185,23 +212,6 @@ class FinishMatch2 < Patterns::Service
     @player2_won_games_count ||= NumberOfWonGames.result_for(match: match, player: match.player2)
   end
 
-  def player1_games_delta
-    @player1_games_delta ||= player1_won_games_count - player2_won_games_count
-  end
-
-  def player2_games_delta
-    @player2_games_delta ||= -player1_games_delta
-  end
-
-
-  def winner_rankings
-    @winner_rankings ||= PlayerRankingsSinceRoundQuery.call(player: match.winner, round: match.round)
-  end
-
-  def looser_rankings
-    @looser_rankings ||= PlayerRankingsSinceRoundQuery.call(player: match.looser, round: match.round)
-  end
-
   def normalize_scores
     @set1_player1 = score[:set1_player1].to_i
     @set1_player2 = score[:set1_player2].to_i
@@ -209,6 +219,10 @@ class FinishMatch2 < Patterns::Service
     @set2_player2 = score[:set2_player2].to_i
     @set3_player1 = score[:set3_player1].to_i
     @set3_player2 = score[:set3_player2].to_i
+  end
+
+  def match_been_played?
+    match_been_played ||= match.been_played?
   end
 
   def match_retired?

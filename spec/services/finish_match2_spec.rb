@@ -361,48 +361,221 @@ describe FinishMatch2 do
   end
 
   context 'Finishing match of 3rd round when there are 5 rounds existing' do
+    # Players 
+    let!(:playerA) { create(:player, first_name: 'Player', last_name: 'A') }
+    let!(:playerB) { create(:player, first_name: 'Player', last_name: 'B') }
+    let!(:playerC) { create(:player, first_name: 'Player', last_name: 'C') }
+    let!(:playerD) { create(:player, first_name: 'Player', last_name: 'D') }
+    let!(:playerE) { create(:player, first_name: 'Player', last_name: 'E') }
+    let!(:playerF) { create(:player, first_name: 'Player', last_name: 'F') }
 
-=begin
-  Round 1
-  player1 - player2
-  player3 - player4
-  player5 - player6
+    # Round 1
+    let!(:round1) { create(:round, position: 1, season: season) }
+    let!(:match1_AB) { create(:match, :finished, round: round1, player1: playerA, player2: playerB, players: [playerA, playerB], retired_player: playerB, set1_player1_score: nil, set1_player2_score: nil) } # this match has not been even started
+    let!(:match1_CD) { create(:match, :finished, round: round1, player1: playerC, player2: playerD, players: [playerC, playerD]) }
+    let!(:match1_EF) { create(:match, :finished, round: round1, player1: playerE, player2: playerF, players: [playerE, playerF]) }
+    let!(:ranking1A) { create(:ranking, round: round1, player: playerA, handicap: 1) }
+    let!(:ranking1B) { create(:ranking, round: round1, player: playerB, handicap: 1) }
+    let!(:ranking1C) { create(:ranking, round: round1, player: playerC, handicap: 1) }
+    let!(:ranking1D) { create(:ranking, round: round1, player: playerD, handicap: 1) }
+    let!(:ranking1E) { create(:ranking, round: round1, player: playerE, handicap: 1) }
+    let!(:ranking1F) { create(:ranking, round: round1, player: playerF, handicap: 1) }
 
-  Round 2
-  player1 - player3
-  player2 - player5
-  player4 - player6
+    # Round 2
+    let!(:round2) { create(:round, position: 2, season: season) }
+    let!(:match1_AC) { create(:match, :finished, round: round2, player1: playerA, player2: playerC, players: [playerA, playerC], retired_player: playerA, set1_player1_score: 0, set1_player2_score: 6) } # player retired but match has been started
+    let!(:match1_BE) { create(:match, :finished, round: round2, player1: playerB, player2: playerE, players: [playerB, playerE]) }
+    let!(:match1_DF) { create(:match, :finished, round: round2, player1: playerD, player2: playerF, players: [playerD, playerF]) }
+    let!(:ranking2A) { create(:ranking, round: round2, player: playerA, handicap: 2) }
+    let!(:ranking2B) { create(:ranking, round: round2, player: playerB, handicap: 2) }
+    let!(:ranking2C) { create(:ranking, round: round2, player: playerC, handicap: 2) }
+    let!(:ranking2D) { create(:ranking, round: round2, player: playerD, handicap: 2) }
+    let!(:ranking2E) { create(:ranking, round: round2, player: playerE, handicap: 2) }
+    let!(:ranking2F) { create(:ranking, round: round2, player: playerF, handicap: 2) }
 
-  Round 3
-  player1 - player4
-  player2 - player6
-  player3 - player5
+    # Round 3
+    let!(:round3) { create(:round, position: 3, season: season) }
+    let!(:match1_AD) { create(:match, round: round3, player1: playerA, player2: playerD, players: [playerA, playerD]) }
+    let!(:match1_BF) { create(:match, round: round3, player1: playerB, player2: playerF, players: [playerB, playerF]) }
+    let!(:match1_CE) { create(:match, round: round3, player1: playerC, player2: playerE, players: [playerC, playerE]) }
+    let!(:ranking3A) { create(:ranking, round: round3, player: playerA, handicap: 3) }
+    let!(:ranking3B) { create(:ranking, round: round3, player: playerB, handicap: 3) }
+    let!(:ranking3C) { create(:ranking, round: round3, player: playerC, handicap: 3) }
+    let!(:ranking3D) { create(:ranking, round: round3, player: playerD, handicap: 3) }
+    let!(:ranking3E) { create(:ranking, round: round3, player: playerE, handicap: 3) }
+    let!(:ranking3F) { create(:ranking, round: round3, player: playerF, handicap: 3) }
 
-  Round 4
-  player1 - player5
-  player2 - player4
-  player3 - player6
+    # Round 4
+    let!(:round4) { create(:round, position: 4, season: season) }
+    let!(:match1_AE) { create(:match, round: round4, player1: playerA, player2: playerE, players: [playerA, playerE]) }
+    let!(:match1_BD) { create(:match, round: round4, player1: playerB, player2: playerD, players: [playerB, playerD]) }
+    let!(:match1_CF) { create(:match, round: round4, player1: playerC, player2: playerF, players: [playerC, playerF]) }
+    let!(:ranking4A) { create(:ranking, round: round4, player: playerA, handicap: 4) }
+    let!(:ranking4B) { create(:ranking, round: round4, player: playerB, handicap: 4) }
+    let!(:ranking4C) { create(:ranking, round: round4, player: playerC, handicap: 4) }
+    let!(:ranking4D) { create(:ranking, round: round4, player: playerD, handicap: 4) }
+    let!(:ranking4E) { create(:ranking, round: round4, player: playerE, handicap: 4) }
+    let!(:ranking4F) { create(:ranking, round: round4, player: playerF, handicap: 4) }
 
-  Round 5
-  player1 - player6
-  player2 - player3
-  player4 - player5
-=end
+    # Round 5
+    let!(:round5) { create(:round, position: 5, season: season) }
+    let!(:match1_AF) { create(:match, round: round5, player1: playerA, player2: playerF, players: [playerA, playerF]) }
+    let!(:match1_BC) { create(:match, round: round5, player1: playerB, player2: playerC, players: [playerB, playerC]) }
+    let!(:match1_DE) { create(:match, round: round5, player1: playerD, player2: playerE, players: [playerD, playerE]) }
+    let!(:ranking5A) { create(:ranking, round: round5, player: playerA, handicap: 5) }
+    let!(:ranking5B) { create(:ranking, round: round5, player: playerB, handicap: 5) }
+    let!(:ranking5C) { create(:ranking, round: round5, player: playerC, handicap: 5) }
+    let!(:ranking5D) { create(:ranking, round: round5, player: playerD, handicap: 5) }
+    let!(:ranking5E) { create(:ranking, round: round5, player: playerE, handicap: 5) }
+    let!(:ranking5F) { create(:ranking, round: round5, player: playerF, handicap: 5) }
 
-    it "Updates winner's 3rd round ranking correctly"
+    let!(:attributes) do
+      {}
+    end
 
-    it "Updates looser's 3rd round ranking correctly"
+    before do
+      round1.insert_at(1)
+      round2.insert_at(2)
+      round3.insert_at(3)
+      round4.insert_at(4)
+      round5.insert_at(5)
+    end
 
-    it "Updates 3rd round rankings of winner's previous opponents correctly"
 
-    it "Does not update any other rankings"
+    describe 'Finishing match of playerA and playerD' do
+      let!(:match) { match1_AD }
 
-    context 'And there are rankings for later rounds already existing' do
-      it "Updates winner's later rounds rankings correctly"
+      context 'Match has been played and result was 2:0' do
+        let!(:score) do
+          {
+              set1_player1: 6,
+              set1_player2: 3,
+              set2_player1: 6,
+              set2_player2: 2
+          }
+        end
 
-      it "Updates looser's later rounds rankings correctly"
+        it 'Updates rankings of 3rd round and all later rounds for given players and their opponents from previous rounds' do
+          finish_match
 
-      it "Updates winner's opponents later rounds rankings correctly"
+          # 3rd round rankings
+          expect(ranking3A.reload).to have_attributes(points: 3, toss_points: 3, handicap: 3, sets_difference: 2, games_difference: 7, relevant: true)
+          expect(ranking3D.reload).to have_attributes(points: 0, toss_points: 0, handicap: 3 + 3, sets_difference: -2, games_difference: -7, relevant: true)
+
+          expect(ranking3B.reload).to have_attributes(handicap: 3, relevant: false) # not updated since playerB refused to play against playerA in 1st round
+          expect(ranking3C.reload.handicap).to eq(3 + 3) # as an opponent of playerA in 2nd round
+          expect(ranking3E.reload.handicap).to eq(3)
+          expect(ranking3F.reload.handicap).to eq(3)
+
+          # 4th round rankings
+          expect(ranking4A.reload).to have_attributes(points: 3, toss_points: 3, handicap: 4, sets_difference: 2, games_difference: 7, relevant: true)
+          expect(ranking4D.reload).to have_attributes(points: 0, toss_points: 0, handicap: 4 + 3, sets_difference: -2, games_difference: -7, relevant: true)
+
+          expect(ranking4B.reload).to have_attributes(handicap: 4, relevant: false) # not updated since playerB refused to play against playerA in 1st round
+          expect(ranking4C.reload.handicap).to eq(4 + 3)
+          expect(ranking4E.reload.handicap).to eq(4)
+          expect(ranking4F.reload.handicap).to eq(4)
+
+          # 5th round rankings
+          expect(ranking5A.reload).to have_attributes(points: 3, toss_points: 3, handicap: 5, sets_difference: 2, games_difference: 7, relevant: true)
+          expect(ranking5D.reload).to have_attributes(points: 0, toss_points: 0, handicap: 5 + 3, sets_difference: -2, games_difference: -7, relevant: true)
+
+          expect(ranking5B.reload).to have_attributes(handicap: 5, relevant: false) # not updated since playerB refused to play against playerA in 1st round
+          expect(ranking5C.reload.handicap).to eq(5 + 3)
+          expect(ranking5E.reload.handicap).to eq(5)
+          expect(ranking5F.reload.handicap).to eq(5)
+        end
+
+        it 'Does not update any rankings of previous rounds' do
+          finish_match
+
+          # 1st round rankings
+          expect(ranking1A.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1B.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1C.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1D.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1E.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1F.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+
+          # 2nd round rankings
+          expect(ranking2A.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2B.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2C.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2D.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2E.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2F.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+        end
+      end
+
+      context 'Match has been played and result was 1:2' do
+        let!(:score) do
+          {
+              set1_player1: 2,
+              set1_player2: 6,
+              set2_player1: 6,
+              set2_player2: 4,
+              set3_player1: 1,
+              set3_player2: 6
+          }
+        end
+
+        it 'Updates rankings of 3rd round and all later rounds for given players and their opponents from previous rounds' do
+          finish_match
+
+          # 3rd round rankings
+          expect(ranking3A.reload).to have_attributes(points: 1, toss_points: 1, handicap: 3 + 2, sets_difference: -1, games_difference: -7, relevant: true)
+          expect(ranking3D.reload).to have_attributes(points: 2, toss_points: 2, handicap: 3 + 1, sets_difference: 1, games_difference: 7, relevant: true)
+
+          expect(ranking3B.reload.handicap).to eq(3)
+          expect(ranking3C.reload.handicap).to eq(3 + 2 + 1) # as an opponent of playerA in 2nd round and playerD in 1st round
+          expect(ranking3E.reload.handicap).to eq(3)
+          expect(ranking3F.reload.handicap).to eq(3 + 2) # as an opponent of playerD in 2nd round
+
+          # 4th round rankings
+          expect(ranking4A.reload).to have_attributes(points: 1, toss_points: 1, handicap: 4 + 2, sets_difference: -1, games_difference: -7, relevant: true)
+          expect(ranking4D.reload).to have_attributes(points: 2, toss_points: 2, handicap: 4 + 1, sets_difference: 1, games_difference: 7, relevant: true)
+
+          expect(ranking4B.reload.handicap).to eq(4)
+          expect(ranking4C.reload.handicap).to eq(4 + 2 + 1) # as an opponent of playerA in 2nd round and playerD in 1st round
+          expect(ranking4E.reload.handicap).to eq(4)
+          expect(ranking4F.reload.handicap).to eq(4 + 2) # as an opponent of playerD in 2nd round
+
+          # 5th round rankings
+          expect(ranking5A.reload).to have_attributes(points: 1, toss_points: 1, handicap: 5 + 2, sets_difference: -1, games_difference: -7, relevant: true)
+          expect(ranking5D.reload).to have_attributes(points: 2, toss_points: 2, handicap: 5 + 1, sets_difference: 1, games_difference: 7, relevant: true)
+
+          expect(ranking5B.reload.handicap).to eq(5)
+          expect(ranking5C.reload.handicap).to eq(5 + 2 + 1) # as an opponent of playerA in 2nd round and playerD in 1st round
+          expect(ranking5E.reload.handicap).to eq(5)
+          expect(ranking5F.reload.handicap).to eq(5 + 2) # as an opponent of playerD in 2nd round
+        end
+
+        it 'temp' do
+          finish_match
+
+          expect(ranking3C.reload.handicap).to eq(3 + 2 + 1)
+        end
+
+        it 'Does not update any rankings of previous rounds' do
+          finish_match
+
+          # 1st round rankings
+          expect(ranking1A.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1B.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1C.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1D.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1E.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking1F.reload).to have_attributes(points: 0, toss_points: 0, handicap: 1, sets_difference: 0, games_difference: 0, relevant: false)
+
+          # 2nd round rankings
+          expect(ranking2A.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2B.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2C.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2D.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2E.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+          expect(ranking2F.reload).to have_attributes(points: 0, toss_points: 0, handicap: 2, sets_difference: 0, games_difference: 0, relevant: false)
+        end
+      end
     end
   end
 end
