@@ -300,6 +300,8 @@ RSpec.describe "Matches", type: :request do
 
       context 'With unfinished match' do
         let!(:match) { create(:match, round: round) }
+        let!(:player1_ranking) { create(:ranking, player: match.player1, round: round) }
+        let!(:player2_ranking) { create(:ranking, player: match.player2, round: round) }
 
         it "Redirects to the match" do
           finish_match

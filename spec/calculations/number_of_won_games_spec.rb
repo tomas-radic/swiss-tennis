@@ -94,31 +94,30 @@ describe NumberOfWonGames do
   context 'When player2 retires in 2nd set' do
     let!(:retired_player) { player2 }
 
-    context 'And lost the 1st set' do
-      let!(:match) do
-        create(
-            :match,
-            player1: player1, player2: player2, players: [player1, player2],
-            retired_player: retired_player,
-            set1_player1_score: 6, set1_player2_score: 1,
-            set2_player1_score: 3, set2_player2_score: 3
-        )
+
+    let!(:match) do
+      create(
+          :match,
+          player1: player1, player2: player2, players: [player1, player2],
+          retired_player: retired_player,
+          set1_player1_score: 6, set1_player2_score: 1,
+          set2_player1_score: 3, set2_player2_score: 3
+      )
+    end
+
+    context 'With player1' do
+      let!(:player) { player1 }
+
+      it 'Returns 9' do
+        expect(calculation).to eq(9)
       end
+    end
 
-      context 'With player1' do
-        let!(:player) { player1 }
+    context 'With player2' do
+      let!(:player) { player2 }
 
-        it 'Returns 9' do
-          expect(calculation).to eq(9)
-        end
-      end
-
-      context 'With player2' do
-        let!(:player) { player2 }
-
-        it 'Returns 4' do
-          expect(calculation).to eq(4)
-        end
+      it 'Returns 4' do
+        expect(calculation).to eq(4)
       end
     end
   end

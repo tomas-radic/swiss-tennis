@@ -33,8 +33,8 @@ describe ResetSeasonRankings do
     ]
   end
 
-  it 'Runs SeasonRankings calculation and updates existing rankings' do
-    expect(SeasonRankings).to receive(:result_for).with(season: season).and_return(rankings_hashes)
+  it 'Runs RecalculatedRankings calculation and updates existing rankings' do
+    expect(RecalculatedRankings).to receive(:result_for).with(season: season).and_return(rankings_hashes)
 
     service
 

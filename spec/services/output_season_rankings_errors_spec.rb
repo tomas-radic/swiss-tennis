@@ -34,8 +34,8 @@ describe OutputSeasonRankingsErrors do
     ]
   end
 
-  it 'Runs SeasonRankings calculation' do
-    expect(SeasonRankings).to receive(:result_for).with({ season: season })
+  it 'Runs RecalculatedRankings calculation' do
+    expect(RecalculatedRankings).to receive(:result_for).with({ season: season })
         .and_return(rankings_hashes)
 
     service
