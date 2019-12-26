@@ -39,7 +39,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap'
 gem 'jquery-rails'
 gem 'pry', '~> 0.12.2'
-gem 'mini_racer'
+gem 'mini_racer', '~> 0.2.6'
 gem 'attr_extras'
 gem 'rails-patterns'
 gem 'pundit'
