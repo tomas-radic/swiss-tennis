@@ -113,7 +113,6 @@ describe RecalculatedRankings do
                              set3_player1_score: nil, set3_player2_score: nil) }
 
   let!(:match_4_CF) { create(:match, round: round4, player1: playerC, player2: playerF, players: [playerC, playerF],
-                             winner: playerC, looser: playerF,
                              set1_player1_score: nil, set1_player2_score: nil,
                              set2_player1_score: nil, set2_player2_score: nil,
                              set3_player1_score: nil, set3_player2_score: nil) }
@@ -315,95 +314,95 @@ describe RecalculatedRankings do
     # 3rd round rankings
 
     # PlayerA handicap:
-    #   all points PlayerB has in round1
-    #   + all points PlayerC has in round2
-    #   + round2 earned points of PlayerB
-    #   + all points PlayerD has in round3
-    #   + round3 earned points of PlayerC
-    #   + round3 earned points of PlayerB
+    #   all points PlayerB has in round1          => 0
+    #   + all points PlayerC has in round2        => 2 (2 + 0)
+    #   + round2 earned points of PlayerB         => 1
+    #   + all points PlayerD has in round3        => 3 (1 + 2 + 0)
+    #   + round3 earned points of PlayerC         => 1
+    #   + round3 earned points of PlayerB         => 0
     expect(result.find { |r| r[:id] == ranking_3_A.id }).to include(
                                                              round_id: round3.id,
                                                              player_id: playerA.id,
                                                              player_name: playerA.name,
                                                              points: 3 + 3 + 3,
                                                              toss_points: 9,
-                                                             handicap: (0) + (2 + 1) + (3 + 1 + 0),
+                                                             handicap: 0 + 2 + 1 + 3 + 1 + 0,
                                                              sets_difference: 2 + 2 + 2,
                                                              games_difference: 12 + 3 + 7,
                                                              relevant: true
                                                          )
 
     # PlayerB handicap:
-    #   no points of PlayerA - refused to play 1st round
-    #   + all points PlayerE has in round2
-    #   + no round2 earned points of PlayerA - refused to play in 1st round
-    #   + no points PlayerF has in round3, the match has not been yet played
-    #   + round3 earned points of PlayerE
-    #   + no round3 points of PlayerA - refused to play in 1st round
+    #   no points of PlayerA - refused to play 1st round                        => 0
+    #   + all points PlayerE has in round2                                      => 2 (0 + 2)
+    #   + no round2 earned points of PlayerA - refused to play in 1st round     => 0
+    #   + no points PlayerF has in round3, the match has not been yet played    => 0
+    #   + round3 earned points of PlayerE                                       => 2
+    #   + no round3 points of PlayerA - refused to play in 1st round            => 0
     expect(result.find { |r| r[:id] == ranking_3_B.id }).to include(
                                                              round_id: round3.id,
                                                              player_id: playerB.id,
                                                              player_name: playerB.name,
                                                              points: 0 + 1 + 0,
                                                              toss_points: 1,
-                                                             handicap: (0) + (2) + (0 + 2),
+                                                             handicap: 0 + 2 + 0 + 0 + 2 + 0,
                                                              sets_difference: -2 - 1 + 0,
                                                              games_difference: -12 + 5 + 0,
                                                              relevant: true
                                                          )
 
     # PlayerC handicap:
-    #   all points PlayerD has in round1
-    #   + all points PlayerA has in round2
-    #   + round2 earned points of PlayerD
-    #   + all points PlayerE has in round3
-    #   + round3 earned points of PlayerA
-    #   + round3 earned points of PlayerD
+    #   all points PlayerD has in round1        => 1
+    #   + all points PlayerA has in round2      => 6 (3 + 3)
+    #   + round2 earned points of PlayerD       => 2
+    #   + all points PlayerE has in round3      => 4 (0 + 2 + 2)
+    #   + round3 earned points of PlayerA       => 3
+    #   + round3 earned points of PlayerD       => 0
     expect(result.find { |r| r[:id] == ranking_3_C.id }).to include(
                                                              round_id: round3.id,
                                                              player_id: playerC.id,
                                                              player_name: playerC.name,
                                                              points: 2 + 0 + 1,
                                                              toss_points: 3,
-                                                             handicap: (1) + (6 + 2) + (4 + 3 + 0),
+                                                             handicap: 1 + 6 + 2 + 4 + 3 + 0,
                                                              sets_difference: 1 - 2 - 1,
                                                              games_difference: 1 - 3 - 2,
                                                              relevant: true
                                                          )
 
     # PlayerD handicap:
-    #   all points PlayerC has in round1
-    #   + all points PlayerF has in round2
-    #   + round2 earned points of PlayerC
-    #   + all points PlayerA has in round3
-    #   + round3 earned points of PlayerF
-    #   + round3 earned points of PlayerC
+    #   all points PlayerC has in round1        => 2
+    #   + all points PlayerF has in round2      => 4 (3 + 1)
+    #   + round2 earned points of PlayerC       => 0
+    #   + all points PlayerA has in round3      => 9 (3 + 3 + 3)
+    #   + round3 earned points of PlayerF       => 0
+    #   + round3 earned points of PlayerC       => 1
     expect(result.find { |r| r[:id] == ranking_3_D.id }).to include(
                                                              round_id: round3.id,
                                                              player_id: playerD.id,
                                                              player_name: playerD.name,
                                                              points: 1 + 2 + 0,
                                                              toss_points: 3,
-                                                             handicap: (2) + (4 + 0) + (9 + 0 + 1),
+                                                             handicap: 2 + 4 + 0 + 9 + 0 + 1,
                                                              sets_difference: -1 + 1 - 2,
                                                              games_difference: -1 + 8 - 7,
                                                              relevant: true
                                                          )
 
     # PlayerE handicap:
-    #   all points PlayerF has in round1
-    #   + all points PlayerB has in round2
-    #   + round2 earned points of PlayerF
-    #   + all points PlayerC has in round3
-    #   + round3 earned points of PlayerB
-    #   + round3 earned points of PlayerF
+    #   all points PlayerF has in round1          => 3
+    #   + all points PlayerB has in round2        => 1 (0 + 1)
+    #   + round2 earned points of PlayerF         => 1
+    #   + all points PlayerC has in round3        => 3 (2 + 0 + 1)
+    #   + round3 earned points of PlayerB         => 0
+    #   + round3 earned points of PlayerF         => 0
     expect(result.find { |r| r[:id] == ranking_3_E.id }).to include(
                                                              round_id: round3.id,
                                                              player_id: playerE.id,
                                                              player_name: playerE.name,
                                                              points: 0 + 2 + 2,
                                                              toss_points: 4,
-                                                             handicap: (3) + (1 + 1) + (3 + 0 + 0),
+                                                             handicap: 3 + 1 + 1 + 3 + 0 + 0,
                                                              sets_difference: -2 + 1 + 1,
                                                              games_difference: -8 - 5 + 2,
                                                              relevant: true
@@ -431,23 +430,23 @@ describe RecalculatedRankings do
     # 4th round rankings
 
     # PlayerA handicap:
-    #   all points PlayerB has in round1
-    #   + all points PlayerC has in round2
-    #   + round2 earned points of PlayerB
-    #   + all points PlayerD has in round3
-    #   + round3 earned points of PlayerC
-    #   + round3 earned points of PlayerB
-    #   + no points of PlayerE since the round4 match has not yet been played
-    #   + round4 earned points of PlayerD
-    #   + round4 earned points of PlayerC
-    #   + round4 earned points of PlayerB
+    #   all points PlayerB has in round1                                        => 0
+    #   + all points PlayerC has in round2                                      => 2 (2 + 0)
+    #   + round2 earned points of PlayerB                                       => 1
+    #   + all points PlayerD has in round3                                      => 3 (1 + 2 + 0)
+    #   + round3 earned points of PlayerC                                       => 1
+    #   + round3 earned points of PlayerB                                       => 0
+    #   + no points of PlayerE since the round4 match has not yet been played   => 0
+    #   + round4 earned points of PlayerD                                       => 0
+    #   + round4 earned points of PlayerC                                       => 0
+    #   + round4 earned points of PlayerB                                       => 3
     expect(result.find { |r| r[:id] == ranking_4_A.id }).to include(
                                                              round_id: round4.id,
                                                              player_id: playerA.id,
                                                              player_name: playerA.name,
                                                              points: 3 + 3 + 3 + 0,
                                                              toss_points: 9,
-                                                             handicap: (0) + (2 + 1) + (3 + 1 + 0) + (0 + 0 + 3),
+                                                             handicap: 0 + 2 + 1 + 3 + 1 + 0 + 0 + 0 + 0 + 3,
                                                              sets_difference: 2 + 2 + 2 + 0,
                                                              games_difference: 12 + 3 + 7 + 0,
                                                              relevant: true
@@ -477,69 +476,69 @@ describe RecalculatedRankings do
                                                          )
 
     # PlayerC handicap:
-    #   all points PlayerD has in round1
-    #   + all points PlayerA has in round2
-    #   + round2 earned points of PlayerD
-    #   + all points PlayerE has in round3
-    #   + round3 earned points of PlayerA
-    #   + round3 earned points of PlayerD
-    #   + no points PlayerF has in round4 since the match has not yet been played
-    #   + round4 earned points of PlayerE
-    #   + round4 earned points of PlayerA
-    #   + round4 earned points of PlayerD
+    #   all points PlayerD has in round1                                              => 1
+    #   + all points PlayerA has in round2                                            => 6 (3 + 3)
+    #   + round2 earned points of PlayerD                                             => 2
+    #   + all points PlayerE has in round3                                            => 4 (0 + 2 + 2)
+    #   + round3 earned points of PlayerA                                             => 3
+    #   + round3 earned points of PlayerD                                             => 0
+    #   + no points PlayerF has in round4 since the match has not yet been played     => 0
+    #   + round4 earned points of PlayerE                                             => 0
+    #   + round4 earned points of PlayerA                                             => 0
+    #   + round4 earned points of PlayerD                                             => 0
     expect(result.find { |r| r[:id] == ranking_4_C.id }).to include(
                                                              round_id: round4.id,
                                                              player_id: playerC.id,
                                                              player_name: playerC.name,
                                                              points: 2 + 0 + 1 + 0,
                                                              toss_points: 3,
-                                                             handicap: (1) + (6 + 2) + (4 + 3 + 0) + (0 + 0 + 0 + 0),
+                                                             handicap: 1 + 6 + 2 + 4 + 3 + 0 + 0 + 0 + 0 + 0,
                                                              sets_difference: 1 - 2 - 1 + 0,
                                                              games_difference: 1 - 3 - 2 + 0,
                                                              relevant: true
                                                          )
 
     # PlayerD handicap:
-    #   all points PlayerC has in round1
-    #   + all points PlayerF has in round2
-    #   + round2 earned points of PlayerC
-    #   + all points PlayerA has in round3
-    #   + round3 earned points of PlayerF
-    #   + round3 earned points of PlayerC
-    #   + all points PlayerB has in round4
-    #   + round4 earned points of PlayerA
-    #   + round4 earned points of PlayerF
-    #   + round4 earned points of PlayerC
+    #   all points PlayerC has in round1        => 2
+    #   + all points PlayerF has in round2      => 4 (3 + 1)
+    #   + round2 earned points of PlayerC       => 0
+    #   + all points PlayerA has in round3      => 9 (3 + 3 + 3)
+    #   + round3 earned points of PlayerF       => 0
+    #   + round3 earned points of PlayerC       => 1
+    #   + all points PlayerB has in round4      => 4 (0 + 1 + 0 + 3)
+    #   + round4 earned points of PlayerA       => 0
+    #   + round4 earned points of PlayerF       => 0
+    #   + round4 earned points of PlayerC       => 0
     expect(result.find { |r| r[:id] == ranking_4_D.id }).to include(
                                                              round_id: round4.id,
                                                              player_id: playerD.id,
                                                              player_name: playerD.name,
                                                              points: 1 + 2 + 0 + 0,
                                                              toss_points: 3,
-                                                             handicap: (2) + (4 + 0) + (9 + 0 + 1) + (4 + 0 + 0 + 0),
+                                                             handicap: 2 + 4 + 0 + 9 + 0 + 1 + 4 + 0 + 0 + 0,
                                                              sets_difference: -1 + 1 - 2 - 2,
                                                              games_difference: -1 + 8 - 7 - 4,
                                                              relevant: true
                                                          )
 
     # PlayerE handicap:
-    #   all points PlayerF has in round1
-    #   + all points PlayerB has in round2
-    #   + round2 earned points of PlayerF
-    #   + all points PlayerC has in round3
-    #   + round3 earned points of PlayerB
-    #   + round3 earned points of PlayerF
-    #   + no points PlayerA has in round4 since the match has not yet been played
-    #   + round4 earned points of PlayerC
-    #   + round4 earned points of PlayerB
-    #   + round4 earned points of PlayerF
+    #   all points PlayerF has in round1                                            => 3
+    #   + all points PlayerB has in round2                                          => 1 (0 + 1)
+    #   + round2 earned points of PlayerF                                           => 1
+    #   + all points PlayerC has in round3                                          => 3 (2 + 0 + 1)
+    #   + round3 earned points of PlayerB                                           => 0
+    #   + round3 earned points of PlayerF                                           => 0
+    #   + no points PlayerA has in round4 since the match has not yet been played   => 0
+    #   + round4 earned points of PlayerC                                           => 0
+    #   + round4 earned points of PlayerB                                           => 3
+    #   + round4 earned points of PlayerF                                           => 0
     expect(result.find { |r| r[:id] == ranking_4_E.id }).to include(
                                                              round_id: round4.id,
                                                              player_id: playerE.id,
                                                              player_name: playerE.name,
                                                              points: 0 + 2 + 2 + 0,
                                                              toss_points: 4,
-                                                             handicap: (3) + (1 + 1) + (3 + 0 + 0) + (0 + 0 + 3 + 0),
+                                                             handicap: 3 + 1 + 1 + 3 + 0 + 0 + 0 + 0 + 3 + 0,
                                                              sets_difference: -2 + 1 + 1 + 0,
                                                              games_difference: -8 - 5 + 2 + 0,
                                                              relevant: true
