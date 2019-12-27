@@ -311,10 +311,10 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
-  mini_racer
+  mini_racer (~> 0.2.6)
   pg
   pry (~> 0.12.2)
-  puma (~> 3.11)
+  puma (~> 3.12)
   pundit
   rails (~> 5.2.3)
   rails-controller-testing

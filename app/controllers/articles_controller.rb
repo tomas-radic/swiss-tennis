@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
   before_action :load_record, only: [:show, :edit, :update, :destroy, :pin]
 
   def index
-    @articles = Article.sorted.where(season: selected_season)
+    @articles = Article.sorted.where(season: selected_season).includes(:user)
   end
 
   def show
