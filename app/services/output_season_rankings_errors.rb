@@ -33,7 +33,7 @@ class OutputSeasonRankingsErrors < Patterns::Service
   end
 
   def calculated_rankings_hashes
-    @calculated_rankings_hashes ||= SeasonRankings.result_for(season: season)
+    @calculated_rankings_hashes ||= RecalculatedRankings.result_for(season: season)
   end
 
   def season_rankings

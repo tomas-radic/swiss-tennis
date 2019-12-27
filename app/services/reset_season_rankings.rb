@@ -8,7 +8,7 @@ class ResetSeasonRankings < Patterns::Service
   private
 
   def reset_season_rankings!
-    rankings_hashes = SeasonRankings.result_for(season: season)
+    rankings_hashes = RecalculatedRankings.result_for(season: season)
 
     puts "Importing into DB..."
     columns_to_update = [
