@@ -108,12 +108,12 @@ class FinishMatch < Patterns::Service
       match_looser_ranking.save!
     end
 
-    update_rankings_of_winner_opponents
-    update_rankings_of_looser_opponents if points_for_looser > 0
+    update_rewardable_opponents(points_for_winner, match.winner)
+    update_rewardable_opponents(points_for_looser, match.looser) if points_for_looser > 0
   end
 
-  def update_rankings_of_winner_opponents
-    rewardable_opponents = RewardableOpponentsQuery.call(player: match.winner, round: match.round)
+  def update_rewardable_opponents(handicap_points, player)
+    rewardable_opponents = RewardableOpponentsQuery.call(player: player, round: match.round)
 
     rankings = Ranking.joins(:player, round: :season)
                    .where(seasons: { id: match.round.season_id })
@@ -121,21 +121,7 @@ class FinishMatch < Patterns::Service
                    .where(players: { id: rewardable_opponents.ids })
 
     rankings.map do |ranking|
-      ranking.handicap += points_for_winner
-      ranking.save!
-    end
-  end
-
-  def update_rankings_of_looser_opponents
-    rewardable_opponents = RewardableOpponentsQuery.call(player: match.looser, round: match.round)
-
-    rankings = Ranking.joins(:player, round: :season)
-                   .where(seasons: { id: match.round.season_id })
-                   .where('rounds.position >= ?', match.round.position)
-                   .where(players: { id: rewardable_opponents.ids })
-
-    rankings.map do |ranking|
-      ranking.handicap += points_for_looser
+      ranking.handicap += handicap_points
       ranking.save!
     end
   end
