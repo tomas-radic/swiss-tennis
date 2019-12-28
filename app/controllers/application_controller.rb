@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
 
   def calculate_payment_balance
-    @payment_balance = Rails.cache.fetch("payment_balance", expires_in: 1.minute) do
+    @payment_balance = Rails.cache.fetch("payment_balance", expires_in: 24.hours) do
       Payment.all.inject(0) { |sum, p| sum += p.amount }
     end
   end
