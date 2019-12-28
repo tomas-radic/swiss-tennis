@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
+  before_action :calculate_payment_balance, if: :user_signed_in?
 
   protect_from_forgery with: :exception
   helper_method :current_user, :user_signed_in?, :selected_season, :selected_round
@@ -33,5 +34,11 @@ class ApplicationController < ActionController::Base
 
   def not_found!
     raise ActionController::RoutingError.new('Not Found')
+  end
+
+  def calculate_payment_balance
+    @payment_balance = Rails.cache.fetch("payment_balance", expires_in: 1.week) do
+      Payment.all.inject(0) { |sum, p| sum += p.amount }
+    end
   end
 end

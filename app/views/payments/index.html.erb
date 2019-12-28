@@ -1,0 +1,34 @@
+<p class="lead">Všetky platby</p>
+<% if @payments.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Suma</th>
+        <th scope="col">Dátum</th>
+        <th scope="col">Popis</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @payments.each do |payment| %>
+        <tr class="<%= payments_table_row_color_class(payment) %>">
+          <td><span class="<%= 'text-danger' if payment.amount < 0 %>"><%= payment.text_amount %></span></td>
+          <td><%= I18n.localize(payment.paid_on, format: :date_month_year) %></td>
+          <td><%= payment.description %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-center">
+    <%= will_paginate(
+            @payments,
+            :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-switcher') %>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Žiadne platby.</p>
+    </div>
+  </div>
+<% end %>

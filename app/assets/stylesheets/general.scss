@@ -57,6 +57,10 @@ a.quiet-link {
   color: inherit;
 }
 
+.pagination-switcher {
+  display: inline-block;
+}
+
 //
 // Tables
 
@@ -98,6 +102,11 @@ a.quiet-link {
 
 .bg-yellow {
   background-color: #fbf0cf;
+}
+
+.bg-dark {
+  background-color: #343a40;
+  color: white;
 }
 
 //
