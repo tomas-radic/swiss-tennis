@@ -155,5 +155,24 @@ ActiveRecord::Base.transaction do
     )
   end unless Article.any?
 
+  #
+  # Payments
+
+  puts "\nCreating payments ..."
+  paid_on = 1.year.ago.to_date - 5.days
+  payments_count = 0
+
+  while paid_on < Date.today do
+    Payment.create!(
+        amount: -rand(650..850),
+        paid_on: paid_on,
+        description: Faker::Lorem.words(number: rand(2..3)).join(' ')
+    )
+
+    payments_count += 1
+    Payment.create!(amount: 10000, paid_on: paid_on - 7.days) if payments_count % 5 == 0
+    paid_on += 1.month
+  end unless Payment.any?
+
   puts "\nDone."
 end

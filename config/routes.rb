@@ -28,4 +28,6 @@ Rails.application.routes.draw do
   resources :articles do
     get :pin, on: :member
   end
+
+  resources :payments, only: [:index]
 end

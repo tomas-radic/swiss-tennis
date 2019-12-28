@@ -3,8 +3,8 @@ FactoryBot.define do
     association :season
     association :user
 
-    title { Faker::Lorem.words(2..4).join(' ') }
-    content { Faker::Lorem.paragraph(5..25) }
+    title { Faker::Lorem.words(number: 2..4).join(' ') }
+    content { Faker::Lorem.paragraph(sentence_count: 5..25) }
     published { true }
 
     trait :published do

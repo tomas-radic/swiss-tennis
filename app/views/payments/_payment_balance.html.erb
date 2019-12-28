@@ -1,0 +1,9 @@
+<% container_class, amount_class = payment_balance_color_classes(@payment_balance) %>
+<div class="<%= container_class %>">
+  <%= link_to payments_path, class: 'quiet-link' do %>
+    Aktuálny kredit
+    <span class="<%= amount_class %>">
+      <%= "#{number_to_currency(@payment_balance / 100.0, unit: '', separator: ',', delimiter: '')}€" %>
+    </span>
+  <% end %>
+</div>
