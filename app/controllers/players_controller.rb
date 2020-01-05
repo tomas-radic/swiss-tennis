@@ -2,10 +2,6 @@ class PlayersController < ApplicationController
   before_action :verify_user_logged_in, except: [:show]
   before_action :load_record, only: [:show, :edit, :update]
 
-  def index
-    @players = Player.default.includes(:category).order('categories.name').order('players.created_at')
-  end
-
   def show
   end
 

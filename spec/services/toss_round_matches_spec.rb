@@ -1,10 +1,33 @@
 require 'rails_helper'
 
 describe TossRoundMatches do
-  context 'Without mandatory rankings' do
-    subject(:service) { described_class.call(round, player_ids) }
+  subject(:service) { described_class.call(round, player_ids) }
 
-    let!(:season) { create(:season) }
+  let!(:season) { create(:season) }
+
+  context 'With blank rankings (1st round toss)' do
+    let!(:round) { create(:round, season: season) }
+    let!(:ranking1) { create(:ranking, round: round, toss_points: 0) }
+    let!(:ranking2) { create(:ranking, round: round, toss_points: 0) }
+    let!(:ranking3) { create(:ranking, round: round, toss_points: 0) }
+    let!(:ranking4) { create(:ranking, round: round, toss_points: 0) }
+    let!(:ranking5) { create(:ranking, round: round, toss_points: 0) }
+    let(:player_ids) do
+      [ranking1.player_id, ranking2.player_id, ranking3.player_id, ranking4.player_id, ranking5.player_id]
+    end
+
+    before do
+      season.players = [ranking1.player, ranking2.player, ranking3.player, ranking4.player, ranking5.player]
+    end
+
+    it 'Creates matches combining players randomly' do
+      service
+
+      expect(round.reload.matches.count).to eq(2)
+    end
+  end
+
+  context 'With non-blank rankings' do
     let!(:round) { create(:round, season: season) }
     let!(:previous_round) { create(:round, season: season) }
     let!(:r_0p_1) { create(:ranking, round: round, toss_points: 0) }
@@ -186,7 +209,5 @@ describe TossRoundMatches do
     end
   end
 
-  context 'With specified players that are not allowed to have byes' do
-
-  end
+  context 'With specified players that are not allowed to have byes'
 end

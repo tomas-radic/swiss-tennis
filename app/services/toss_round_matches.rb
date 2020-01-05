@@ -62,6 +62,8 @@ class TossRoundMatches < Patterns::Service
         court_player = players_pair[0]
         balls_player = players_pair[1]
 
+        next unless court_player.instance_of?(TossRoundMatches::TossPlayer)
+        next unless balls_player.instance_of?(TossRoundMatches::TossPlayer)
         next if court_player_counts[court_player.id].nil? || court_player_counts[balls_player.id].nil?
         next if court_player_counts[court_player.id] == court_player_counts[balls_player.id]
 
@@ -79,6 +81,9 @@ class TossRoundMatches < Patterns::Service
 
   def create_toss_matches!
     final_variant.each do |pair|
+      next unless pair[0].instance_of?(TossRoundMatches::TossPlayer)
+      next unless pair[1].instance_of?(TossRoundMatches::TossPlayer)
+
       court_player_id = pair[0].id
       balls_player_id = pair[1].id
 
