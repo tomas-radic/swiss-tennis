@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col">
-    <h1 class="float-left"><%= @player.name %></h1>
+    <h1 class="float-left"><%= player_name_by_consent(@player, current_user) %></h1>
     <div class="float-right">
       <% if user_signed_in? %>
         <%= link_to 'Upraviť', edit_player_path(@player), class: 'btn btn-success my-1' %>
       <% end %>
-      <%= link_to 'Všetci hráči', players_path, class: 'btn btn-outline-success my-1' %>
+      <%= link_to 'Všetci hráči', enrollments_path, class: 'btn btn-outline-success my-1' %>
     </div>
   </div>
 </div>
@@ -14,15 +14,15 @@
   <div class="col-sm-12 col-md-6">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <p class="lead text-center"><%= @player.phone.present? ? link_to(@player.phone, "tel:#{@player.phone}") : '-' %></p>
-        <p class="lead text-center"><%= @player.email.present? ? link_to(@player.email, "mailto:#{@player.email}") : '-' %></p>
+        <p class="lead text-center">Tel.:<span class="px-2"><%= @player.phone.present? && (user_signed_in? || @player.consent_given?) ? link_to(@player.phone, "tel:#{@player.phone}") : '-' %></span></p>
+        <p class="lead text-center">Email:<span class="px-2"><%= @player.email.present? && (user_signed_in? || @player.consent_given?) ? link_to(@player.email, "mailto:#{@player.email}") : '-' %></span></p>
       </div>
     </div>
   </div>
   <div class="col-sm-12 col-md-6">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <p class="lead text-center"><%= @player.birth_year.present? ? @player.birth_year : '-' %></p>
+        <p class="lead text-center">Rok nar.:<span class="px-2"><%= @player.birth_year.present? ? @player.birth_year : '-' %></span></p>
         <p class="lead text-center"><%= @player.category.name %></p>
       </div>
     </div>

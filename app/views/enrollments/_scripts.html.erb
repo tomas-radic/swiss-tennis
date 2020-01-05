@@ -1,0 +1,34 @@
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function() {
+    $('#enrollment_player_id').select2({ theme: 'bootstrap' });
+
+    if (<%= @enrolling_existing_player %>) {
+      enrollExistingPlayer();
+    } else {
+      enrollNewPlayer();
+    }
+
+
+    $('input[type=radio][name=enrollment-type]').change(function() {
+      if (this.value == 'enroll-existing-player') {
+        enrollExistingPlayer();
+      }
+      else if (this.value == 'enroll-new-player') {
+        enrollNewPlayer();
+      }
+    });
+  });
+
+  function enrollExistingPlayer() {
+    $('.new-player-control').attr('disabled', true);
+    $('.existing-player-control').attr('disabled', false);
+    $('#enroll-existing-player').prop('checked', true);
+  }
+
+  function enrollNewPlayer() {
+    $('.existing-player-control').attr('disabled', true);
+    $('.new-player-control').attr('disabled', false);
+    $('#enroll-new-player').prop('checked', true);
+    $('#first_name').focus();
+  }
+</script>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_27_164348) do
+ActiveRecord::Schema.define(version: 2020_01_03_123630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -102,15 +102,16 @@ ActiveRecord::Schema.define(version: 2019_12_27_164348) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.boolean "dummy", default: false, null: false
+    t.boolean "consent_given", default: false, null: false
     t.index ["category_id"], name: "index_players_on_category_id"
   end
 
   create_table "rankings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player_id", null: false
     t.uuid "round_id", null: false
-    t.integer "points", null: false
-    t.integer "handicap", null: false
-    t.integer "games_difference", null: false
+    t.integer "points", default: 0, null: false
+    t.integer "handicap", default: 0, null: false
+    t.integer "games_difference", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sets_difference", default: 0, null: false

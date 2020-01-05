@@ -16,7 +16,7 @@ class Player < ApplicationRecord
             :last_name,
             presence: true
 
-  scope :default, -> { where(dummy: false, active: true) }
+  scope :default, -> { active.where(dummy: false) }
   scope :active, -> { where(active: true) }
 
   def name

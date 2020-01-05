@@ -63,7 +63,7 @@
           <% @players_without_match.each do |player| %>
             <tr>
               <td><%= check_box_tag 'players_in_toss[]', player.id, true %></td>
-              <td><%= player.name %></td>
+              <td><%= player_name_by_consent(player, current_user) %></td>
               <td><%= player.rankings.find { |r| r[:round_id] == @round.id }&.points %></td>
               <td><%= player.rankings.find { |r| r[:round_id] == @round.id }&.toss_points %></td>
               <td>

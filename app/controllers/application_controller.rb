@@ -3,7 +3,10 @@ class ApplicationController < ActionController::Base
   before_action :calculate_payment_balance, if: :user_signed_in?
 
   protect_from_forgery with: :exception
-  helper_method :current_user, :user_signed_in?, :selected_season, :selected_round
+  helper_method :current_user,
+                :user_signed_in?,
+                :selected_season,
+                :selected_round
 
   def current_user
     if session[:user_id]

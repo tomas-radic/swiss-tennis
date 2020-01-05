@@ -4,8 +4,9 @@ describe TossRoundMatches do
   context 'Without mandatory rankings' do
     subject(:service) { described_class.call(round, player_ids) }
 
-    let!(:round) { create(:round) }
-    let!(:previous_round) { create(:round, season: round.season) }
+    let!(:season) { create(:season) }
+    let!(:round) { create(:round, season: season) }
+    let!(:previous_round) { create(:round, season: season) }
     let!(:r_0p_1) { create(:ranking, round: round, toss_points: 0) }
     let!(:r_1p_1) { create(:ranking, round: round, toss_points: 1) }
     let!(:r_1p_2) { create(:ranking, round: round, toss_points: 1) }
@@ -41,6 +42,14 @@ describe TossRoundMatches do
         player2: r_7p_1.player,
         players: [r_6p_1.player, r_7p_1.player]
       )
+    end
+
+    before do
+      season.players = [
+          r_0p_1.player, r_1p_1.player, r_1p_2.player, r_1p_3.player, r_2p_1.player, r_2p_2.player,
+          r_2p_3.player, r_2p_4.player, r_3p_1.player, r_4p_1.player, r_4p_2.player, r_5p_1.player,
+          r_5p_2.player, r_5p_3.player, r_6p_1.player, r_7p_1.player, r_9p_pr1.player, r_9p_pr2.player
+      ]
     end
 
     it 'Creates matches for all available players' do

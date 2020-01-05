@@ -1,4 +1,6 @@
 class MatchDecorator < SimpleDelegator
+  include PlayersHelper
+
   def score
     [set1, set2, set3].reject(&:blank?).join(' | ')
   end
@@ -18,7 +20,7 @@ class MatchDecorator < SimpleDelegator
     "#{set3_player1_score}:#{set3_player2_score}"
   end
 
-  def label
-    [player1.name, player2.name].join(' vs ')
+  def label(user = nil)
+    [player_name_by_consent(player1, user), player_name_by_consent(player2, user)].join(' vs ')
   end
 end

@@ -3,7 +3,7 @@
     <%# unless user_signed_in? %>
       <!-- <span class="float-left">(kurt)</span> -->
     <%# end %>
-    <h1 class="float-left"><%= MatchDecorator.new(@match).label %></h1>
+    <h1 class="float-left"><%= MatchDecorator.new(@match).label(current_user) %></h1>
     <%# unless user_signed_in? %>
       <!-- <span class="float-left">(lopty)</span> -->
     <%# end %>
@@ -12,7 +12,7 @@
       <% if user_signed_in? %>
         <%= link_to 'Upraviť', edit_match_path(@match), class: 'btn btn-success my-1' %>
         <% if policy(@match).destroy? %>
-          <%= link_to 'Vymazať', match_path(@match), method: :delete, data: { confirm: "Naozaj vymazať zápas #{MatchDecorator.new(@match).label}?" }, class: 'btn btn-danger my-1' %>
+          <%= link_to 'Vymazať', match_path(@match), method: :delete, data: { confirm: "Naozaj vymazať zápas #{MatchDecorator.new(@match).label(current_user)}?" }, class: 'btn btn-danger my-1' %>
         <% end %>
         <% if policy(@match).finish? %>
           <button type="button" class="btn btn-outline-danger my-1" data-toggle="modal" data-target="#finish-match-modal">
@@ -33,19 +33,23 @@
 <hr>
 
 <% if @match.retired_player %>
-  <p class="lead text-center"><strong><%= @match.retired_player.name %></strong> skrečoval zápas, alebo nenastúpil.</p>
+  <p class="lead text-center"><strong><%= player_name_by_consent(@match.retired_player, current_user) %></strong> skrečoval(a) zápas, alebo nenastúpil(a).</p>
 <% end %>
 
 <p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
 <hr>
 <p class="lead text-center">
-  <%= link_to @match.player1.name, player_path(@match.player1) %>
-  <i>(tel.č. <%= link_to "#{@match.player1.phone}", "tel:#{@match.player1.phone}" %>)</i>
+  <%= link_to player_name_by_consent(@match.player1, current_user), player_path(@match.player1) %>
+  <% if user_signed_in? || @match.player1.consent_given? %>
+    <i>(tel.č. <%= link_to "#{@match.player1.phone}", "tel:#{@match.player1.phone}" %>)</i>
+  <% end %>
   <b>zabezpečuje <i>kurt</i></b>.
 </p>
 <p class="lead text-center">
-  <%= link_to @match.player2.name, player_path(@match.player2) %>
-  <i>(tel.č. <%= link_to "#{@match.player2.phone}", "tel:#{@match.player2.phone}" %>)</i>
+  <%= link_to player_name_by_consent(@match.player2, current_user), player_path(@match.player2) %>
+  <% if user_signed_in? || @match.player2.consent_given? %>
+    <i>(tel.č. <%= link_to "#{@match.player2.phone}", "tel:#{@match.player2.phone}" %>)</i>
+  <% end %>
   <b>zabezpečuje <i>lopty</i></b>.
 </p>
 <% if user_signed_in? && policy(@match).swap_players? %>
@@ -79,7 +83,7 @@
     <div class="modal-content">
       <%= form_tag finish_match_path(@match) do %>
         <div class="modal-header">
-          <h5 class="modal-title" id="finish-match-modal-label"><%= MatchDecorator.new(@match).label %></h5>
+          <h5 class="modal-title" id="finish-match-modal-label"><%= MatchDecorator.new(@match).label(current_user) %></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
