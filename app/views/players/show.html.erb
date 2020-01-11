@@ -39,6 +39,10 @@
 </div>
 <div class="row">
   <div class="col">
-    <p>Vstup do súťaže • <%= I18n.localize(@player.created_at, format: :date_month_year) %></p>
+    <p>
+      Prihlásenie do sezóny • <%= I18n.localize(
+                                      selected_season.enrollments.find_by(player: @player).created_at,
+                                      format: :date_month_year) %>
+    </p>
   </div>
 </div>
