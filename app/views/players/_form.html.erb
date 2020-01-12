@@ -44,11 +44,22 @@
     </div>
   </div>
 
+  <hr>
+  <div class="row">
+    <div class="col">
+      <div class="custom-control custom-checkbox">
+        <%= form.check_box :consent_given, class: 'custom-control-input' %>
+        <%= form.label :consent_given, 'Tento hráč podpísal súhlas na zverejnenie svojich osobných údajov na stránke matotenis.sk', class: 'custom-control-label' %>
+      </div>
+    </div>
+  </div>
+  <hr>
+
   <div class="row">
     <div class="col">
       <div class="actions">
         <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
-        <%= link_to 'Zrušiť', players_path, class: 'btn btn-lg btn-outline-success my-1' %>
+        <%= link_to 'Zrušiť', enrollments_path, class: 'btn btn-lg btn-outline-success my-1' %>
       </div>
     </div>
   </div>

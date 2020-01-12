@@ -74,6 +74,7 @@ ActiveRecord::Base.transaction do
         email: Faker::Internet.email,
         phone: Faker::PhoneNumber.cell_phone,
         birth_year: rand(1960..2000),
+        consent_given: true,
         category: categories.sample,
         seasons: [season]
       )

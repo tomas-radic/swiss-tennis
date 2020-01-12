@@ -1,6 +1,6 @@
 <tr class="<%= rankings_table_row_color_class(ranking) %>">
   <td><%= order_number %></td>
-  <td><%= link_to(ranking.player.name, player_path(ranking.player), class: 'quiet-link') %></td>
+  <td><%= link_to(player_name_by_consent(ranking.player, current_user), player_path(ranking.player), class: 'quiet-link') %></td>
   <td><%= ranking.player.category.name %></td>
   <td><%= ranking.points %></td>
   <% if user_signed_in? %>

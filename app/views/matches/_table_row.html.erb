@@ -5,7 +5,7 @@
     <% elsif match.player1 == match.retired_player %>
       <span class="text-secondary">
     <% end %>
-    <%= link_to(match.player1.name, player_path(match.player1), class: 'quiet-link') %>
+    <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
     <% if match.player1_id == match.winner_id %>
       </strong>
     <% elsif match.player1 == match.retired_player %>
@@ -13,7 +13,15 @@
     <% end %>
     (<%= match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
     <br>
-    <small><i><%= link_to match.player1.phone, "tel:#{match.player1.phone}" %></i></small>
+    <small>
+      <i>
+        <% if match.player1.phone.present? && match.player1.consent_given? %>
+          <%= link_to match.player1.phone, "tel:#{match.player1.phone}" %>
+        <% else %>
+          <%= link_to_manager_phone('tel. č. u organizátora') %>
+        <% end %>
+      </i>
+    </small>
   </td>
   <td>
     <% if match.player2_id == match.winner_id %>
@@ -21,7 +29,7 @@
     <% elsif match.player2 == match.retired_player %>
       <span class="text-secondary">
     <% end %>
-    <%= link_to(match.player2.name, player_path(match.player2), class: 'quiet-link') %>
+    <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
     <% if match.player2_id == match.winner_id %>
       </strong>
     <% elsif match.player2 == match.retired_player %>
@@ -29,7 +37,15 @@
     <% end %>
     (<%= match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
     <br>
-    <small><i><%= link_to match.player2.phone, "tel:#{match.player2.phone}" %></i></small>
+    <small>
+      <i>
+        <% if match.player2.phone.present? && match.player2.consent_given? %>
+          <%= link_to match.player2.phone, "tel:#{match.player2.phone}" %>
+        <% else %>
+          <%= link_to_manager_phone('tel. č. u organizátora') %>
+        <% end %>
+      </i>
+    </small>
   </td>
   <td>
     <%= match.note %>

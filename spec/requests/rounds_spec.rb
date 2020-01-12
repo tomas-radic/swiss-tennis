@@ -220,6 +220,10 @@ RSpec.describe "Rounds", type: :request do
       }
     end
 
+    before do
+      round.season.players = [ranking1.player, ranking2.player, ranking3.player, ranking4.player]
+    end
+
     context 'When logged in' do
       before(:each) do
         login(user, 'password')

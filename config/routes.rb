@@ -10,16 +10,17 @@ Rails.application.routes.draw do
 
   resources :categories
   # resources :seasons, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
-    resources :players, except: [:destroy]
-    resources :rounds, except: [:destroy] do
-      post 'toss_matches', on: :member
-      get 'publish_all_matches', on: :member
-    end
-    resources :matches do
-      post 'finish', on: :member
-      get 'swap_players', on: :member
-    end
-    resources :rankings, only: [:index, :edit, :update]
+  resources :enrollments, only: [:index, :new, :create, :destroy]
+  resources :players, only: [:show, :edit, :update]
+  resources :rounds, except: [:destroy] do
+    post 'toss_matches', on: :member
+    get 'publish_all_matches', on: :member
+  end
+  resources :matches do
+    post 'finish', on: :member
+    get 'swap_players', on: :member
+  end
+  resources :rankings, only: [:index, :edit, :update]
   # end
 
   # Static pages

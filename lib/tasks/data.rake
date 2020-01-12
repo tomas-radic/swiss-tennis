@@ -42,9 +42,9 @@ namespace :data do
 
   desc "Creates season"
   task create_season: :environment do
-    %w{2019}.each do |season|
-      puts "Creating #{season} ..."
-      Season.where(name: season).first_or_create!
+    %w{2019}.each do |season_name|
+      puts "Creating #{season_name} ..."
+      Season.where(name: season_name).first_or_create!
     end
 
     puts 'Done.'

@@ -10,6 +10,65 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.xdescribe PlayersHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+describe PlayersHelper, type: :helper do
+  describe 'player_name_by_consent' do
+    subject(:method_result) { player_name_by_consent(player, user) }
+
+    context 'Without known user' do
+      let(:user) { nil }
+
+      context 'With consent given' do
+        let!(:player) { create(:player, first_name: 'Roger', last_name: 'Federer', consent_given: true) }
+
+        it 'Returns readable name of the player' do
+          expect(method_result).to eq('Roger Federer')
+        end
+      end
+
+      context 'Without consent given' do
+        let!(:player) { create(:player, first_name: 'Roger', last_name: 'Federer', consent_given: false) }
+
+        it 'Returns anonymized name of the player' do
+          expect(method_result).to eq('Roger F***r**')
+        end
+      end
+
+      context 'With dummy player' do
+        let!(:player) { create(:player, :dummy, first_name: 'Alltime', last_name: 'Looser', consent_given: false) }
+
+        it 'Returns readable name of the player' do
+          expect(method_result).to eq('Alltime Looser')
+        end
+      end
+    end
+
+    context 'With known user' do
+      let!(:user) { create(:user) }
+
+      context 'With consent given' do
+        let!(:player) { create(:player, first_name: 'Roger', last_name: 'Federer', consent_given: true) }
+
+        it 'Returns readable name of the player' do
+          expect(method_result).to eq('Roger Federer')
+        end
+      end
+
+      context 'Without consent given' do
+        let!(:player) { create(:player, first_name: 'Roger', last_name: 'Federer', consent_given: false) }
+
+        it 'Returns name of the player with last letter changed to star' do
+          expect(method_result).to eq('Roger Federe*')
+        end
+      end
+
+      context 'With dummy player' do
+        let!(:player) { create(:player, :dummy, first_name: 'Alltime', last_name: 'Looser', consent_given: false) }
+
+        it 'Returns readable name of the player' do
+          expect(method_result).to eq('Alltime Looser')
+        end
+      end
+    end
+  end
 end

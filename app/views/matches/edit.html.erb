@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-3 hidden-sm-down"></div>
   <div class="col">
-    <h2><%= MatchDecorator.new(@match).label %></h2>
+    <h2><%= MatchDecorator.new(@match).label(current_user) %></h2>
     <hr>
 
     <%= form_with(model: @match, local: true) do |form| %>
