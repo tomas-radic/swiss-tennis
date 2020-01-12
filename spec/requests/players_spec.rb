@@ -13,6 +13,12 @@ RSpec.describe "Players", type: :request do
 
     let!(:player) { create(:player, seasons: [season]) }
 
+    it 'Calls SuccessOfPlay for the player and season' do
+      expect(SuccessOfPlay).to receive(:result_for).with(player: player, season: season).and_return({})
+
+      get_player
+    end
+
     it "Renders show template and responds with success" do
       get_player
       expect(response).to render_template(:show)

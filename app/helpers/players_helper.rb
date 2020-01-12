@@ -12,4 +12,16 @@ module PlayersHelper
 
     [player.first_name, anonymized_last_name].join(' ')
   end
+
+  def success_of_play_color_class(percentage)
+    if percentage.nil?
+      'border-dark'
+    elsif percentage > 75
+      'border-danger'
+    elsif percentage > 50
+      'border-warning'
+    else
+      'border-dark'
+    end
+  end
 end
