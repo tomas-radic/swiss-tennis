@@ -11,7 +11,7 @@ RSpec.describe "Players", type: :request do
   describe "GET /player/abc" do
     subject(:get_player) { get player_path(player) }
 
-    let!(:player) { create(:player) }
+    let!(:player) { create(:player, seasons: [season]) }
 
     it "Renders show template and responds with success" do
       get_player

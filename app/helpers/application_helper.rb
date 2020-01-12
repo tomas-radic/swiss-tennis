@@ -12,4 +12,15 @@ module ApplicationHelper
     result_html += "</span>"
     result_html.html_safe
   end
+
+  def maybe_missing(value)
+    return value unless value.blank?
+
+    '(chýba)'
+  end
+
+  def link_to_manager_phone(link_text = nil)
+    link_text ||= '0908 304 473'
+    link_to link_text, 'tel:0908304473'
+  end
 end

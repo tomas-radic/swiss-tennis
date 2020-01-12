@@ -85,7 +85,6 @@ ActiveRecord::Base.transaction do
       dummy: true,
       first_name: 'Večný',
       last_name: 'Looser',
-      consent_given: true,
       category: category,
       seasons: [season]
     )

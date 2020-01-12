@@ -8,17 +8,13 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Označenie</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
         <% @rounds.each do |round| %>
           <tr>
             <td><%= round.position %></td>
-            <td><%= round.full_label %></td>
-            <td>
-              <%= link_to 'Detail', round_path(round), class: 'btn btn-sm btn-success' %>
-            </td>
+            <td><%= link_to round.full_label, round_path(round), class: 'quiet-link' %></td>
           </tr>
         <% end %>
       </tbody>

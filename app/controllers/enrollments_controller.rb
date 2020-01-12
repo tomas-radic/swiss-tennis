@@ -33,16 +33,18 @@ class EnrollmentsController < ApplicationController
         render :new
       end
     else
-      @player = Player.create(new_player_params)
+      ActiveRecord::Base.transaction do
+        @player = Player.create(new_player_params)
 
-      if @player.persisted?
-        EnrollPlayerToSeason.call(@player.id, selected_season)
-        redirect_to enrollments_path
-      else
-        @enrollment = selected_season.enrollments.new(
-            player_id: whitelisted_params.to_h.dig(:enrollment, :player_id))
+        if @player.persisted?
+          EnrollPlayerToSeason.call(@player.id, selected_season)
+          redirect_to enrollments_path
+        else
+          @enrollment = selected_season.enrollments.new(
+              player_id: whitelisted_params.to_h.dig(:enrollment, :player_id))
 
-        render :new
+          render :new
+        end
       end
     end
   end

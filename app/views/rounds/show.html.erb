@@ -12,22 +12,18 @@
     <tbody>
       <tr>
         <td><strong>Označenie</strong></td>
-        <td><%= @round.label %></td>
+        <td><%= maybe_missing(@round.label) %></td>
       </tr>
       <tr>
         <td><strong>Začiatok</strong></td>
         <td>
-          <% if @round.period_begins.present? %>
-            <%= I18n.localize(@round.period_begins, format: :date_month) %>
-          <% end %>
+          <%= maybe_missing(@round.period_begins ? I18n.localize(@round.period_begins, format: :date_month) : nil) %>
         </td>
       </tr>
       <tr>
         <td><strong>Koniec</strong></td>
         <td>
-          <% if @round.period_ends.present? %>
-            <%= I18n.localize(@round.period_ends, format: :date_month) %>
-          <% end %>
+          <%= maybe_missing(@round.period_ends ? I18n.localize(@round.period_ends, format: :date_month) : nil) %>
         </td>
       </tr>
     </tbody>
