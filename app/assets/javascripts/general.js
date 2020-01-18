@@ -25,4 +25,25 @@ $(document).on('turbolinks:load', function() {
     $(span_dbl_confirm).hide();
     $(btn_dbl_confirm).show();
   });
+
+  // Activate bootstrap tooltips
+  $('[data-toggle="tooltip"]').tooltip();
+
+  colorizeAmounts();
 });
+
+function colorizeAmounts() {
+  $('.colored-amount').each(function() {
+    var content = $(this).text();
+    var amount = parseFloat(content.replace(',', '.'));
+
+    $(this).removeClass('text-success');
+    $(this).removeClass('text-danger');
+
+    if (amount > 0.0) {
+      $(this).addClass('text-success');
+    } else if (amount < 0.0) {
+      $(this).addClass('text-danger');
+    }
+  });
+}

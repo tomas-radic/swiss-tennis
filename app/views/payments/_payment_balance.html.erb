@@ -1,9 +1,13 @@
-<% container_class, amount_class = payment_balance_color_classes(@payment_balance) %>
-<div class="<%= container_class %>">
+<div class="text-center bg-dark" id="payment-balance-background">
   <%= link_to payments_path, class: 'quiet-link' do %>
     Aktuálny kredit
-    <span class="<%= amount_class %>">
-      <%= "#{number_to_currency(@payment_balance / 100.0, unit: '', separator: ',', delimiter: '')}€" %>
+    <span class="font-weight-bold px-1" id="payment-balance-amount">
+      <%= @payment_balance_text %>
     </span>
   <% end %>
+  <span data-toggle="tooltip" data-placement="bottom" title="Výška kreditu sa prepočítava z platieb každých <%= Rails.configuration.cached_hours_payment_balance %> hodín">
+    <%= fa_icon 'question-circle' %>
+  </span>
 </div>
+
+<%= render 'payments/scripts' %>

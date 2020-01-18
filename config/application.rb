@@ -18,5 +18,6 @@ module SwissTennis
 
     config.i18n.default_locale = :sk
     config.time_zone = 'Bratislava'
+    config.cached_hours_payment_balance = 24
   end
 end

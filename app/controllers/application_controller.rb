@@ -40,8 +40,13 @@ class ApplicationController < ActionController::Base
   end
 
   def calculate_payment_balance
-    @payment_balance = Rails.cache.fetch("payment_balance", expires_in: 24.hours) do
+    @payment_balance = Rails.cache.fetch(
+        "payment_balance",
+        expires_in: Rails.configuration.cached_hours_payment_balance.hours) do
+
       Payment.all.inject(0) { |sum, p| sum += p.amount }
     end
+
+    @payment_balance_text = "#{ActionController::Base.helpers.number_to_currency(@payment_balance / 100.0, unit: '', separator: ',', delimiter: '')}€"
   end
 end

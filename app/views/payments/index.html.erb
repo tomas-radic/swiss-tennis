@@ -1,5 +1,11 @@
 <p class="lead">Všetky platby</p>
 <% if @payments.any? %>
+  <p>
+    Aktuálny kredit <b><span class="px-1 colored-amount"><%= @payment_balance_text %></span></b>
+    <span data-toggle="tooltip" data-placement="right" title="Výška kreditu sa prepočítava z platieb každých <%= Rails.configuration.cached_hours_payment_balance %> hodín">
+      <%= fa_icon 'question-circle' %>
+    </span>
+  </p>
   <div class="table-responsive my-1">
     <table class="table table-sm">
       <thead class="thead-dark">
@@ -11,8 +17,8 @@
       </thead>
       <tbody>
       <% @payments.each do |payment| %>
-        <tr class="<%= payments_table_row_color_class(payment) %>">
-          <td><span class="<%= 'text-danger' if payment.amount < 0 %>"><%= payment.text_amount %></span></td>
+        <tr>
+          <td><span class="colored-amount"><%= payment.text_amount %></span></td>
           <td><%= I18n.localize(payment.paid_on, format: :date_month_year) %></td>
           <td><%= payment.description %></td>
         </tr>

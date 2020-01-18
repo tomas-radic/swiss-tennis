@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <% unless @payment_balance.nil? %>
+    <% if user_signed_in? && @payment_balance.present? %>
       <%= render 'payments/payment_balance' %>
     <% end %>
     <%= render 'shared/navbar' %>
