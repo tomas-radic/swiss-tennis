@@ -1,3 +1,4 @@
+<%= render 'rounds/toss_completed' if flash[:completed] == 'toss' %>
 <div class="row">
   <div class="col">
     <h1 class="float-left"><%= @round.full_label %></h1>
@@ -7,31 +8,34 @@
     </div>
   </div>
 </div>
-<div class="table-responsive my-1">
-  <table class="table table-sm narrow">
-    <tbody>
-      <tr>
-        <td><strong>Označenie</strong></td>
-        <td><%= maybe_missing(@round.label) %></td>
-      </tr>
-      <tr>
-        <td><strong>Začiatok</strong></td>
-        <td>
-          <%= maybe_missing(@round.period_begins ? I18n.localize(@round.period_begins, format: :date_month) : nil) %>
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Koniec</strong></td>
-        <td>
-          <%= maybe_missing(@round.period_ends ? I18n.localize(@round.period_ends, format: :date_month) : nil) %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
 
+<div class="row">
+  <div class="col">
+    <div class="table-responsive my-1">
+      <table class="table table-sm narrow">
+        <tbody>
+          <tr>
+            <td><strong>Označenie</strong></td>
+            <td><%= maybe_missing(@round.label) %></td>
+          </tr>
+          <tr>
+            <td><strong>Začiatok</strong></td>
+            <td>
+              <%= maybe_missing(@round.period_begins ? I18n.localize(@round.period_begins, format: :date_month) : nil) %>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Koniec</strong></td>
+            <td>
+              <%= maybe_missing(@round.period_ends ? I18n.localize(@round.period_ends, format: :date_month) : nil) %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 <hr>
-<%= render 'rounds/toss_completed' if flash[:completed] == 'toss' %>
 
 <p class="lead">Zápasy v tomto kole</p>
 <%= render 'matches/list_admin',
