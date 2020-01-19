@@ -44,6 +44,7 @@ class RoundsController < ApplicationController
       params[:players_in_toss]
     )
 
+    flash[:completed] = 'toss'
     redirect_to @round
   end
 

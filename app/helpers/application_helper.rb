@@ -27,7 +27,7 @@ module ApplicationHelper
   def flash_values(type)
     return [nil, nil] unless ['notice', 'alert'].include? type
 
-    flash_class = 'alert alert-dismissable fade show'
+    flash_class = 'alert alert-dismissible fade show'
     flash_message = 'Ok, vybavené.'
 
     case type

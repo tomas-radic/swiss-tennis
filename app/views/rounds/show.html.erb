@@ -31,6 +31,8 @@
 </div>
 
 <hr>
+<%= render 'rounds/toss_completed' if flash[:completed] == 'toss' %>
+
 <p class="lead">Zápasy v tomto kole</p>
 <%= render 'matches/list_admin',
     matches: @round.matches.includes(:round, player1: :rankings, player2: :rankings),
