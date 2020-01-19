@@ -56,7 +56,7 @@ ActiveRecord::Base.transaction do
   # Categories
 
   puts "\nCreating categories ..."
-  %w{60r+ 50r+ Registrovaný Neregistrovaný}.each do |category|
+  %w{60r+ 50r+ Registrovaní Neregistrovaní Ženy}.each do |category|
     Category.create!(name: category)
   end unless Category.any?
 
@@ -67,25 +67,28 @@ ActiveRecord::Base.transaction do
 
   puts "\nCreating players ..."
   unless Player.any?
+    this_year = Date.today.year
+
     20.times do
+      player_name = Faker::Name.name.split(' ')
+
       Player.create!(
-        first_name: Faker::Name.first_name,
-        last_name: Faker::Name.last_name,
+        first_name: player_name[-2],
+        last_name: player_name[-1],
         email: Faker::Internet.email,
         phone: Faker::PhoneNumber.cell_phone,
-        birth_year: rand(1960..2000),
+        birth_year: rand((this_year - 70)..(this_year - 15)),
         consent_given: true,
         category: categories.sample,
         seasons: [season]
       )
     end
 
-    category = Category.find_by(name: 'Neregistrovaný')
     Player.create!(
       dummy: true,
       first_name: 'Večný',
       last_name: 'Looser',
-      category: category,
+      category: Category.all.sample,
       seasons: [season]
     )
   end
@@ -149,8 +152,8 @@ ActiveRecord::Base.transaction do
   puts "\nCreating articles ..."
   rand(6..9).times do
     Article.published.create!(
-      title: Faker::Lorem.words(2..4).join(' '),
-      content: Faker::Lorem.paragraph(5..25),
+      title: Faker::Lorem.words(number: 2..4).join(' '),
+      content: Faker::Lorem.paragraph(sentence_count: 5..25),
       user: User.all.sample,
       season: season
     )
@@ -167,7 +170,7 @@ ActiveRecord::Base.transaction do
     Payment.create!(
         amount: -rand(650..850),
         paid_on: paid_on,
-        description: Faker::Lorem.words(number: rand(2..3)).join(' ')
+        description: Faker::Lorem.words(number: 2..3).join(' ')
     )
 
     payments_count += 1
