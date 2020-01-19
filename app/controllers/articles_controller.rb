@@ -23,7 +23,7 @@ class ArticlesController < ApplicationController
     )
 
     if @article.save
-      redirect_to articles_path
+      redirect_to articles_path, notice: true
     else
       render :new
     end
@@ -35,7 +35,7 @@ class ArticlesController < ApplicationController
 
   def update
     if @article.update(whitelisted_params)
-      redirect_to article_path(@article)
+      redirect_to article_path(@article), notice: true
     else
       render :edit
     end
@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article.destroy
-    redirect_to articles_path
+    redirect_to articles_path, notice: true
   end
 
   def pin

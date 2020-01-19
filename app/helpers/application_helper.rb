@@ -23,4 +23,21 @@ module ApplicationHelper
     link_text ||= '0908 304 473'
     link_to link_text, 'tel:0908304473'
   end
+
+  def flash_values(type)
+    return [nil, nil] unless ['notice', 'alert'].include? type
+
+    flash_class = 'alert alert-dismissable fade show'
+    flash_message = 'Ok, vybavené.'
+
+    case type
+    when 'notice'
+      flash_class += ' alert-success alert-auto-dismiss'
+    when 'alert'
+      flash_class += ' alert-danger'
+      flash_message = 'Upss, stala sa chyba. Ak je to potrebné, volaj, alebo píš.'
+    end
+
+    [flash_class, flash_message]
+  end
 end

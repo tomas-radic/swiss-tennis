@@ -24,7 +24,7 @@ class RoundsController < ApplicationController
     ).result
 
     if @round.persisted?
-      redirect_to @round
+      redirect_to @round, notice: true
     else
       render :new
     end
@@ -32,7 +32,7 @@ class RoundsController < ApplicationController
 
   def update
     if @round.update(whitelisted_params)
-      redirect_to @round
+      redirect_to @round, notice: true
     else
       render :edit
     end
@@ -50,20 +50,10 @@ class RoundsController < ApplicationController
   def publish_all_matches
     @round.matches.update_all(published: true)
 
-    redirect_to @round
+    redirect_to @round, notice: true
   end
 
   private
-
-  def load_season
-    @season = if params[:season_id]
-      Season.find(params[:season_id])
-    else
-      Season.default.first  # TODO: change later after seasons support added
-    end
-
-    redirect_to root_path and return unless @season.present?
-  end
 
   def load_record
     @round = Round.find(params[:id])

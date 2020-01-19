@@ -19,7 +19,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
 
     if @category.save
-      redirect_to categories_path
+      redirect_to categories_path, notice: true
     else
       render :new
     end
@@ -29,7 +29,7 @@ class CategoriesController < ApplicationController
     @heading = @category.name
 
     if @category.update(category_params)
-      redirect_to categories_path
+      redirect_to categories_path, notice: true
     else
       render :edit
     end
@@ -37,7 +37,7 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category.destroy
-    redirect_to categories_path
+    redirect_to categories_path, notice: true
   end
 
   private

@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
                 :selected_season,
                 :selected_round
 
+  add_flash_types :completed
+
   def current_user
     if session[:user_id]
       @current_user ||= User.find_by(id: session[:user_id])

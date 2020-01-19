@@ -28,7 +28,7 @@ class EnrollmentsController < ApplicationController
       ).result
 
       if @enrollment.persisted?
-        redirect_to enrollments_path
+        redirect_to enrollments_path, notice: true
       else
         @player = Player.new
         render :new
@@ -39,7 +39,7 @@ class EnrollmentsController < ApplicationController
 
         if @player.persisted?
           EnrollPlayerToSeason.call(@player.id, selected_season)
-          redirect_to enrollments_path
+          redirect_to enrollments_path, notice: true
         else
           @enrollment = selected_season.enrollments.new(
               player_id: whitelisted_params.to_h.dig(:enrollment, :player_id))
@@ -54,7 +54,7 @@ class EnrollmentsController < ApplicationController
     @enrollment = Enrollment.find(params[:id])
     @enrollment.destroy
 
-    redirect_to enrollments_path
+    redirect_to enrollments_path, notice: true
   end
 
   private

@@ -1,0 +1,21 @@
+<% flash.each do |type, message| %>
+  <% flash_class, flash_message = flash_values(type) %>
+  <% next if flash_class.nil? || flash_message.nil? %>
+
+  <div class="<%= flash_class %>" role="alert">
+    <%= flash_message %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function() {
+    setTimeout(dismissFlash, 1000);
+  });
+
+  function dismissFlash() {
+    $('.alert-auto-dismiss').alert('close');
+  }
+</script>

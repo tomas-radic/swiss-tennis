@@ -14,7 +14,7 @@ class PlayersController < ApplicationController
     @heading = @player.name
 
     if @player.update(player_params)
-      redirect_to enrollments_path
+      redirect_to enrollments_path, notice: true
     else
       render :edit
     end

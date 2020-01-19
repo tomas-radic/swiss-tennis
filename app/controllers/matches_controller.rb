@@ -29,11 +29,11 @@ class MatchesController < ApplicationController
     @match = CreateMatch.call(create_params.merge(from_toss: false)).result
 
     if @match.persisted?
-      redirect_to @match.round
+      redirect_to @match.round, notice: true
     else
       @season = Season.default.first
       @round = @season.rounds.find(@match.round_id)
-      @available_players = PlayersWithoutMatchQuery.call(round: @round)
+      @available_players = PlayersWithoutMatchQuery.call(round: @round, include_dummy: true)
       render :new
     end
   end
@@ -43,7 +43,7 @@ class MatchesController < ApplicationController
 
   def update
     if @match.update(update_params)
-      redirect_to @match
+      redirect_to @match, notice: true
     else
       render :edit
     end
@@ -53,7 +53,7 @@ class MatchesController < ApplicationController
     authorize @match
 
     round = @match.destroy.round
-    redirect_to round_path(round)
+    redirect_to round_path(round), notice: true
   end
 
   def finish
@@ -68,14 +68,14 @@ class MatchesController < ApplicationController
       }
     )
 
-    redirect_to @match
+    redirect_to @match, notice: true
   end
 
   def swap_players
     authorize @match
 
     SwapMatchPlayers.call(@match)
-    redirect_to @match
+    redirect_to @match, notice: true
   end
 
 
