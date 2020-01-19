@@ -1,0 +1,16 @@
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function() {
+    var amountText = $('#payment-balance-amount');
+    var amount = parseFloat($(amountText).text().replace(',', '.'));
+
+    if (amount >= 10.0) {
+      return;
+    }
+
+    var amountBackground = $('#payment-balance-background');
+
+    $(amountBackground).removeClass('bg-dark');
+    $(amountBackground).addClass('bg-yellow');
+    $(amountText).addClass('text-danger');
+  });
+</script>
