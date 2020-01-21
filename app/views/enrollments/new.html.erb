@@ -12,17 +12,18 @@
           </label>
         </p>
         <p>
+          <%= render 'shared/validation_errors_announcement', validated_object: @enrollment %>
           <%= form_with(model: @enrollment, local: true) do |form| %>
-            <div class="form-group">
-              <%= form.label :player_id, 'Meno hráča' %><br />
-              <%= content_tag(:div, class: add_error_class_to('', @enrollment, :player)) do %>
+            <div class="<%= add_error_class_to('pl-2', @enrollment, :player) %>">
+              <div class="form-group">
+                <%= form.label :player_id, 'Meno hráča' %><br />
                 <%= form.collection_select :player_id,
                                            @unenrolled_players, :id, :name,
                                            { include_blank: 'Žiadny hráč' },
-                                           { class: add_error_class_to('form-control existing-player-control', @enrollment, :player) } %>
-              <% end %>
+                                           { class: 'form-control existing-player-control' } %>
+              </div>
             </div>
-            <div class="actions">
+            <div class="actions pl-2">
               <p class="text-center"><%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1 existing-player-control' %></p>
             </div>
           <% end %>
@@ -30,6 +31,7 @@
       </div>
     </div>
     <hr>
+    <p><i>alebo</i></p>
     <div class="row">
       <div class="col">
         <p>
@@ -39,31 +41,36 @@
           </label>
         </p>
         <p>
+          <%= render 'shared/validation_errors_announcement', validated_object: @player %>
           <%= form_with(url: enrollments_path, local: true) do |form| %>
             <div class="row">
               <div class="col-lg-6">
-                <div class="field form-group">
-                  <%= form.label :first_name, 'Meno' %><br />
-                  <%= form.text_field :first_name, value: @first_name, class: add_error_class_to('form-control new-player-control', @player, :first_name) %>
+                <div class="<%= add_error_class_to('pl-2', @player, :first_name) %>">
+                  <div class="field form-group">
+                    <%= form.label :first_name, 'Meno' %><br />
+                    <%= form.text_field :first_name, value: @first_name, class: 'form-control new-player-control' %>
+                  </div>
                 </div>
               </div>
               <div class="col-lg-6">
-                <div class="field form-group">
-                  <%= form.label :last_name, 'Priezvisko' %><br />
-                  <%= form.text_field :last_name, value: @last_name, class: add_error_class_to('form-control new-player-control', @player, :last_name) %>
+                <div class="<%= add_error_class_to('pl-2', @player, :last_name) %>">
+                  <div class="field form-group">
+                    <%= form.label :last_name, 'Priezvisko' %><br />
+                    <%= form.text_field :last_name, value: @last_name, class: 'form-control new-player-control' %>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="row">
               <div class="col-lg-6">
-                <div class="field form-group">
+                <div class="field form-group pl-2">
                   <%= form.label :phone, 'Telefónne číslo' %><br />
                   <%= form.text_field :phone, value: @phone, class: 'form-control new-player-control' %>
                 </div>
               </div>
               <div class="col-lg-6">
-                <div class="field form-group">
+                <div class="field form-group pl-2">
                   <%= form.label :email, 'Email' %><br />
                   <%= form.email_field :email, value: @email, class: 'form-control new-player-control' %>
                 </div>
@@ -72,15 +79,17 @@
 
             <div class="row">
               <div class="col-lg-6">
-                <div class="field form-group">
+                <div class="field form-group pl-2">
                   <%= form.label :birth_year, 'Rok narodenia' %><br />
                   <%= form.number_field :birth_year, value: @birth_year, class: 'form-control new-player-control' %>
                 </div>
               </div>
               <div class="col-lg-6">
-                <div class="form-group">
-                  <%= form.label :category_id, 'Kategória' %><br />
-                  <%= form.select :category_id, options_from_collection_for_select(Category.default, :id, :name), { include_blank: 'Vybrať kategóriu', selected: @category_id}, { class: add_error_class_to('form-control new-player-control', @player, :category) } %>
+                <div class="<%= add_error_class_to('pl-2', @player, :category) %>">
+                  <div class="form-group">
+                    <%= form.label :category_id, 'Kategória' %><br />
+                    <%= form.select :category_id, options_from_collection_for_select(Category.default, :id, :name), { include_blank: 'Vybrať kategóriu', selected: @category_id}, { class: 'form-control new-player-control' } %>
+                  </div>
                 </div>
               </div>
             </div>
@@ -98,7 +107,7 @@
 
             <div class="row">
               <div class="col">
-                <div class="actions">
+                <div class="actions pl-2">
                   <p class="text-center">
                     <%= form.submit 'Potvrdiť', class: 'btn btn-lg btn-success my-1 new-player-control' %>
                   </p>

@@ -7,15 +7,14 @@ class PlayersController < ApplicationController
   end
 
   def edit
-    @heading = @player.name
+    @heading = @player.name.presence || 'Zmena hráča'
   end
 
   def update
-    @heading = @player.name
-
     if @player.update(player_params)
       redirect_to enrollments_path, notice: true
     else
+      @heading = @player.name.presence || 'Zmena hráča'
       render :edit
     end
   end

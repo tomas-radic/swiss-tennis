@@ -12,7 +12,7 @@ class CategoriesController < ApplicationController
   end
 
   def edit
-    @heading = @category.name
+    @heading = @category.name.presence || 'Zmena kategórie'
   end
 
   def create
@@ -26,11 +26,10 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    @heading = @category.name
-
     if @category.update(category_params)
       redirect_to categories_path, notice: true
     else
+      @heading = @category.name.presence || 'Zmena kategórie'
       render :edit
     end
   end

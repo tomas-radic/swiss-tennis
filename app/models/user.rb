@@ -6,7 +6,7 @@ class User < ApplicationRecord
             presence: true,
             uniqueness: true,
             format: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/
-  validates :password, length: { minimum: 6 }, allow_nil: true
+  validates :password, length: { minimum: Rails.configuration.minimum_password_length }, allow_nil: true
 
   cattr_reader :current_password
 

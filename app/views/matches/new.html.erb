@@ -4,30 +4,37 @@
     <h2><%= "Nový zápas, #{@round.full_label}" %></h2>
     <hr>
 
+    <%= render 'shared/validation_errors_announcement', validated_object: @match %>
     <%= form_with(model: @match, local: true) do |form| %>
       <div class="row">
         <div class="col-lg-6">
-          <div class="form-group">
-            <%= form.label :player1_id, 'Hráč 1 - kurt' %><br />
-            <%= form.collection_select :player1_id, @available_players, :id, :name, { include_blank: 'Žiadny hráč' }, { class: add_error_class_to('form-control', @match, :player1) } %>
+          <div class="<%= add_error_class_to('pl-2', @match, :player1) %>">
+            <div class="form-group">
+              <%= form.label :player1_id, 'Hráč 1 - kurt' %><br />
+              <%= form.collection_select :player1_id, @available_players, :id, :name, { include_blank: 'Žiadny hráč' }, { class: 'form-control' } %>
+            </div>
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="form-group">
-            <%= form.label :player2_id, 'Hráč 2 - lopty' %><br />
-            <%= form.collection_select :player2_id, @available_players, :id, :name, { include_blank: 'Žiadny hráč' }, { class: add_error_class_to('form-control', @match, :player2) } %>
+          <div class="<%= add_error_class_to('pl-2', @match, :player2) %>">
+            <div class="form-group">
+              <%= form.label :player2_id, 'Hráč 2 - lopty' %><br />
+              <%= form.collection_select :player2_id, @available_players, :id, :name, { include_blank: 'Žiadny hráč' }, { class: 'form-control' } %>
+            </div>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-6">
-          <div class="form-group">
-            <%= form.label :play_date, 'Dátum zápasu' %><br />
-            <%= form.date_field :play_date, class: 'form-control' %>
+          <div class="pl-2">
+            <div class="form-group">
+              <%= form.label :play_date, 'Dátum zápasu' %><br />
+              <%= form.date_field :play_date, class: 'form-control' %>
+            </div>
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox pl-2">
             <br><br>
             <%= form.check_box :published, class: 'custom-control-input' %>
             <%= form.label :published, 'Zápas je zverejnený', class: 'custom-control-label' %>
@@ -36,7 +43,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <div class="form-group">
+          <div class="form-group pl-2">
             <%= form.label :note, 'Poznámka' %>
             <%= form.text_area :note, class: 'form-control' %>
           </div>
@@ -47,7 +54,7 @@
 
       <div class="row">
         <div class="col">
-          <div class="actions">
+          <div class="actions pl-2">
             <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
             <%= link_to 'Zrušiť', round_path(@round), class: 'btn btn-lg btn-outline-success my-1' %>
           </div>
@@ -57,3 +64,5 @@
   </div>
   <div class="col-md-3 hidden-sm-down"></div>
 </div>
+
+<%= render 'matches/scripts' %>

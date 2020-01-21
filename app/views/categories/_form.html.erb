@@ -1,18 +1,23 @@
+<%= render 'shared/validation_errors_announcement', validated_object: @category %>
 <%= form_with(model: category, local: true) do |form| %>
   <div class="row">
     <div class="col">
-      <div class="field form-group">
-        <%= form.label :name, 'Názov' %><br />
-        <%= form.text_field :name, autofocus: true, class: add_error_class_to('form-control', @category, :name) %>
+      <div class="<%= add_error_class_to('pl-2', @category, :name) %>">
+        <div class="field form-group">
+          <%= form.label :name, 'Názov' %><br />
+          <%= form.text_field :name, autofocus: true, class: 'form-control' %>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <div class="actions">
-        <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
-        <%= link_to 'Zrušiť', categories_path, class: 'btn btn-lg btn-outline-success my-1' %>
+      <div class="pl-2">
+        <div class="actions">
+          <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+          <%= link_to 'Zrušiť', categories_path, class: 'btn btn-lg btn-outline-success my-1' %>
+        </div>
       </div>
     </div>
   </div>

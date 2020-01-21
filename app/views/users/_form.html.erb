@@ -1,3 +1,4 @@
+<%= render 'shared/validation_errors_announcement', validated_object: @user %>
 <%= form_with(model: user, local: true) do |form| %>
   <div class="row">
     <div class="col">
@@ -9,34 +10,40 @@
 
   <div class="row">
     <div class="col">
-      <div class="field form-group">
-        <%= label_tag :current_password, 'Súčasné heslo' %>
-        <%= password_field_tag :current_password, '', class: add_error_class_to('form-control', @user, :current_password) %>
+      <div class="<%= add_error_class_to('pl-2', @user, :current_password) %>">
+        <div class="field form-group">
+          <%= label_tag :current_password, 'Súčasné heslo' %>
+          <%= password_field_tag :current_password, '', class: 'form-control' %>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <div class="field form-group">
-        <%= form.label :password, 'Nové heslo' %>
-        <%= form.password_field :password, class: add_error_class_to('form-control', @user, :password) %>
+      <div class="<%= add_error_class_to('pl-2', @user, :password) %>">
+        <div class="field form-group">
+          <%= form.label :password, "Nové heslo (min. #{Rails.configuration.minimum_password_length} znakov)" %>
+          <%= form.password_field :password, class: 'form-control' %>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <div class="field form-group">
-        <%= form.label :password_confirmation, 'Potvrdenie nového hesla' %>
-        <%= form.password_field :password_confirmation, class: add_error_class_to('form-control', @user, :password_confirmation) %>
+      <div class="<%= add_error_class_to('pl-2', @user, :password_confirmation) %>">
+        <div class="field form-group">
+          <%= form.label :password_confirmation, 'Potvrdenie nového hesla' %>
+          <%= form.password_field :password_confirmation, class: 'form-control' %>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <div class="actions">
+      <div class="actions pl-2">
         <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
       </div>
     </div>

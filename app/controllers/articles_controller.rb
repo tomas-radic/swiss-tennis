@@ -30,13 +30,14 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @heading = @article.title
+    @heading = @article.title.presence || 'Zmena novinky'
   end
 
   def update
     if @article.update(whitelisted_params)
       redirect_to article_path(@article), notice: true
     else
+      @heading = @article.title.presence || 'Zmena novinky'
       render :edit
     end
   end

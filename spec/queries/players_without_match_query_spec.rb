@@ -3,21 +3,24 @@ require 'rails_helper'
 describe PlayersWithoutMatchQuery do
   let!(:season) { create(:season) }
   let!(:round) { create(:round, season: season) }
-  let!(:player1) { create(:player, first_name: 'Player', last_name: '1') }
-  let!(:player2) { create(:player, first_name: 'Player', last_name: '2') }
-  let!(:player3) { create(:player, first_name: 'Player', last_name: '3') }
-  let!(:player4) { create(:player, first_name: 'Player', last_name: '4') }
-  let!(:player5) { create(:player, first_name: 'Player', last_name: '5') }
-  let!(:player6) { create(:player, first_name: 'Player', last_name: '6') }
+  let!(:next_round) { create(:round, season: season) }
+  let!(:player1) { create(:player, first_name: 'Player', last_name: '1', rounds: [next_round, round]) }
+  let!(:player2) { create(:player, first_name: 'Player', last_name: '2', rounds: [next_round, round]) }
+  let!(:player3) { create(:player, first_name: 'Player', last_name: '3', rounds: [next_round, round]) }
+  let!(:player4) { create(:player, first_name: 'Player', last_name: '4', rounds: [next_round, round]) }
+  let!(:player5) { create(:player, first_name: 'Player', last_name: '5', rounds: [next_round, round]) }
+  let!(:player6) { create(:player, first_name: 'Player', last_name: '6', rounds: [next_round, round]) }
   let!(:player7) { create(:player, :dummy, first_name: 'Player', last_name: '7') }
-  let!(:player8) { create(:player, :inactive, first_name: 'Player', last_name: '8') }
+  let!(:player8) { create(:player, :inactive, first_name: 'Player', last_name: '8', rounds: [next_round, round]) }
+  let!(:player9) { create(:player, first_name: 'Player', last_name: '9', rounds: [next_round]) }
 
   let!(:previous_season) { create(:season) }
-  let!(:player9) { create(:player, first_name: 'Player', last_name: '9') }
+  let!(:previous_season_round) { create(:round, season: previous_season) }
+  let!(:player10) { create(:player, first_name: 'Player', last_name: '9', rounds: [previous_season_round]) }
 
   before do
     season.players += [player1, player2, player3, player4, player5, player6, player8]
-    previous_season.players += [player1, player6, player9]
+    previous_season.players += [player1, player6, player10]
   end
 
   context 'Without any existing matches' do
