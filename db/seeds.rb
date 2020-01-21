@@ -53,6 +53,22 @@ ActiveRecord::Base.transaction do
   season = Season.default.first
 
   #
+  # Rounds
+
+  puts "\nCreating rounds ..."
+  ROUNDS_TO_CREATE = 3
+
+  ROUNDS_TO_CREATE.times do |i|
+    round_begin_date = Date.today - ((ROUNDS_TO_CREATE - i - 1) * 2).weeks
+
+    round = season.rounds.create!(
+        period_begins: round_begin_date,
+        period_ends: round_begin_date + 2.weeks,
+        closed: i < (ROUNDS_TO_CREATE - 1)
+    )
+  end unless Round.any?
+
+  #
   # Categories
 
   puts "\nCreating categories ..."
@@ -80,7 +96,8 @@ ActiveRecord::Base.transaction do
         birth_year: rand((this_year - 70)..(this_year - 15)),
         consent_given: true,
         category: categories.sample,
-        seasons: [season]
+        seasons: [season],
+        rounds: Round.all.map { |r| r }
       )
     end
 
@@ -93,21 +110,7 @@ ActiveRecord::Base.transaction do
     )
   end
 
-  #
-  # Rounds
 
-  puts "\nCreating rounds ..."
-  ROUNDS_TO_CREATE = 3
-
-  ROUNDS_TO_CREATE.times do |i|
-    round_begin_date = Date.today - ((ROUNDS_TO_CREATE - i - 1) * 2).weeks
-
-    round = season.rounds.create!(
-      period_begins: round_begin_date,
-      period_ends: round_begin_date + 2.weeks,
-      closed: i < (ROUNDS_TO_CREATE - 1)
-    )
-  end unless Round.any?
 
   #
   # Matches
@@ -139,10 +142,7 @@ ActiveRecord::Base.transaction do
         attributes.merge!(sample_match_score(winner_idx))
       end
 
-      match = Match.manual.create!(attributes.merge(players: [player1, player2]))
-
-      round.rankings.create!(sample_round_ranking_attributes_for(player1, i))
-      round.rankings.create!(sample_round_ranking_attributes_for(player2, i))
+      Match.manual.create!(attributes.merge(players: [player1, player2]))
     end
   end unless Match.any?
 
