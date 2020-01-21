@@ -3,7 +3,10 @@ class ArticlesController < ApplicationController
   before_action :load_record, only: [:show, :edit, :update, :destroy, :pin]
 
   def index
-    @articles = Article.sorted.where(season: selected_season).includes(:user)
+    @articles = policy_scope(Article).sorted
+                    .where(season: selected_season)
+                    .includes(:user)
+                    .paginate(page: params[:page], per_page: 10)
   end
 
   def show

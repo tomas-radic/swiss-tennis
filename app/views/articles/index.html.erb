@@ -6,8 +6,27 @@
   Novinky
 </p>
 
-<% if user_signed_in? %>
-  <%= render 'articles/list_admin' %>
+<% if @articles.any? %>
+  <div class="row">
+    <% @articles.each do |article| %>
+      <div class="col-lg-6">
+        <%= render 'tile', article: article %>
+      </div>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="text-center">
+        <%= will_paginate(
+                @articles.published,
+                :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-switcher') %>
+      </div>
+    </div>
+  </div>
 <% else %>
-  <%= render 'articles/list_public' %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Žiadne novinky.</p>
+    </div>
+  </div>
 <% end %>
