@@ -34,7 +34,7 @@ class RoundsController < ApplicationController
     if @round.update(whitelisted_params)
       redirect_to @round, notice: true
     else
-      @heading = @round.full_label
+      @heading = params[:heading]
       render :edit
     end
   end
