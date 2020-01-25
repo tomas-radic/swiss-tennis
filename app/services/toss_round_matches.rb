@@ -20,7 +20,7 @@ class TossRoundMatches < Patterns::Service
     @exclusions = {}
 
     players.each do |player|
-      next unless toss_points[player.id]
+      next if toss_points[player.id].nil?
 
       toss_player = TossPlayer.new
       toss_player.id = player.id

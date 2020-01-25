@@ -5,7 +5,7 @@ describe TossRoundMatches do
 
   let!(:season) { create(:season) }
 
-  context 'With blank rankings (1st round toss)' do
+  context 'With zero/blank toss_points (1st round toss)' do
     let!(:round) { create(:round, season: season) }
 
     let!(:ranking1) { create(:ranking, round: round) }
@@ -17,9 +17,9 @@ describe TossRoundMatches do
       {
           ranking1.player_id => '0',
           ranking2.player_id => '0',
-          ranking3.player_id => '0',
-          ranking4.player_id => '0',
-          ranking5.player_id => '0'
+          ranking3.player_id => '',
+          ranking4.player_id => '',
+          ranking5.player_id => ''
       }
     end
 
