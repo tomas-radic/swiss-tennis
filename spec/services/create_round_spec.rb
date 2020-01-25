@@ -29,14 +29,14 @@ describe CreateRound do
   let!(:round2c) { create(:round, season: current_season, position: 2) }
 
   # Previous season rankings
-  let!(:ranking1p) { create(:ranking, :relevant, round: round1p, player: player1, points: 1, toss_points: 1, handicap: 1, sets_difference: 1, games_difference: 1) }
-  let!(:ranking2p) { create(:ranking, :relevant, round: round1p, player: player2, points: 2, toss_points: 2, handicap: 2, sets_difference: 2, games_difference: 2) }
+  let!(:ranking1p) { create(:ranking, :relevant, round: round1p, player: player1, points: 1, handicap: 1, sets_difference: 1, games_difference: 1) }
+  let!(:ranking2p) { create(:ranking, :relevant, round: round1p, player: player2, points: 2, handicap: 2, sets_difference: 2, games_difference: 2) }
 
   # Current season rankings
-  let!(:ranking1c1) { create(:ranking, :relevant, round: round1c, player: player1, points: 3, toss_points: 3, handicap: 3, sets_difference: 1, games_difference: 3) }
-  let!(:ranking1c2) { create(:ranking, :relevant, round: round1c, player: player2, points: 4, toss_points: 4, handicap: 4, sets_difference: 3, games_difference: 3) }
-  let!(:ranking2c1) { create(:ranking, :relevant, round: round2c, player: player1, points: 5, toss_points: 5, handicap: 5, sets_difference: 2, games_difference: 5) }
-  let!(:ranking2c2) { create(:ranking, :relevant, round: round2c, player: player2, points: 6, toss_points: 6, handicap: 6, sets_difference: 4, games_difference: 6) }
+  let!(:ranking1c1) { create(:ranking, :relevant, round: round1c, player: player1, points: 3, handicap: 3, sets_difference: 1, games_difference: 3) }
+  let!(:ranking1c2) { create(:ranking, :relevant, round: round1c, player: player2, points: 4, handicap: 4, sets_difference: 3, games_difference: 3) }
+  let!(:ranking2c1) { create(:ranking, :relevant, round: round2c, player: player1, points: 5, handicap: 5, sets_difference: 2, games_difference: 5) }
+  let!(:ranking2c2) { create(:ranking, :relevant, round: round2c, player: player2, points: 6, handicap: 6, sets_difference: 4, games_difference: 6) }
 
   let(:attributes) do
     {
@@ -64,13 +64,13 @@ describe CreateRound do
     expect(Ranking.count).to eq 9
     expect(round.rankings.count).to eq 3
     expect(round.rankings.find_by(player: player1)).to have_attributes(
-      points: 5, toss_points: 5, handicap: 5, sets_difference: 2, games_difference: 5, relevant: true
+      points: 5, handicap: 5, sets_difference: 2, games_difference: 5, relevant: true
     )
     expect(round.rankings.find_by(player: player2)).to have_attributes(
-      points: 6, toss_points: 6, handicap: 6, sets_difference: 4, games_difference: 6, relevant: true
+      points: 6, handicap: 6, sets_difference: 4, games_difference: 6, relevant: true
     )
     expect(round.rankings.find_by(player: player3)).to have_attributes(
-      points: 0, toss_points: 0, handicap: 0, sets_difference: 0, games_difference: 0, relevant: false
+      points: 0, handicap: 0, sets_difference: 0, games_difference: 0, relevant: false
     )
   end
 

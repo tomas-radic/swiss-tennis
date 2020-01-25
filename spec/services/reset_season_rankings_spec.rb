@@ -13,7 +13,6 @@ describe ResetSeasonRankings do
         player_id: ranking1.player_id,
         round_id: ranking1.round_id,
         points: 5,
-        toss_points: 5,
         handicap: 15,
         sets_difference: 25,
         games_difference: 25,
@@ -24,7 +23,6 @@ describe ResetSeasonRankings do
         player_id: ranking2.player_id,
         round_id: ranking2.round_id,
         points: 7,
-        toss_points: 7,
         handicap: 17,
         sets_difference: 27,
         games_difference: 27,
@@ -40,7 +38,6 @@ describe ResetSeasonRankings do
 
     expect(ranking1.reload).to have_attributes(
       points: 5,
-      toss_points: 5,
       handicap: 15,
       sets_difference: 25,
       games_difference: 25,
@@ -48,7 +45,6 @@ describe ResetSeasonRankings do
     )
     expect(ranking2.reload).to have_attributes(
       points: 7,
-      toss_points: 7,
       handicap: 17,
       sets_difference: 27,
       games_difference: 27,

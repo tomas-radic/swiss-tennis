@@ -1,10 +1,10 @@
 class TossRoundMatches < Patterns::Service
-  pattr_initialize :round, :player_ids, [:mandatory_player_ids]
+  pattr_initialize :round, :toss_points, [:mandatory_player_ids]
 
   TOSS_VARIANTS_COUNT = 10
 
   def call
-    return if player_ids.blank?
+    return if toss_points.blank?
 
     create_toss_players
     assign_exlusions_to_toss_players
@@ -15,19 +15,16 @@ class TossRoundMatches < Patterns::Service
 
   private
 
-  attr_reader :toss_players, :exclusions, :toss_variants, :toss_variants_suitabilities
-
   def create_toss_players
     @toss_players = []
     @exclusions = {}
 
     players.each do |player|
-      player_round_ranking = rankings.find { |r| r[:player_id] == player.id }
-      next unless player_round_ranking
+      next unless toss_points[player.id]
 
       toss_player = TossPlayer.new
       toss_player.id = player.id
-      toss_player.delta = player_round_ranking.toss_points
+      toss_player.delta = toss_points[player.id].to_i
       @toss_players << toss_player
 
       opponents = Player.joins(matches: [round: :season])
@@ -39,8 +36,8 @@ class TossRoundMatches < Patterns::Service
   end
 
   def assign_exlusions_to_toss_players
-    toss_players.each do |toss_player|
-      toss_player.exclude = toss_players.select { |tp| exclusions[toss_player.id].include?(tp.id) }
+    @toss_players.each do |toss_player|
+      toss_player.exclude = @toss_players.select { |tp| @exclusions[toss_player.id].include?(tp.id) }
     end
   end
 
@@ -48,14 +45,14 @@ class TossRoundMatches < Patterns::Service
     @toss_variants = []
 
     TOSS_VARIANTS_COUNT.times do
-      @toss_variants << Swissper.pair(toss_players)
+      @toss_variants << Swissper.pair(@toss_players)
     end
   end
 
   def compute_toss_variants_suitabilities
     @toss_variants_suitabilities = {}
 
-    toss_variants.each do |toss_variant|
+    @toss_variants.each do |toss_variant|
       toss_variant_suitability = 0
 
       toss_variant.each do |players_pair|
@@ -99,17 +96,12 @@ class TossRoundMatches < Patterns::Service
   end
 
   def final_variant
-    @final_variant ||= toss_variants_suitabilities[toss_variants_suitabilities.keys.max].sample
-  end
-
-  def rankings
-    @rankings ||= round.rankings.where(player: players)
+    @final_variant ||= @toss_variants_suitabilities[@toss_variants_suitabilities.keys.max].sample
   end
 
   def players
     @players ||= PlayersWithoutMatchQuery.call(round: round)
-        .where(id: player_ids)
-        .includes(:rankings)
+        .where(id: toss_points.keys)
   end
 
   def court_player_counts

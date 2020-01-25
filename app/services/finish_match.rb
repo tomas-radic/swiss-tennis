@@ -85,10 +85,7 @@ class FinishMatch < Patterns::Service
       end
 
       match_winner_ranking.points += points_for_winner
-      match_winner_ranking.toss_points = match_winner_ranking.points
-
       match_looser_ranking.points += points_for_looser
-      match_looser_ranking.toss_points = match_looser_ranking.points
 
       match_winner_ranking.handicap += match_looser_ranking.points
       match_winner_ranking.relevant = true

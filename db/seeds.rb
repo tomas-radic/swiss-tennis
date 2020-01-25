@@ -28,7 +28,6 @@ def sample_round_ranking_attributes_for(player, round_index)
   {
     player: player,
     points: points,
-    toss_points: points,
     handicap: rand(0..round_index),
     sets_difference: rand(-5..7),
     games_difference: rand(-15..20),

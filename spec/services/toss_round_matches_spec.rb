@@ -1,19 +1,26 @@
 require 'rails_helper'
 
 describe TossRoundMatches do
-  subject(:service) { described_class.call(round, player_ids) }
+  subject(:service) { described_class.call(round, toss_points) }
 
   let!(:season) { create(:season) }
 
   context 'With blank rankings (1st round toss)' do
     let!(:round) { create(:round, season: season) }
-    let!(:ranking1) { create(:ranking, round: round, toss_points: 0) }
-    let!(:ranking2) { create(:ranking, round: round, toss_points: 0) }
-    let!(:ranking3) { create(:ranking, round: round, toss_points: 0) }
-    let!(:ranking4) { create(:ranking, round: round, toss_points: 0) }
-    let!(:ranking5) { create(:ranking, round: round, toss_points: 0) }
-    let(:player_ids) do
-      [ranking1.player_id, ranking2.player_id, ranking3.player_id, ranking4.player_id, ranking5.player_id]
+
+    let!(:ranking1) { create(:ranking, round: round) }
+    let!(:ranking2) { create(:ranking, round: round) }
+    let!(:ranking3) { create(:ranking, round: round) }
+    let!(:ranking4) { create(:ranking, round: round) }
+    let!(:ranking5) { create(:ranking, round: round) }
+    let(:toss_points) do
+      {
+          ranking1.player_id => '0',
+          ranking2.player_id => '0',
+          ranking3.player_id => '0',
+          ranking4.player_id => '0',
+          ranking5.player_id => '0'
+      }
     end
 
     before do
@@ -30,31 +37,33 @@ describe TossRoundMatches do
   context 'With non-blank rankings' do
     let!(:round) { create(:round, season: season) }
     let!(:previous_round) { create(:round, season: season) }
-    let!(:r_0p_1) { create(:ranking, round: round, toss_points: 0) }
-    let!(:r_1p_1) { create(:ranking, round: round, toss_points: 1) }
-    let!(:r_1p_2) { create(:ranking, round: round, toss_points: 1) }
-    let!(:r_1p_3) { create(:ranking, round: round, toss_points: 1) }
-    let!(:r_2p_1) { create(:ranking, round: round, toss_points: 2) }
-    let!(:r_2p_2) { create(:ranking, round: round, toss_points: 2) }
-    let!(:r_2p_3) { create(:ranking, round: round, toss_points: 2) }
-    let!(:r_2p_4) { create(:ranking, round: round, toss_points: 2) }
-    let!(:r_3p_1) { create(:ranking, round: round, toss_points: 3) }
-    let!(:r_4p_1) { create(:ranking, round: round, toss_points: 4) }
-    let!(:r_4p_2) { create(:ranking, round: round, toss_points: 4) }
-    let!(:r_5p_1) { create(:ranking, round: round, toss_points: 5) }
-    let!(:r_5p_2) { create(:ranking, round: round, toss_points: 5) }
-    let!(:r_5p_3) { create(:ranking, round: round, toss_points: 5) }
-    let!(:r_6p_1) { create(:ranking, round: round, toss_points: 6) }
-    let!(:r_7p_1) { create(:ranking, round: round, toss_points: 7) }
-    let!(:r_9p_pr1) { create(:ranking, round: previous_round, toss_points: 9) }
-    let!(:r_9p_pr2) { create(:ranking, round: previous_round, toss_points: 9) }
-    let(:player_ids) do
-      [
-        r_0p_1.player_id, r_1p_1.player_id, r_1p_2.player_id, r_1p_3.player_id, r_2p_1.player_id,
-        r_2p_2.player_id, r_2p_3.player_id, r_2p_4.player_id, r_3p_1.player_id, r_4p_1.player_id,
-        r_4p_2.player_id, r_5p_1.player_id, r_5p_2.player_id, r_5p_3.player_id, r_6p_1.player_id,
-        r_7p_1.player_id, r_9p_pr1.player_id, r_9p_pr2.player_id
-      ]
+    let!(:r_0p_1) { create(:ranking, round: round) }
+    let!(:r_1p_1) { create(:ranking, round: round) }
+    let!(:r_1p_2) { create(:ranking, round: round) }
+    let!(:r_1p_3) { create(:ranking, round: round) }
+    let!(:r_2p_1) { create(:ranking, round: round) }
+    let!(:r_2p_2) { create(:ranking, round: round) }
+    let!(:r_2p_3) { create(:ranking, round: round) }
+    let!(:r_2p_4) { create(:ranking, round: round) }
+    let!(:r_3p_1) { create(:ranking, round: round) }
+    let!(:r_4p_1) { create(:ranking, round: round) }
+    let!(:r_4p_2) { create(:ranking, round: round) }
+    let!(:r_5p_1) { create(:ranking, round: round) }
+    let!(:r_5p_2) { create(:ranking, round: round) }
+    let!(:r_5p_3) { create(:ranking, round: round) }
+    let!(:r_6p_1) { create(:ranking, round: round) }
+    let!(:r_7p_1) { create(:ranking, round: round) }
+    let!(:r_9p_pr1) { create(:ranking, round: previous_round) }
+    let!(:r_9p_pr2) { create(:ranking, round: previous_round) }
+    let(:toss_points) do
+      {
+        r_0p_1.player_id => '0', r_1p_1.player_id => '1', r_1p_2.player_id => '1',
+        r_1p_3.player_id => '1', r_2p_1.player_id => '2', r_2p_2.player_id => '2',
+        r_2p_3.player_id => '2', r_2p_4.player_id => '2', r_3p_1.player_id => '3',
+        r_4p_1.player_id => '4', r_4p_2.player_id => '4', r_5p_1.player_id => '5',
+        r_5p_2.player_id => '5', r_5p_3.player_id => '5', r_6p_1.player_id => '6',
+        r_7p_1.player_id => '7', r_9p_pr1.player_id => '9', r_9p_pr2.player_id => '9'
+      }
     end
 
     let!(:match) do
