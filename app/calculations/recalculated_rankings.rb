@@ -15,7 +15,6 @@ class RecalculatedRankings < Patterns::Calculation
           player_name: ranking.player.name,
           round_position: ranking.round.position,
           points: 0,
-          toss_points: 0,
           handicap: 0,
           sets_difference: 0,
           games_difference: 0,
@@ -47,7 +46,6 @@ class RecalculatedRankings < Patterns::Calculation
 
         winner_rankings.each do |ranking|
           ranking[:points] += points_for_winner
-          ranking[:toss_points] = ranking[:points]
           ranking[:sets_difference] += sets_difference_for_winner
           ranking[:games_difference] += games_difference_for_winner
           ranking[:handicap] += points_to_winner_handicap
@@ -56,7 +54,6 @@ class RecalculatedRankings < Patterns::Calculation
 
         looser_rankings.each do |ranking|
           ranking[:points] += points_for_looser
-          ranking[:toss_points] = ranking[:points]
           ranking[:sets_difference] += sets_difference_for_looser
           ranking[:games_difference] += games_difference_for_looser
 

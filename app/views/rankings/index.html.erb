@@ -33,9 +33,6 @@
           <th scope="col">Meno</th>
           <th scope="col">Kategória</th>
           <th scope="col">Body</th>
-          <% if user_signed_in? %>
-            <th scope="col">Body pre žreb</th>
-          <% end %>
           <th scope="col">
             Body
             <span class="text-nowrap">
@@ -45,14 +42,17 @@
               </span>
             </span>
           </th>
-          <% if user_signed_in? %>
-            <th></th>
-          <% end %>
         </tr>
       </thead>
       <tbody>
         <% @rankings.each_with_index do |ranking, i| %>
-          <%= render partial: 'rankings/table_row', locals: { ranking: ranking, order_number: i + 1 } %>
+          <tr class="<%= rankings_table_row_color_class(ranking) %>">
+            <td><%= i + 1 %></td>
+            <td><%= link_to(player_name_by_consent(ranking.player, current_user), player_path(ranking.player), class: 'quiet-link') %></td>
+            <td><%= ranking.player.category.name %></td>
+            <td><%= ranking.points %></td>
+            <td><%= ranking.handicap %></td>
+          </tr>
         <% end %>
       </tbody>
     </table>

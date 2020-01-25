@@ -42,7 +42,7 @@ class RoundsController < ApplicationController
   def toss_matches
     TossRoundMatches.call(
       @round,
-      params[:players_in_toss]
+      params[:toss_points]
     )
 
     flash[:completed] = 'toss'

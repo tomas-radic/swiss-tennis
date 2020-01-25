@@ -1,0 +1,18 @@
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function() {
+    $('.toss-points').keyup(function() {
+      var tossPoints = $(this).val();
+      var pointsCell = $(this).parent().prev();
+      var nameCell = $(pointsCell).prev();
+      var points = parseInt($(pointsCell).html());
+
+      if (tossPoints != points) {
+        pointsCell.addClass('text-danger');
+        nameCell.addClass('text-danger');
+      } else {
+        pointsCell.removeClass('text-danger');
+        nameCell.removeClass('text-danger');
+      }
+    });
+  });
+</script>

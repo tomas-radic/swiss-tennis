@@ -13,7 +13,6 @@ class ResetSeasonRankings < Patterns::Service
     puts "Importing into DB..."
     columns_to_update = [
       :points,
-      :toss_points,
       :handicap,
       :sets_difference,
       :games_difference,

@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     post 'finish', on: :member
     get 'swap_players', on: :member
   end
-  resources :rankings, only: [:index, :edit, :update]
+  resources :rankings, only: [:index]
   # end
 
   # Static pages

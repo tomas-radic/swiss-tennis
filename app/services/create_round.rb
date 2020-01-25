@@ -17,7 +17,6 @@ class CreateRound < Patterns::Service
         new_round.rankings.new(
           player: player,
           points: last_ranking.points,
-          toss_points: last_ranking.toss_points,
           handicap: last_ranking.handicap,
           sets_difference: last_ranking.sets_difference,
           games_difference: last_ranking.games_difference,
@@ -27,7 +26,6 @@ class CreateRound < Patterns::Service
         new_round.rankings.new(
           player: player,
           points: 0,
-          toss_points: 0,
           handicap: 0,
           sets_difference: 0,
           games_difference: 0,

@@ -44,7 +44,7 @@ class OutputSeasonRankingsErrors < Patterns::Service
 
   def column_names
     @column_names ||= Ranking.column_names.select do |column_name|
-      %w(points toss_points handicap sets_difference games_difference relevant).include?(column_name)
+      %w(points handicap sets_difference games_difference relevant).include?(column_name)
     end
   end
 end

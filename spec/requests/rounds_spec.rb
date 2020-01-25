@@ -204,24 +204,20 @@ RSpec.describe "Rounds", type: :request do
     subject(:post_toss_matches_round) { post toss_matches_round_path(round), params: params }
 
     let!(:round) { create(:round) }
-    let!(:ranking1) { create(:ranking, round: round) }
-    let!(:ranking2) { create(:ranking, round: round) }
-    let!(:ranking3) { create(:ranking, round: round) }
-    let!(:ranking4) { create(:ranking, round: round) }
-    let(:params) do
+    let(:toss_points) do
       {
-        id: round.id,
-        players_in_toss: [
-          ranking1.player_id,
-          ranking2.player_id,
-          ranking3.player_id,
-          ranking4.player_id
-        ]
+          'player1_id' => '5',
+          'player2_id' => '5' ,
+          'player3_id' => '4' ,
+          'player4_id' => '6'
       }
     end
 
-    before do
-      round.season.players = [ranking1.player, ranking2.player, ranking3.player, ranking4.player]
+    let(:params) do
+      {
+        id: round.id,
+        toss_points: toss_points
+      }
     end
 
     context 'When logged in' do
@@ -229,11 +225,10 @@ RSpec.describe "Rounds", type: :request do
         login(user, 'password')
       end
 
-      it "Creates matches for the round" do
-        post_toss_matches_round
-        round.reload
+      it 'Calls TossRoundMatches with correct parameters' do
+        expect(TossRoundMatches).to receive(:call).with(round, toss_points)
 
-        expect(round.matches.count).to eq 2
+        post_toss_matches_round
       end
 
       it "Redirects to the round" do
@@ -250,11 +245,10 @@ RSpec.describe "Rounds", type: :request do
         expect(response).to redirect_to login_path
       end
 
-      it 'Does not create matches for the round' do
-        post_toss_matches_round
-        round.reload
+      it 'Does not call TossRoundMatches' do
+        expect(TossRoundMatches).not_to receive(:call)
 
-        expect(round.matches.count).to eq 0
+        post_toss_matches_round
       end
     end
   end

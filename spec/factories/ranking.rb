@@ -4,7 +4,6 @@ FactoryBot.define do
     association :round
 
     points { 0 }
-    toss_points { 0 }
     handicap { 0 }
     sets_difference { 0 }
     games_difference { 0 }
