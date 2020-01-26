@@ -40,4 +40,8 @@ module ApplicationHelper
 
     [flash_class, flash_message]
   end
+
+  def currency_string(amount)
+    "#{sprintf('%0.2f', amount / 100.0)} €"
+  end
 end

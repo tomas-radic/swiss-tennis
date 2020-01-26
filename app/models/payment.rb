@@ -10,7 +10,7 @@ class Payment < ApplicationRecord
   private
 
   def set_text_amount
-    return if self.amount.nil?
-    self.text_amount = "#{amount / 100.0}€"
+    return if amount.nil?
+    self.text_amount = ActionController::Base.helpers.currency_string(amount)
   end
 end

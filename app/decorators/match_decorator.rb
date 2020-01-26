@@ -12,12 +12,12 @@ class MatchDecorator < SimpleDelegator
 
   def set2
     return '' if set2_player1_score.nil? || set2_player2_score.nil?
-    "#{set2_player1_score}:#{set2_player2_score}"
+    @set2 ||= "#{set2_player1_score}:#{set2_player2_score}"
   end
 
   def set3
     return '' if set3_player1_score.nil? || set3_player2_score.nil?
-    "#{set3_player1_score}:#{set3_player2_score}"
+    @set3 ||= "#{set3_player1_score}:#{set3_player2_score}"
   end
 
   def label(user = nil)

@@ -49,6 +49,6 @@ class ApplicationController < ActionController::Base
       Payment.all.inject(0) { |sum, p| sum += p.amount }
     end
 
-    @payment_balance_text = "#{ActionController::Base.helpers.number_to_currency(@payment_balance / 100.0, unit: '', separator: ',', delimiter: '')}€"
+    @payment_balance_text = helpers.currency_string(@payment_balance)
   end
 end
