@@ -46,8 +46,34 @@
   <div class="col-sm-12 col-md-6">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <p class="lead text-center">Tel.:<span class="px-2"><%= @player.phone.present? && (user_signed_in? || @player.consent_given?) ? link_to(@player.phone, "tel:#{@player.phone}") : maybe_missing(@player.phone) %></span></p>
-        <p class="lead text-center">Email:<span class="px-2"><%= @player.email.present? && (user_signed_in? || @player.consent_given?) ? link_to(@player.email, "mailto:#{@player.email}") : maybe_missing(@player.email) %></span></p>
+        <p class="lead text-center">
+          Tel.:
+          <span class="px-2">
+            <% if @player.phone.present? %>
+              <% if user_signed_in? || @player.consent_given? %>
+                <%= link_to(@player.phone, "tel:#{@player.phone}") %>
+              <% else %>
+                <%= link_to_manager_phone('u organizátora') %>
+              <% end %>
+            <% else %>
+              (chýba)
+            <% end %>
+          </span>
+        </p>
+        <p class="lead text-center">
+          Email:
+          <span class="px-2">
+            <% if @player.email.present? %>
+              <% if user_signed_in? || @player.consent_given? %>
+                <%= link_to(@player.email, "mailto:#{@player.email}") %>
+              <% else %>
+                <%= link_to_manager_phone('u organizátora') %>
+              <% end %>
+            <% else %>
+              (chýba)
+            <% end %>
+          </span>
+        </p>
       </div>
     </div>
   </div>
