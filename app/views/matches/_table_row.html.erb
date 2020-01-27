@@ -1,15 +1,19 @@
 <tr class="<%= matches_table_row_color_class(match) %>">
   <td>
     <% if match.player1_id == match.winner_id %>
-      <strong>
-        <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
-      </strong>
+      <span class="js-filterable">
+        <strong>
+          <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
+        </strong>
+      </span>
     <% elsif match.player1 == match.retired_player %>
-      <span class="text-secondary">
+      <span class="text-secondary js-filterable">
         <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
       </span>
     <% else %>
-      <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
+      <span class="js-filterable">
+        <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
+      </span>
     <% end %>
     (<%= match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
     <br>
@@ -25,15 +29,19 @@
   </td>
   <td>
     <% if match.player2_id == match.winner_id %>
-      <strong>
-        <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
-      </strong>
+      <span class="js-filterable">
+        <strong>
+          <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
+        </strong>
+      </span>
     <% elsif match.player2 == match.retired_player %>
-      <span class="text-secondary">
+      <span class="text-secondary js-filterable">
         <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
       </span>
     <% else %>
-      <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
+      <span class="js-filterable">
+        <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
+      </span>
     <% end %>
     (<%= match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
     <br>

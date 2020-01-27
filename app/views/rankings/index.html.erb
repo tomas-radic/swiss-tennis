@@ -18,6 +18,18 @@
 <% end %>
 
 <% if @rankings.any? %>
+  <div class="row">
+    <div class="col">
+      <div class="input-group my-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <%= fa_icon 'search' %>
+          </div>
+        </div>
+        <input type="text" class="form-control js-filter" data-target="rankings" placeholder="meno hráča" style="max-width: 720px;">
+      </div>
+    </div>
+  </div>
   <% if @last_update_time.present? %>
     <i>
       <small>
@@ -44,11 +56,11 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="rankings">
         <% @rankings.each_with_index do |ranking, i| %>
           <tr class="<%= rankings_table_row_color_class(ranking) %>">
             <td><%= i + 1 %></td>
-            <td><%= link_to(player_name_by_consent(ranking.player, current_user), player_path(ranking.player), class: 'quiet-link') %></td>
+            <td><span class="js-filterable"><%= link_to(player_name_by_consent(ranking.player, current_user), player_path(ranking.player), class: 'quiet-link') %></span></td>
             <td><%= ranking.player.category.name %></td>
             <td><%= ranking.points %></td>
             <td><%= ranking.handicap %></td>
