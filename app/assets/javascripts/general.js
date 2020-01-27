@@ -26,6 +26,37 @@ $(document).on('turbolinks:load', function() {
     $(btn_dbl_confirm).show();
   });
 
+  $('.js-filter').keyup(function() {
+    var searchedText = $(this).val().toLowerCase();
+    searchedText = searchedText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    var tableRows = $('.' + $(this).data('target') + ' > tr');
+
+    tableRows.each(function() {
+      var currentRow = $(this);
+      var showCurrentRow = false;
+
+      if (searchedText.length >= 2) {
+        $(currentRow).find('.js-filterable').each(function () {
+          var cellText = $(this).text().toLowerCase();
+          cellText = cellText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+          if (!showCurrentRow) {
+            showCurrentRow = cellText.indexOf(searchedText) >= 0
+          }
+        });
+      } else {
+        showCurrentRow = true;
+      }
+
+      if (showCurrentRow) {
+        $(currentRow).show();
+      } else {
+        $(currentRow).hide();
+      }
+    });
+  });
+
   // Activate bootstrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
 

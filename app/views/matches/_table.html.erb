@@ -1,4 +1,16 @@
 <% if matches.present? && matches.any? %>
+  <div class="row">
+    <div class="col">
+      <div class="input-group my-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <%= fa_icon 'search' %>
+          </div>
+        </div>
+        <input type="text" class="form-control js-filter" data-target="matches" placeholder="meno hráča" style="max-width: 720px;">
+      </div>
+    </div>
+  </div>
   <% if @last_update_time.present? %>
     <i><small>(aktualizácia: <%= I18n.localize(@last_update_time, format: :date_with_time) %>)</small></i>
   <% end %>
@@ -13,7 +25,7 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="matches">
         <% matches.each do |match| %>
           <% next if !user_signed_in? && (match.player1.dummy? || match.player2.dummy?) %>
           <%= render partial: 'matches/table_row', locals: { match: match } %>
