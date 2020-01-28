@@ -5,14 +5,7 @@
 <% if @enrollments.any? %>
   <div class="row">
     <div class="col">
-      <div class="input-group my-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <%= fa_icon 'search' %>
-          </div>
-        </div>
-        <input type="text" class="form-control js-filter" data-target="players" placeholder="meno hráča" style="max-width: 720px;">
-      </div>
+      <%= render 'shared/js_filter', target_table_body: 'players', placeholder: 'meno hráča' %>
     </div>
   </div>
   <div class="table-responsive my-1">

@@ -26,7 +26,7 @@ $(document).on('turbolinks:load', function() {
     $(btn_dbl_confirm).show();
   });
 
-  $('.js-filter').keyup(function() {
+  $('.js-filter').on('keyup search', function() {
     var searchedText = $(this).val().toLowerCase();
     searchedText = searchedText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
