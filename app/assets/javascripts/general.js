@@ -27,9 +27,7 @@ $(document).on('turbolinks:load', function() {
   });
 
   $('.js-filter').on('keyup search', function() {
-    var searchedText = $(this).val().toLowerCase();
-    searchedText = searchedText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
+    var searchedText = filterableText($(this).val());
     var tableRows = $('.' + $(this).data('target') + ' > tr');
 
     tableRows.each(function() {
@@ -38,8 +36,7 @@ $(document).on('turbolinks:load', function() {
 
       if (searchedText.length >= 2) {
         $(currentRow).find('.js-filterable').each(function () {
-          var cellText = $(this).text().toLowerCase();
-          cellText = cellText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+          var cellText = filterableText($(this).text());
 
           if (!showCurrentRow) {
             showCurrentRow = cellText.indexOf(searchedText) >= 0
@@ -62,6 +59,13 @@ $(document).on('turbolinks:load', function() {
 
   colorizeAmounts();
 });
+
+function filterableText(text) {
+  text = text.toLowerCase();
+  text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  return text;
+}
 
 function colorizeAmounts() {
   $('.colored-amount').each(function() {
