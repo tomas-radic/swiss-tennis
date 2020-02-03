@@ -4,8 +4,13 @@ describe SelectedSeason do
   subject(:calculation) { described_class.result_for(season_id: season_id) }
 
   context 'With seasons' do
-    let!(:current_season) { create(:season, name: 'B') }
-    let!(:previous_season) { create(:season, name: 'A') }
+    let!(:current_season) { create(:season, name: 'A') }
+    let!(:previous_season) { create(:season, name: 'B') }
+
+    before do
+      previous_season.insert_at(1)
+      current_season.insert_at(2)
+    end
 
     context 'With given season ID' do
       let(:season_id) { previous_season.id }
