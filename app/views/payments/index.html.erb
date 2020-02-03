@@ -1,4 +1,10 @@
-<p class="lead">Všetky platby</p>
+<div class="row">
+  <div class="col">
+    <p class="lead">Všetky platby</p>
+  </div>
+</div>
+
+<hr>
 <% if @payments.any? %>
   <p>
     Aktuálny kredit <b><span class="px-1 colored-amount"><%= @payment_balance_text %></span></b>

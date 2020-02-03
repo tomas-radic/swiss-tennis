@@ -8,6 +8,7 @@ class PlayersWithoutMatchQuery < Patterns::Query
     players = relation.active
                   .left_joins(enrollments: :season)
                   .left_joins(:rounds).where('players.dummy is true or (seasons.id = ? and rankings.round_id = ?)', round.season_id, round.id)
+                  .where(enrollments: { canceled_at: nil })
                   .where.not(players: { id: players_with_match.ids })
                   .order(:last_name).distinct
 

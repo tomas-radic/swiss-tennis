@@ -10,7 +10,9 @@ Rails.application.routes.draw do
 
   resources :categories
   # resources :seasons, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
-  resources :enrollments, only: [:index, :new, :create, :destroy]
+  resources :enrollments, only: [:index, :new, :create] do
+    get :cancel, on: :member
+  end
   resources :players, only: [:show, :edit, :update]
   resources :rounds, except: [:destroy] do
     post 'toss_matches', on: :member

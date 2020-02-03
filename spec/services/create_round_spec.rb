@@ -16,9 +16,9 @@ describe CreateRound do
   let!(:enrollment3p) { create(:enrollment, season: previous_season, player: player3) }
   let!(:enrollment4p) { create(:enrollment, season: previous_season, player: player4) }
 
-  # Players 1-3 enrolled to current season
+  # Players 1-3 enrolled to current season, player2 has canceled enrollment
   let!(:enrollment1c) { create(:enrollment, season: current_season, player: player1) }
-  let!(:enrollment2c) { create(:enrollment, season: current_season, player: player2) }
+  let!(:enrollment2c) { create(:enrollment, :canceled, season: current_season, player: player2) }
   let!(:enrollment3c) { create(:enrollment, season: current_season, player: player3) }
 
   # Previous season rounds
@@ -58,16 +58,13 @@ describe CreateRound do
     expect(round.period_ends).to eq Date.tomorrow
   end
 
-  it 'Creates rankings for created round and all players of the round season' do
+  it 'Creates rankings for created round and all players with active enrollment for the round season' do
     round = create_round
 
-    expect(Ranking.count).to eq 9
-    expect(round.rankings.count).to eq 3
+    expect(Ranking.count).to eq 8
+    expect(round.rankings.count).to eq 2
     expect(round.rankings.find_by(player: player1)).to have_attributes(
       points: 5, handicap: 5, sets_difference: 2, games_difference: 5, relevant: true
-    )
-    expect(round.rankings.find_by(player: player2)).to have_attributes(
-      points: 6, handicap: 6, sets_difference: 4, games_difference: 6, relevant: true
     )
     expect(round.rankings.find_by(player: player3)).to have_attributes(
       points: 0, handicap: 0, sets_difference: 0, games_difference: 0, relevant: false

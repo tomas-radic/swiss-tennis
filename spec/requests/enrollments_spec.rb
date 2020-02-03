@@ -169,8 +169,8 @@ RSpec.describe "Enrollments", type: :request do
     end
   end
 
-  describe "DELETE /enrollments/:id" do
-    subject(:delete_enrollments) { delete enrollment_path(enrollment) }
+  describe "GET /enrollments/:id/cancel" do
+    subject(:cancel_enrollment) { get cancel_enrollment_path(enrollment) }
 
     let!(:enrollment) { create(:enrollment) }
 
@@ -179,12 +179,14 @@ RSpec.describe "Enrollments", type: :request do
         login(user, 'password')
       end
 
-      it 'Destroys the enrollment' do
-        expect { delete_enrollments }.to change(Enrollment, :count).by(-1)
+      it 'Sets enrollment canceled' do
+        cancel_enrollment
+
+        expect(enrollment.reload.canceled?).to be(true)
       end
 
       it 'Redirects to the list of enrollments' do
-        delete_enrollments
+        cancel_enrollment
 
         expect(response).to redirect_to(enrollments_path)
       end
@@ -192,13 +194,15 @@ RSpec.describe "Enrollments", type: :request do
 
     context 'When logged out' do
       it 'Redirects to login' do
-        delete_enrollments
+        cancel_enrollment
 
         expect(response).to redirect_to login_path
       end
 
-      it 'Does not destroy the enrollment' do
-        expect { delete_enrollments }.not_to change(Enrollment, :count)
+      it 'Does not cancel the enrollment' do
+        cancel_enrollment
+
+        expect(enrollment.reload.canceled?).to be(false)
       end
     end
   end

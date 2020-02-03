@@ -19,8 +19,7 @@ class MatchesController < ApplicationController
   end
 
   def new
-    @season = Season.default.first
-    @round = @season.rounds.find(params[:round_id])
+    @round = selected_season.rounds.find(params[:round_id])
     @match = Match.new(round: @round)
     @available_players = PlayersWithoutMatchQuery.call(round: @round, include_dummy: true)
   end
@@ -31,8 +30,7 @@ class MatchesController < ApplicationController
     if @match.persisted?
       redirect_to @match.round, notice: true
     else
-      @season = Season.default.first
-      @round = @season.rounds.find(@match.round_id)
+      @round = selected_season.rounds.find(@match.round_id)
       @available_players = PlayersWithoutMatchQuery.call(round: @round, include_dummy: true)
       render :new
     end

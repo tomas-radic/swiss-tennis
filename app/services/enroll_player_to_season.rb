@@ -15,7 +15,9 @@ class EnrollPlayerToSeason < Patterns::Service
   private
 
   def enroll_player_to_season
-    Enrollment.where(season: season, player: player).first_or_create
+    Enrollment.where(season: season, player: player).first_or_create.tap do |enrollment|
+      enrollment.update(canceled: false)
+    end
   end
 
   def add_ranking!

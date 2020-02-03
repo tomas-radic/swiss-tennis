@@ -29,16 +29,6 @@ class Match < ApplicationRecord
 
   time_for_a_boolean :finished
 
-  # 3.times do |i|
-  #   set_number = i + 1
-  #   define_method "set#{set_number}".to_sym do
-  #     player1_score = instance_variable_get("attributes[:set#{set_number}_player1_score]".to_sym)
-  #     player2_score = instance_variable_get("attributes[:set#{set_number}_player2_score]".to_sym)
-  #     return '' if player1_score.nil? || player2_score.nil?
-  #     "#{player1_score}:#{player2_score}"
-  #   end
-  # end
-
   def been_played?
     set1_player1_score.to_i > 0 || set1_player2_score.to_i > 0
   end

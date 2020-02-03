@@ -1,4 +1,13 @@
-<%= link_to 'Vytvoriť novú', new_category_path, class: 'btn btn-sm btn-success my-1' %>
+<div class="row">
+  <div class="col">
+    <p class="lead float-left">Kategórie hráčov</p>
+    <div class="float-right">
+      <%= link_to 'Nová kategória', new_category_path, class: 'btn btn-sm btn-success my-1' %>
+    </div>
+  </div>
+</div>
+
+<hr>
 <% if @categories.any? %>
   <div class="table-responsive my-1">
     <table class="table table-sm">

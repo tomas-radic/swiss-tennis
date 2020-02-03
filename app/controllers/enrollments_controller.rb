@@ -3,7 +3,7 @@ class EnrollmentsController < ApplicationController
   before_action :load_unenrolled_players, only: [:new, :create]
 
   def index
-    @enrollments = selected_season.enrollments
+    @enrollments = selected_season.enrollments.active
                        .joins(player: :category)
                        .where(players: { dummy: false })
                        .order('enrollments.created_at desc')
@@ -50,9 +50,9 @@ class EnrollmentsController < ApplicationController
     end
   end
 
-  def destroy
+  def cancel
     @enrollment = Enrollment.find(params[:id])
-    @enrollment.destroy
+    @enrollment.update!(canceled: true)
 
     redirect_to enrollments_path, notice: true
   end
@@ -65,7 +65,7 @@ class EnrollmentsController < ApplicationController
 
   def load_unenrolled_players
     @unenrolled_players = Player.default
-                              .where.not(id: selected_season.enrollments.pluck(:player_id))
+                              .where.not(id: selected_season.enrollments.active.pluck(:player_id))
                               .order(:last_name)
   end
 

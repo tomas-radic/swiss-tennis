@@ -14,10 +14,10 @@
     </ul>
     <div class="tab-content" id="tab-matches-content">
       <div class="tab-pane fade show active" id="published" role="tabpanel" aria-labelledby="published-tab">
-        <%= render 'matches/table', matches: matches.published %>
+        <%= render 'matches/table', matches: matches.published, js_filter_target: 'matches-published' %>
       </div>
       <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
-        <%= render 'matches/table', matches: matches.draft %>
+        <%= render 'matches/table', matches: matches.draft, js_filter_target: 'matches-draft' %>
         <% if matches.draft.any? %>
           <p class="text-center">
             <%= double_confirm_button('Zverejniť všetky!', publish_all_matches_round_path(round), 'btn btn-sm btn-success') %>

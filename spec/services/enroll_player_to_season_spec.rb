@@ -37,6 +37,16 @@ describe EnrollPlayerToSeason do
         expect(Ranking.find_by(player: player, round: round2)).not_to be_nil
       end
     end
+
+    context 'With existing previously canceled enrollment' do
+      let!(:canceled_enrollment) { create(:enrollment, :canceled, player: player, season: season) }
+
+      it 'Reverts cancelation' do
+        enrollment = enroll_player_to_season
+
+        expect(enrollment.canceled?).to be(false)
+      end
+    end
   end
 
   context 'With invalid player_id' do

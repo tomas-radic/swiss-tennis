@@ -4,5 +4,9 @@ FactoryBot.define do
     association :player
 
     active { true }
+
+    trait :canceled do
+      canceled { true }
+    end
   end
 end

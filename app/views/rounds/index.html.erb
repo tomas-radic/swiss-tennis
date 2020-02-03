@@ -1,6 +1,13 @@
-<%= link_to 'Nové kolo', new_round_path, class: 'btn btn-sm btn-success my-1' %>
+<div class="row">
+  <div class="col">
+    <p class="lead float-left">Všetky kolá</p>
+    <div class="float-right">
+      <%= link_to 'Nové kolo', new_round_path, class: 'btn btn-sm btn-success my-1' %>
+    </div>
+  </div>
+</div>
 
-<p class="lead">Všetky kolá</p>
+<hr>
 <% if @rounds.any? %>
   <div class="table-responsive my-1">
     <table class="table table-sm">

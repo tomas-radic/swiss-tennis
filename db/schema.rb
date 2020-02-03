@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_25_121358) do
+ActiveRecord::Schema.define(version: 2020_02_02_143503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2020_01_25_121358) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "canceled_at"
     t.index ["player_id"], name: "index_enrollments_on_player_id"
     t.index ["season_id", "player_id"], name: "index_enrollments_on_season_id_and_player_id", unique: true
     t.index ["season_id"], name: "index_enrollments_on_season_id"
@@ -137,6 +138,7 @@ ActiveRecord::Schema.define(version: 2020_01_25_121358) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position", default: 1, null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

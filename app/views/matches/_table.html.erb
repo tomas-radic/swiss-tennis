@@ -1,7 +1,7 @@
 <% if matches.present? && matches.any? %>
   <div class="row">
     <div class="col">
-      <%= render 'shared/js_filter', target_table_body: 'matches', placeholder: 'meno hráča' %>
+      <%= render 'shared/js_filter', target_table_body: js_filter_target, placeholder: 'meno hráča' %>
     </div>
   </div>
   <% if @last_update_time.present? %>
@@ -18,7 +18,7 @@
           <th></th>
         </tr>
       </thead>
-      <tbody class="matches">
+      <tbody class="<%= js_filter_target %>">
         <% matches.each do |match| %>
           <% next if !user_signed_in? && (match.player1.dummy? || match.player2.dummy?) %>
           <%= render partial: 'matches/table_row', locals: { match: match } %>

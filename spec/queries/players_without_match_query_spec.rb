@@ -34,6 +34,22 @@ describe PlayersWithoutMatchQuery do
     end
   end
 
+  context 'With canceled enrollments' do
+    subject(:players_without_match) { described_class.call(round: round) }
+
+    before do
+      player2.enrollments.find_by(season: season).update!(canceled: true)
+      player4.enrollments.find_by(season: season).update!(canceled: true)
+    end
+
+    it 'Returns only not canceled enrollments' do
+      players = players_without_match
+
+      expect(players.size).to eq 4
+      expect(players).to include(player1, player3, player5, player6)
+    end
+  end
+
   context 'With existing matches' do
     let!(:match1) { create(:match, round: round, player1: player1, player2: player2) }
     let!(:match2) { create(:match, round: round, player1: player3, player2: player4) }

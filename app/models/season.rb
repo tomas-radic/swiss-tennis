@@ -5,7 +5,9 @@ class Season < ApplicationRecord
   has_many :matches, through: :rounds
   has_many :articles, dependent: :restrict_with_error
 
-  validates :name, presence: true
+  validates :name, :position, presence: true
 
-  scope :default, -> { order(name: :desc) } # (default_scope is not preferred)
+  scope :default, -> { order(position: :desc) } # (default_scope is not preferred)
+
+  acts_as_list
 end

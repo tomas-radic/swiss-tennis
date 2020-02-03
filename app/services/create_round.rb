@@ -10,7 +10,7 @@ class CreateRound < Patterns::Service
   def create_round
     new_round = season.rounds.new(whitelisted_attributes)
 
-    season.players.each do |player|
+    season.players.merge(Enrollment.active).each do |player|
       last_ranking = last_ranking_for(player)
 
       if last_ranking.present?

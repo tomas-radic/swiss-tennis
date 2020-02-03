@@ -1,11 +1,17 @@
-<% if selected_season && user_signed_in? %>
-  <%= link_to 'Pridať novinku', new_article_path, class: 'btn btn-sm btn-success my-1' %>
-<% end %>
+<div class="row">
+  <div class="col">
+    <p class="lead float-left">
+      Novinky
+    </p>
+    <% if selected_season && user_signed_in? %>
+      <div class="float-right">
+        <%= link_to 'Pridať novinku', new_article_path, class: 'btn btn-sm btn-success my-1' %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-<p class="lead">
-  Novinky
-</p>
-
+<hr>
 <% if @articles.any? %>
   <div class="row">
     <% @articles.each do |article| %>

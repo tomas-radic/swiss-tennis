@@ -1,7 +1,15 @@
-<% if user_signed_in? %>
-  <%= link_to 'Pridať hráča', new_enrollment_path, class: 'btn btn-sm btn-success my-1' %>
-<% end %>
-<p class="lead"><%= "Zoznam hráčov sezóny #{selected_season.name} (#{@enrollments.count})" %></p>
+<div class="row">
+  <div class="col">
+    <p class="lead float-left"><%= "Zoznam hráčov sezóny #{selected_season.name} (#{@enrollments.count})" %></p>
+    <% if user_signed_in? %>
+      <div class="float-right">
+        <%= link_to 'Pridať hráča', new_enrollment_path, class: 'btn btn-sm btn-success my-1' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<hr>
 <% if @enrollments.any? %>
   <div class="row">
     <div class="col">
@@ -29,8 +37,7 @@
           <% if user_signed_in? %>
             <td>
               <%= link_to 'Odstrániť',
-                          enrollment_path(enrollment),
-                          method: :delete,
+                          cancel_enrollment_path(enrollment),
                           data: { confirm: "Naozaj odstrániť #{enrollment.player.name} zo sezóny #{selected_season.name}?" },
                           class: 'btn btn-sm btn-danger' %>
             </td>
