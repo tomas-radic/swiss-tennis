@@ -76,6 +76,9 @@ class FinishMatch < Patterns::Service
 
   def update_rankings!
     rounds.each do |round|
+
+      puts "\n\n\n#{round.rankings.inspect}\n\n\n"
+
       match_winner_ranking = round.rankings.find do |round_ranking|
         round_ranking.player_id == match.winner_id
       end
