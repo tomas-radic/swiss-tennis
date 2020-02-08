@@ -7,8 +7,8 @@ RSpec.describe "Matches", type: :request do
   let!(:user) { create(:user) }
   let!(:season) { create(:season) }
   let!(:round) { create(:round, season: season) }
-  let!(:player1) { create(:player) }
-  let!(:player2) { create(:player) }
+  let!(:player1) { create(:player, seasons: [season], rounds: [round]) }
+  let!(:player2) { create(:player, seasons: [season], rounds: [round]) }
 
   describe "GET /matches" do
     subject(:get_matches) { get matches_path }
@@ -92,18 +92,26 @@ RSpec.describe "Matches", type: :request do
             match: {
               player1_id: player1.id,
               player2_id: player2.id,
-              from_toss: false,
               round_id: round.id
             }
           }
         end
 
-        it "Creates new match" do
-          expect { post_matches }.to change(Match, :count).by(1)
+        it "Calls CreateMatch with expected parameters" do
+          expect(CreateMatch).to receive(:call).with(
+              ActionController::Parameters.new(
+                  player1_id: player1.id,
+                  player2_id: player2.id,
+                  round_id: round.id,
+                  from_toss: false).permit!
+          ).and_return(OpenStruct.new(result: Match.new(round: round)))
+
+          post_matches
         end
 
         it "Redirects to the round" do
           post_matches
+
           expect(response).to redirect_to round_path(round)
         end
       end
@@ -113,8 +121,20 @@ RSpec.describe "Matches", type: :request do
           { match: { player1_id: player1.id, round_id: round.id } }
         end
 
-        it "Does not create new match and renders new template" do
-          expect{ post_matches }.not_to change(Match, :count)
+        it "Calls CreateMatch with expected parameters" do
+          expect(CreateMatch).to receive(:call).with(
+              ActionController::Parameters.new(
+                  player1_id: player1.id,
+                  round_id: round.id,
+                  from_toss: false).permit!
+          ).and_return(OpenStruct.new(result: Match.new(round: round)))
+
+          post_matches
+        end
+
+        it "Renders new template" do
+          post_matches
+
           expect(response).to render_template(:new)
           expect(response).to have_http_status(200)
         end
@@ -135,11 +155,14 @@ RSpec.describe "Matches", type: :request do
 
       it 'Redirects to login' do
         post_matches
+
         expect(response).to redirect_to login_path
       end
 
-      it 'Does not create new match' do
-        expect { post_matches }.not_to change(Match, :count)
+      it 'Does not call CreateMatch' do
+        expect(CreateMatch).not_to receive(:call)
+
+        post_matches
       end
     end
   end

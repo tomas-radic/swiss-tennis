@@ -53,17 +53,8 @@ describe EnrollPlayerToSeason do
     let!(:player) { create(:player) }
     let(:player_id) { nil }
 
-    it 'Does not enroll given player to given season' do
-      enroll_player_to_season
-
-      expect(player.seasons).not_to include(season)
-    end
-
-    it 'Returns unpersisted enrollment' do
-      enrollment = enroll_player_to_season
-
-      expect(enrollment).to be_an(Enrollment)
-      expect(enrollment.persisted?).to be(false)
+    it 'Raises error' do
+      expect { enroll_player_to_season }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     context 'When season has two existing rounds already' do
@@ -76,7 +67,7 @@ describe EnrollPlayerToSeason do
       end
 
       it 'Does not create any rankings' do
-        enroll_player_to_season
+        expect { enroll_player_to_season }.to raise_error(ActiveRecord::RecordNotFound)
 
         expect(Ranking.all.count).to eq(0)
       end

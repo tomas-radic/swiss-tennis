@@ -6,7 +6,7 @@
           <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
         </strong>
       </span>
-    <% elsif match.player1 == match.retired_player %>
+    <% elsif match.player1_id == match.retired_player_id %>
       <span class="text-secondary js-filterable">
         <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
       </span>
@@ -55,6 +55,7 @@
       </i>
     </small>
   </td>
+  <td><%= I18n.localize(match.play_date, format: :date_month) if match.play_date %></td>
   <td>
     <%= match.note %>
   </td>

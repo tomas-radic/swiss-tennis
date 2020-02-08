@@ -2,22 +2,39 @@ class CreateMatch < Patterns::Service
   pattr_initialize :attributes
 
   def call
+    validate_enrollments_of_players!
+
     initialize_match
     add_players_relations if player1.present? && player2.present?
-    match.save
-    match
+    @match.save
+
+    @match
   end
 
   private
 
-  attr_reader :match
+  def validate_enrollments_of_players!
+    return unless round.present?
+
+    if player1.present?
+      player_enrollment = player1.enrollments.active.find_by(season: round.season)
+      raise PlayerInvalidError unless player_enrollment.present?
+      raise PlayerInvalidError unless player1.rounds.include?(round)
+    end
+
+    if player2.present?
+      player_enrollment = player2.enrollments.active.find_by(season: round.season)
+      raise PlayerInvalidError unless player_enrollment.present?
+      raise PlayerInvalidError unless player2.rounds.include?(round)
+    end
+  end
 
   def initialize_match
     @match = Match.new(whitelisted_attributes)
   end
 
   def add_players_relations
-    match.players = [player1, player2]
+    @match.players = [player1, player2]
   end
 
   def round
@@ -44,4 +61,6 @@ class CreateMatch < Patterns::Service
     )
   end
 
+  class PlayerInvalidError < StandardError
+  end
 end

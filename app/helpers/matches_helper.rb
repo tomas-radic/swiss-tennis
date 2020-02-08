@@ -18,4 +18,15 @@ module MatchesHelper
       'bg-green'
     end
   end
+
+  def match_players_enrolled?(match)
+    player1_enrollment = Enrollment.active.find_by(player: match.player1, season: match.round.season)
+    player2_enrollment = Enrollment.active.find_by(player: match.player2, season: match.round.season)
+    return false unless player1_enrollment.present?
+    return false unless player2_enrollment.present?
+    return false unless match.player1.rounds.include?(match.round)
+    return false unless match.player2.rounds.include?(match.round)
+
+    true
+  end
 end

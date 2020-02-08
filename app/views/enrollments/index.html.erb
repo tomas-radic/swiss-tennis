@@ -31,7 +31,11 @@
       <tbody class="players">
       <% @enrollments.each do |enrollment| %>
         <tr>
-          <td><span class="js-filterable"><%= link_to player_name_by_consent(enrollment.player, current_user), player_path(enrollment.player), class: 'quiet-link' %></span></td>
+          <td>
+            <span class="js-filterable">
+              <%= link_to player_name_by_consent(enrollment.player, current_user), player_path(enrollment.player), class: 'quiet-link' %>
+            </span>
+          </td>
           <td><%= I18n.localize(enrollment.created_at, format: :date_month_year) %></td>
           <td><span class="badge badge-pill badge-light"><%= enrollment.player.category.name %></span></td>
           <% if user_signed_in? %>

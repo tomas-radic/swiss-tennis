@@ -6,7 +6,7 @@ class EnrollPlayerToSeason < Patterns::Service
 
     ActiveRecord::Base.transaction do
       enrollment = enroll_player_to_season
-      add_ranking! if player.present? && current_round.present?
+      add_ranking! if current_round.present?
     end
 
     enrollment
@@ -25,7 +25,7 @@ class EnrollPlayerToSeason < Patterns::Service
   end
 
   def player
-    @player ||= Player.default.find_by(id: player_id)
+    @player ||= Player.default.find(player_id)
   end
 
   def current_round

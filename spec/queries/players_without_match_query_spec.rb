@@ -13,20 +13,21 @@ describe PlayersWithoutMatchQuery do
   let!(:player7) { create(:player, :dummy, first_name: 'Player', last_name: '7') }
   let!(:player8) { create(:player, :inactive, first_name: 'Player', last_name: '8', rounds: [next_round, round]) }
   let!(:player9) { create(:player, first_name: 'Player', last_name: '9', rounds: [next_round]) }
+  let!(:player10) { create(:player, first_name: 'Player', last_name: '10', rounds: [next_round]) }
 
   let!(:previous_season) { create(:season) }
   let!(:previous_season_round) { create(:round, season: previous_season) }
-  let!(:player10) { create(:player, first_name: 'Player', last_name: '9', rounds: [previous_season_round]) }
+  let!(:player11) { create(:player, first_name: 'Player', last_name: '11', rounds: [previous_season_round]) }
 
   before do
-    season.players += [player1, player2, player3, player4, player5, player6, player8]
-    previous_season.players += [player1, player6, player10]
+    season.players += [player1, player2, player3, player4, player5, player6, player8, player10]
+    previous_season.players += [player1, player6, player11]
   end
 
   context 'Without any existing matches' do
     subject(:players_without_match) { described_class.call(round: round) }
 
-    it 'Returns all players enrolled to the season' do
+    it 'Returns all players enrolled to the season and having ranking for given round' do
       players = players_without_match
 
       expect(players.size).to eq 6

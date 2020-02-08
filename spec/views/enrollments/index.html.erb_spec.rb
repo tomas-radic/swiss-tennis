@@ -7,13 +7,24 @@ RSpec.describe "enrollments/index.html.erb", type: :view do
   let!(:playerC) { create(:player, seasons: [season], consent_given: true, last_name: 'Cdefghij') }
 
   it 'Displays players enrolled to season, last_name based on consent_given' do
-    skip # following mocked user_signed_in? method is not working.
-    allow(view).to receive(:user_signed_in?).and_return(false)
+    assign(:enrollments, Enrollment.all)
+
+    def view.user_signed_in?
+      false
+    end
+
+    def view.current_user
+      nil
+    end
+
+    def view.selected_season
+      Season.first
+    end
 
     render
 
-    expect(rendered).to contain('Abcdefgh')
-    expect(rendered).to contain('Bcd*fgh*')
-    expect(rendered).to contain('Cdefghij')
+    expect(rendered).to match('Abcdefgh')
+    expect(rendered).to match('B***f***')
+    expect(rendered).to match('Cdefghij')
   end
 end
