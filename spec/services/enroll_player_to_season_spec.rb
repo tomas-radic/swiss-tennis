@@ -53,24 +53,11 @@ describe EnrollPlayerToSeason do
     let!(:player) { create(:player) }
     let(:player_id) { nil }
 
-    it 'Raises error' do
+    it 'Raises error and does not create any enrollments or rankings' do
       expect { enroll_player_to_season }.to raise_error(ActiveRecord::RecordNotFound)
-    end
 
-    context 'When season has two existing rounds already' do
-      let!(:round1) { create(:round, season: season, position: 1) }
-      let!(:round2) { create(:round, season: season, position: 2) }
-
-      before do
-        round1.insert_at(1)
-        round2.insert_at(2)
-      end
-
-      it 'Does not create any rankings' do
-        expect { enroll_player_to_season }.to raise_error(ActiveRecord::RecordNotFound)
-
-        expect(Ranking.all.count).to eq(0)
-      end
+      expect(Enrollment.all.count).to eq(0)
+      expect(Ranking.all.count).to eq(0)
     end
   end
 end
