@@ -6,7 +6,7 @@ class EnrollPlayerToSeason < Patterns::Service
 
     ActiveRecord::Base.transaction do
       enrollment = enroll_player_to_season
-      add_ranking! if current_round.present?
+      add_rankings! if current_round.present?
     end
 
     enrollment
@@ -20,8 +20,27 @@ class EnrollPlayerToSeason < Patterns::Service
     end
   end
 
-  def add_ranking!
-    player.rankings.where(round: current_round).first_or_create!
+  def add_rankings!
+    most_recent_ranking = Ranking.joins(round: :season)
+                              .where(seasons: { id: season.id })
+                              .where(rankings: { player_id: player_id })
+                              .order('rounds.position asc')
+                              .last
+
+    if most_recent_ranking.present?
+      season.rounds.where('rounds.position > ?', most_recent_ranking.round.position).each do |round|
+        player.rankings.where(round: round).first_or_create!(
+            points: most_recent_ranking.points,
+            handicap: most_recent_ranking.handicap,
+            sets_difference: most_recent_ranking.sets_difference,
+            games_difference: most_recent_ranking.games_difference,
+            relevant: most_recent_ranking.relevant
+        )
+      end
+    else
+      player.rankings.where(round: current_round).first_or_create!(
+          points: 0, handicap: 0, sets_difference: 0, games_difference: 0, relevant: false)
+    end
   end
 
   def player
