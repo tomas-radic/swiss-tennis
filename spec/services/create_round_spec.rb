@@ -7,7 +7,7 @@ describe CreateRound do
   let!(:current_season) { create(:season) }
   let!(:player1) { create(:player) }
   let!(:player2) { create(:player) }
-  let!(:player3) { create(:player) }
+  let!(:player3) { create(:player, :dummy) }
   let!(:player4) { create(:player) }
 
   # Players 1-4 enrolled to previous season

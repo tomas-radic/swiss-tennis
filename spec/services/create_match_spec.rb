@@ -14,7 +14,6 @@ describe CreateMatch do
         {
           player1_id: player1.id,
           player2_id: player2.id,
-          from_toss: false,
           round_id: round.id,
           published: true,
           play_date: Date.tomorrow.to_s,
@@ -66,7 +65,6 @@ describe CreateMatch do
       {
           player1_id: player1.id,
           player2_id: player2.id,
-          from_toss: false,
           round_id: round.id,
           published: true,
           play_date: Date.tomorrow.to_s,
@@ -90,7 +88,6 @@ describe CreateMatch do
       {
           player1_id: player1.id,
           player2_id: player2.id,
-          from_toss: false,
           round_id: round.id,
           published: true,
           play_date: Date.tomorrow.to_s,
@@ -118,7 +115,6 @@ describe CreateMatch do
       {
           player1_id: player1.id,
           player2_id: player2.id,
-          from_toss: false,
           round_id: round.id,
           published: true,
           play_date: Date.tomorrow.to_s,
@@ -132,6 +128,36 @@ describe CreateMatch do
 
     it 'Does not create new match' do
       expect(Match.count).to eq 0
+    end
+  end
+
+  context 'With dummy player' do
+    let!(:player1) { create(:player, seasons: [round.season], rounds: [round]) }
+    let!(:player2) { create(:player, :dummy, seasons: [round.season], rounds: [round]) }
+    let(:attributes) do
+      {
+          player1_id: player1.id,
+          player2_id: player2.id,
+          round_id: round.id,
+          published: true,
+          play_date: Date.tomorrow.to_s,
+          note: 'A note here'
+      }
+    end
+
+    it 'Returns persisted match with correct attributes' do
+      match = create_match
+
+      expect(match.persisted?).to be true
+      expect(match.player1).to eq player1
+      expect(match.player2).to eq player2
+      expect(match.players.count).to eq 2
+      expect(match.players.ids).to include(player1.id, player2.id)
+      expect(match.published?).to be true
+      expect(match.play_date).to eq Date.tomorrow
+      expect(match.note).to eq('A note here')
+      expect(match.finished_at).to be_nil
+      expect(MatchDecorator.new(match).score).to be_empty
     end
   end
 end

@@ -33,6 +33,7 @@ by individual rounds.
 ## Tasks to run on deployed app
 - rails data:create_users
 - rails data:create_categories
-- rails data:create_dummy_player
-- rails data:create_season
+- rails c
+- CreateSeason("Your season name")
+- exit rails c
 - rails data:enroll_players_to_most_recent_season

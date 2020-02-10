@@ -89,114 +89,104 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <% if match_players_enrolled?(@match) %>
-        <%= form_tag finish_match_path(@match) do %>
-          <div class="modal-body">
-            <h2 class="text-center">Set 1</h2>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <%= number_field_tag :set1_player1_score, '', min: 0, step: 1,
-                        name: 'score[set1_player1]', class: 'form-control float-right text-right' %>
-                  </div>
-                  <p class="text-right"><small><%= @match.player1.name %></small></p>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <%= number_field_tag :set1_player2_score, '', min: 0, step: 1,
-                        name: 'score[set1_player2]', class: 'form-control float-left text-left replace-input-field' %>
-                  </div>
-                  <p><small><%= @match.player2.name %></small></p>
-                </div>
-              </div>
-            </div>
-            <h2 class="text-center">Set 2</h2>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <%= number_field_tag :set2_player1_score, '', min: 0, step: 1,
-                        name: 'score[set2_player1]', class: 'form-control float-right text-right' %>
-                  </div>
-                  <p class="text-right"><small><%= @match.player1.name %></small></p>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <%= number_field_tag :set2_player2_score, '', min: 0, step: 1,
-                        name: 'score[set2_player2]', class: 'form-control float-left text-left replace-input-field' %>
-                  </div>
-                  <p><small><%= @match.player2.name %></small></p>
-                </div>
-              </div>
-            </div>
-            <h2 class="text-center">Set 3</h2>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <%= number_field_tag :set3_player1_score, '', min: 0, step: 1,
-                        name: 'score[set3_player1]', class: 'form-control float-right text-right' %>
-                  </div>
-                  <p class="text-right"><small><%= @match.player1.name %></small></p>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <%= number_field_tag :set3_player2_score, '', min: 0, step: 1,
-                        name: 'score[set3_player2]', class: 'form-control float-left text-left replace-input-field' %>
-                  </div>
-                  <p><small><%= @match.player2.name %></small></p>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <div class="form-check">
-                    <input class="form-check-input element-enabler" data-element-id="retired_player_id" type="checkbox" value="" id="player-retirement-checkbox">
-                    <label class="form-check-label" for="player-retirement-checkbox">
-                      Hráč skrečoval zápas
-                    </label>
-                  </div>
-                  <%= select_tag :retired_player_id, options_from_collection_for_select(@match.players, :id, :name), { disabled: true, include_blank: true, class: 'form-control' } %>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <%= label_tag :note, 'Poznámka' %>
-                  <%= text_area_tag :note, @match.note, class: 'form-control' %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <div class="form-check">
-              <input class="form-check-input element-enabler" data-element-id="finish-confirmation-button" type="checkbox" value="" id="finish-confirmation-checkbox">
-              <label class="form-check-label" for="finish-confirmation-checkbox">
-                <small>
-                  Skontroloval som tento výsledok a chcem ho naozaj potvrdiť. POTVRDENÝ VÝSLEDOK SA UŽ NEDÁ ZMENIŤ a ja to chápem a súhlasím s tým.
-                </small>
-              </label>
-            </div>
-            <button type="button" class="btn btn-outline-success" data-dismiss="modal">Zrušiť</button>
-            <%= submit_tag 'Finalizovať', class: 'btn btn-danger', id: 'finish-confirmation-button', disabled: true %>
-          </div>
-        <% end %>
-      <% else %>
+      <%= form_tag finish_match_path(@match) do %>
         <div class="modal-body">
+          <h2 class="text-center">Set 1</h2>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set1_player1_score, '', min: 0, step: 1,
+                      name: 'score[set1_player1]', class: 'form-control float-right text-right' %>
+                </div>
+                <p class="text-right"><small><%= @match.player1.name %></small></p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set1_player2_score, '', min: 0, step: 1,
+                      name: 'score[set1_player2]', class: 'form-control float-left text-left replace-input-field' %>
+                </div>
+                <p><small><%= @match.player2.name %></small></p>
+              </div>
+            </div>
+          </div>
+          <h2 class="text-center">Set 2</h2>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set2_player1_score, '', min: 0, step: 1,
+                      name: 'score[set2_player1]', class: 'form-control float-right text-right' %>
+                </div>
+                <p class="text-right"><small><%= @match.player1.name %></small></p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set2_player2_score, '', min: 0, step: 1,
+                      name: 'score[set2_player2]', class: 'form-control float-left text-left replace-input-field' %>
+                </div>
+                <p><small><%= @match.player2.name %></small></p>
+              </div>
+            </div>
+          </div>
+          <h2 class="text-center">Set 3</h2>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set3_player1_score, '', min: 0, step: 1,
+                      name: 'score[set3_player1]', class: 'form-control float-right text-right' %>
+                </div>
+                <p class="text-right"><small><%= @match.player1.name %></small></p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <%= number_field_tag :set3_player2_score, '', min: 0, step: 1,
+                      name: 'score[set3_player2]', class: 'form-control float-left text-left replace-input-field' %>
+                </div>
+                <p><small><%= @match.player2.name %></small></p>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col">
-              <p class="text-center">Niektorý z hráčov nie je správne priradený do sezóny.</p>
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input element-enabler" data-element-id="retired_player_id" type="checkbox" value="" id="player-retirement-checkbox">
+                  <label class="form-check-label" for="player-retirement-checkbox">
+                    Hráč skrečoval zápas
+                  </label>
+                </div>
+                <%= select_tag :retired_player_id, options_from_collection_for_select(@match.players, :id, :name), { disabled: true, include_blank: true, class: 'form-control' } %>
+              </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <%= label_tag :note, 'Poznámka' %>
+                <%= text_area_tag :note, @match.note, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="form-check">
+            <input class="form-check-input element-enabler" data-element-id="finish-confirmation-button" type="checkbox" value="" id="finish-confirmation-checkbox">
+            <label class="form-check-label" for="finish-confirmation-checkbox">
+              <small>
+                Skontroloval som tento výsledok a chcem ho naozaj potvrdiť. POTVRDENÝ VÝSLEDOK SA UŽ NEDÁ ZMENIŤ a ja to chápem a súhlasím s tým.
+              </small>
+            </label>
+          </div>
+          <button type="button" class="btn btn-outline-success" data-dismiss="modal">Zrušiť</button>
+          <%= submit_tag 'Finalizovať', class: 'btn btn-danger', id: 'finish-confirmation-button', disabled: true %>
         </div>
       <% end %>
     </div>

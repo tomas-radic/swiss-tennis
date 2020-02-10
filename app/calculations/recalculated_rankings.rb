@@ -50,7 +50,7 @@ class RecalculatedRankings < Patterns::Calculation
           ranking[:games_difference] += games_difference_for_winner
           ranking[:handicap] += points_to_winner_handicap
           ranking[:relevant] = true
-        end
+        end unless match.winner.dummy?
 
         looser_rankings.each do |ranking|
           ranking[:points] += points_for_looser
@@ -61,7 +61,7 @@ class RecalculatedRankings < Patterns::Calculation
             ranking[:handicap] += points_to_looser_handicap
             ranking[:relevant] = true
           end
-        end
+        end unless match.looser.dummy?
 
         update_rewardable_opponents(points_for_winner, match.winner, match.round, resulting_rankings)
         update_rewardable_opponents(points_for_looser, match.looser, match.round, resulting_rankings) if points_for_looser > 0
@@ -73,6 +73,7 @@ class RecalculatedRankings < Patterns::Calculation
 
   def update_rewardable_opponents(handicap_points, player, round, all_rankings)
     rewardable_opponents = RewardableOpponentsQuery.call(player: player, round: round)
+    rewardable_opponents = rewardable_opponents.where(dummy: false)
 
     rankings_of_rewardable_opponents = all_rankings.select do |ranking|
       ranking[:round_position] >= round.position && rewardable_opponents.map(&:id).include?(ranking[:player_id])

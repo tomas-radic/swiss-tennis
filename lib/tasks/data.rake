@@ -17,34 +17,9 @@ namespace :data do
 
   desc "Creates default categories"
   task create_categories: :environment do
-    %w{60r+ 50r+ Registrovaný Neregistrovaný}.each do |category|
+    %w{60r+ 50r+ Registrovaní Neregistrovaní Ženy}.each do |category|
       puts "Creating #{category} ..."
       Category.where(name: category).first_or_create!
-    end
-
-    puts 'Done.'
-  end
-
-  desc "Creates dummy player"
-  task create_dummy_player: :environment do
-    dummy_player = Player.find_by(dummy: true)
-
-    if dummy_player.nil?
-      puts "Creating dummy player ..."
-      category = Category.find_by(name: 'Neregistrovaný')
-      Player.create!(dummy: true, first_name: 'Večný', last_name: 'Looser', category: category)
-    else
-      puts "Dummy player has been existing."
-    end
-
-    puts 'Done.'
-  end
-
-  desc "Creates season"
-  task create_season: :environment do
-    %w{2019}.each do |season_name|
-      puts "Creating #{season_name} ..."
-      Season.where(name: season_name).first_or_create!
     end
 
     puts 'Done.'
@@ -67,7 +42,7 @@ namespace :data do
 
   desc 'Analyzes existing rankings based on matches played in given season, outputs possible differences'
   task output_season_rankings_errors: :environment do
-    season = Season.all.order(:created_at).first
+    season = Season.default.first
 
     if season
       OutputSeasonRankingsErrors.call(season)
@@ -78,7 +53,7 @@ namespace :data do
 
   desc 'Resets existing rankings based on matches played in given season'
   task reset_season_rankings: :environment do
-    season = Season.all.order(:created_at).first
+    season = Season.default.first
 
     if season
       ResetSeasonRankings.call(season)

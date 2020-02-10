@@ -101,8 +101,8 @@ class FinishMatch < Patterns::Service
         match_looser_ranking.relevant = true
       end
 
-      match_winner_ranking.save!
-      match_looser_ranking.save!
+      match_winner_ranking.save! unless match.winner.dummy?
+      match_looser_ranking.save! unless match.looser.dummy?
     end
 
     update_rewardable_opponents(points_for_winner, match.winner)
@@ -111,6 +111,7 @@ class FinishMatch < Patterns::Service
 
   def update_rewardable_opponents(handicap_points, player)
     rewardable_opponents = RewardableOpponentsQuery.call(player: player, round: match.round)
+    return unless rewardable_opponents.any?
 
     rankings = Ranking.joins(:player, round: :season)
                    .where(seasons: { id: match.round.season_id })

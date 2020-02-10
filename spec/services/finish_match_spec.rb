@@ -13,36 +13,36 @@ describe FinishMatch do
   end
 
   let!(:season) { create(:season) }
-  let!(:round1) { create(:round, season: season, position: 1) }
-  let!(:player1) { create(:player) }
-  let!(:player2) { create(:player) }
 
-  let!(:ranking_of_player1_round1) do
-    create(:ranking, player: player1, round: round1,
-           points: 0,
-           handicap: 0,
-           sets_difference: 0,
-           games_difference: 0,
-           relevant: false
-    )
-  end
-
-  let!(:ranking_of_player2_round1) do
-    create(:ranking, player: player2, round: round1,
-           points: 0,
-           handicap: 0,
-           sets_difference: 0,
-           games_difference: 0,
-           relevant: false
-    )
-  end
-
-  let!(:match) do
-    create(:match, round: round1, player1: player1, player2: player2,
-           play_date: Date.today, published: true)
-  end
+  let!(:player1) { create(:player, seasons: [season]) }
+  let!(:player2) { create(:player, seasons: [season]) }
 
   context 'Finishing match of 1st round' do
+    let!(:round1) { create(:round, season: season, position: 1) }
+    let!(:match) do
+      create(:match, round: round1, player1: player1, player2: player2,
+             play_date: Date.today, published: true)
+    end
+
+    let!(:ranking_of_player1_round1) do
+      create(:ranking, player: player1, round: round1,
+             points: 0,
+             handicap: 0,
+             sets_difference: 0,
+             games_difference: 0,
+             relevant: false
+      )
+    end
+
+    let!(:ranking_of_player2_round1) do
+      create(:ranking, player: player2, round: round1,
+             points: 0,
+             handicap: 0,
+             sets_difference: 0,
+             games_difference: 0,
+             relevant: false
+      )
+    end
 
     shared_examples 'Player1 wins and results with 3 points and 0 handicap points' do
       it 'Adds 3 points to player1' do
@@ -351,6 +351,114 @@ describe FinishMatch do
         expect(ranking_of_player2.sets_difference).to eq(-2)
         expect(ranking_of_player2.games_difference).to eq(-12)
       end
+    end
+  end
+
+  context 'Finishing 2nd round match with a dummy player' do
+    let!(:round1) { create(:round, season: season) }
+    let!(:round2) { create(:round, season: season) }
+
+    let!(:dummy_player) { create(:player, :dummy, seasons: [season]) }
+    let!(:ranking1_of_dummy_player) { create(:ranking, round: round1, player: dummy_player) }
+    let!(:ranking2_of_dummy_player) { create(:ranking, round: round2, player: dummy_player) }
+
+    let!(:player1) { create(:player, seasons: [season]) }
+    let!(:ranking1_of_player1) { create(:ranking, round: round1, player: player1, points: 3, handicap: 0, sets_difference: 2, games_difference: 7, relevant: true) }
+    let!(:ranking2_of_player1) { create(:ranking, round: round2, player: player1, points: 3, handicap: 0, sets_difference: 2, games_difference: 7, relevant: true) }
+
+    let!(:player2) { create(:player, :dummy, seasons: [season]) }
+    let!(:ranking1_of_player2) { create(:ranking, round: round1, player: player2, points: 0, handicap: 3, sets_difference: -2, games_difference: -7, relevant: true) }
+    let!(:ranking2_of_player2) { create(:ranking, round: round2, player: player2, points: 0, handicap: 3, sets_difference: -2, games_difference: -7, relevant: true) }
+
+    let!(:match_of_round1) { create(:match, :finished, :published, round: round1,
+                           player1: player1, player2: player2, players: [player1, player2],
+                           set1_player1_score: 6, set1_player2_score: 3,
+                           set2_player1_score: 6, set2_player2_score: 2,
+                           winner: player1, looser: player2) }
+
+    let!(:match) do
+      create(:match, :published, round: round2, player1: player1, player2: dummy_player,
+             players: [player1, dummy_player], play_date: Date.today)
+    end
+
+    let!(:attributes) do
+      { attributes: { retired_player_id: dummy_player.id } }
+    end
+
+    let!(:score) do
+      {}
+    end
+
+    before do
+      round1.insert_at(1)
+      round2.insert_at(2)
+    end
+
+    it 'Sets match winner and looser' do
+      match = finish_match
+
+      expect(match.winner).to eq(player1)
+      expect(match.looser).to eq(dummy_player)
+    end
+
+    it 'Updates round2 ranking of player1 and handicap of player2' do
+      finish_match
+
+      expect(ranking2_of_player1.reload).to have_attributes(
+                                                points: 6,
+                                                handicap: 0,
+                                                sets_difference: 4,
+                                                games_difference: 19,
+                                                relevant: true
+                                            )
+
+      expect(ranking2_of_player2.reload).to have_attributes(
+                                                points: 0,
+                                                handicap: 6,
+                                                sets_difference: -2,
+                                                games_difference: -7,
+                                                relevant: true
+                                            )
+    end
+
+    it 'Does not update ranking of dummy player' do
+      finish_match
+
+      expect(ranking2_of_dummy_player.reload).to have_attributes(
+                                                     points: 0,
+                                                     handicap: 0,
+                                                     sets_difference: 0,
+                                                     games_difference: 0,
+                                                     relevant: false
+                                                 )
+    end
+
+    it 'Does not update 1st round rankings' do
+      finish_match
+
+      expect(ranking1_of_player1.reload).to have_attributes(
+                                                points: 3,
+                                                handicap: 0,
+                                                sets_difference: 2,
+                                                games_difference: 7,
+                                                relevant: true
+                                            )
+
+      expect(ranking1_of_player2.reload).to have_attributes(
+                                                points: 0,
+                                                handicap: 3,
+                                                sets_difference: -2,
+                                                games_difference: -7,
+                                                relevant: true
+                                            )
+
+      expect(ranking1_of_dummy_player.reload).to have_attributes(
+                                                     points: 0,
+                                                     handicap: 0,
+                                                     sets_difference: 0,
+                                                     games_difference: 0,
+                                                     relevant: false
+                                                 )
     end
   end
 
