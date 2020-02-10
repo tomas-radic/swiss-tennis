@@ -34,6 +34,5 @@ by individual rounds.
 - rails data:create_users
 - rails data:create_categories
 - rails c
-- CreateSeason("Your season name")
+- CreateSeason.call("Your season name")
 - exit rails c
-- rails data:enroll_players_to_most_recent_season
