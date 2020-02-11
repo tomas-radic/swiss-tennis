@@ -85,11 +85,10 @@ describe EnrollPlayerToSeason do
     let!(:player) { create(:player) }
     let(:player_id) { nil }
 
-    it 'Raises error and does not create any enrollments or rankings' do
-      expect { enroll_player_to_season }.to raise_error(ActiveRecord::RecordNotFound)
+    it 'Returns unpersisted enrollment' do
+      enrollment = enroll_player_to_season
 
-      expect(Enrollment.all.count).to eq(0)
-      expect(Ranking.all.count).to eq(0)
+      expect(enrollment.persisted?).to be(false)
     end
   end
 end
