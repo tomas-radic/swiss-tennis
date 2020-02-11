@@ -3,16 +3,16 @@
     <% if match.player1_id == match.winner_id %>
       <span class="js-filterable">
         <strong>
-          <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
+          <%= player_name_link(match.player1, current_user) %>
         </strong>
       </span>
     <% elsif match.player1_id == match.retired_player_id %>
       <span class="text-secondary js-filterable">
-        <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
+        <%= player_name_link(match.player1, current_user) %>
       </span>
     <% else %>
       <span class="js-filterable">
-        <%= link_to(player_name_by_consent(match.player1, current_user), player_path(match.player1), class: 'quiet-link') %>
+        <%= player_name_link(match.player1, current_user) %>
       </span>
     <% end %>
     (<%= match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
@@ -31,16 +31,16 @@
     <% if match.player2_id == match.winner_id %>
       <span class="js-filterable">
         <strong>
-          <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
+          <%= player_name_link(match.player2, current_user) %>
         </strong>
       </span>
     <% elsif match.player2 == match.retired_player %>
       <span class="text-secondary js-filterable">
-        <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
+        <%= player_name_link(match.player2, current_user) %>
       </span>
     <% else %>
       <span class="js-filterable">
-        <%= link_to(player_name_by_consent(match.player2, current_user), player_path(match.player2), class: 'quiet-link') %>
+        <%= player_name_link(match.player2, current_user) %>
       </span>
     <% end %>
     (<%= match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)

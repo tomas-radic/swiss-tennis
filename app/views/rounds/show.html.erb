@@ -64,7 +64,7 @@
           <% @players_without_match.each do |player| %>
             <tr>
               <td><div class="form-check"><%= check_box_tag "toss_this_player_#{player.id}", nil, true, class: 'form-check-input element-enabler', data: { 'element-id' => "toss_points_#{player.id}" } %></div></td>
-              <td><%= link_to player_name_by_consent(player, current_user), player_path(player), class: 'quiet-link' %></td>
+              <td><%= player_name_link(player, current_user) %></td>
               <td><%= player.rankings.find { |r| r[:round_id] == @round.id }.points %></td>
               <td><%= text_field_tag "toss_points[#{player.id}]", player.rankings.find { |r| r[:round_id] == @round.id }.points, class: 'form-control toss-points' %></td>
             </tr>

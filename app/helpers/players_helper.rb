@@ -1,4 +1,14 @@
 module PlayersHelper
+  def player_name_link(player, user, quiet = true)
+    player_name = player_name_by_consent(player, user)
+
+    if player.dummy?
+      player_name
+    else
+      link_to(player_name, player_path(player), class: quiet ? "quiet-link" : "")
+    end
+  end
+
   def player_name_by_consent(player, user = nil)
     return player.name if player.consent_given? || player.dummy?
 

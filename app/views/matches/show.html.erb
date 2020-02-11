@@ -39,14 +39,14 @@
 <p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
 <hr>
 <p class="lead text-center">
-  <%= link_to player_name_by_consent(@match.player1, current_user), player_path(@match.player1) %>
+  <%= player_name_link(@match.player1, current_user, false) %>
   <% if user_signed_in? || @match.player1.consent_given? %>
     <i>(tel.č. <%= link_to "#{@match.player1.phone}", "tel:#{@match.player1.phone}" %>)</i>
   <% end %>
   <b>zabezpečuje <i>kurt</i></b>.
 </p>
 <p class="lead text-center">
-  <%= link_to player_name_by_consent(@match.player2, current_user), player_path(@match.player2) %>
+  <%= player_name_link(@match.player2, current_user, false) %>
   <% if user_signed_in? || @match.player2.consent_given? %>
     <i>(tel.č. <%= link_to "#{@match.player2.phone}", "tel:#{@match.player2.phone}" %>)</i>
   <% end %>

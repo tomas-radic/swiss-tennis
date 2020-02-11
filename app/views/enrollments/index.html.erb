@@ -33,7 +33,7 @@
         <tr>
           <td>
             <span class="js-filterable">
-              <%= link_to player_name_by_consent(enrollment.player, current_user), player_path(enrollment.player), class: 'quiet-link' %>
+              <%= player_name_link(enrollment.player, current_user) %>
             </span>
           </td>
           <td><%= I18n.localize(enrollment.created_at, format: :date_month_year) %></td>
