@@ -1,7 +1,7 @@
 require 'rails_helper'
-require 'requests/authentication_helpers'
+require 'requests/authentication_helper'
 
-include AuthenticationHelpers
+include AuthenticationHelper
 
 RSpec.describe "Users", type: :request do
   describe "GET /users/abc/edit" do

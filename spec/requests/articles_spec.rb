@@ -1,7 +1,7 @@
 require 'rails_helper'
-require 'requests/authentication_helpers'
+require 'requests/authentication_helper'
 
-include AuthenticationHelpers
+include AuthenticationHelper
 
 RSpec.describe "Articles", type: :request do
   let!(:user) { create(:user) }
