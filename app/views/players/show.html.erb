@@ -91,9 +91,9 @@
   <hr>
   <div class="row">
     <div class="col">
-      <p class="lead text-center">
+      <h3 class="text-center">
         <%= "Zápasy sezóny #{enrollment.season.name}" %>
-      </p>
+      </h3>
       <%= render 'matches/table', matches: PlayerSeasonMatchesQuery.call(player: @player, season: enrollment.season)
           .includes(:round, :winner, player1: :rankings, player2: :rankings), js_filter_target: "matches-#{enrollment.season.position}" %>
     </div>

@@ -32,16 +32,20 @@ class RecalculatedRankings < Patterns::Calculation
           ranking[:player_id] == match.looser_id && ranking[:round_position] >= round.position
         end
 
-        looser_won_one_set = NumberOfWonSets.result_for(match: match, player: match.looser) == 1
         winner_current_points = winner_rankings.find { |r| r[:round_id] == round.id }[:points]
         looser_current_points = looser_rankings.find { |r| r[:round_id] == round.id }[:points]
-        points_for_winner = points_for_winner(looser_won_one_set)
-        points_for_looser = points_for_looser(looser_won_one_set)
+        winner_won_sets_count = NumberOfWonSets.result_for(match: match, player: match.winner)
+        looser_won_sets_count = NumberOfWonSets.result_for(match: match, player: match.looser)
+        winner_won_games_count = NumberOfWonGames.result_for(match: match, player: match.winner)
+        looser_won_games_count = NumberOfWonGames.result_for(match: match, player: match.looser)
+
+        points_for_winner = points_for_winner(looser_won_sets_count == 1)
+        points_for_looser = points_for_looser(looser_won_sets_count == 1)
         points_to_winner_handicap = looser_current_points + points_for_looser
         points_to_looser_handicap = winner_current_points + points_for_winner
-        sets_difference_for_winner = looser_won_one_set ? 1 : 2
+        sets_difference_for_winner = match.been_played? ? winner_won_sets_count - looser_won_sets_count : 2
         sets_difference_for_looser = -sets_difference_for_winner
-        games_difference_for_winner = games_difference_for_winner(match)
+        games_difference_for_winner = match.been_played? ? winner_won_games_count - looser_won_games_count : 12
         games_difference_for_looser = -games_difference_for_winner
 
         winner_rankings.each do |ranking|
@@ -90,19 +94,6 @@ class RecalculatedRankings < Patterns::Calculation
 
   def points_for_looser(looser_won_one_set)
     looser_won_one_set ? FinishMatch::LOOSER_POINTS_WON_ONE_SET : FinishMatch::LOOSER_POINTS_NO_WON_SET
-  end
-
-  def looser_won_one_set?(match)
-    NumberOfWonSets.result_for(match: match, player: match.looser) == 1
-  end
-
-  def games_difference_for_winner(match)
-    if match.been_played?
-      NumberOfWonGames.result_for(match: match, player: match.winner) -
-          NumberOfWonGames.result_for(match: match, player: match.looser)
-    else
-      12
-    end
   end
 
   def rounds

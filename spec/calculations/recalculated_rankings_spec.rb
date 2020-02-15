@@ -234,7 +234,7 @@ describe RecalculatedRankings do
                                                              player_name: playerB.name,
                                                              points: 0 + 1,
                                                              handicap: 0 + 2 + 0,
-                                                             sets_difference: -2 - 1,
+                                                             sets_difference: -2 + 1,
                                                              games_difference: -12 + 5,
                                                              relevant: true
                                                          )
@@ -279,7 +279,7 @@ describe RecalculatedRankings do
                                                              player_name: playerE.name,
                                                              points: 0 + 2,
                                                              handicap: 3 + 1 + 1,
-                                                             sets_difference: -2 + 1,
+                                                             sets_difference: -2 - 1,
                                                              games_difference: -8 - 5,
                                                              relevant: true
                                                          )
@@ -332,7 +332,7 @@ describe RecalculatedRankings do
                                                              player_name: playerB.name,
                                                              points: 0 + 1 + 0,
                                                              handicap: 0 + 2 + 0 + 0 + 2 + 0,
-                                                             sets_difference: -2 - 1 + 0,
+                                                             sets_difference: -2 + 1 + 0,
                                                              games_difference: -12 + 5 + 0,
                                                              relevant: true
                                                          )
@@ -386,7 +386,7 @@ describe RecalculatedRankings do
                                                              player_name: playerE.name,
                                                              points: 0 + 2 + 2,
                                                              handicap: 3 + 1 + 1 + 3 + 0 + 0,
-                                                             sets_difference: -2 + 1 + 1,
+                                                             sets_difference: -2 - 1 + 1,
                                                              games_difference: -8 - 5 + 2,
                                                              relevant: true
                                                          )
@@ -450,7 +450,7 @@ describe RecalculatedRankings do
                                                              player_name: playerB.name,
                                                              points: 0 + 1 + 0 + 3,
                                                              handicap: 0 + 2 + 0 + 0 + 2 + 0 + 3 + 0 + 0 + 0,
-                                                             sets_difference: -2 - 1 + 0 + 2,
+                                                             sets_difference: -2 + 1 + 0 + 2,
                                                              games_difference: -12 + 5 + 0 + 4,
                                                              relevant: true
                                                          )
@@ -516,7 +516,7 @@ describe RecalculatedRankings do
                                                              player_name: playerE.name,
                                                              points: 0 + 2 + 2 + 0,
                                                              handicap: 3 + 1 + 1 + 3 + 0 + 0 + 0 + 0 + 3 + 0,
-                                                             sets_difference: -2 + 1 + 1 + 0,
+                                                             sets_difference: -2 - 1 + 1 + 0,
                                                              games_difference: -8 - 5 + 2 + 0,
                                                              relevant: true
                                                          )
