@@ -34,41 +34,32 @@ class RecalculatedRankings < Patterns::Calculation
 
         winner_current_points = winner_rankings.find { |r| r[:round_id] == round.id }[:points]
         looser_current_points = looser_rankings.find { |r| r[:round_id] == round.id }[:points]
-        winner_won_sets_count = NumberOfWonSets.result_for(match: match, player: match.winner)
-        looser_won_sets_count = NumberOfWonSets.result_for(match: match, player: match.looser)
-        winner_won_games_count = NumberOfWonGames.result_for(match: match, player: match.winner)
-        looser_won_games_count = NumberOfWonGames.result_for(match: match, player: match.looser)
-
-        points_for_winner = points_for_winner(looser_won_sets_count == 1)
-        points_for_looser = points_for_looser(looser_won_sets_count == 1)
-        points_to_winner_handicap = looser_current_points + points_for_looser
-        points_to_looser_handicap = winner_current_points + points_for_winner
-        sets_difference_for_winner = match.been_played? ? winner_won_sets_count - looser_won_sets_count : 2
-        sets_difference_for_looser = -sets_difference_for_winner
-        games_difference_for_winner = match.been_played? ? winner_won_games_count - looser_won_games_count : 12
-        games_difference_for_looser = -games_difference_for_winner
+        match_outcomes = MatchOutcomes.result_for(
+            match: match,
+            winner_current_points: winner_current_points,
+            looser_current_points: looser_current_points)
 
         winner_rankings.each do |ranking|
-          ranking[:points] += points_for_winner
-          ranking[:sets_difference] += sets_difference_for_winner
-          ranking[:games_difference] += games_difference_for_winner
-          ranking[:handicap] += points_to_winner_handicap
+          ranking[:points] += match_outcomes[:winner_points]
+          ranking[:sets_difference] += match_outcomes[:winner_sets_difference]
+          ranking[:games_difference] += match_outcomes[:winner_games_difference]
+          ranking[:handicap] += match_outcomes[:winner_handicap_increase]
           ranking[:relevant] = true
         end unless match.winner.dummy?
 
         looser_rankings.each do |ranking|
-          ranking[:points] += points_for_looser
-          ranking[:sets_difference] += sets_difference_for_looser
-          ranking[:games_difference] += games_difference_for_looser
+          ranking[:points] += match_outcomes[:looser_points]
+          ranking[:sets_difference] += (-match_outcomes[:winner_sets_difference])
+          ranking[:games_difference] += (-match_outcomes[:winner_games_difference])
 
           if match.been_played?
-            ranking[:handicap] += points_to_looser_handicap
+            ranking[:handicap] += match_outcomes[:looser_handicap_increase]
             ranking[:relevant] = true
           end
         end unless match.looser.dummy?
 
-        update_rewardable_opponents(points_for_winner, match.winner, match.round, resulting_rankings)
-        update_rewardable_opponents(points_for_looser, match.looser, match.round, resulting_rankings) if points_for_looser > 0
+        update_rewardable_opponents(match_outcomes[:winner_points], match.winner, match.round, resulting_rankings)
+        update_rewardable_opponents(match_outcomes[:looser_points], match.looser, match.round, resulting_rankings) if match_outcomes[:looser_points] > 0
       end
     end
 
@@ -86,14 +77,6 @@ class RecalculatedRankings < Patterns::Calculation
     rankings_of_rewardable_opponents.map do |ranking|
       ranking[:handicap] += handicap_points
     end
-  end
-
-  def points_for_winner(looser_won_one_set)
-    looser_won_one_set ? FinishMatch::WINNER_POINTS_LOST_ONE_SET : FinishMatch::WINNER_POINTS_NO_LOST_SET
-  end
-
-  def points_for_looser(looser_won_one_set)
-    looser_won_one_set ? FinishMatch::LOOSER_POINTS_WON_ONE_SET : FinishMatch::LOOSER_POINTS_NO_WON_SET
   end
 
   def rounds

@@ -75,6 +75,11 @@ class FinishMatch < Patterns::Service
   end
 
   def update_rankings!
+    match_outcomes = MatchOutcomes.result_for(
+        match: match,
+        winner_current_points: match.round.rankings.find_by(player: match.winner).points,
+        looser_current_points: match.round.rankings.find_by(player: match.looser).points)
+
     rounds.each do |round|
       match_winner_ranking = round.rankings.find do |round_ranking|
         round_ranking.player_id == match.winner_id
@@ -84,17 +89,17 @@ class FinishMatch < Patterns::Service
         round_ranking.player_id == match.looser_id
       end
 
-      match_winner_ranking.points += points_for_winner
-      match_looser_ranking.points += points_for_looser
+      match_winner_ranking.points += match_outcomes[:winner_points]
+      match_looser_ranking.points += match_outcomes[:looser_points]
 
       match_winner_ranking.handicap += match_looser_ranking.points
       match_winner_ranking.relevant = true
 
-      match_winner_ranking.sets_difference += sets_difference_for_winner
-      match_winner_ranking.games_difference += games_difference_for_winner
+      match_winner_ranking.sets_difference += match_outcomes[:winner_sets_difference]
+      match_winner_ranking.games_difference += match_outcomes[:winner_games_difference]
 
-      match_looser_ranking.sets_difference += sets_difference_for_looser
-      match_looser_ranking.games_difference += games_difference_for_looser
+      match_looser_ranking.sets_difference += (-match_outcomes[:winner_sets_difference])
+      match_looser_ranking.games_difference += (-match_outcomes[:winner_games_difference])
 
       if match_been_played?
         match_looser_ranking.handicap += match_winner_ranking.points
@@ -105,8 +110,8 @@ class FinishMatch < Patterns::Service
       match_looser_ranking.save! unless match.looser.dummy?
     end
 
-    update_rewardable_opponents(points_for_winner, match.winner)
-    update_rewardable_opponents(points_for_looser, match.looser) if points_for_looser > 0
+    update_rewardable_opponents(match_outcomes[:winner_points], match.winner)
+    update_rewardable_opponents(match_outcomes[:looser_points], match.looser) if match_outcomes[:looser_points] > 0
   end
 
   def update_rewardable_opponents(handicap_points, player)
@@ -124,64 +129,12 @@ class FinishMatch < Patterns::Service
     end
   end
 
-  def points_for_winner
-    @points_for_winner ||= looser_won_one_set? ? WINNER_POINTS_LOST_ONE_SET : WINNER_POINTS_NO_LOST_SET
-  end
-
-  def points_for_looser
-    @points_for_looser ||= looser_won_one_set? ? LOOSER_POINTS_WON_ONE_SET : LOOSER_POINTS_NO_WON_SET
-  end
-
-  def looser_won_one_set?
-    @looser_won_one_set ||= NumberOfWonSets.result_for(match: match, player: match.looser) == 1
-  end
-
-  def sets_difference_for_winner
-    return @sets_difference_for_winner unless @sets_difference_for_winner.nil?
-
-    if !match_been_played?
-      @sets_difference_for_winner = 2
-    elsif match.player1 == match.winner
-      @sets_difference_for_winner = player1_won_sets_count - player2_won_sets_count
-    elsif match.player2 == match.winner
-      @sets_difference_for_winner = player2_won_sets_count - player1_won_sets_count
-    end
-  end
-
-  def sets_difference_for_looser
-    @sets_difference_for_looser ||= -@sets_difference_for_winner
-  end
-
-  def games_difference_for_winner
-    return @games_difference_for_winner unless @games_difference_for_winner.nil?
-
-    if !match_been_played?
-      @games_difference_for_winner = 12
-    elsif match.player1 == match.winner
-      @games_difference_for_winner = player1_won_games_count - player2_won_games_count
-    elsif match.player2 == match.winner
-      @games_difference_for_winner = player2_won_games_count - player1_won_games_count
-    end
-  end
-
-  def games_difference_for_looser
-    @games_difference_for_looser ||= -@games_difference_for_winner
-  end
-
   def player1_won_sets_count
     @player1_won_sets_count ||= NumberOfWonSets.result_for(match: match, player: match.player1)
   end
 
   def player2_won_sets_count
     @player2_won_sets_count ||= NumberOfWonSets.result_for(match: match, player: match.player2)
-  end
-
-  def player1_won_games_count
-    @player1_won_games_count ||= NumberOfWonGames.result_for(match: match, player: match.player1)
-  end
-
-  def player2_won_games_count
-    @player2_won_games_count ||= NumberOfWonGames.result_for(match: match, player: match.player2)
   end
 
   def rounds

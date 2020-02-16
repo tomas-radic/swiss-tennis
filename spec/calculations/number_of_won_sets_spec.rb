@@ -70,7 +70,7 @@ describe NumberOfWonSets do
           :match,
           player1: player1, player2: player2, players: [player1, player2],
           retired_player: retired_player,
-          set1_player1_score: 3, set1_player2_score: 5
+          set1_player1_score: 5, set1_player2_score: 6
       )
     end
 
@@ -87,6 +87,34 @@ describe NumberOfWonSets do
 
       it 'Returns 0' do
         expect(calculation).to eq(0)
+      end
+    end
+  end
+
+  context "When player1 retires right after the 1st set" do
+    let!(:retired_player) { player1 }
+    let!(:match) do
+      create(
+          :match,
+          player1: player1, player2: player2, players: [player1, player2],
+          retired_player: retired_player,
+          set1_player1_score: 3, set1_player2_score: 6
+      )
+    end
+
+    context 'With player1' do
+      let!(:player) { player1 }
+
+      it 'Returns 0' do
+        expect(calculation).to eq(0)
+      end
+    end
+
+    context 'With player2' do
+      let!(:player) { player2 }
+
+      it 'Returns 0' do
+        expect(calculation).to eq(1)
       end
     end
   end
@@ -147,6 +175,36 @@ describe NumberOfWonSets do
         it 'Returns 1' do
           expect(calculation).to eq(1)
         end
+      end
+    end
+  end
+
+  context 'When player2 retires right after 2nd set' do
+    let!(:retired_player) { player2 }
+
+    let!(:match) do
+      create(
+          :match,
+          player1: player1, player2: player2, players: [player1, player2],
+          retired_player: retired_player,
+          set1_player1_score: 6, set1_player2_score: 3,
+          set2_player1_score: 6, set2_player2_score: 7
+      )
+    end
+
+    context 'With player1' do
+      let!(:player) { player1 }
+
+      it 'Returns 1' do
+        expect(calculation).to eq(1)
+      end
+    end
+
+    context 'With player2' do
+      let!(:player) { player2 }
+
+      it 'Returns 0' do
+        expect(calculation).to eq(1)
       end
     end
   end
