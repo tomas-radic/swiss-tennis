@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-3 hidden-sm-down"></div>
+  <div class="col">
+    <h1 class="display-2 text-center"><small>Začína sezóna</small> <strong>2020!</strong></h1>
+
+    <hr>
+    <h2 class="text-center pt-5">
+      Ahojte tenisti!
+    </h2>
+    <p class="text-justify lead">
+      Po vydarenom prvom ročníku tejto súťaže prichádza čas otvoriť
+      ďalšiu sezónu a pokračovať v napínavých dvojtýždňových letných zápoleniach!
+      Veríme, že ste si minulú sezónu dobre zahrali a tiež sa už neviete dočkať
+      prvého outdoorového úderu v tomto roku :-)
+      Kurty sa už pripravujú a od 1. apríla sa v bare na kurtoch v parku
+      môžete hlásiť do súťaže sezóny 2020.
+    </p>
+    <p class="text-justify lead">
+      Telefónne číslo na hlavného organizátora - Ondreja Babalu
+      je <%= link_to_manager_phone %>, prípadne email
+      <%= link_to 'matotenis@yahoo.com', 'mailto:matotenis@yahoo.com' %>.
+    </p>
+
+    <p class="text-justify lead">
+      Všetky informácie nájdete na <%= link_to "stránke o súťaži", pages_about_path %>.
+      Novinkou tohto ročníka je
+      <%= link_to "zmena bodovania", "#{pages_about_path}#pointing-system", target: :_blank %>.
+      Tešíme sa na skoré stretnutie v tenisovom klube v parku, kde bude prebiehať
+      aj prvé vyžrebovanie :-)
+    </p>
+
+    <h2 class="text-center pt-5">Viac info a prihlásenie</h2>
+    <p class="text-center">
+      Ondrej Babala ● <strong><%= link_to_manager_phone %></strong><br>
+      <%= link_to root_url, root_url %><br>
+      <%= link_to 'matotenis@yahoo.com', 'mailto:matotenis@yahoo.com' %>
+    </p>
+  </div>
+  <div class="col-md-3 hidden-sm-down"></div>
+</div>
