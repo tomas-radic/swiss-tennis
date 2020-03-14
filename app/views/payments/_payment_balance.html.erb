@@ -5,7 +5,7 @@
       <%= @payment_balance_text %>
     </span>
   <% end %>
-  <span data-toggle="tooltip" data-placement="bottom" title="Výška kreditu sa prepočítava z platieb každých <%= Rails.configuration.cached_hours_payment_balance %> hodín">
+  <span data-toggle="tooltip" data-placement="bottom" title="Rozdiel prijatých platieb a nákladov na prevádzku webu. Výška kreditu sa prepočítava z platieb každých <%= Rails.configuration.cached_hours_payment_balance %> hodín">
     <%= fa_icon 'question-circle' %>
   </span>
 </div>

@@ -4,11 +4,15 @@
   </div>
 </div>
 
+<p class="text-center">
+  Rozdiel prijatých platieb a nákladov na prevádzku webu. Výška kreditu sa prepočítava z platieb každých <%= Rails.configuration.cached_hours_payment_balance %> hodín.
+</p>
+
 <hr>
 <% if @payments.any? %>
   <p>
     Aktuálny kredit <b><span class="px-1 colored-amount"><%= @payment_balance_text %></span></b>
-    <span data-toggle="tooltip" data-placement="right" title="Výška kreditu sa prepočítava z platieb každých <%= Rails.configuration.cached_hours_payment_balance %> hodín">
+    <span data-toggle="tooltip" data-placement="right" title="Rozdiel prijatých platieb a nákladov na prevádzku webu. Výška kreditu sa prepočítava z platieb každých <%= Rails.configuration.cached_hours_payment_balance %> hodín">
       <%= fa_icon 'question-circle' %>
     </span>
   </p>
