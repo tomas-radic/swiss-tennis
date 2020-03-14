@@ -1,4 +1,6 @@
 class Payment < ApplicationRecord
+  include ApplicationHelper
+  
   before_validation :set_text_amount
 
   validates :amount,
@@ -11,6 +13,6 @@ class Payment < ApplicationRecord
 
   def set_text_amount
     return if amount.nil?
-    self.text_amount = ActionController::Base.helpers.currency_string(amount)
+    self.text_amount = currency_string(amount)
   end
 end
