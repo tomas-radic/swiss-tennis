@@ -38,8 +38,9 @@ $(document).on('turbolinks:load', function() {
         $(currentRow).find('.js-filterable').each(function () {
           var cellText = filterableText($(this).text());
 
-          if (!showCurrentRow) {
-            showCurrentRow = cellText.indexOf(searchedText) >= 0
+          if (cellText.indexOf(searchedText) >= 0) {
+            showCurrentRow = true;
+            return false; // breaks out
           }
         });
       } else {
