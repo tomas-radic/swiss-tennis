@@ -28,8 +28,8 @@ describe SuccessOfPlay do
 
       expect(result).to include(
                             {
-                                history: (22 * 100.0 / 39).round,
-                                season: (12 * 100.0 / 18).round
+                                history: { won_games: 22, all_games: 39, percentage: 56 },
+                                season: { won_games: 12, all_games: 18, percentage: 66 }
                             }
                         )
     end
@@ -47,8 +47,8 @@ describe SuccessOfPlay do
 
       expect(result).to include(
                             {
-                                history: (10 * 100.0 / 21).round,
-                                season: nil
+                                history: { won_games: 10, all_games: 21, percentage: 47 },
+                                season: { won_games: 0, all_games: 0, percentage: 0 }
                             }
                         )
     end
@@ -62,8 +62,8 @@ describe SuccessOfPlay do
 
       expect(result).to include(
                             {
-                                history: nil,
-                                season: nil
+                                history: { won_games: 0, all_games: 0, percentage: 0 },
+                                season: { won_games: 0, all_games: 0, percentage: 0 }
                             }
                         )
     end

@@ -38,9 +38,7 @@ $(document).on('turbolinks:load', function() {
         $(currentRow).find('.js-filterable').each(function () {
           var cellText = filterableText($(this).text());
 
-          if (!showCurrentRow) {
-            showCurrentRow = cellText.indexOf(searchedText) >= 0
-          }
+          showCurrentRow = cellText.indexOf(searchedText) >= 0
         });
       } else {
         showCurrentRow = true;

@@ -26,9 +26,25 @@ class SuccessOfPlay < Patterns::Calculation
     end
 
     {
-        history: all_games_in_history > 0 ? (won_games_in_history * 100.0 / all_games_in_history).round : nil,
-        season: all_games_in_season > 0 ? (won_games_in_season * 100.0 / all_games_in_season).round : nil
+        history: {
+            won_games: won_games_in_history,
+            all_games: all_games_in_history,
+            percentage: percentage(won_games_in_history, all_games_in_history)
+        },
+        season: {
+            won_games: won_games_in_season,
+            all_games: all_games_in_season,
+            percentage: percentage(won_games_in_season, all_games_in_season)
+        }
     }
+  end
+
+  def percentage(won_games, all_games)
+    return 0 if all_games <= 0
+
+    p = (BigDecimal(won_games, 0) / all_games) * 100
+
+    p >= BigDecimal(1, 0) ? p.to_i : p.ceil
   end
 
   def player

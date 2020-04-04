@@ -1,0 +1,49 @@
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script type="text/javascript">
+
+  function setChart(elementId, options, wonGames, lostGames) {
+    options.series = [wonGames, lostGames];
+    options.labels = [`Vyhraté hry (${wonGames})`, `Prehraté hry (${lostGames})`];
+
+    var chartObject = new ApexCharts(document.querySelector(elementId), options);
+    chartObject.render();
+  }
+
+  var options = {
+    chart: {
+      width: 380,
+      type: 'pie',
+    },
+    dataLabels: {enabled: false},
+    colors: ['#28A745', '#DC3545'],
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 200
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }]
+  };
+
+  var allGamesSeason = <%= @success_of_play.dig(:season, :all_games) %>;
+
+  if (allGamesSeason > 0) {
+    var wonGamesSeason = <%= @success_of_play.dig(:season, :won_games) %>;
+    var lostGamesSeason = allGamesSeason - wonGamesSeason;
+
+    setChart('#chart-season', options, wonGamesSeason, lostGamesSeason);
+  }
+
+  var allGamesHistory = <%= @success_of_play.dig(:history, :all_games) %>;
+
+  if (allGamesHistory > 0) {
+    var wonGamesHistory = <%= @success_of_play.dig(:history, :won_games) %>;
+    var lostGamesHistory = allGamesHistory - wonGamesHistory;
+
+    setChart('#chart-history', options, wonGamesHistory, lostGamesHistory);
+  }
+</script>
