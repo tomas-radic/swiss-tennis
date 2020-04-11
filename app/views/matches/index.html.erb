@@ -15,7 +15,7 @@
 
 <%= round_progress_info(selected_round) if selected_round.present? %>
 
-<%= render 'special_instructions' unless cookies[:special_instructions_accepted] %>
+<%= render 'special_instructions' unless cookies[:special_instructions_accepted] == "true" %>
 
 <% if @most_recent_article.present? %>
   <div class="mb-4"><%= render 'articles/tile', article: @most_recent_article %></div>
