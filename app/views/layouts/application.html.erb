@@ -6,6 +6,10 @@
     <%= csp_meta_tag %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:url" content="<%= root_url %>" />
+    <meta property="og:title" content="matotenis.sk" />
+    <meta property="og:description" content="Majstrovstvá Topoľčian v tenise" />
+    <meta property="og:image" content="<%= URI.join(root_url, image_path("matotenis_facebook2.jpg")) %>" />
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
