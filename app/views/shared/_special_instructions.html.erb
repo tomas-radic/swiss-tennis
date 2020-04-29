@@ -33,14 +33,10 @@
     </ul>
   </p>
 
-  <ul>
-    <li>
-      <div class="custom-control custom-checkbox pl-2">
-        <%= check_box_tag :accepted, "accepted", false, class: 'custom-control-input' %>
-        <%= label_tag :accepted, 'Rozumiem a súhlasím', class: 'custom-control-label' %>
-      </div>
-    </li>
-  </ul>
+  <div class="custom-control custom-checkbox">
+    <%= check_box_tag :accepted, "accepted", false, class: 'custom-control-input' %>
+    <%= label_tag :accepted, 'Rozumiem a súhlasím', class: 'custom-control-label' %>
+  </div>
 
   <hr>
   <p class="mb-0 text-center">
