@@ -17,5 +17,6 @@
 //= require popper
 //= require bootstrap
 //= require select2
+//= require js.cookie
 //= require general
 //= require_tree .

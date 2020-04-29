@@ -14,7 +14,11 @@ RSpec.describe "Players", type: :request do
     let!(:player) { create(:player, seasons: [season]) }
 
     it 'Calls SuccessOfPlay for the player and season' do
-      expect(SuccessOfPlay).to receive(:result_for).with(player: player, season: season).and_return({})
+      expect(SuccessOfPlay).to receive(:result_for).with(player: player, season: season)
+                                   .and_return({
+                                                   history: { won_games: 22, all_games: 39, percentage: 56 },
+                                                   season: { won_games: 12, all_games: 18, percentage: 66 }
+                                               })
 
       get_player
     end

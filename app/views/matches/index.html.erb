@@ -15,7 +15,7 @@
 
 <%= round_progress_info(selected_round) if selected_round.present? %>
 
-<%= render 'special_instructions' unless cookies[:special_instructions_accepted] == "true" %>
+<%= render 'shared/special_instructions' unless cookies[:special_instructions_accepted] == "true" %>
 
 <% if @most_recent_article.present? %>
   <div class="mb-4"><%= render 'articles/tile', article: @most_recent_article %></div>
@@ -33,9 +33,14 @@
 <div class="collapse" id="match-instructions">
   <div class="card card-body text-justify">
     <small>
-      Termín a miesto zápasu je najlepšie dohodnúť čím skôr po vyžrebovaní každého hracieho kola.
-      <b>Po dohodnutí zápasu môžu hráči informovať organizátora o mieste a čase dohodnutého zápasu, aby boli tieto informácie verejné pre ostatných (SMS na č. <%= link_to ' 0911-503-355', 'tel:0911503355' %>).</b>
-      Oficiálnymi loptami súťaže sú DUNLOP FORT, WILSON AO, HEAD ATP. Iné lopty možno použiť len so súhlasom súpera.
+      Termín a miesto zápasu je najlepšie dohodnúť <strong>čím skôr</strong> po vyžrebovaní každého hracieho kola.
+      <strong>
+        Po dohodnutí zápasu informujte organizátora o mieste a čase dohodnutého zápasu správou
+        na číslo 0905 289 248, alebo 0908 304 473.
+      </strong>
+      Oficiálnymi loptami súťaže sú <strong>DUNLOP FORT, WILSON AO, HEAD ATP</strong>.
+      Iné lopty možno použiť len so súhlasom súpera.
+      Podľa pravidiel súťaže sa <strong>každý zápas hrá s úplne novými loptami</strong>.
       <p class="text-center"><button class="btn btn-success btn-sm mt-3" type="button" data-toggle="collapse" data-target="#match-instructions" aria-expanded="false" aria-controls="match-instructions">Ok</button></p>
       <p class="text-center"><%= link_to 'viac info', pages_about_path, class: 'text-center' %></p>
     </small>

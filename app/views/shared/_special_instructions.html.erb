@@ -1,0 +1,60 @@
+<div class="alert alert-danger alert-dismissable fade show mb-2" id="special-instructions" role="alert">
+  <h4 class="alert-heading">Hygienické opatrenia</h4>
+  <hr>
+  <p>
+    <strong>
+      Žiadame každého, kto je prítomný na kurtoch, alebo v športovom klube, aby v súvislosti
+      s aktuálnou situáciou dodržoval nasledovné bezpečnostné hygienické opatrenia.
+    </strong>
+    <ul>
+      <li>
+        <strong>Nepodávajte si ruky</strong>, a to ani po zápase, ani pri stretnutí/rozlúčení
+      </li>
+      <li>
+        V priestoroch športového klubu, ktorý ste si na zápas vybrali, aj na kurtoch noste
+        rúško/šatku (okrem hráčov počas zápasu) a nepribližujte sa k nikomu bližšie ako na 2 metre
+      </li>
+      <li>
+        Šatne, sprchy a WC v športových kluboch zatiaľ nie sú k dispozícii, tak sa podľa toho
+        zariaďte, ideálne majte so sebou dezinfekčný gél na ruky, vlhčené utierky atď.
+      </li>
+      <li>
+        Nechytajte si tvár počas zápasu a po ňom až kým si nevydenzifikujete ruky
+      </li>
+      <li>
+        Obecenstvo na zápasoch v športových kluboch je momentálne Úradom Verejného Zdravotníctva zakázané
+      </li>
+      <li>
+        Dodržujte všetky
+        <%= link_to "pokyny Úradu Verejného Zdravotníctva",
+                    "http://www.uvzsr.sk/docs/info/covid19/Usmernenie_hlavneho_hygienika_SR_sportoviska.pdf",
+                    target: :_blank %>
+      </li>
+    </ul>
+  </p>
+
+  <ul>
+    <li>
+      <div class="custom-control custom-checkbox pl-2">
+        <%= check_box_tag :accepted, "accepted", false, class: 'custom-control-input' %>
+        <%= label_tag :accepted, 'Rozumiem a súhlasím', class: 'custom-control-label' %>
+      </div>
+    </li>
+  </ul>
+
+  <hr>
+  <p class="mb-0 text-center">
+    <small><i>(táto stránka si uloží do Vášho browsera cookie)</i></small>
+  </p>
+</div>
+
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function() {
+    $('#accepted').change(function() {
+      if (this.checked) {
+        Cookies.set('special_instructions_accepted', 'true', { expires: 3 })
+        $("#special-instructions").alert("close");
+      }
+    });
+  });
+</script>
