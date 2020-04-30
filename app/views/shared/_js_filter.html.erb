@@ -4,6 +4,7 @@
       <%= fa_icon 'search' %>
     </div>
   </div>
-  <%= content_tag :input, '', type: :search, class: 'form-control js-filter max-width-340',
+  <%= content_tag :input, '', type: :search,
+                  autocomplete: :off, class: 'form-control js-filter max-width-340',
                   data: { target: target_table_body }, placeholder: placeholder %>
 </div>
