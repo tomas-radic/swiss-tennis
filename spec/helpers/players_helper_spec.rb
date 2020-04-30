@@ -30,7 +30,7 @@ describe PlayersHelper, type: :helper do
         let!(:player) { create(:player, first_name: 'Roger', last_name: 'Federer', consent_given: false) }
 
         it 'Returns anonymized name of the player' do
-          expect(method_result).to eq('Roger F***r**')
+          expect(method_result).to eq('Roger F**e**r')
         end
       end
 
