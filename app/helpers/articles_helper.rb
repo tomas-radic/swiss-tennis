@@ -1,5 +1,5 @@
 module ArticlesHelper
-  PREVIEW_CONTENT_MAX_LENGTH = 144
+  PREVIEW_CONTENT_MAX_LENGTH = 244
 
   def article_published_pill(article)
     if article.published?
