@@ -13,6 +13,9 @@
 <h1 class="display-3 text-center pb-4">
   Začína sezóna <strong>2020!</strong>
 </h1>
+<% if @most_recent_article.present? %>
+  <div class="mb-4"><%= render 'articles/tile', article: @most_recent_article %></div>
+<% end %>
 <% if @enrollments.any? %>
   <div class="row">
     <div class="col">

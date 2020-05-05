@@ -1,0 +1,45 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawCharts);
+
+  function drawCharts() {
+    var allGamesSeason = <%= @success_of_play.dig(:season, :all_games) %>;
+
+    if (allGamesSeason > 0) {
+      var wonGamesSeason = <%= @success_of_play.dig(:season, :won_games) %>;
+      var lostGamesSeason = allGamesSeason - wonGamesSeason;
+
+      setupChart('chart-season', wonGamesSeason, lostGamesSeason);
+    }
+
+    var allGamesHistory = <%= @success_of_play.dig(:history, :all_games) %>;
+
+    if (allGamesHistory > 0) {
+      var wonGamesHistory = <%= @success_of_play.dig(:history, :won_games) %>;
+      var lostGamesHistory = allGamesHistory - wonGamesHistory;
+
+      setupChart('chart-history', wonGamesHistory, lostGamesHistory);
+    }
+  }
+
+  function setupChart(elementId, wonGames, lostGames) {
+    var data = google.visualization.arrayToDataTable([
+      ['Hry', 'Počet'],
+      ['Vyhraté hry (' + wonGames + ')', wonGames],
+      ['Prehraté hry (' + lostGames + ')', lostGames]
+    ]);
+
+    var options = {
+      colors: ['#28a745', '#e0440e'],
+      pieSliceText: 'none'
+    };
+    var chart = new google.visualization.PieChart(document.getElementById(elementId));
+
+    chart.draw(data, options);
+  }
+
+  $(document).on('turbolinks:load', function() {
+    drawCharts();
+  });
+</script>

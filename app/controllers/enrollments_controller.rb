@@ -3,6 +3,7 @@ class EnrollmentsController < ApplicationController
   before_action :load_unenrolled_players, only: [:new, :create]
 
   def index
+    @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
     @enrollments = selected_season.enrollments.active
                        .joins(player: :category)
                        .where(players: { dummy: false })
