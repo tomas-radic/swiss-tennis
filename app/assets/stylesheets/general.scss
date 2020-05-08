@@ -116,6 +116,21 @@ a.quiet-link {
   color: white;
 }
 
+.attention-background {
+  animation: attention 3s infinite;
+  -webkit-animation: attention 3s infinite;
+}
+@keyframes attention {
+  0% { background: inherit; }
+  50% { background: yellow; }
+  100% { background: inherit; }
+}
+@-webkit-keyframes attention {
+  0% { background: inherit; }
+  50% { background: yellow; }
+  100% { background: inherit; }
+}
+
 //
 // Media queries
 
