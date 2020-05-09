@@ -17,6 +17,10 @@
 
 <%= render 'shared/special_instructions' unless cookies[:special_instructions_accepted] == "true" %>
 
+<h1 class="display-3 text-center pb-4">
+  Začína sezóna <span class="px-4 bg-black"><strong>2020!</strong></span>
+</h1>
+
 <% if @most_recent_article.present? %>
   <div class="mb-4"><%= render 'articles/tile', article: @most_recent_article %></div>
 <% end %>
@@ -33,7 +37,7 @@
 <div class="collapse" id="match-instructions">
   <div class="card card-body text-justify">
     <small>
-      Termín a miesto zápasu je najlepšie dohodnúť <strong>čím skôr</strong> po vyžrebovaní každého hracieho kola.
+      Termín a miesto zápasu si dohodnite <strong>čím skôr</strong> po vyžrebovaní každého hracieho kola.
       <strong>
         Po dohodnutí zápasu informujte organizátora o mieste a čase dohodnutého zápasu správou
         na číslo 0905 289 248, alebo 0908 304 473.
