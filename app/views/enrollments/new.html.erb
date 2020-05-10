@@ -64,15 +64,19 @@
 
             <div class="row">
               <div class="col-lg-6">
-                <div class="field form-group pl-2">
-                  <%= form.label :phone, 'Telefónne číslo' %><br />
-                  <%= form.text_field :phone, value: formatted_phone(@phone), class: 'form-control new-player-control' %>
+                <div class="<%= add_error_class_to('pl-2', @player, :phone) %>">
+                  <div class="field form-group">
+                    <%= form.label :phone, 'Telefónne číslo' %><br />
+                    <%= form.text_field :phone, value: @phone, class: 'form-control new-player-control' %>
+                  </div>
                 </div>
               </div>
               <div class="col-lg-6">
-                <div class="field form-group pl-2">
-                  <%= form.label :email, 'Email' %><br />
-                  <%= form.email_field :email, value: @email, class: 'form-control new-player-control' %>
+                <div class="<%= add_error_class_to('pl-2', @player, :email) %>">
+                  <div class="field form-group">
+                    <%= form.label :email, 'Email' %><br />
+                    <%= form.email_field :email, value: @email, class: 'form-control new-player-control' %>
+                  </div>
                 </div>
               </div>
             </div>
@@ -88,7 +92,7 @@
                 <div class="<%= add_error_class_to('pl-2', @player, :category) %>">
                   <div class="form-group">
                     <%= form.label :category_id, 'Kategória' %><br />
-                    <%= form.select :category_id, options_from_collection_for_select(Category.default, :id, :name), { include_blank: 'Vybrať kategóriu', selected: @category_id}, { class: 'form-control new-player-control' } %>
+                    <%= form.select :category_id, options_from_collection_for_select(Category.default, :id, :name, @category_id), { include_blank: 'Vybrať kategóriu', selected: @category_id}, { class: 'form-control new-player-control' } %>
                   </div>
                 </div>
               </div>
