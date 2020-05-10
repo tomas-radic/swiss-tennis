@@ -122,8 +122,8 @@ a.quiet-link {
 }
 
 .attention-background {
-  animation: attention 3s infinite;
-  -webkit-animation: attention 3s infinite;
+  animation: attention 3s 20;
+  -webkit-animation: attention 3s 20;
 }
 @keyframes attention {
   0% { background: inherit; }
