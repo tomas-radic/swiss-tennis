@@ -61,4 +61,21 @@ namespace :data do
       puts 'Season not found.'
     end
   end
+
+  desc 'Destroys data from tables on development env'
+  task destroy_dev_data: :environment do
+    return unless Rails.env.development?
+
+    Article.destroy_all
+    Payment.destroy_all
+    Match.destroy_all
+    Ranking.destroy_all
+    Enrollment.destroy_all
+    Player.destroy_all
+    Round.destroy_all
+    Season.destroy_all
+    # User.destroy_all
+    puts "Destroyed."
+
+  end
 end

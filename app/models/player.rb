@@ -1,4 +1,7 @@
 class Player < ApplicationRecord
+
+  before_validation :normalize_phone
+
   belongs_to :category
   has_many :match_assignments, dependent: :restrict_with_error
   has_many :matches, through: :match_assignments
@@ -11,7 +14,15 @@ class Player < ApplicationRecord
   has_many :enrollments, dependent: :restrict_with_error
   has_many :seasons, through: :enrollments
 
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+  validates :email,
+            format: { with: URI::MailTo::EMAIL_REGEXP },
+            uniqueness: true,
+            allow_blank: true
+  validates :phone,
+            numericality: true,
+            length: { is: 10 },
+            uniqueness: true,
+            allow_blank: true
   validates :first_name,
             :last_name,
             presence: true
@@ -21,5 +32,9 @@ class Player < ApplicationRecord
 
   def name
     [first_name, last_name].join(' ')
+  end
+
+  def normalize_phone
+    phone.gsub!(/\s/, '') if phone
   end
 end

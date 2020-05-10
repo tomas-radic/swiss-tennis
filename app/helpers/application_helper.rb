@@ -19,6 +19,12 @@ module ApplicationHelper
     '(chýba)'
   end
 
+  def formatted_phone(phone)
+    return phone if phone.blank?
+
+    phone.reverse.insert(3, ' ').insert(7, ' ').reverse
+  end
+
   def link_to_manager_phone(link_text = nil)
     link_text ||= '0908 304 473'
     link_to link_text, 'tel:0908304473'

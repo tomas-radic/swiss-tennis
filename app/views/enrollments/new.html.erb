@@ -66,7 +66,7 @@
               <div class="col-lg-6">
                 <div class="field form-group pl-2">
                   <%= form.label :phone, 'Telefónne číslo' %><br />
-                  <%= form.text_field :phone, value: @phone, class: 'form-control new-player-control' %>
+                  <%= form.text_field :phone, value: formatted_phone(@phone), class: 'form-control new-player-control' %>
                 </div>
               </div>
               <div class="col-lg-6">

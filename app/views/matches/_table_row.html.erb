@@ -20,7 +20,7 @@
     <small>
       <i>
         <% if match.player1.phone.present? && match.player1.consent_given? %>
-          <%= link_to match.player1.phone, "tel:#{match.player1.phone}" %>
+          <%= link_to formatted_phone(match.player1.phone), "tel:#{match.player1.phone}" %>
         <% else %>
           <%= link_to_manager_phone('tel. č. u organizátora') %>
         <% end %>
@@ -48,7 +48,7 @@
     <small>
       <i>
         <% if match.player2.phone.present? && match.player2.consent_given? %>
-          <%= link_to match.player2.phone, "tel:#{match.player2.phone}" %>
+          <%= link_to formatted_phone(match.player2.phone), "tel:#{match.player2.phone}" %>
         <% else %>
           <%= link_to_manager_phone('tel. č. u organizátora') %>
         <% end %>

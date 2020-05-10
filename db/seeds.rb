@@ -84,14 +84,14 @@ ActiveRecord::Base.transaction do
   unless Player.any?
     this_year = Date.today.year
 
-    20.times do
+    20.times do |i|
       player_name = Faker::Name.name.split(' ')
 
       Player.create!(
         first_name: player_name[-2],
         last_name: player_name[-1],
-        email: Faker::Internet.email,
-        phone: Faker::PhoneNumber.cell_phone,
+        email: "player.#{sprintf '%02d', i}@somewhere.com",
+        phone: "01234567#{sprintf '%02d', i}",
         birth_year: rand((this_year - 70)..(this_year - 15)),
         consent_given: true,
         category: categories.sample,

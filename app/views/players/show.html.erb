@@ -56,7 +56,7 @@
           <span class="px-2">
             <% if @player.phone.present? %>
               <% if user_signed_in? || @player.consent_given? %>
-                <%= link_to(@player.phone, "tel:#{@player.phone}") %>
+                <%= link_to(formatted_phone(@player.phone), "tel:#{@player.phone}") %>
               <% else %>
                 <%= link_to_manager_phone('u organizátora') %>
               <% end %>
