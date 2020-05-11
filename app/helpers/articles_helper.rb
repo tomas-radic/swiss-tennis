@@ -8,4 +8,13 @@ module ArticlesHelper
       '<span class="badge badge-pill badge-warning">Článok nie je zverejnený.</span>'.html_safe
     end
   end
+
+  def tile_content_for(article)
+    result = article.content[0...PREVIEW_CONTENT_MAX_LENGTH]
+    if article.content.length > PREVIEW_CONTENT_MAX_LENGTH
+      result += " ... #{link_to('(dočítať celé)', article_path(article))}"
+    end
+
+    result.html_safe
+  end
 end
