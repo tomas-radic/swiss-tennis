@@ -4,8 +4,9 @@ class RankingsQuery < Patterns::Query
   private
 
   def query
-    relation.joins(:player)
+    relation.joins(player: :seasons)
         .where('players.dummy is false')
+        .where(season: round.season)
         .where(round: round)
         .order(
             relevant: :desc,
@@ -14,6 +15,7 @@ class RankingsQuery < Patterns::Query
             sets_difference: :desc,
             games_difference: :desc
         )
+        .order('enrollments.created_at asc')
         .includes(:round, player: [:matches, :category])
   end
 
