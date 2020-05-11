@@ -4,10 +4,10 @@ class RankingsQuery < Patterns::Query
   private
 
   def query
-    relation.joins(player: :seasons)
+    relation.joins(player: :enrollments)
         .where('players.dummy is false')
-        .where(season: round.season)
         .where(round: round)
+        .where(enrollments: { season_id: round&.season_id })
         .order(
             relevant: :desc,
             points: :desc,
