@@ -59,8 +59,8 @@
 <% end %>
 <hr>
 <p class="lead text-center">
-  <% if @match.play_date.present? %>
-    <%= I18n.localize(@match.play_date, format: :date_month) %>
+  <% if @match.finished_at || @match.play_date %>
+    <%= I18n.localize(@match.finished_at || @match.play_date, format: :date_month) %>
   <% else %>
     žiadny dátum
   <% end %>

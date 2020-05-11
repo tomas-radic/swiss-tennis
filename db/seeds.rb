@@ -85,11 +85,9 @@ ActiveRecord::Base.transaction do
     this_year = Date.today.year
 
     20.times do |i|
-      player_name = Faker::Name.name.split(' ')
-
       Player.create!(
-        first_name: player_name[-2],
-        last_name: player_name[-1],
+        first_name: Faker::Name.first_name,
+        last_name: Faker::Name.last_name,
         email: "player.#{sprintf '%02d', i}@somewhere.com",
         phone: "01234567#{sprintf '%02d', i}",
         birth_year: rand((this_year - 70)..(this_year - 15)),

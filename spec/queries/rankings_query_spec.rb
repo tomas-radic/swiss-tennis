@@ -4,7 +4,7 @@ describe RankingsQuery do
   subject(:rankings_query) { RankingsQuery.call(round: round) }
 
 =begin    TESTING SCHEMA
-      r p h s g c  (r: relevant, p: points, h: handicap, s: sets_difference, g: games_difference, c: created_at)
+      r p h s g c  (r: relevant, p: points, h: handicap, s: sets_difference, g: games_difference, c: player.enrollment.created_at)
   Round 1
   p1: 1 4 3 3 7 3
   p2: 1 4 3 3 7 2
@@ -31,14 +31,18 @@ describe RankingsQuery do
   p3: 0 7 8 4 9 1   => 1, 2, 3
 =end
 
-  let!(:round1) { create(:round) }
-  let!(:round2) { create(:round) }
-  let!(:round3) { create(:round) }
-  let!(:round4) { create(:round) }
-  let!(:round5) { create(:round) }
-  let!(:player1) { create(:player, created_at: 1.minute.ago) }
-  let!(:player2) { create(:player, created_at: 3.minutes.ago) }
-  let!(:player3) { create(:player, created_at: 5.minutes.ago) }
+  let!(:season) { create(:season) }
+  let!(:round1) { create(:round, season: season) }
+  let!(:round2) { create(:round, season: season) }
+  let!(:round3) { create(:round, season: season) }
+  let!(:round4) { create(:round, season: season) }
+  let!(:round5) { create(:round, season: season) }
+  let!(:player1) { create(:player) }
+  let!(:player2) { create(:player) }
+  let!(:player3) { create(:player) }
+  let!(:enrollment1) { create(:enrollment, player: player1, season: season, created_at: 1.minute.ago) }
+  let!(:enrollment2) { create(:enrollment, player: player2, season: season, created_at: 3.minute.ago) }
+  let!(:enrollment3) { create(:enrollment, player: player3, season: season, created_at: 5.minute.ago) }
   let!(:ranking11) { create(:ranking, :relevant, round: round1, player: player1, points: 4, handicap: 3, sets_difference: 3, games_difference: 7) }
   let!(:ranking12) { create(:ranking, :relevant, round: round1, player: player2, points: 4, handicap: 3, sets_difference: 3, games_difference: 7) }
   let!(:ranking13) { create(:ranking, :relevant, round: round1, player: player3, points: 4, handicap: 3, sets_difference: 3, games_difference: 7) }
