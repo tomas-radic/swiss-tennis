@@ -96,7 +96,7 @@
             <div class="col-6">
               <div class="form-group">
                 <div class="input-group">
-                  <%= number_field_tag :set1_player1_score, '', min: 0, step: 1,
+                  <%= number_field_tag :set1_player1_score, '', min: 0, max: 7, step: 1,
                       name: 'score[set1_player1]', class: 'form-control float-right text-right' %>
                 </div>
                 <p class="text-right"><small><%= @match.player1.name %></small></p>
@@ -105,7 +105,7 @@
             <div class="col-6">
               <div class="form-group">
                 <div class="input-group">
-                  <%= number_field_tag :set1_player2_score, '', min: 0, step: 1,
+                  <%= number_field_tag :set1_player2_score, '', min: 0, max: 7, step: 1,
                       name: 'score[set1_player2]', class: 'form-control float-left text-left replace-input-field' %>
                 </div>
                 <p><small><%= @match.player2.name %></small></p>
@@ -117,7 +117,7 @@
             <div class="col-6">
               <div class="form-group">
                 <div class="input-group">
-                  <%= number_field_tag :set2_player1_score, '', min: 0, step: 1,
+                  <%= number_field_tag :set2_player1_score, '', min: 0, max: 7, step: 1,
                       name: 'score[set2_player1]', class: 'form-control float-right text-right' %>
                 </div>
                 <p class="text-right"><small><%= @match.player1.name %></small></p>
@@ -126,7 +126,7 @@
             <div class="col-6">
               <div class="form-group">
                 <div class="input-group">
-                  <%= number_field_tag :set2_player2_score, '', min: 0, step: 1,
+                  <%= number_field_tag :set2_player2_score, '', min: 0, max: 7, step: 1,
                       name: 'score[set2_player2]', class: 'form-control float-left text-left replace-input-field' %>
                 </div>
                 <p><small><%= @match.player2.name %></small></p>
@@ -138,7 +138,7 @@
             <div class="col-6">
               <div class="form-group">
                 <div class="input-group">
-                  <%= number_field_tag :set3_player1_score, '', min: 0, step: 1,
+                  <%= number_field_tag :set3_player1_score, '', min: 0, max: 7, step: 1,
                       name: 'score[set3_player1]', class: 'form-control float-right text-right' %>
                 </div>
                 <p class="text-right"><small><%= @match.player1.name %></small></p>
@@ -147,7 +147,7 @@
             <div class="col-6">
               <div class="form-group">
                 <div class="input-group">
-                  <%= number_field_tag :set3_player2_score, '', min: 0, step: 1,
+                  <%= number_field_tag :set3_player2_score, '', min: 0, max: 7, step: 1,
                       name: 'score[set3_player2]', class: 'form-control float-left text-left replace-input-field' %>
                 </div>
                 <p><small><%= @match.player2.name %></small></p>

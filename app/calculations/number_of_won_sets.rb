@@ -14,11 +14,11 @@ class NumberOfWonSets < Patterns::Calculation
     @player_balance = []
 
     3.times do |set_index|
-      set_number = set_index += 1
+      set_number = set_index + 1
       player1_set_score = match.send(:"set#{set_number}_player1_score").to_i
       player2_set_score = match.send(:"set#{set_number}_player2_score").to_i
 
-      if finished_set?(player1_set_score, player2_set_score)
+      if finished_set?(set_number, player1_set_score, player2_set_score)
         @player_balance << player1_set_score - player2_set_score
       end
     end
@@ -30,10 +30,11 @@ class NumberOfWonSets < Patterns::Calculation
     @player_balance
   end
 
-  def finished_set?(player1_score, player2_score)
-    sorted_score = [player1_score, player2_score].sort
-    return true if sorted_score.last >= 7
-    sorted_score.last == 6 && sorted_score.first < 5
+  def finished_set?(set_number, player1_score, player2_score)
+    lowest_score, highest_score = [player1_score, player2_score].sort
+    return true if highest_score >= 7
+    return true if set_number == 3 && highest_score == 1 && lowest_score == 0
+    highest_score == 6 && lowest_score < 5
   end
 
   def player_not_related_to_match?

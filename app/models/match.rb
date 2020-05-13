@@ -9,11 +9,20 @@ class Match < ApplicationRecord
   belongs_to :round
 
   # validates :players, length: { is: 2 }
+  validates :set1_player1_score, :set1_player2_score,
+            :set2_player1_score, :set2_player2_score,
+            :set3_player1_score, :set3_player2_score,
+            numericality: {
+                only_integer: true,
+                greater_than_or_equal_to: 0,
+                less_than_or_equal_to: 7
+            },
+            allow_nil: true
   validate :has_two_players
   validate :players_are_different
   validate :winner_is_player
   validate :looser_is_player
-  validate :finished_when_published
+  validate :published_when_finished
   validate :players_available
   validates :winner,
             :looser,
@@ -59,7 +68,7 @@ class Match < ApplicationRecord
     end
   end
 
-  def finished_when_published
+  def published_when_finished
     if finished && !published
       errors.add(:published, 'Zápas musí byť verejný, ak je už skončený')
     end
