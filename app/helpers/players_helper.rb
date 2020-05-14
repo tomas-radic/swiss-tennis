@@ -26,7 +26,7 @@ module PlayersHelper
   def success_of_play_color_class(percentage)
     if percentage.nil?
       'border-dark'
-    elsif percentage > 75
+    elsif percentage > 65
       'border-danger'
     elsif percentage > 50
       'border-warning'
