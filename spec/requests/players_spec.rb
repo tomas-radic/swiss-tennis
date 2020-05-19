@@ -1,7 +1,7 @@
 require 'rails_helper'
-require 'requests/authentication_helper'
+require 'requests/requests_spec_helper'
 
-include AuthenticationHelper
+include RequestsSpecHelper
 
 RSpec.describe "Players", type: :request do
   let!(:season) { create(:season) }
@@ -37,7 +37,7 @@ RSpec.describe "Players", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       it "returns a success response" do
@@ -62,7 +62,7 @@ RSpec.describe "Players", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       context "With valid params" do

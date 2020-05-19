@@ -1,7 +1,7 @@
 require 'rails_helper'
-require 'requests/authentication_helper'
+require 'requests/requests_spec_helper'
 
-include AuthenticationHelper
+include RequestsSpecHelper
 
 RSpec.describe "Payments", type: :request do
   let!(:user) { create(:user) }
@@ -11,7 +11,7 @@ RSpec.describe "Payments", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       it "Renders index template and responds with success" do

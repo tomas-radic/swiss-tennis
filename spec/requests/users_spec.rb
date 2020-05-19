@@ -1,7 +1,7 @@
 require 'rails_helper'
-require 'requests/authentication_helper'
+require 'requests/requests_spec_helper'
 
-include AuthenticationHelper
+include RequestsSpecHelper
 
 RSpec.describe "Users", type: :request do
   describe "GET /users/abc/edit" do
@@ -12,7 +12,7 @@ RSpec.describe "Users", type: :request do
     context 'With logged in user' do
       context 'Editing self' do
         before(:each) do
-          login user, 'password'
+          requests_login user, 'password'
         end
 
         it 'Renders edit form and responds with success' do
@@ -26,7 +26,7 @@ RSpec.describe "Users", type: :request do
         let!(:other_user) { create(:user, email: 'someone@somewhere.com', password: 'anything') }
 
         before(:each) do
-          login other_user, 'anything'
+          requests_login other_user, 'anything'
         end
 
         it 'Raises error' do

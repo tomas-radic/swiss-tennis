@@ -1,7 +1,7 @@
 require 'rails_helper'
-require 'requests/authentication_helper'
+require 'requests/requests_spec_helper'
 
-include AuthenticationHelper
+include RequestsSpecHelper
 
 RSpec.describe "Matches", type: :request do
   let!(:user) { create(:user) }
@@ -43,7 +43,7 @@ RSpec.describe "Matches", type: :request do
 
       context 'With signed in user' do
         before(:each) do
-          login(user, 'password')
+          requests_login(user, 'password')
         end
 
         it "Renders show template and responds with success" do
@@ -60,7 +60,7 @@ RSpec.describe "Matches", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       it "returns a success response" do
@@ -83,7 +83,7 @@ RSpec.describe "Matches", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       context "With valid params" do
@@ -172,7 +172,7 @@ RSpec.describe "Matches", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       let!(:match) { create(:match) }
@@ -213,7 +213,7 @@ RSpec.describe "Matches", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       let!(:match) { create(:match) }
@@ -259,7 +259,7 @@ RSpec.describe "Matches", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       context 'With unfinished match' do
@@ -318,7 +318,7 @@ RSpec.describe "Matches", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       context 'With unfinished match' do
@@ -364,7 +364,7 @@ RSpec.describe "Matches", type: :request do
 
     context 'When logged in' do
       before(:each) do
-        login(user, 'password')
+        requests_login(user, 'password')
       end
 
       context 'With unfinished match' do
