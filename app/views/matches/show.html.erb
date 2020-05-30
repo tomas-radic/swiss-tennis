@@ -44,7 +44,7 @@
     <% if user_signed_in? || @match.winner.consent_given? %>
       <i>(tel.č. <%= link_to "#{formatted_phone(@match.winner.phone)}", "tel:#{@match.winner.phone}" %>)</i>
     <% end %>
-    <b>zvíťazil/a v tomto zápase</b>.
+    <b>zvíťazil<small>/a</small> v tomto zápase</b>.
   </p>
   <p class="lead text-center">
     <%= player_name_link(@match.looser, current_user, false) %>
@@ -52,9 +52,9 @@
       <i>(tel.č. <%= link_to "#{formatted_phone(@match.looser.phone)}", "tel:#{@match.looser.phone}" %>)</i>
     <% end %>
     <% if @match.retired_player_id.present? %>
-      <b>skrečoval/a tento zápas, alebo nenastúpil/a</b>.
+      <b>skrečoval<small>/a</small> tento zápas, alebo nenastúpil<small>/a</small></b>.
     <% else %>
-      <b>prehral/a v tomto zápase</b>.
+      <b>prehral<small>/a</small> v tomto zápase</b>.
     <% end %>
   </p>
 <% else %>
