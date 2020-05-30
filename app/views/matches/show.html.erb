@@ -38,20 +38,41 @@
 
 <p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
 <hr>
-<p class="lead text-center">
-  <%= player_name_link(@match.player1, current_user, false) %>
-  <% if user_signed_in? || @match.player1.consent_given? %>
-    <i>(tel.č. <%= link_to "#{formatted_phone(@match.player1.phone)}", "tel:#{@match.player1.phone}" %>)</i>
-  <% end %>
-  <b>zabezpečuje <i>kurt</i></b>.
-</p>
-<p class="lead text-center">
-  <%= player_name_link(@match.player2, current_user, false) %>
-  <% if user_signed_in? || @match.player2.consent_given? %>
-    <i>(tel.č. <%= link_to "#{formatted_phone(@match.player2.phone)}", "tel:#{@match.player2.phone}" %>)</i>
-  <% end %>
-  <b>zabezpečuje <i>lopty</i></b>.
-</p>
+<% if @match.finished? %>
+  <p class="lead text-center">
+    <%= player_name_link(@match.winner, current_user, false) %>
+    <% if user_signed_in? || @match.winner.consent_given? %>
+      <i>(tel.č. <%= link_to "#{formatted_phone(@match.winner.phone)}", "tel:#{@match.winner.phone}" %>)</i>
+    <% end %>
+    <b>zvíťazil/a v tomto zápase</b>.
+  </p>
+  <p class="lead text-center">
+    <%= player_name_link(@match.looser, current_user, false) %>
+    <% if user_signed_in? || @match.looser.consent_given? %>
+      <i>(tel.č. <%= link_to "#{formatted_phone(@match.looser.phone)}", "tel:#{@match.looser.phone}" %>)</i>
+    <% end %>
+    <% if @match.retired_player_id.present? %>
+      <b>skrečoval/a tento zápas, alebo nenastúpil/a</b>.
+    <% else %>
+      <b>prehral/a v tomto zápase</b>.
+    <% end %>
+  </p>
+<% else %>
+  <p class="lead text-center">
+    <%= player_name_link(@match.player1, current_user, false) %>
+    <% if user_signed_in? || @match.player1.consent_given? %>
+      <i>(tel.č. <%= link_to "#{formatted_phone(@match.player1.phone)}", "tel:#{@match.player1.phone}" %>)</i>
+    <% end %>
+    <b>zabezpečuje <i>kurt</i></b>.
+  </p>
+  <p class="lead text-center">
+    <%= player_name_link(@match.player2, current_user, false) %>
+    <% if user_signed_in? || @match.player2.consent_given? %>
+      <i>(tel.č. <%= link_to "#{formatted_phone(@match.player2.phone)}", "tel:#{@match.player2.phone}" %>)</i>
+    <% end %>
+    <b>zabezpečuje <i>lopty</i></b>.
+  </p>
+<% end %>
 <% if user_signed_in? && policy(@match).swap_players? %>
   <p class="text-center">
     <%= double_confirm_button('Prehodiť hráčov', swap_players_match_path(@match), 'btn btn-sm btn-outline-danger') %>
