@@ -23,22 +23,14 @@
     </div>
   </div>
 </div>
+
+<hr>
 <% if @match.finished? %>
   <div class="row">
     <div class="col">
       <h2 class="text-center"><%= MatchDecorator.new(@match).score %></h2>
     </div>
   </div>
-<% end %>
-<hr>
-
-<% if @match.retired_player %>
-  <p class="lead text-center"><strong><%= player_name_by_consent(@match.retired_player, current_user) %></strong> skrečoval(a) zápas, alebo nenastúpil(a).</p>
-<% end %>
-
-<p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
-<hr>
-<% if @match.finished? %>
   <p class="lead text-center">
     <%= player_name_link(@match.winner, current_user, false) %>
     <% if user_signed_in? || @match.winner.consent_given? %>
@@ -79,6 +71,7 @@
   </p>
 <% end %>
 <hr>
+<p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
 <p class="lead text-center">
   <% if @match.finished_at || @match.play_date %>
     <%= I18n.localize(@match.finished_at || @match.play_date, format: :date_month) %>
