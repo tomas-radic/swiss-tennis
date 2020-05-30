@@ -38,7 +38,7 @@ module ApplicationHelper
 
     case type
     when 'notice'
-      flash_class += ' alert-success alert-auto-dismiss'
+      flash_class += ' alert-success alert-auto-dismiss hover-wide'
     when 'alert'
       flash_class += ' alert-danger'
       flash_message = 'Upss, stala sa chyba. Ak je to potrebné, volaj, alebo píš.'
