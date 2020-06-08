@@ -17,9 +17,7 @@
 
 <%= render 'shared/special_instructions' unless cookies[:special_instructions_accepted] == "true" %>
 
-<h1 class="display-3 text-center pb-4">
-  Začína sezóna <span class="px-4 bg-black"><strong>2020!</strong></span>
-</h1>
+<%= render "seasons/heading", season: selected_season %>
 
 <% if @most_recent_article.present? %>
   <div class="mb-4"><%= render 'articles/tile', article: @most_recent_article %></div>

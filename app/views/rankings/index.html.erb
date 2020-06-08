@@ -12,6 +12,7 @@
 </div>
 
 <%= round_progress_info(selected_round) if selected_round.present? %>
+<%= render "seasons/heading", season: selected_season %>
 
 <% if @most_recent_article.present? %>
   <div class="mb-4"><%= render 'articles/tile', article: @most_recent_article %></div>
