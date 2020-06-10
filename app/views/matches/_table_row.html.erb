@@ -55,7 +55,9 @@
       </i>
     </small>
   </td>
-  <td><%= I18n.localize(match.finished_at || match.play_date, format: :date_month) if match.finished_at || match.play_date %></td>
+  <td>
+    <%= I18n.l(match.finished_at&.to_date || match.play_date, format: :date_month) if match.finished_at || match.play_date %>
+  </td>
   <td>
     <%= match.note %>
   </td>

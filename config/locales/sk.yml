@@ -1,8 +1,8 @@
 sk:
   date:
     formats:
-      date_month: '%-d. %B'
-      date_month_year: '%-d. %B %Y'
+      date_month: "%A, %-d. %b"
+      date_month_year: "%-d. %B %Y"
     abbr_month_names:
       -
       - jan
@@ -17,6 +17,14 @@ sk:
       - okt
       - nov
       - dec
+    day_names:
+      - ned
+      - pon
+      - uto
+      - str
+      - štv
+      - pia
+      - sob
     month_names:
       -
       - január

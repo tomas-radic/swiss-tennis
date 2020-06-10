@@ -31,7 +31,7 @@ module RoundsHelper
       result_html += "#{text}"
 
       if missing_matches
-        result_html += " <b><span class=\"attention-background #{highlight ? 'text-danger' : 'text-success'}\">Prosíme hráčov, aby organizátorovi súťaže nahlásili termín svojho zápasu v tomto kole najneskôr do termínu #{I18n.localize(round.period_ends - 7.days, format: :date_month)}, 20:00.</span></b>"
+        result_html += " <b><span class=\"attention-background #{highlight ? 'text-danger' : 'text-success'}\">Prosíme hráčov, aby organizátorovi súťaže nahlásili čas a miesto svojho zápasu v tomto kole najneskôr do termínu #{I18n.localize(round.period_ends - 7.days, format: :date_month)}, 20:00.</span></b>"
       end
     end
 
