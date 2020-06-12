@@ -73,13 +73,8 @@
 <hr>
 <p class="lead text-center"><%= round_element(@match.round, current_user) %></p>
 <p class="lead text-center">
-  <% if @match.finished_at || @match.play_date %>
-    <%= I18n.localize(@match.finished_at || @match.play_date, format: :date_month) %>
-  <% else %>
-    žiadny dátum
-  <% end %>
+  <%= match_info(@match) %>
 </p>
-<p class="lead text-center"><%= @match.note.presence || content_tag(:i) { 'žiadna poznámka' } %></p>
 
 <% if user_signed_in? %>
   <hr>

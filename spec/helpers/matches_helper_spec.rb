@@ -11,5 +11,47 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe MatchesHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#match_info" do
+    subject(:method_result) { match_info(match) }
+
+    context "Match has a date, time, place and a note" do
+      let!(:match) { create(:match, play_date: Date.tomorrow, play_time: "16:00", place: create(:place), note: "Some text") }
+
+      it "Returns formatted result" do
+        expect(method_result).to eq("#{I18n.l(Date.tomorrow, format: :date_month)} 16:00 Place, Some text")
+      end
+    end
+
+    context "Match has date and time" do
+      let!(:match) { create(:match, play_date: Date.tomorrow, play_time: "16:00", place: nil, note: nil) }
+
+      it "Returns formatted result" do
+        expect(method_result).to eq("#{I18n.l(Date.tomorrow, format: :date_month)} 16:00")
+      end
+    end
+
+    context "Match has date and place" do
+      let!(:match) { create(:match, play_date: Date.tomorrow, play_time: nil, place: create(:place), note: nil) }
+
+      it "Returns formatted result" do
+        expect(method_result).to eq("#{I18n.l(Date.tomorrow, format: :date_month)} Place")
+      end
+    end
+
+    context "Match has place and note" do
+      let!(:match) { create(:match, play_date: nil, play_time: nil, place: create(:place), note: "Some text") }
+
+      it "Returns formatted result" do
+        expect(method_result).to eq("Place, Some text")
+      end
+    end
+
+    context "Match has note only" do
+      let!(:match) { create(:match, play_date: nil, play_time: nil, place: nil, note: "Some text") }
+
+      it "Returns formatted result" do
+        expect(method_result).to eq("Some text")
+      end
+    end
+  end
 end
