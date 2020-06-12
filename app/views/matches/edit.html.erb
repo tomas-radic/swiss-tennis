@@ -28,7 +28,7 @@
           <div class="pl-2">
             <div class="form-group">
               <%= form.label :place, "Miesto" %>
-              <%= form.select :place_id, options_from_collection_for_select(Place.all, :id, :name), { include_blank: 'Žiadne miesto', selected: @match.place_id }, { class: 'form-control new-player-control' } %>
+              <%= form.select :place_id, options_from_collection_for_select(Place.all, :id, :name, @match.place_id), { include_blank: 'Žiadne miesto' }, { class: 'form-control new-player-control' } %>
             </div>
           </div>
         </div>
