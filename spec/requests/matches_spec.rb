@@ -7,6 +7,7 @@ RSpec.describe "Matches", type: :request do
   let!(:user) { create(:user) }
   let!(:season) { create(:season) }
   let!(:round) { create(:round, season: season) }
+  let!(:place) { create(:place) }
   let!(:player1) { create(:player, seasons: [season], rounds: [round]) }
   let!(:player2) { create(:player, seasons: [season], rounds: [round]) }
 
@@ -92,7 +93,8 @@ RSpec.describe "Matches", type: :request do
             match: {
               player1_id: player1.id,
               player2_id: player2.id,
-              round_id: round.id
+              round_id: round.id,
+              place_id: place.id
             }
           }
         end
@@ -103,6 +105,7 @@ RSpec.describe "Matches", type: :request do
                   player1_id: player1.id,
                   player2_id: player2.id,
                   round_id: round.id,
+                  place_id: place.id,
                   from_toss: false).permit!
           ).and_return(OpenStruct.new(result: Match.new(round: round)))
 
@@ -205,6 +208,8 @@ RSpec.describe "Matches", type: :request do
           from_toss: true,
           round_id: round.id,
           play_date: Date.tomorrow.to_s,
+          play_time: "17:00",
+          place_id: place.id,
           note: 'Any note',
           published: false
         }
@@ -229,6 +234,7 @@ RSpec.describe "Matches", type: :request do
         expect(match.player2).not_to eq(player2)
         expect(match.from_toss?).not_to be true
         expect(match.round).not_to eq(round)
+        expect(match.place).to eq(place)
       end
 
       it "Redirects to the match" do

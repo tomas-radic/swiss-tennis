@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
   resources :categories
+  resources :places
   # resources :seasons, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
   resources :enrollments, only: [:index, :new, :create] do
     get :cancel, on: :member

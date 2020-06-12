@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col">
+    <p class="lead float-left">Miesta</p>
+    <div class="float-right">
+      <%= link_to 'Nové miesto', new_place_path, class: 'btn btn-sm btn-success my-1' %>
+    </div>
+  </div>
+</div>
+
+<hr>
+<% if @places.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Názov</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @places.each do |place| %>
+          <tr>
+            <td><%= place.name %></td>
+            <td>
+              <%= link_to 'Upraviť', edit_place_path(place), class: 'btn btn-sm btn-success' %>
+              <%= link_to 'Odstrániť', place_path(place), method: :delete, data: { confirm: "Toto miesto bude zmazané a zápasy priradené na toto miesto ostanú bez miesta." }, class: 'btn btn-sm btn-danger' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="lead text-center">Žiadne miesta.</p>
+<% end %>

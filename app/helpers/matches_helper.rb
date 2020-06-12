@@ -18,4 +18,16 @@ module MatchesHelper
       'bg-green'
     end
   end
+
+  def match_info(match)
+    play_date = I18n.l(match.finished_at&.to_date || match.play_date, format: :date_month) if match.finished_at || match.play_date
+    result = [play_date, match.play_time, match.place&.name].reject(&:blank?).join(' ')
+
+    unless match.note.blank?
+      result += ", " unless result.blank?
+      result += match.note
+    end
+
+    result
+  end
 end

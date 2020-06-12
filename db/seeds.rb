@@ -78,6 +78,14 @@ ActiveRecord::Base.transaction do
   categories = Category.all
 
   #
+  # Places
+
+  puts "\nCreating places ..."
+  ["v parku", "na Mravenisku", "v nemocnici", "u Tobiášovcov"].each do |place_name|
+    Place.create!(name: place_name)
+  end unless Place.any?
+
+  #
   # Players
 
   puts "\nCreating players ..."
@@ -107,8 +115,6 @@ ActiveRecord::Base.transaction do
     )
   end
 
-
-
   #
   # Matches
 
@@ -124,6 +130,8 @@ ActiveRecord::Base.transaction do
         round: round,
         player1: player1,
         player2: player2,
+        play_time: Match.play_times.keys.sample,
+        place: Place.all.sample,
         published: true
       }
 

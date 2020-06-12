@@ -3,12 +3,12 @@ require 'requests/requests_spec_helper'
 
 include RequestsSpecHelper
 
-RSpec.describe "Categories", type: :request do
+RSpec.describe "Places", type: :request do
   let!(:user) { create(:user, password: 'password') }
-  let!(:category) { create(:category) }
+  let!(:place) { create(:place) }
 
-  describe "GET /categories" do
-    subject { get categories_path }
+  describe "GET /places" do
+    subject { get places_path }
 
     context 'When logged in' do
       before(:each) do
@@ -30,8 +30,8 @@ RSpec.describe "Categories", type: :request do
     end
   end
 
-  describe "GET /categories/new" do
-    subject { get new_category_path }
+  describe "GET /places/new" do
+    subject { get new_place_path }
 
     context 'When logged in' do
       before(:each) do
@@ -53,10 +53,8 @@ RSpec.describe "Categories", type: :request do
     end
   end
 
-  describe "GET /categories/abc/edit" do
-    subject { get edit_category_path(category) }
-
-    let!(:category) { create(:category) }
+  describe "GET /places/abc/edit" do
+    subject { get edit_place_path(place) }
 
     context 'When logged in' do
       before(:each) do
@@ -78,8 +76,8 @@ RSpec.describe "Categories", type: :request do
     end
   end
 
-  describe "POST /categories" do
-    subject { post categories_path, params: params }
+  describe "POST /places" do
+    subject { post places_path, params: params }
 
     context 'When logged in' do
       before(:each) do
@@ -88,26 +86,26 @@ RSpec.describe "Categories", type: :request do
 
       context "With valid params" do
         let(:params) do
-          { category: { name: 'Category name' } }
+          { place: { name: 'Place name' } }
         end
 
-        it "Creates a new Category" do
-          expect{subject}.to change(Category, :count).by(1)
+        it "Creates a new Place" do
+          expect{subject}.to change(Place, :count).by(1)
         end
 
-        it "Redirects to list of categories" do
+        it "Redirects to list of places" do
           subject
-          expect(response).to redirect_to categories_path
+          expect(response).to redirect_to places_path
         end
       end
 
       context "With invalid params" do
         let(:params) do
-          { category: { name: '' } }
+          { place: { name: '' } }
         end
 
-        it "Does not create new category and renders new template" do
-          expect{subject}.not_to change(Category, :count)
+        it "Does not create new place and renders new template" do
+          expect{subject}.not_to change(Place, :count)
           expect(response).to render_template(:new)
           expect(response).to have_http_status(200)
         end
@@ -116,7 +114,7 @@ RSpec.describe "Categories", type: :request do
 
     context 'When logged out' do
       let(:params) do
-        { category: { name: 'Category name' } }
+        { place: { name: 'Place name' } }
       end
 
       it 'Redirects to login' do
@@ -124,14 +122,14 @@ RSpec.describe "Categories", type: :request do
         expect(response).to redirect_to login_path
       end
 
-      it 'Does not create the category' do
-        expect{subject}.not_to change(Category, :count)
+      it 'Does not create the place' do
+        expect{subject}.not_to change(Place, :count)
       end
     end
   end
 
-  describe "PUT /categories/abc" do
-    subject { put category_path(category), params: params }
+  describe "PUT /places/abc" do
+    subject { put place_path(place), params: params }
 
     context 'When logged in' do
       before(:each) do
@@ -140,32 +138,32 @@ RSpec.describe "Categories", type: :request do
 
       context "With valid params" do
         let(:params) do
-          { category: { name: 'Changed name' } }
+          { place: { name: 'Changed name' } }
         end
 
-        it "Updates the requested category" do
-          expect{subject}.not_to change(Category, :count)
-          category.reload
+        it "Updates the requested place" do
+          expect{subject}.not_to change(Place, :count)
+          place.reload
 
-          expect(category.name).to eq 'Changed name'
+          expect(place.name).to eq 'Changed name'
         end
 
-        it "Redirects to list of categories" do
+        it "Redirects to list of places" do
           subject
-          expect(response).to redirect_to categories_path
+          expect(response).to redirect_to places_path
         end
       end
 
       context "With invalid params" do
         let(:params) do
-          { category: { name: '' } }
+          { place: { name: '' } }
         end
 
-        it "Does not change the category and renders edit template" do
+        it "Does not change the place and renders edit template" do
           subject
-          category.reload
+          place.reload
 
-          expect(category.name).not_to eq 'Changed name'
+          expect(place.name).not_to eq ''
           expect(response).to render_template(:edit)
         end
       end
@@ -173,7 +171,7 @@ RSpec.describe "Categories", type: :request do
 
     context 'When logged out' do
       let(:params) do
-        { category: { name: 'Changed name' } }
+        { place: { name: 'Changed name' } }
       end
 
       it 'Redirects to login' do
@@ -181,28 +179,28 @@ RSpec.describe "Categories", type: :request do
         expect(response).to redirect_to login_path
       end
 
-      it 'Does not update the category' do
+      it 'Does not update the place' do
         subject
-        expect(category.name).not_to eq 'Changed name'
+        expect(place.name).not_to eq 'Changed name'
       end
     end
   end
 
-  describe "DELETE /categories/abc" do
-    subject { delete category_path(category) }
+  describe "DELETE /places/abc" do
+    subject { delete place_path(place) }
 
     context 'When logged in' do
       before(:each) do
         requests_login(user, 'password')
       end
 
-      it "Destroys the requested category" do
-        expect{subject}.to change(Category, :count).by(-1)
+      it "Destroys the requested place" do
+        expect{subject}.to change(Place, :count).by(-1)
       end
 
-      it "Redirects to the categories list" do
+      it "Redirects to the places list" do
         subject
-        expect(response).to redirect_to(categories_path)
+        expect(response).to redirect_to(places_path)
       end
     end
 
@@ -212,8 +210,8 @@ RSpec.describe "Categories", type: :request do
         expect(response).to redirect_to login_path
       end
 
-      it 'Does not destroy the category' do
-        expect{subject}.not_to change(Category, :count)
+      it 'Does not destroy the place' do
+        expect{subject}.not_to change(Place, :count)
       end
     end
   end

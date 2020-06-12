@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :verify_user_logged_in, except: [:index]
+  before_action :verify_user_logged_in
   before_action :load_record, only: [:edit, :update, :destroy]
 
   def index

@@ -7,13 +7,33 @@
     <%= form_with(model: @match, local: true) do |form| %>
       <div class="row">
         <div class="col-lg-6">
-          <div class="form-group">
-            <%= form.label :play_date, 'Dátum zápasu' %><br />
-            <%= form.date_field :play_date, class: 'form-control' %>
+          <div class="pl-2">
+            <div class="form-group">
+              <%= form.label :play_date, 'Dátum zápasu' %><br />
+              <%= form.date_field :play_date, class: 'form-control' %>
+            </div>
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="custom-control custom-checkbox">
+          <div class="pl-2">
+            <div class="form-group">
+              <%= form.label :play_time, 'Čas' %><br />
+              <%= form.select :play_time, Match.play_times.keys, { include_blank: "Žiadny čas", selected: @match.play_time }, { class: "form-control" } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="pl-2">
+            <div class="form-group">
+              <%= form.label :place, "Miesto" %>
+              <%= form.select :place_id, options_from_collection_for_select(Place.all, :id, :name), { include_blank: 'Žiadne miesto', selected: @match.place_id }, { class: 'form-control new-player-control' } %>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="custom-control custom-checkbox pl-2">
             <br><br>
             <%= form.check_box :published, class: 'custom-control-input' %>
             <%= form.label :published, 'Zápas je zverejnený', class: 'custom-control-label' %>

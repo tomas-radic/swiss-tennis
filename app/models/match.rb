@@ -7,6 +7,7 @@ class Match < ApplicationRecord
   belongs_to :looser, class_name: 'Player', foreign_key: :looser_id, optional: true
   belongs_to :retired_player, class_name: 'Player', foreign_key: :retired_player_id, optional: true
   belongs_to :round
+  belongs_to :place, optional: true
 
   # validates :players, length: { is: 2 }
   validates :set1_player1_score, :set1_player2_score,
@@ -35,6 +36,11 @@ class Match < ApplicationRecord
   scope :draft, -> { default.where(published: false) }
   scope :finished, -> { published.where.not(finished_at: nil) }
   scope :pending, -> { published.where(finished_at: nil) }
+
+  enum play_time: ["06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30",
+                   "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30",
+                   "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
+                   "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30"]
 
   time_for_a_boolean :finished
 

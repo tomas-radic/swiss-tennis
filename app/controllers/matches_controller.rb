@@ -85,20 +85,24 @@ class MatchesController < ApplicationController
 
   def create_params
     params.require(:match).permit(
-      :player1_id,
-      :player2_id,
-      :round_id,
-      :published,
-      :play_date,
-      :note
+        :player1_id,
+        :player2_id,
+        :round_id,
+        :published,
+        :play_date,
+        :play_time,
+        :place_id,
+        :note
     )
   end
 
   def update_params
     params.require(:match).permit(
-      :published,
-      :play_date,
-      :note
+        :published,
+        :play_date,
+        :play_time,
+        :place_id,
+        :note
     )
   end
 end

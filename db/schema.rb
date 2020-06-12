@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_02_143503) do
+ActiveRecord::Schema.define(version: 2020_06_10_165312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -77,6 +77,9 @@ ActiveRecord::Schema.define(version: 2020_02_02_143503) do
     t.datetime "updated_at", null: false
     t.uuid "retired_player_id"
     t.uuid "looser_id"
+    t.integer "play_time"
+    t.uuid "place_id"
+    t.index ["place_id"], name: "index_matches_on_place_id"
     t.index ["player1_id"], name: "index_matches_on_player1_id"
     t.index ["player2_id"], name: "index_matches_on_player2_id"
     t.index ["round_id"], name: "index_matches_on_round_id"
@@ -88,6 +91,13 @@ ActiveRecord::Schema.define(version: 2020_02_02_143503) do
     t.string "text_amount", null: false
     t.date "paid_on", null: false
     t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "places", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "position", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -155,6 +165,7 @@ ActiveRecord::Schema.define(version: 2020_02_02_143503) do
   add_foreign_key "enrollments", "seasons"
   add_foreign_key "match_assignments", "matches"
   add_foreign_key "match_assignments", "players"
+  add_foreign_key "matches", "places"
   add_foreign_key "matches", "players", column: "player1_id"
   add_foreign_key "matches", "players", column: "player2_id"
   add_foreign_key "matches", "players", column: "winner_id"
