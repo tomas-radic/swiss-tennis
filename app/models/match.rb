@@ -29,7 +29,7 @@ class Match < ApplicationRecord
             :looser,
             presence: true, if: :finished?
 
-  scope :default, -> { order("matches.finished_at desc nulls last, matches.play_date asc nulls last").order(note: :asc, updated_at: :desc) }
+  scope :default, -> { order("matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.play_time asc nulls last").order(note: :asc, updated_at: :desc) }
   scope :manual, -> { where(from_toss: false) }
   scope :toss, -> { where(from_toss: true) }
   scope :published, -> { default.where(published: true) }
