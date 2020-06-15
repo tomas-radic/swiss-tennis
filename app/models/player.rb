@@ -30,6 +30,8 @@ class Player < ApplicationRecord
   scope :default, -> { active.where(dummy: false) }
   scope :active, -> { where(active: true) }
 
+  has_paper_trail on: [:update], only: [:first_name, :last_name, :category_id]
+
   def name
     [first_name, last_name].join(' ')
   end
