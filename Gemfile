@@ -54,6 +54,7 @@ gem 'font-awesome-rails'
 gem 'will_paginate', '~> 3.1.0'
 gem 'bootstrap-will_paginate'
 gem 'js_cookie_rails'
+gem 'airbrake'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
