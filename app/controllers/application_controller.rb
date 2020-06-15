@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
   before_action :calculate_payment_balance, if: :user_signed_in?
+  before_action :set_paper_trail_whodunnit
 
   protect_from_forgery with: :exception
   helper_method :current_user,
