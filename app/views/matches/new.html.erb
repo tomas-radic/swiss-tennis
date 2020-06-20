@@ -28,7 +28,9 @@
         <div class="col-lg-6">
           <div class="pl-2">
             <div class="form-group">
-              <%= form.label :play_date, 'Dátum' %><br />
+              <%= form.label :play_date, 'Dátum' %>
+              <%= button_tag 'zrušiť dátum', type: 'button', class: 'btn btn-sm btn-warning float-right', id: 'cancel-date-btn' %>
+              <br/>
               <%= form.date_field :play_date, class: 'form-control' %>
             </div>
           </div>

@@ -2,5 +2,9 @@
   $(document).on('turbolinks:load', function() {
     $('#match_player1_id').select2({theme: 'bootstrap'});
     $('#match_player2_id').select2({theme: 'bootstrap'});
+
+    $('#cancel-date-btn').click(function() {
+      $('#match_play_date').val('');
+    });
   });
 </script>
