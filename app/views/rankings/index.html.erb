@@ -52,16 +52,16 @@
       </thead>
       <tbody class="rankings">
         <% @rankings.each_with_index do |ranking, i| %>
-          <tr class="<%= rankings_table_row_color_class(ranking) %>">
+          <tr class="<%= ranking[:round_match_finished] ? 'bg-green' : '' %>">
             <td><%= i + 1 %></td>
             <td>
               <span class="js-filterable">
-                <%= player_name_link(ranking.player, current_user) %>
+                <%= player_name_link(ranking[:player], current_user) %>
               </span>
             </td>
-            <td><%= ranking.player.category.name %></td>
-            <td><%= ranking.points %></td>
-            <td><%= ranking.handicap %></td>
+            <td><%= ranking[:player].category.name %></td>
+            <td><%= ranking[:points] %></td>
+            <td><%= ranking[:handicap] %></td>
           </tr>
         <% end %>
       </tbody>
