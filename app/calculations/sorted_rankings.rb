@@ -41,7 +41,8 @@ class SortedRankings < Patterns::Calculation
           games_difference: ranking.games_difference,
           enrollment_time: ranking.player.enrollments.find { |e| e.season_id == round.season_id }.created_at,
           round_match_finished: ranking.player.matches.any? { |m| m.round_id == round.id && m.finished? },
-          player: ranking.player
+          player: ranking.player,
+          player_enrollment_active: ranking.player.enrollments.find { |e| e.season_id == round.season_id && e.canceled_at.nil? }.present?
       }
     end
 
