@@ -3,6 +3,12 @@
   <div class="col">
     <h2><%= @heading %></h2>
     <hr>
+    <div class="row">
+      <div class="col">
+        <%= "Pozícia v sezóne - #{@round.position}" %>
+      </div>
+    </div>
+    <hr>
     <%= render 'form', round: @round %>
   </div>
   <div class="col-md-3 hidden-sm-down"></div>

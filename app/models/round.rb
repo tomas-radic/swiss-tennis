@@ -9,6 +9,10 @@ class Round < ApplicationRecord
   scope :default, -> { order(position: :desc) }
 
   def full_label
-    ["Kolo #{position}", label].reject(&:blank?).join(', ')
+    if label.blank?
+      "Kolo #{position}"
+    else
+      label
+    end
   end
 end
