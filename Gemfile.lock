@@ -335,6 +335,7 @@ DEPENDENCIES
   pry (~> 0.12.2)
   puma (~> 4.3)
   pundit
+  rack (>= 2.2.3)
   rails (~> 5.2.3)
   rails-controller-testing
   rails-patterns

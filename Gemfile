@@ -56,6 +56,7 @@ gem 'bootstrap-will_paginate'
 gem 'js_cookie_rails'
 gem 'airbrake'
 gem 'paper_trail'
+gem 'rack', '>= 2.2.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
