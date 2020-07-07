@@ -11,12 +11,18 @@
         </small>
       </p>
     </div>
-    <p class="card-text <%= 'text-secondary' unless article.published? %>">
-      <% if article.published? %>
-        <%= simple_format(tile_content_for(article)) %>
-      <% else %>
-        <span class="text-secondary">(NEZVEREJNENÉ)</span>
-      <% end %>
-    </p>
+    <% if article.published? %>
+      <p class="card-text" id="article-content-<%= article.id %>">
+        <%= article_preview_content(article) %>
+        <% if article_exceeding_preview?(article) %>
+          ...
+          <%= link_to_article(article, expand_content) %>
+        <% end %>
+      </p>
+    <% else %>
+      <p class="card-text text-secondary" id="article-content-<%= article.id %>">
+        <%= link_to "(NEZVEREJNENÉ)", edit_article_path(article) %>
+      </p>
+    <% end %>
   </div>
 </div>

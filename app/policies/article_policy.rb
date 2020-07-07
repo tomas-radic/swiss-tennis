@@ -10,6 +10,16 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def show?
+    available?
+  end
+
+  def load_content?
+    available?
+  end
+
+  private
+
+  def available?
     user.present? || record.published?
   end
 end

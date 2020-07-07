@@ -16,7 +16,7 @@
   <div class="row">
     <% @articles.each do |article| %>
       <div class="col-lg-6">
-        <%= render 'tile', article: article %>
+        <%= render 'tile', article: article, expand_content: false %>
       </div>
     <% end %>
   </div>

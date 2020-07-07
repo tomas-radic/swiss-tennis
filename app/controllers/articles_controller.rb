@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
-  before_action :verify_user_logged_in, except: [:index, :show]
-  before_action :load_record, only: [:show, :edit, :update, :destroy, :pin]
+  before_action :verify_user_logged_in, except: [:index, :show, :load_content]
+  before_action :load_record, only: [:show, :edit, :update, :destroy, :pin, :load_content]
 
   def index
     @articles = policy_scope(Article).sorted
@@ -53,6 +53,14 @@ class ArticlesController < ApplicationController
   def pin
     PinArticle.call(@article)
     redirect_to @article
+  end
+
+  def load_content
+    authorize @article
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
