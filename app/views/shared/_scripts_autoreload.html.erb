@@ -1,23 +1,14 @@
 <script type="text/javascript">
-  var timer = null;
   var pageLoadedAt = $.now();
+  var reloadingNow = false;
 
   $(document).on('turbolinks:load', function() {
 
     $(window).scroll(function() {
-      if (timer !== null) {
-        clearTimeout(timer);
+      if (!reloadingNow && ($.now() - pageLoadedAt > 7200000)) { // two hours
+        reloadingNow = true;
+        location.reload();
       }
-
-      timer = setTimeout(considerPageReload, 500);
     });
   });
-
-  function considerPageReload() {
-    if ($.now() - pageLoadedAt > 7200000) { // two hours
-      location.reload();
-    }
-
-    timer = null;
-  }
 </script>
