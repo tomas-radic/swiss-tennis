@@ -8,11 +8,13 @@ class MatchesController < ApplicationController
     if selected_round.present?
       @matches = policy_scope(Match).default
           .where(matches: { round_id: selected_round.id })
-          .includes(:round, player1: :rankings, player2: :rankings)
+          .includes(:round, :place, { player1: :rankings, player2: :rankings })
       @last_update_time = @matches.pluck(:updated_at).max&.in_time_zone
     else
       @matches = Match.none
     end
+
+    @delayed_matches = DelayedMatchesQuery.call(round: selected_round)
   end
 
   def show

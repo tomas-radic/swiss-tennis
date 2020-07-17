@@ -30,4 +30,16 @@ module MatchesHelper
 
     result
   end
+
+  def delayed_matches_announcement(delayed_matches)
+    count = delayed_matches.count
+
+    if count > 4
+      "... plus #{count} neodohratých zápasov z predchádzajúcich kol"
+    elsif count > 1
+      "... plus #{count} neodohraté zápasy z predchádzajúcich kol"
+    elsif count == 1
+      "... plus #{count} neodohratý zápas z predchádzajúcich kol"
+    end
+  end
 end
