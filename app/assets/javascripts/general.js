@@ -26,34 +26,6 @@ $(document).on('turbolinks:load', function() {
     $(btn_dbl_confirm).show();
   });
 
-  $('.js-filter').on('keyup search', function() {
-    var searchedText = filterableText($(this).val());
-    var tableRows = $('.' + $(this).data('target') + ' > tr');
-
-    tableRows.each(function() {
-      var currentRow = $(this);
-      var showCurrentRow = false;
-
-      if (searchedText.length >= 2) {
-        $(currentRow).find('.js-filterable').each(function () {
-          var cellText = filterableText($(this).text());
-
-          if (cellText.indexOf(searchedText) >= 0) {
-            showCurrentRow = true;
-            return false; // breaks out
-          }
-        });
-      } else {
-        showCurrentRow = true;
-      }
-
-      if (showCurrentRow) {
-        $(currentRow).show();
-      } else {
-        $(currentRow).hide();
-      }
-    });
-  });
 
   // Activate bootstrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
@@ -61,12 +33,6 @@ $(document).on('turbolinks:load', function() {
   colorizeAmounts();
 });
 
-function filterableText(text) {
-  text = text.toLowerCase();
-  text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-  return text;
-}
 
 function colorizeAmounts() {
   $('.colored-amount').each(function() {
