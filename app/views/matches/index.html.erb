@@ -113,7 +113,7 @@
                 <%= match_info(delayed_match) %>
               </td>
               <td>
-                <%= delayed_match.round.full_label %>
+                <%= link_to delayed_match.round.full_label, matches_path(round_id: delayed_match.round.id), class: 'btn btn-sm btn-success' %>
               </td>
               <td>
                 <%= link_to 'Detail', match_path(delayed_match), class: 'btn btn-sm btn-success' %>
