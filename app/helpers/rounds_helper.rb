@@ -24,7 +24,7 @@ module RoundsHelper
                     <small><i>#{text}"
 
     if round.period_begins.present? || round.period_ends.present?
-      text = " Kolo #{round.position} sa hrá"
+      text = " #{round.full_label} sa hrá"
       text += " od #{I18n.localize(round.period_begins, format: :date_month)}" if round.period_begins.present?
       text += " do #{I18n.localize(round.period_ends, format: :date_month)}" if round.period_ends.present?
       text += '.'
