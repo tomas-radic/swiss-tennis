@@ -52,7 +52,7 @@
       </thead>
       <tbody class="rankings">
         <% @rankings.each_with_index do |ranking, i| %>
-          <tr class="<%= ranking[:round_match_finished] ? 'bg-green' : '' %>">
+          <tr class="<%= rankings_table_row_css_class(ranking) %>">
             <td><%= i + 1 %></td>
             <td>
               <span class="js-filterable">

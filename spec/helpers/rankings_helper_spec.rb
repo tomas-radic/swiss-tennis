@@ -11,5 +11,48 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe RankingsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  describe "rankings_table_row_css_class" do
+    subject(:method_result) { rankings_table_row_css_class(ranking) }
+
+    context "With round match finished and new point level" do
+      let(:ranking) do
+        { round_match_finished: true, new_point_level: true }
+      end
+
+      it "Returns correct css classes" do
+        expect(method_result).to eq("bg-green border-top-thick")
+      end
+    end
+
+    context "With round match finished only" do
+      let(:ranking) do
+        { round_match_finished: true }
+      end
+
+      it "Returns correct css classes" do
+        expect(method_result).to eq("bg-green")
+      end
+    end
+
+    context "With new point level" do
+      let(:ranking) do
+        { round_match_finished: false, new_point_level: true }
+      end
+
+      it "Returns correct css classes" do
+        expect(method_result).to eq("border-top-thick")
+      end
+    end
+
+    context "With ranking having no special properties" do
+      let(:ranking) do
+        { round_match_finished: false }
+      end
+
+      it "Returns correct css classes" do
+        expect(method_result).to eq("")
+      end
+    end
+  end
 end
