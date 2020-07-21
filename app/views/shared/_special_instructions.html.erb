@@ -35,7 +35,7 @@
   $(document).on('turbolinks:load', function() {
     $('#accepted').change(function() {
       if (this.checked) {
-        Cookies.set('special_instructions_accepted', 'true', { expires: 3 })
+        Cookies.set('special_instructions_accepted', 'true', { expires: 7 })
         $("#special-instructions").alert("close");
       }
     });
