@@ -14,6 +14,9 @@ class ApplicationController < ActionController::Base
   def current_user
     if session[:user_id]
       @current_user ||= User.find_by(id: session[:user_id])
+    elsif cookies[:remember_token]
+      @current_user ||= User.find_by(remember_token: cookies[:remember_token])
+      session[:user_id] = @current_user&.id
     else
       @current_user = nil
     end
