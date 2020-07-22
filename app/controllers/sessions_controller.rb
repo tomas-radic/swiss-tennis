@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
+      session[:expires_at] = Time.current + 2.weeks
       redirect_to root_url
     else
       render :new
