@@ -76,6 +76,14 @@ a.quiet-link {
   border-top: 4px solid #dee2e6;
 }
 
+.eq-height-container {
+  display: flex;
+  width: 100%;
+}
+.eq-height-col {
+  flex: 1;
+}
+
 //
 // Tables
 
