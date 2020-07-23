@@ -29,7 +29,7 @@ class Match < ApplicationRecord
             :looser,
             presence: true, if: :finished?
 
-  scope :default, -> { order("matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.play_time asc nulls last").order(note: :asc, updated_at: :desc) }
+  scope :default, -> { order("matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.play_time asc nulls last").order(note: :desc, updated_at: :desc) }
   scope :manual, -> { where(from_toss: false) }
   scope :toss, -> { where(from_toss: true) }
   scope :published, -> { default.where(published: true) }
@@ -42,6 +42,7 @@ class Match < ApplicationRecord
                    "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
                    "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30"]
 
+  before_validation :set_defaults
   time_for_a_boolean :finished
 
   def been_played?
@@ -49,6 +50,10 @@ class Match < ApplicationRecord
   end
 
   private
+
+  def set_defaults
+    self.note ||= ''
+  end
 
   def has_two_players
     errors.add(:players, 'Zápas musí mať presne dvoch hráčov') if player1_id.nil? || player2_id.nil?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_22_155049) do
+ActiveRecord::Schema.define(version: 2020_07_23_071039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2020_07_22_155049) do
     t.boolean "from_toss", default: false, null: false
     t.datetime "finished_at"
     t.date "play_date"
-    t.string "note"
+    t.string "note", default: "", null: false
     t.integer "set1_player1_score"
     t.integer "set1_player2_score"
     t.integer "set2_player1_score"
