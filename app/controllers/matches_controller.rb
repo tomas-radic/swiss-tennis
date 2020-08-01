@@ -17,11 +17,11 @@ class MatchesController < ApplicationController
     @delayed_matches = DelayedMatchesQuery.call(round: selected_round)
 
     if user_signed_in? && selected_round.period_ends && (selected_round.period_ends - 7 < Date.today)
-      unplanned_matches = @matches.published
+      unplanned_matches = @matches.published.pending
                               .joins('join players as p1 on p1.id = matches.player1_id')
                               .joins('join players as p2 on p2.id = matches.player2_id')
                               .where('p1.dummy is false and p2.dummy is false')
-                              .where(finished_at: nil, play_date: nil).distinct
+                              .where(play_date: nil).distinct
 
       @unplanned_matches_count = unplanned_matches.count + @delayed_matches.count
     end
