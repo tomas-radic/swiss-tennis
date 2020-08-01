@@ -1,3 +1,10 @@
+<% if @unplanned_matches_count %>
+  <div class="row">
+    <div class="col">
+      <p class="text-danger my-2"><i><%= unplanned_matches_info(@unplanned_matches_count) %></i></p>
+    </div>
+  </div>
+<% end %>
 <div class="row">
   <div class="col">
     <ul class="nav nav-tabs" id="tab-matches" role="tablist">

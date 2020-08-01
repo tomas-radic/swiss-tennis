@@ -42,4 +42,14 @@ module MatchesHelper
       "... plus #{count} neodohratý zápas z predchádzajúcich kol"
     end
   end
+
+  def unplanned_matches_info(matches_count)
+    word = if matches_count > 4
+      "#{matches_count} zápasov nemá dátum."
+    elsif matches_count > 1
+      "#{matches_count} zápasy nemajú dátum."
+    elsif matches_count == 1
+      "#{matches_count} zápas nemá dátum."
+    end
+  end
 end
