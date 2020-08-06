@@ -12,7 +12,7 @@
       </p>
     </div>
     <% if article.published? %>
-      <p class="card-text" id="article-content-<%= article.id %>">
+      <p class="card-text text-justify" id="article-content-<%= article.id %>">
         <%= article_preview_content(article) %>
         <% if article_exceeding_preview?(article) %>
           ...
