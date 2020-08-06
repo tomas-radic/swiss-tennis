@@ -1,1 +1,1 @@
-$("#article-content-<%= @article.id %>").html("<%= j simple_format(@article.content) %>");
+$("#article-content-<%= @article.id %>").html("<p class='text-justify'><%= j simple_format(@article.content) %></p>");
