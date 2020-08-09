@@ -52,79 +52,10 @@
   </div>
 </div>
 
-<% if user_signed_in? %>
-  <%= render 'matches/list_admin', matches: @matches, round: selected_round %>
-<% else %>
-  <%= render 'matches/list_public', matches: @matches %>
-<% end %>
-
-<% if @delayed_matches.any? %>
-  <hr>
-  <div class="row">
-    <div class="col">
-      <p class="text-danger"><i><%= delayed_matches_announcement(@delayed_matches) %></i></p>
-      <%= render 'shared/js_filter', target_table_body: 'delayed-matches', placeholder: 'meno hráča' %>
-
-      <div class="table-responsive my-1">
-        <table class="table table-sm">
-          <thead class="thead-dark">
-          <tr>
-            <th class="phone-nr-width" scope="col">Hráč 1 - kurt</th>
-            <th class="phone-nr-width" scope="col">Hráč 2 - lopty</th>
-            <th scope="col">Informácie</th>
-            <th scope="col">Kolo</th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody class="delayed-matches">
-            <% @delayed_matches.each do |delayed_match| %>
-              <tr>
-                <td>
-                  <span class="js-filterable">
-                    <%= player_name_link(delayed_match.player1, current_user) %>
-                  </span>
-                  <br>
-                  <small>
-                    <i>
-                      <% if delayed_match.player1.phone.present? && delayed_match.player1.consent_given? %>
-                        <%= link_to formatted_phone(delayed_match.player1.phone), "tel:#{delayed_match.player1.phone}" %>
-                      <% else %>
-                        <%= link_to_manager_phone('tel. č. u organizátora') %>
-                      <% end %>
-                    </i>
-                  </small>
-                </td>
-              <td>
-                <span class="js-filterable">
-                  <%= player_name_link(delayed_match.player2, current_user) %>
-                </span>
-                <br>
-                <small>
-                  <i>
-                    <% if delayed_match.player2.phone.present? && delayed_match.player2.consent_given? %>
-                      <%= link_to formatted_phone(delayed_match.player2.phone), "tel:#{delayed_match.player2.phone}" %>
-                    <% else %>
-                      <%= link_to_manager_phone('tel. č. u organizátora') %>
-                    <% end %>
-                  </i>
-                </small>
-              </td>
-              <td>
-                <%= match_info(delayed_match) %>
-              </td>
-              <td>
-                <%= link_to delayed_match.round.full_label, matches_path(round_id: delayed_match.round.id), class: 'btn btn-sm btn-success' %>
-              </td>
-              <td>
-                <%= link_to 'Detail', match_path(delayed_match), class: 'btn btn-sm btn-success' %>
-              </td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-<% end %>
+<%= render 'matches/table',
+           matches: @matches,
+           delayed_matches: @delayed_matches,
+           js_filter_target: 'matches',
+           last_update_time: @last_update_time %>
 
 <%= render "shared/scripts_autoreload" %>

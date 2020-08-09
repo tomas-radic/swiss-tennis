@@ -59,7 +59,11 @@
     <%= match_info(match) %>
   </td>
   <td>
-    <%= MatchDecorator.new(match).score %>
+    <% if delayed %>
+      <%= link_to match.round.full_label, matches_path(round_id: match.round.id), class: 'btn btn-sm btn-success' %>
+    <% else %>
+      <%= MatchDecorator.new(match).score %>
+    <% end %>
   </td>
   <td>
     <%= link_to 'Detail', match_path(match), class: 'btn btn-sm btn-success' %>

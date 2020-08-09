@@ -43,7 +43,7 @@ sk:
     formats:
       date_month: '%-d. %B'
       date_month_year: '%-d. %B %Y'
-      date_with_time: '%-d. %B %Y, %k:%M'
+      date_with_time: '%A, %-d. %b %Y, %k:%M'
   will_paginate:
     next_label: '>'
     previous_label: '<'

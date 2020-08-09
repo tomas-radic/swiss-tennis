@@ -1,11 +1,11 @@
-<% if matches.present? && matches.any? %>
+<% if matches&.any? || delayed_matches&.any? %>
   <div class="row">
     <div class="col">
       <%= render 'shared/js_filter', target_table_body: js_filter_target, placeholder: 'meno hráča' %>
     </div>
   </div>
-  <% if @last_update_time.present? %>
-    <i><small>(aktualizácia: <%= I18n.localize(@last_update_time, format: :date_with_time) %>)</small></i>
+  <% if last_update_time.present? %>
+    <i><small>(aktualizácia: <%= I18n.localize(last_update_time, format: :date_with_time) %>)</small></i>
   <% end %>
   <div class="table-responsive my-1">
     <table class="table table-sm">
@@ -14,14 +14,25 @@
           <th class="phone-nr-width" scope="col">Hráč 1 - kurt</th>
           <th class="phone-nr-width" scope="col">Hráč 2 - lopty</th>
           <th scope="col">Informácie</th>
-          <th scope="col">Výsledok</th>
+          <th scope="col"></th>
           <th></th>
         </tr>
       </thead>
       <tbody class="<%= js_filter_target %>">
         <% matches.each do |match| %>
           <% next if !user_signed_in? && (match.player1.dummy? || match.player2.dummy?) %>
-          <%= render partial: 'matches/table_row', locals: { match: match } %>
+          <%= render partial: 'matches/table_row', locals: { match: match, delayed: false } %>
+        <% end %>
+        <% if delayed_matches&.any? %>
+          <tr class="border-top-thick">
+            <td colspan="5">
+              <p class="text-danger"><i><%= delayed_matches_announcement(delayed_matches) %></i></p>
+            </td>
+          </tr>
+          <% delayed_matches.each do |delayed_match| %>
+            <% next if !user_signed_in? && (delayed_match.player1.dummy? || delayed_match.player2.dummy?) %>
+            <%= render partial: 'matches/table_row', locals: { match: delayed_match, delayed: true } %>
+          <% end %>
         <% end %>
       </tbody>
     </table>

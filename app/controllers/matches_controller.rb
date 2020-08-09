@@ -15,6 +15,9 @@ class MatchesController < ApplicationController
     end
 
     @delayed_matches = DelayedMatchesQuery.call(round: selected_round)
+    @last_update_time = (
+        @matches.map(&:updated_at) + @delayed_matches.map(&:updated_at)
+    ).max&.in_time_zone
 
     if user_signed_in? && selected_round.period_ends && (selected_round.period_ends - 7 < Date.today)
       unplanned_matches = @matches.published.pending

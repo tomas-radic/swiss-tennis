@@ -99,8 +99,12 @@
       <h3 class="text-center">
         <%= "Zápasy sezóny #{enrollment.season.name}" %>
       </h3>
-      <%= render 'matches/table', matches: PlayerSeasonMatchesQuery.call(player: @player, season: enrollment.season)
-          .includes(:round, :winner, player1: :rankings, player2: :rankings), js_filter_target: "matches-#{enrollment.season.position}" %>
+      <%= render 'matches/table',
+                 matches: PlayerSeasonMatchesQuery.call(player: @player, season: enrollment.season)
+                     .includes(:round, :winner, player1: :rankings, player2: :rankings),
+                 delayed_matches: nil,
+                 js_filter_target: "matches-#{enrollment.season.position}",
+                 last_update_time: nil %>
     </div>
   </div>
   <div class="row">
