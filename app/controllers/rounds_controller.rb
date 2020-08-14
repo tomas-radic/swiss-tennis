@@ -8,6 +8,10 @@ class RoundsController < ApplicationController
 
   def show
     @players_without_match = PlayersWithoutMatchQuery.call(round: @round).includes(:rankings)
+    @round_matches = @round.matches.includes(:round, :place, player1: :rankings, player2: :rankings)
+    if selected_round.period_ends && (selected_round.period_ends - 7 < Date.today)
+      @unplanned_matches_count = UnplannedMatchesCount.result_for(@round_matches)
+    end
   end
 
   def new

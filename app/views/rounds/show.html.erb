@@ -41,9 +41,17 @@
 </div>
 <hr>
 
+<% if @unplanned_matches_count %>
+  <div class="row">
+    <div class="col">
+      <p class="text-danger my-2"><i><%= unplanned_matches_info(@unplanned_matches_count) %></i></p>
+    </div>
+  </div>
+<% end %>
+
 <p class="lead">Zápasy v tomto kole</p>
-<%= render 'matches/list_admin',
-    matches: @round.matches.includes(:round, player1: :rankings, player2: :rankings),
+<%= render 'rounds/matches_table',
+    matches: @round_matches,
     round: @round %>
 
 <hr>

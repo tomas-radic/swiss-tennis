@@ -52,6 +52,14 @@
   </div>
 </div>
 
+<% if @unplanned_matches_count %>
+  <div class="row">
+    <div class="col">
+      <p class="text-danger my-2"><i><%= unplanned_matches_info(@unplanned_matches_count) %></i></p>
+    </div>
+  </div>
+<% end %>
+
 <%= render 'matches/table',
            matches: @matches,
            delayed_matches: @delayed_matches,
