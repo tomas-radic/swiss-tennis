@@ -7,7 +7,7 @@ class SuccessOfPlay < Patterns::Calculation
     won_games_in_history = 0
     all_games_in_history = 0
 
-    player.matches.published.includes(:round).each do |match|
+    player.matches.published.not_dummy.includes(:round).each do |match|
       player1_games = match.set1_player1_score.to_i + match.set2_player1_score.to_i + match.set3_player1_score.to_i
       player2_games = match.set1_player2_score.to_i + match.set2_player2_score.to_i + match.set3_player2_score.to_i
 

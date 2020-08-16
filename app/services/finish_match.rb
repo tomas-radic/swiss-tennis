@@ -89,21 +89,23 @@ class FinishMatch < Patterns::Service
         round_ranking.player_id == match.looser_id
       end
 
+      match_winner_ranking.relevant = true
       match_winner_ranking.points += match_outcomes[:winner_points]
       match_looser_ranking.points += match_outcomes[:looser_points]
 
-      match_winner_ranking.handicap += match_looser_ranking.points
-      match_winner_ranking.relevant = true
+      if !match.player1.dummy? && !match.player2.dummy?
+        match_winner_ranking.handicap += match_looser_ranking.points
 
-      match_winner_ranking.sets_difference += match_outcomes[:winner_sets_difference]
-      match_winner_ranking.games_difference += match_outcomes[:winner_games_difference]
+        match_winner_ranking.sets_difference += match_outcomes[:winner_sets_difference]
+        match_winner_ranking.games_difference += match_outcomes[:winner_games_difference]
 
-      match_looser_ranking.sets_difference += (-match_outcomes[:winner_sets_difference])
-      match_looser_ranking.games_difference += (-match_outcomes[:winner_games_difference])
+        match_looser_ranking.sets_difference += (-match_outcomes[:winner_sets_difference])
+        match_looser_ranking.games_difference += (-match_outcomes[:winner_games_difference])
 
-      if match_been_played?
-        match_looser_ranking.handicap += match_winner_ranking.points
-        match_looser_ranking.relevant = true
+        if match_been_played?
+          match_looser_ranking.handicap += match_winner_ranking.points
+          match_looser_ranking.relevant = true
+        end
       end
 
       match_winner_ranking.save! unless match.winner.dummy?

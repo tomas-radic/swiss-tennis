@@ -407,8 +407,8 @@ describe FinishMatch do
       expect(ranking2_of_player1.reload).to have_attributes(
                                                 points: 6,
                                                 handicap: 0,
-                                                sets_difference: 4,
-                                                games_difference: 19,
+                                                sets_difference: 2,
+                                                games_difference: 7,
                                                 relevant: true
                                             )
 

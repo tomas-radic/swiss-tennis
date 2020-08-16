@@ -36,6 +36,9 @@ class Match < ApplicationRecord
   scope :draft, -> { default.where(published: false) }
   scope :finished, -> { published.where.not(finished_at: nil) }
   scope :pending, -> { published.where(finished_at: nil) }
+  scope :not_dummy, -> { joins("join players p1 on p1.id = matches.player1_id")
+                             .joins("join players p2 on p2.id = matches.player2_id")
+                             .where("p1.dummy is false and p2.dummy is false") }
 
   enum play_time: ["06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30",
                    "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30",
