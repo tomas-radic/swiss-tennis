@@ -42,10 +42,19 @@ class SortedRankings < Patterns::Calculation
           enrollment_time: ranking.player.enrollments.find { |e| e.season_id == round.season_id }.created_at,
           round_match_finished: ranking.player.matches.any? { |m| m.round_id == round.id && m.finished? },
           player: ranking.player,
-          player_enrollment_active: ranking.player.enrollments.find { |e| e.season_id == round.season_id && e.canceled_at.nil? }.present?
+          player_enrollment_active: ranking.player.enrollments.find { |e| e.season_id == round.season_id && e.canceled_at.nil? }.present?,
+          updated_at: ranking.updated_at
       }
     end
 
+    sort_rankings!
+    mark_point_levels!
+
+    @rankings
+  end
+
+
+  def sort_rankings!
     @rankings = @rankings.sort_by do |ranking|
       [
           -ranking[:relevant],
@@ -57,6 +66,20 @@ class SortedRankings < Patterns::Calculation
       ]
     end
   end
+
+
+  def mark_point_levels!
+    last_point_level_ranking = nil
+
+    @rankings.map do |ranking|
+      if last_point_level_ranking && ranking[:points] != last_point_level_ranking
+        ranking[:new_point_level] = true
+      end
+
+      last_point_level_ranking = ranking[:points]
+    end
+  end
+
 
   def round
     @round ||= options.fetch(:round)

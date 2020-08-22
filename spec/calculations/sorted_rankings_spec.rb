@@ -154,7 +154,8 @@ describe SortedRankings do
                                points: 2,
                                handicap: 1,
                                sets_difference: 1,
-                               games_difference: 1
+                               games_difference: 1,
+                               new_point_level: true
                            )
 
       expect(result[3]).to include(
@@ -163,7 +164,8 @@ describe SortedRankings do
                                points: 1,
                                handicap: 2,
                                sets_difference: -1,
-                               games_difference: -1
+                               games_difference: -1,
+                               new_point_level: true
                            )
 
       expect(result[4]).to include(
@@ -172,7 +174,8 @@ describe SortedRankings do
                                points: 0,
                                handicap: 3,
                                sets_difference: -2,
-                               games_difference: -8
+                               games_difference: -8,
+                               new_point_level: true
                            )
 
       expect(result[5]).to include(
@@ -207,7 +210,8 @@ describe SortedRankings do
                                points: 4,
                                handicap: 5,
                                sets_difference: 1,
-                               games_difference: 0
+                               games_difference: 0,
+                               new_point_level: true
                            )
 
       expect(result[2]).to include(
@@ -216,7 +220,8 @@ describe SortedRankings do
                                points: 3,
                                handicap: 6,
                                sets_difference: 0,
-                               games_difference: 7
+                               games_difference: 7,
+                               new_point_level: true
                            )
 
       expect(result[3]).to include(
@@ -225,7 +230,8 @@ describe SortedRankings do
                                points: 2,
                                handicap: 9,
                                sets_difference: -1,
-                               games_difference: -2
+                               games_difference: -2,
+                               new_point_level: true
                            )
 
       expect(result[4]).to include(
@@ -243,7 +249,8 @@ describe SortedRankings do
                                points: 1,
                                handicap: 2,
                                sets_difference: -1,
-                               games_difference: -7
+                               games_difference: -7,
+                               new_point_level: true
                            )
     end
   end
@@ -269,7 +276,8 @@ describe SortedRankings do
                                points: 4,
                                handicap: 8,
                                sets_difference: -2,
-                               games_difference: -11
+                               games_difference: -11,
+                               new_point_level: true
                            )
 
       expect(result[2]).to include(
@@ -287,7 +295,8 @@ describe SortedRankings do
                                points: 3,
                                handicap: 16,
                                sets_difference: -2,
-                               games_difference: 0
+                               games_difference: 0,
+                               new_point_level: true
                            )
 
       expect(result[4]).to include(
@@ -305,7 +314,8 @@ describe SortedRankings do
                                points: 1,
                                handicap: 4,
                                sets_difference: -1,
-                               games_difference: -7
+                               games_difference: -7,
+                               new_point_level: true
                            )
     end
   end
@@ -331,7 +341,8 @@ describe SortedRankings do
                                points: 4,
                                handicap: 11,
                                sets_difference: -2,
-                               games_difference: -11
+                               games_difference: -11,
+                               new_point_level: true
                            )
 
       expect(result[2]).to include(
@@ -358,7 +369,8 @@ describe SortedRankings do
                                points: 3,
                                handicap: 20,
                                sets_difference: -4,
-                               games_difference: -4
+                               games_difference: -4,
+                               new_point_level: true
                            )
 
       expect(result[5]).to include(
