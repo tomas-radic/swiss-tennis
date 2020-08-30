@@ -20,7 +20,7 @@
       <tr>
         <th></th>
         <th scope="col">Meno</th>
-        <th scope="col">Posun o</th>
+        <th scope="col" class="text-nowrap">Posun o</th>
         <th scope="col"></th>
       </tr>
       </thead>
@@ -30,11 +30,11 @@
           <td><%= i + 1 %></td>
           <td>
             <span class="js-filterable">
-              <%= jumper[:player_name] %>
+              <%= player_name_link(jumper[:player], current_user) %>
             </span>
           </td>
           <td><%= jumper[:jump] %></td>
-          <td class="text-nowrap"><%="(#{jumper[:previous_position]} -> #{jumper[:current_position]})" %></td>
+          <td class="text-nowrap"><%="(#{jumper[:previous_position]} → #{jumper[:current_position]})" %></td>
         </tr>
       <% end %>
       </tbody>

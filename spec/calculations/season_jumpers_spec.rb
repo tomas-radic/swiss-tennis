@@ -83,10 +83,10 @@ describe SeasonJumpers, type: :model do
 
         expect(result).to be_an Array
         expect(result.length).to eq(4)
-        expect(result[0][:player_name]).to eq("Player D")
-        expect(result[1][:player_name]).to eq("Player E")
-        expect(result[2][:player_name]).to eq("Player B")
-        expect(result[3][:player_name]).to eq("Player C")
+        expect(result[0][:player].name).to eq("Player D")
+        expect(result[1][:player].name).to eq("Player E")
+        expect(result[2][:player].name).to eq("Player B")
+        expect(result[3][:player].name).to eq("Player C")
       end
     end
 

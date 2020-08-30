@@ -12,10 +12,10 @@ describe 'Sessions', :type => :request do
   end
 
   describe 'Logging in' do
-    skip
+    # skip
   end
 
   describe 'Logging out' do
-    skip
+    # skip
   end
 end

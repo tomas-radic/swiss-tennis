@@ -58,7 +58,7 @@
   <td>
     <%= match_info(match) %>
   </td>
-  <td>
+  <td class="text-nowrap">
     <% if delayed %>
       <%= link_to match.round.full_label, matches_path(round_id: match.round.id), class: 'btn btn-sm btn-success' %>
     <% else %>

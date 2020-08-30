@@ -13,7 +13,7 @@ class SeasonJumpers < Patterns::Calculation
       previous_season_ranking = previous_rankings.find { |pr| pr[:player].id == cr[:player].id }
 
       jumpers << {
-          player_name: cr[:player].name,
+          player: cr[:player],
           previous_position: previous_season_ranking[:recalculated_position],
           current_position: cr[:recalculated_position],
           jump: previous_season_ranking[:recalculated_position] - cr[:recalculated_position]
