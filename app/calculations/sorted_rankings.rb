@@ -48,7 +48,7 @@ class SortedRankings < Patterns::Calculation
     end
 
     sort_rankings!
-    mark_point_levels!
+    set_positions!
 
     @rankings
   end
@@ -68,10 +68,12 @@ class SortedRankings < Patterns::Calculation
   end
 
 
-  def mark_point_levels!
+  def set_positions!
     last_point_level_ranking = nil
 
-    @rankings.map do |ranking|
+    @rankings.map.with_index do |ranking, i|
+      ranking[:position] = i + 1
+
       if last_point_level_ranking && ranking[:points] != last_point_level_ranking
         ranking[:new_point_level] = true
       end

@@ -131,6 +131,7 @@ describe SortedRankings do
       result = calculation
 
       expect(result[0]).to include(
+                               position: 1,
                                player: playerA,
                                relevant: 1,
                                points: 3,
@@ -140,6 +141,7 @@ describe SortedRankings do
                            )
 
       expect(result[1]).to include(
+                               position: 2,
                                player: playerF,
                                relevant: 1,
                                points: 3,
@@ -149,6 +151,7 @@ describe SortedRankings do
                            )
 
       expect(result[2]).to include(
+                               position: 3,
                                player: playerC,
                                relevant: 1,
                                points: 2,
@@ -159,6 +162,7 @@ describe SortedRankings do
                            )
 
       expect(result[3]).to include(
+                               position: 4,
                                player: playerD,
                                relevant: 1,
                                points: 1,
@@ -169,6 +173,7 @@ describe SortedRankings do
                            )
 
       expect(result[4]).to include(
+                               position: 5,
                                player: playerE,
                                relevant: 1,
                                points: 0,
@@ -179,6 +184,7 @@ describe SortedRankings do
                            )
 
       expect(result[5]).to include(
+                               position: 6,
                                player: playerB,
                                relevant: 0,
                                points: 0,
@@ -196,6 +202,7 @@ describe SortedRankings do
       result = calculation
 
       expect(result[0]).to include(
+                               position: 1,
                                player: playerA,
                                relevant: 1,
                                points: 6,
@@ -205,6 +212,7 @@ describe SortedRankings do
                            )
 
       expect(result[1]).to include(
+                               position: 2,
                                player: playerF,
                                relevant: 1,
                                points: 4,
@@ -215,6 +223,7 @@ describe SortedRankings do
                            )
 
       expect(result[2]).to include(
+                               position: 3,
                                player: playerD,
                                relevant: 1,
                                points: 3,
@@ -225,6 +234,7 @@ describe SortedRankings do
                            )
 
       expect(result[3]).to include(
+                               position: 4,
                                player: playerC,
                                relevant: 1,
                                points: 2,
@@ -235,6 +245,7 @@ describe SortedRankings do
                            )
 
       expect(result[4]).to include(
+                               position: 5,
                                player: playerE,
                                relevant: 1,
                                points: 2,
@@ -244,6 +255,7 @@ describe SortedRankings do
                            )
 
       expect(result[5]).to include(
+                               position: 6,
                                player: playerB,
                                relevant: 1,
                                points: 1,
@@ -262,6 +274,7 @@ describe SortedRankings do
       result = calculation
 
       expect(result[0]).to include(
+                               position: 1,
                                player: playerA,
                                relevant: 1,
                                points: 9,
@@ -271,6 +284,7 @@ describe SortedRankings do
                            )
 
       expect(result[1]).to include(
+                               position: 2,
                                player: playerE,
                                relevant: 1,
                                points: 4,
@@ -281,6 +295,7 @@ describe SortedRankings do
                            )
 
       expect(result[2]).to include(
+                               position: 3,
                                player: playerF,
                                relevant: 1,
                                points: 4,
@@ -290,6 +305,7 @@ describe SortedRankings do
                            )
 
       expect(result[3]).to include(
+                               position: 4,
                                player: playerD,
                                relevant: 1,
                                points: 3,
@@ -300,6 +316,7 @@ describe SortedRankings do
                            )
 
       expect(result[4]).to include(
+                               position: 5,
                                player: playerC,
                                relevant: 1,
                                points: 3,
@@ -309,6 +326,7 @@ describe SortedRankings do
                            )
 
       expect(result[5]).to include(
+                               position: 6,
                                player: playerB,
                                relevant: 1,
                                points: 1,

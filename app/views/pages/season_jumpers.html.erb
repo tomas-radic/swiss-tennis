@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col">
+    <p class="lead float-left">
+      Skokan roka
+    </p>
+  </div>
+</div>
+
+<hr>
+<%= render "seasons/heading", season: selected_season %>
+
+<p class="text-justified m-2">
+  Toto je špeciálny rebríček hráčov, ktorí hrali túto súťaž v aktuálnej sezóne a aj v sezóne predchádzajúcej.
+  Poradie hráčov v tomto rebríčku teda vynecháva hráčov, ktorí predchádzajúcu sezónu túto súťaž nehrali.
+  Hráči sú v tomto rebríčku zoradení podľa posunu v rebríčku oproti predchádzajúcej sezóne.
+</p>
+
+<% if @season_jumpers.any? %>
+  <div class="row">
+    <div class="col">
+      <%= render 'shared/js_filter', target_table_body: 'season-jumpers', placeholder: 'meno hráča' %>
+    </div>
+  </div>
+
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th scope="col">Meno</th>
+        <th scope="col">Poradie min. sezóna</th>
+        <th scope="col">Poradie súč. sezóna</th>
+        <th scope="col">Posun o</th>
+      </tr>
+      </thead>
+      <tbody class="season-jumpers">
+      <% @season_jumpers.each_with_index do |jumper, i| %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td>
+            <span class="js-filterable">
+              <%= jumper[:player_name] %>
+            </span>
+          </td>
+          <td><%= jumper[:previous_position] %></td>
+          <td><%= jumper[:current_position] %></td>
+          <td><%= jumper[:jump] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Žiadne údaje.</p>
+    </div>
+  </div>
+<% end %>
+
+<%= render "shared/scripts_autoreload" %>
