@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   # Static pages
   get '/pages/about', to: 'pages#about'
+  get '/pages/season-jumpers', to: 'pages#season_jumpers'
   # get '/pages/season2020', to: 'pages#season2020'
 
   resources :articles do
