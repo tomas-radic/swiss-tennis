@@ -20,9 +20,8 @@
       <tr>
         <th></th>
         <th scope="col">Meno</th>
-        <th scope="col">Poradie min. sezóna</th>
-        <th scope="col">Poradie súč. sezóna</th>
         <th scope="col">Posun o</th>
+        <th scope="col"></th>
       </tr>
       </thead>
       <tbody class="season-jumpers">
@@ -34,9 +33,8 @@
               <%= jumper[:player_name] %>
             </span>
           </td>
-          <td><%= jumper[:previous_position] %></td>
-          <td><%= jumper[:current_position] %></td>
           <td><%= jumper[:jump] %></td>
+          <td><%="(#{jumper[:previous_position]} -> #{jumper[:current_position]})" %></td>
         </tr>
       <% end %>
       </tbody>
