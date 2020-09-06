@@ -1,0 +1,34 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load("current", {packages:["corechart"]});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+
+    var chartValues = [['ID', 'Predch. umiestnenie', 'Súč. umiestnenie', '', 'Posun']];
+
+    <% @season_jumpers.sort_by { |j| [j[:jump], j[:current_position]] }.each do |jumper| %>
+    chartValues.push(
+        [
+          '<%= jumper[:player].name %>',
+          <%= jumper[:previous_position] %>,
+          <%= jumper[:current_position] %>,
+          <%= jumper[:jump] %>,
+          <%= jumper[:jump] %>
+        ]
+    )
+    <% end %>
+
+    var data = google.visualization.arrayToDataTable(chartValues);
+
+    var options = {
+      colorAxis: {colors: ['yellow', 'red']},
+      hAxis: { direction: -1, minValue: 1, title: 'Predch. umiestnenie', viewWindowMode: 'maximized' },
+      vAxis: { direction: -1, minValue: 1, title: 'Súč. umiestnenie', viewWindowMode: 'maximized' },
+      sortBubblesBySize: false,
+      tooltip: { showColorCode: false }
+    };
+
+    var chart = new google.visualization.BubbleChart(document.getElementById('chart-div'));
+    chart.draw(data, options);
+  }
+</script>
