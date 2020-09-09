@@ -21,7 +21,7 @@
 <% if @rankings.any? %>
   <div class="row">
     <div class="col">
-      <%= render 'shared/js_filter', target_table_body: 'rankings', placeholder: 'meno hráča' %>
+      <%= render 'shared/js_filter', target_table_body: 'rankings', placeholder: 'meno hráča / kategória' %>
     </div>
   </div>
   <% if @last_update_time.present? %>
@@ -63,7 +63,7 @@
                 <% end %>
               </span>
             </td>
-            <td><%= ranking[:player].category.name %></td>
+            <td class="js-filterable"><%= ranking[:player].category.name %></td>
             <td><%= ranking[:points] %></td>
             <td><%= ranking[:handicap] %></td>
           </tr>
