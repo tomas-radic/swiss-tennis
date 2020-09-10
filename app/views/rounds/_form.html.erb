@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col">
+    <div class="col-lg-6">
       <div class="field form-group">
         <%= form.label :label, 'Označenie' %><br />
         <%= form.text_field :label, class: 'form-control' %>
@@ -26,6 +26,17 @@
         </small>
       </div>
     </div>
+
+    <div class="col-lg-6">
+      <div class="pl-2">
+        <div class="custom-control custom-checkbox">
+          <br><br>
+          <%= form.check_box :specific_purpose, class: 'custom-control-input' %>
+          <%= form.label :specific_purpose, 'Toto kolo hrajú iba niektorí hráči', class: 'custom-control-label' %>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="row">
     <div class="col">

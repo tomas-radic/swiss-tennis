@@ -39,8 +39,11 @@
     </div>
   </div>
 </div>
-<hr>
+<% if @round.specific_purpose? %>
+  <p class="text-danger">Toto kolo hrajú iba niektorí hráči.</p>
+<% end %>
 
+<hr>
 <% if @unplanned_matches_count %>
   <div class="row">
     <div class="col">

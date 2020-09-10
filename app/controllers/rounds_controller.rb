@@ -3,7 +3,7 @@ class RoundsController < ApplicationController
   before_action :load_record, only: [:show, :edit, :update, :toss_matches, :publish_all_matches]
 
   def index
-    @rounds = selected_season.rounds.all
+    @rounds = selected_season.rounds.order(position: :asc)
   end
 
   def show
@@ -66,6 +66,6 @@ class RoundsController < ApplicationController
   end
 
   def whitelisted_params
-    params.require(:round).permit(:label, :period_begins, :period_ends)
+    params.require(:round).permit(:label, :period_begins, :period_ends, :specific_purpose)
   end
 end
