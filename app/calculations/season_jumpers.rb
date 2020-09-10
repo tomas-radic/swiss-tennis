@@ -9,8 +9,10 @@ class SeasonJumpers < Patterns::Calculation
     current_rankings = rankings_for(current_round)
     previous_rankings = rankings_for(previous_season_round)
 
+
     current_rankings.each do |cr|
       previous_season_ranking = previous_rankings.find { |pr| pr[:player].id == cr[:player].id }
+      next unless previous_season_ranking
 
       jumpers << {
           player: cr[:player],
@@ -20,43 +22,58 @@ class SeasonJumpers < Patterns::Calculation
       }
     end
 
-    jumpers.sort_by do |j|
+    jumpers.sort_by! do |j|
       [-j[:jump], j[:current_position]]
     end
+
+    minimum_match_count = previous_season.rounds.regular.count - 1
+    previous_season_matches = previous_season.matches
+
+    jumpers.delete_if do |jumper|
+      played_matches_count = previous_season_matches.select do |match|
+        match.been_played? && (match.player1 == jumper[:player] || match.player2 == jumper[:player])
+      end.length
+
+      played_matches_count < minimum_match_count
+    end
+
+    jumpers
   end
 
 
-  def relevant_players_ids
-    return @relevant_players_ids if @relevant_players_ids
-
-    current_season_players = current_season.players.where(id: previous_season.players)
-    previous_season_players = previous_season.players.where(id: current_season_players)
-
-    @relevant_players_ids = Player.where(id: current_season_players + previous_season_players).ids
+  def relevant_players
+    @relevant_players ||= previous_season.players.where(id: current_season.players.ids)
   end
+
 
 
   def current_season
     @current_season ||= options.fetch(:season)
   end
 
+
   def previous_season
     @previous_season ||= Season.default.where("position < ?", current_season.position).first
   end
 
+
   def current_round
     return nil if current_season.nil?
 
-    @current_round ||= current_season.rounds.default.first
+    @current_round ||= current_season.rounds.default.regular.first
   end
+
 
   def previous_season_round
     return nil if previous_season.nil?
 
-    @previous_season_round ||= previous_season.rounds.default.first
+    @previous_season_round ||= previous_season.rounds.default.regular.first
   end
 
+
   def rankings_for(round)
+    relevant_players_ids = relevant_players.ids
+
     result = SortedRankings.result_for(round: round).select do |r|
       r[:player].id.in? relevant_players_ids
     end

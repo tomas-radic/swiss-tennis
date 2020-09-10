@@ -7,6 +7,7 @@ class Round < ApplicationRecord
   acts_as_list scope: :season
 
   scope :default, -> { order(position: :desc) }
+  scope :regular, -> { where(specific_purpose: false) }
 
   def full_label
     if label.blank?

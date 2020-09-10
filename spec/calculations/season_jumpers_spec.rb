@@ -36,6 +36,10 @@ describe SeasonJumpers, type: :model do
       let!(:round_p1) { create(:round, season: previous_season) }
       let!(:round_p2) { create(:round, season: previous_season) }
 
+      let!(:matchAB) { create(:match, :finished, round: round_p2, player1: playerA, player2: playerB, players: [playerA, playerB]) }
+      let!(:matchCD) { create(:match, :finished, round: round_p2, player1: playerC, player2: playerD, players: [playerC, playerD]) }
+      let!(:matchEF) { create(:match, :finished, round: round_p2, player1: playerE, player2: playerF, players: [playerE, playerF]) }
+
       before do
         # Sort rounds
         round_c1.insert_at 1
@@ -88,6 +92,8 @@ describe SeasonJumpers, type: :model do
         expect(result[2][:player].name).to eq("Player B")
         expect(result[3][:player].name).to eq("Player C")
       end
+
+      it "Excludes players which skipped more than one regular match"
     end
 
     context "With missing round in previous season" do

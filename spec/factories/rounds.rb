@@ -6,8 +6,8 @@ FactoryBot.define do
     period_ends { "2019-04-14" }
     closed { false }
 
-    trait :closed do
-      closed { true }
+    trait :specific do
+      specific_purpose { true }
     end
   end
 end
