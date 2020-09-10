@@ -27,7 +27,7 @@ class SeasonJumpers < Patterns::Calculation
     end
 
     minimum_match_count = previous_season.rounds.regular.count - 1
-    previous_season_matches = previous_season.matches
+    previous_season_matches = previous_season.matches.includes(:player1, :player2)
 
     jumpers.delete_if do |jumper|
       played_matches_count = previous_season_matches.select do |match|
