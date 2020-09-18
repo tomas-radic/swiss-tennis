@@ -15,13 +15,19 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Označenie</th>
+          <th scope="col">Stav zápasov</th>
         </tr>
       </thead>
       <tbody>
         <% @rounds.each do |round| %>
+          <% all_matches_count = round.matches.size %>
+          <% finished_matches_count = round.finished_matches.size %>
           <tr>
             <td><%= round.position %></td>
             <td><%= link_to round.full_label, round_path(round), class: 'quiet-link' %></td>
+            <td class="text-nowrap <%= "text-success" if finished_matches_count == all_matches_count %>">
+              <%= finished_matches_count %> / <%= all_matches_count %>
+            </td>
           </tr>
         <% end %>
       </tbody>

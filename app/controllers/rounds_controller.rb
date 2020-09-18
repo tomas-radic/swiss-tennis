@@ -3,7 +3,7 @@ class RoundsController < ApplicationController
   before_action :load_record, only: [:show, :edit, :update, :toss_matches, :publish_all_matches]
 
   def index
-    @rounds = selected_season.rounds.order(position: :asc)
+    @rounds = selected_season.rounds.order(position: :asc).includes(:matches, :finished_matches)
   end
 
   def show
