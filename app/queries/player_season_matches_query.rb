@@ -7,7 +7,7 @@ class PlayerSeasonMatchesQuery < Patterns::Query
     relation.published.joins(round: :season)
         .where(seasons: { id: season.id })
         .where('matches.player1_id = ? or matches.player2_id = ?', player.id, player.id)
-        .reorder('matches.finished_at desc nulls first, rounds.position desc')
+        .reorder('rounds.position desc, matches.finished_at desc nulls first')
   end
 
   def player
