@@ -15,7 +15,7 @@
 
 <%= round_progress_info(selected_round) if selected_round.present? %>
 
-<%= render 'shared/special_instructions' unless cookies[:special_instructions_accepted] == "true" %>
+<%#= render 'shared/special_instructions' unless cookies[:special_instructions_accepted] == "true" %>
 
 <%= render "seasons/heading", season: selected_season %>
 
