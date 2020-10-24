@@ -37,5 +37,5 @@ Rails.application.routes.draw do
     get :load_content, on: :member
   end
 
-  resources :payments, only: [:index]
+  resources :payments, only: [:index, :new, :create]
 end

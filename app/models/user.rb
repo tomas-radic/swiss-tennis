@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :articles, dependent: :restrict_with_error
+  has_many :payments, dependent: :nullify
 
   validates :email,
             presence: true,

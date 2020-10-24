@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-3 hidden-sm-down"></div>
+  <div class="col">
+    <h2>Nová platba</h2>
+    <hr>
+
+    <%= render 'shared/validation_errors_announcement', validated_object: @payment %>
+    <%= form_with(model: @payment, local: true) do |form| %>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="<%= add_error_class_to('pl-2', @payment, :amount) %>">
+            <div class="field form-group">
+              <%= form.label :amount, 'Suma' %><br />
+              <%= form.number_field :amount, autofocus: true, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="<%= add_error_class_to('pl-2', @payment, :paid_on) %>">
+            <div class="field form-group">
+              <%= form.label :paid_on, 'Dátum' %><br />
+              <%= form.date_field :paid_on, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="<%= add_error_class_to('pl-2', @payment, :description) %>">
+            <div class="field form-group">
+              <%= form.label :description, 'Popis' %><br />
+              <%= form.text_field :description, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="actions pl-2">
+            <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
+            <%= link_to 'Zrušiť', payments_path, class: 'btn btn-lg btn-outline-success my-1' %>
+          </div>
+        </div>
+      </div>
+
+    <% end %>
+
+  </div>
+  <div class="col-md-3 hidden-sm-down"></div>
+</div>

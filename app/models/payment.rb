@@ -1,5 +1,7 @@
 class Payment < ApplicationRecord
   include ApplicationHelper
+
+  belongs_to :user, optional: true
   
   before_validation :set_text_amount
 

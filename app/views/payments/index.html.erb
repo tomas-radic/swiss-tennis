@@ -1,6 +1,11 @@
 <div class="row">
   <div class="col">
-    <p class="lead">Všetky platby</p>
+    <p class="lead float-left">Všetky platby</p>
+    <% if user_signed_in? %>
+      <div class="float-right">
+        <%= link_to 'Pridať platbu', new_payment_path, class: 'btn btn-sm btn-success my-1' %>
+      </div>
+    <% end %>
   </div>
 </div>
 
@@ -23,6 +28,7 @@
         <th scope="col">Suma</th>
         <th scope="col">Dátum</th>
         <th scope="col">Popis</th>
+        <th scope="col">Vytvoril</th>
       </tr>
       </thead>
       <tbody>
@@ -31,6 +37,7 @@
           <td><span class="colored-amount"><%= payment.text_amount %></span></td>
           <td><%= I18n.localize(payment.paid_on, format: :date_month_year) %></td>
           <td><%= payment.description %></td>
+          <td><%= payment.user&.email %></td>
         </tr>
       <% end %>
       </tbody>
