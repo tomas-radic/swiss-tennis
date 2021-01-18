@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root to: 'enrollments#index'
-  # root to: 'enrollments#index'
+  # root to: 'matches#index'
+  root to: 'pages#about'
 
   resources :users, only: [:edit, :update]
   resources :sessions, only: [:new, :create, :destroy]
@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   # Static pages
   get '/pages/about', to: 'pages#about'
   get '/pages/season-jumpers', to: 'pages#season_jumpers'
+  get '/pages/game_rules', to: 'pages#game_rules'
   # get '/pages/season2020', to: 'pages#season2020'
 
   resources :articles do
