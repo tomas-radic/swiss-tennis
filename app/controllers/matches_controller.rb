@@ -14,12 +14,17 @@ class MatchesController < ApplicationController
       @matches = Match.none
     end
 
-    @delayed_matches = DelayedMatchesQuery.call(round: selected_round)
+    @delayed_matches = if selected_round.present?
+                         DelayedMatchesQuery.call(round: selected_round)
+                       else
+                         Match.none
+                       end
+
     @last_update_time = (
         @matches.map(&:updated_at) + @delayed_matches.map(&:updated_at)
     ).max&.in_time_zone
 
-    if user_signed_in? && selected_round.period_ends && (selected_round.period_ends - 7 < Date.today)
+    if user_signed_in? && selected_round&.period_ends && (selected_round&.period_ends - 7 < Date.today)
       @unplanned_matches_count = UnplannedMatchesCount.result_for(@matches) +
           UnplannedMatchesCount.result_for(@delayed_matches)
     end

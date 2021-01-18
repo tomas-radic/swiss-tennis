@@ -34,3 +34,7 @@
 /latest.dump
 
 /config/local_env.yml
+
+.idea
+.DS_Store
+matotenis_db_backup

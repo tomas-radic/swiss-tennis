@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col">
+    <p class="lead float-left">Všetky sezóny</p>
+    <div class="float-right">
+      <%= link_to 'Nová sezóna', new_season_path, class: 'btn btn-sm btn-success my-1' %>
+    </div>
+  </div>
+</div>
+
+<hr>
+<% if @seasons.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th>Názov</th>
+        <th>Hracie kolá</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @seasons.each do |season| %>
+        <% all_rounds_count = season.rounds.size %>
+        <tr>
+          <td><%= link_to season.name, edit_season_path(season), class: 'quiet-link' %></td>
+          <td><%= all_rounds_count %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Zatiaľ neboli vytvorené žiadne sezóny.</p>
+    </div>
+  </div>
+<% end %>

@@ -34,6 +34,7 @@
               Administrácia
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to 'Sezóny', seasons_path, class: 'dropdown-item' %>
               <%= link_to 'Kolá a zápasy', rounds_path, class: 'dropdown-item' %>
               <%= link_to 'Hráči', enrollments_path, class: 'dropdown-item'  %>
               <%= link_to 'Novinky', articles_path, class: 'dropdown-item'  %>

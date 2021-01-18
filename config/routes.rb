@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root to: 'matches#index'
+  root to: 'enrollments#index'
   # root to: 'enrollments#index'
 
   resources :users, only: [:edit, :update]
@@ -38,4 +38,5 @@ Rails.application.routes.draw do
   end
 
   resources :payments, only: [:index, :new, :create]
+  resources :seasons, only: [:index, :new, :create, :edit, :update]
 end
