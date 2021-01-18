@@ -1,23 +1,48 @@
+
+html, body {
+  overflow-x: hidden;
+}
+
+
+body {
+  background-color: $mainbg;
+  font-family: 'Jura', sans-serif;
+  font-size: 1.4rem;
+}
+
+
 //
 // Navbar
 
 .navbar {
-  background-color: #252525;
-  color: white;
+  background-color: $navbg;
+  //background-color: $eggplant;
+  color: $gray;
 
   .navbar-brand {
     font-size: inherit;
   }
 
   a {
-    color: #eceaea;
+    color: $gray;
   }
 
   .logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.7rem;
+
     strong {
       font-size: 1.2rem;
     }
   }
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: $gray;
+}
+
+.navbar-dark .navbar-brand {
+  color: $gray;
 }
 
 .nav-tabs .nav-link {
@@ -25,7 +50,7 @@
 }
 
 .dropdown-menu {
-  background-color: #252525;
+  background-color: darken($navbg, 20);
 }
 
 //
@@ -43,11 +68,11 @@
 // Footer
 
 .footer {
-  background-color: #252525;
-  color: #eceaea;
+  background-color: $dark;
+  color: $gray;
 }
 .footer a {
-  color: #eceaea;
+  color: $gray;
 }
 
 //
@@ -79,7 +104,7 @@ a.quiet-link {
 }
 
 .border-top-thick {
-  border-top: 4px solid #dee2e6;
+  border-top: 4px solid darken($navbg, 20);
 }
 
 .eq-height-container {
@@ -94,7 +119,19 @@ a.quiet-link {
 // Tables
 
 .table .thead-dark th {
-  background-color: #252525;
+  background-color: $navbg;
+  //background-color: $eggplant;
+  color: $gray;
+}
+
+.table {
+  thead th {
+    border-top: none;
+    border-bottom: none;
+  }
+  td {
+    border-top: 1px solid $navbg;
+  }
 }
 
 .phone-nr-width {
@@ -105,7 +142,7 @@ a.quiet-link {
 // Image banner
 
 .img-banner {
-  height: 192px;
+  height: 92px;
   width: 100%;
   background-image: url("banner-img2.jpg");
   background-repeat: no-repeat;
@@ -135,12 +172,12 @@ a.quiet-link {
 
 .bg-dark {
   background-color: #343a40;
-  color: white;
+  color: $gray;
 }
 
 .bg-black {
   background-color: #000000;
-  color: white;
+  color: $gray;
 }
 
 .attention-background {
@@ -163,7 +200,7 @@ a.quiet-link {
 
 @media only screen and (min-width: 768px) {
   .img-banner {
-    height: 328px;
+    height: 128px;
     background-attachment: fixed;
     background-position: center center;
   }

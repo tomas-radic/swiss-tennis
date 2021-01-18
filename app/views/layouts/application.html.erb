@@ -10,6 +10,9 @@
     <meta property="og:title" content="matotenis.sk" />
     <meta property="og:description" content="Majstrovstvá Topoľčian v tenise" />
     <meta property="og:image" content="<%= URI.join(root_url, image_path("matotenis_facebook2.jpg")) %>" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Jura:wght@300&display=swap" rel="stylesheet">
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -21,7 +24,7 @@
       <%= render 'payments/payment_balance' %>
     <% end %>
     <%= render 'shared/navbar' %>
-    <%= render 'shared/hot_announcement' %>
+    <%#= render 'shared/hot_announcement' %>
     <%= render 'shared/flash_message' unless flash.blank? %>
     <div class="img-banner mb-2"></div>
     <div class="container-fluid">

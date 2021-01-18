@@ -27,8 +27,8 @@
       <thead class="thead-dark">
       <tr>
         <th scope="col">Meno</th>
+        <th scope="col" class="text-center">Kategória</th>
         <th scope="col">Dátum prihlášky</th>
-        <th scope="col">Kategória</th>
         <% if user_signed_in? %>
           <th scope="col"></th>
         <% end %>
@@ -42,8 +42,8 @@
               <%= player_name_link(enrollment.player, current_user) %>
             </span>
           </td>
+          <td class="text-center"><span class="badge badge-pill badge-light"><%= enrollment.player.category.name %></span></td>
           <td><%= I18n.localize(enrollment.created_at, format: :date_month_year) %></td>
-          <td><span class="badge badge-pill badge-light"><%= enrollment.player.category.name %></span></td>
           <% if user_signed_in? %>
             <td>
               <%= link_to 'Odstrániť',
