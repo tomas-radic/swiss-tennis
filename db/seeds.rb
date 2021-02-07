@@ -22,18 +22,7 @@ def sample_match_score(winner_idx)
   result
 end
 
-def sample_round_ranking_attributes_for(player, round_index)
-  points = rand(0..(round_index + 1))
 
-  {
-    player: player,
-    points: points,
-    handicap: rand(0..round_index),
-    sets_difference: rand(-5..7),
-    games_difference: rand(-15..20),
-    relevant: true
-  }
-end
 
 ActiveRecord::Base.transaction do
 

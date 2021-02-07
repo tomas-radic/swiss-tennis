@@ -2,6 +2,7 @@ class ResetSeasonRankings < Patterns::Service
   pattr_initialize :season
 
   def call
+    return # no more used
     reset_season_rankings!
   end
 

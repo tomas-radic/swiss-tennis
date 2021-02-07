@@ -64,19 +64,19 @@ describe EnrollPlayerToSeason do
         round5.insert_at(5)
         round6.insert_at(6)
 
-        player.rankings.create!(round: round2, points: 1, handicap: 1, sets_difference: 1, games_difference: 1, relevant: true)
-        player.rankings.create!(round: round3, points: 4, handicap: 4, sets_difference: 4, games_difference: 4, relevant: true)
+        player.rankings.create!(round: round2, points: 1, sets_difference: 1, games_difference: 1, relevant: true)
+        player.rankings.create!(round: round3, points: 4, sets_difference: 4, games_difference: 4, relevant: true)
       end
 
       it 'Creates copies of the latest ranking of the player for rounds 3-6' do
         enroll_player_to_season
 
         expect(round1.rankings.find_by(player: player)).to be_nil
-        expect(round2.rankings.find_by(player: player)).to have_attributes(points: 1, handicap: 1, sets_difference: 1, games_difference: 1, relevant: true)
-        expect(round3.rankings.find_by(player: player)).to have_attributes(points: 4, handicap: 4, sets_difference: 4, games_difference: 4, relevant: true)
-        expect(round4.rankings.find_by(player: player)).to have_attributes(points: 4, handicap: 4, sets_difference: 4, games_difference: 4, relevant: true)
-        expect(round5.rankings.find_by(player: player)).to have_attributes(points: 4, handicap: 4, sets_difference: 4, games_difference: 4, relevant: true)
-        expect(round6.rankings.find_by(player: player)).to have_attributes(points: 4, handicap: 4, sets_difference: 4, games_difference: 4, relevant: true)
+        expect(round2.rankings.find_by(player: player)).to have_attributes(points: 1, sets_difference: 1, games_difference: 1, relevant: true)
+        expect(round3.rankings.find_by(player: player)).to have_attributes(points: 4, sets_difference: 4, games_difference: 4, relevant: true)
+        expect(round4.rankings.find_by(player: player)).to have_attributes(points: 4, sets_difference: 4, games_difference: 4, relevant: true)
+        expect(round5.rankings.find_by(player: player)).to have_attributes(points: 4, sets_difference: 4, games_difference: 4, relevant: true)
+        expect(round6.rankings.find_by(player: player)).to have_attributes(points: 4, sets_difference: 4, games_difference: 4, relevant: true)
       end
     end
   end

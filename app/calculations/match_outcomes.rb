@@ -6,7 +6,6 @@ class MatchOutcomes < Patterns::Calculation
 
     match_outcomes = {
         winner_points: 0,
-        winner_handicap_increase: 0,
         winner_sets_difference: 0,
         winner_games_difference: 0,
         looser_points: 0,
@@ -22,7 +21,6 @@ class MatchOutcomes < Patterns::Calculation
 
     unless match.winner.dummy?
       match_outcomes[:winner_points] = points_for_winner(looser_won_sets_count == 1)
-      match_outcomes[:winner_handicap_increase] = looser_current_points + match_outcomes[:looser_points] unless match.looser.dummy?
       match_outcomes[:winner_sets_difference] = match.been_played? ? winner_won_sets_count - looser_won_sets_count : 2
       match_outcomes[:winner_games_difference] = match.been_played? ? winner_won_games_count - looser_won_games_count : 12
     end

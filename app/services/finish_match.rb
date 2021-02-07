@@ -94,40 +94,16 @@ class FinishMatch < Patterns::Service
       match_looser_ranking.points += match_outcomes[:looser_points]
 
       if !match.player1.dummy? && !match.player2.dummy?
-        match_winner_ranking.handicap += match_looser_ranking.points
-
         match_winner_ranking.sets_difference += match_outcomes[:winner_sets_difference]
         match_winner_ranking.games_difference += match_outcomes[:winner_games_difference]
 
         match_looser_ranking.sets_difference += (-match_outcomes[:winner_sets_difference])
         match_looser_ranking.games_difference += (-match_outcomes[:winner_games_difference])
-
-        if match_been_played?
-          match_looser_ranking.handicap += match_winner_ranking.points
-          match_looser_ranking.relevant = true
-        end
+        match_looser_ranking.relevant = true if match_been_played?
       end
 
       match_winner_ranking.save! unless match.winner.dummy?
       match_looser_ranking.save! unless match.looser.dummy?
-    end
-
-    update_rewardable_opponents(match_outcomes[:winner_points], match.winner)
-    update_rewardable_opponents(match_outcomes[:looser_points], match.looser) if match_outcomes[:looser_points] > 0
-  end
-
-  def update_rewardable_opponents(handicap_points, player)
-    rewardable_opponents = RewardableOpponentsQuery.call(player: player, round: match.round)
-    return unless rewardable_opponents.any?
-
-    rankings = Ranking.joins(:player, round: :season)
-                   .where(seasons: { id: match.round.season_id })
-                   .where('rounds.position >= ?', match.round.position)
-                   .where(players: { id: rewardable_opponents.ids })
-
-    rankings.map do |ranking|
-      ranking.handicap += handicap_points
-      ranking.save!
     end
   end
 

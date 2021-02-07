@@ -26,7 +26,6 @@ describe MatchOutcomes do
                                            :winner_points => 3,
                                            :winner_sets_difference => 2,
                                            :winner_games_difference => 7,
-                                           :winner_handicap_increase => looser_current_points + 0,
                                            :looser_points => 0,
                                            :looser_handicap_increase => winner_current_points + 3
                                        })
@@ -47,7 +46,6 @@ describe MatchOutcomes do
                                            :winner_points => 2,
                                            :winner_sets_difference => 1,
                                            :winner_games_difference => 0,
-                                           :winner_handicap_increase => looser_current_points + 1,
                                            :looser_points => 1,
                                            :looser_handicap_increase => winner_current_points + 2
                                        })
@@ -69,7 +67,6 @@ describe MatchOutcomes do
                                            :winner_points => 3,
                                            :winner_sets_difference => 0,
                                            :winner_games_difference => 3,
-                                           :winner_handicap_increase => looser_current_points + 0,
                                            :looser_points => 0,
                                            :looser_handicap_increase => winner_current_points + 3
                                        })
@@ -90,7 +87,6 @@ describe MatchOutcomes do
                                            :winner_points => 2,
                                            :winner_sets_difference => -1,
                                            :winner_games_difference => -5,
-                                           :winner_handicap_increase => looser_current_points + 1,
                                            :looser_points => 1,
                                            :looser_handicap_increase => winner_current_points + 2
                                        })
@@ -111,7 +107,6 @@ describe MatchOutcomes do
                                            :winner_points => 2,
                                            :winner_sets_difference => 0,
                                            :winner_games_difference => -1,
-                                           :winner_handicap_increase => looser_current_points + 1,
                                            :looser_points => 1,
                                            :looser_handicap_increase => winner_current_points + 2
                                        })
@@ -132,7 +127,6 @@ describe MatchOutcomes do
                                            :winner_points => 3,
                                            :winner_sets_difference => 2,
                                            :winner_games_difference => 12,
-                                           :winner_handicap_increase => looser_current_points + 0,
                                            :looser_points => 0,
                                            :looser_handicap_increase => 0
                                        })
@@ -154,7 +148,6 @@ describe MatchOutcomes do
                                            :winner_points => 3,
                                            :winner_sets_difference => 2,
                                            :winner_games_difference => 12,
-                                           :winner_handicap_increase => 0,
                                            :looser_points => 0,
                                            :looser_handicap_increase => 0
                                        })

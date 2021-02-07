@@ -22,10 +22,12 @@ class SortedRankings < Patterns::Calculation
     rankings_hashes = round_rankings.includes(:round).map do |ranking|
       {
           player_id: ranking.player_id,
-          round: ranking.round.position,
+          round: ranking.round,
           points: ranking.points
       }
     end
+
+    enrollments = round.season.enrollments
 
     @rankings = round_rankings.joins(:player)
                     .where(players: { dummy: false })
@@ -34,12 +36,13 @@ class SortedRankings < Patterns::Calculation
       {
           relevant: ranking.relevant? ? 1 : 0,
           points: ranking.points,
-          handicap: Handicap.result_for(ranking: ranking,
+          handicap: Handicap2.result_for(ranking: ranking,
                                         finished_season_matches: matches_hashes,
-                                        round_rankings: rankings_hashes),
+                                        round_rankings: rankings_hashes,
+                                        enrollments: enrollments),
           sets_difference: ranking.sets_difference,
           games_difference: ranking.games_difference,
-          enrollment_time: ranking.player.enrollments.find { |e| e.season_id == round.season_id }.created_at,
+          enrollment_time: enrollments.find { |e| e.player_id == ranking.player_id }.created_at,
           round_match_finished: ranking.player.matches.any? { |m| m.round_id == round.id && m.finished? },
           player: ranking.player,
           player_enrollment_active: ranking.player.enrollments.find { |e| e.season_id == round.season_id && e.canceled_at.nil? }.present?,

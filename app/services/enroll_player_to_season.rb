@@ -31,7 +31,6 @@ class EnrollPlayerToSeason < Patterns::Service
       season.rounds.where('rounds.position > ?', most_recent_ranking.round.position).each do |round|
         player.rankings.where(round: round).first_or_create!(
             points: most_recent_ranking.points,
-            handicap: most_recent_ranking.handicap,
             sets_difference: most_recent_ranking.sets_difference,
             games_difference: most_recent_ranking.games_difference,
             relevant: most_recent_ranking.relevant
@@ -39,7 +38,7 @@ class EnrollPlayerToSeason < Patterns::Service
       end
     else
       player.rankings.where(round: current_round).first_or_create!(
-          points: 0, handicap: 0, sets_difference: 0, games_difference: 0, relevant: false)
+          points: 0, sets_difference: 0, games_difference: 0, relevant: false)
     end
   end
 
