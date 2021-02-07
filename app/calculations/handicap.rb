@@ -13,8 +13,9 @@ class Handicap < Patterns::Calculation
       [match[:player1_id], match[:player2_id]].reject { |id| id == ranking.player_id }
     end.flatten
 
+    # binding.pry
     opponents_rankings = round_rankings.select do |round_ranking|
-      opponents_ids.include?(round_ranking[:player_id]) && (round_ranking[:round] == ranking.round.position)
+      opponents_ids.include?(round_ranking[:player_id]) && (round_ranking[:round].position == ranking.round.position)
     end
 
     opponents_rankings.inject(0) { |handicap, opponent_ranking| handicap += opponent_ranking[:points] }

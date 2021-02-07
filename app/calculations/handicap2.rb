@@ -60,7 +60,7 @@ class Handicap2 < Patterns::Calculation
     return @average_points if @average_points
 
     counted_rankings = round_rankings.select do |r|
-      r[:player_id].in?(enrollments.active.map(&:player_id))
+      r[:player_id].in?(enrollments.select { |e| e.canceled_at.nil? }.map(&:player_id))
     end
 
     @average_points = counted_rankings.inject(0) do |sum, ranking|

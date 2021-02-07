@@ -27,7 +27,7 @@ class SortedRankings < Patterns::Calculation
       }
     end
 
-    enrollments = round.season.enrollments
+    enrollments = round.season.enrollments.to_a
 
     @rankings = round_rankings.joins(:player)
                     .where(players: { dummy: false })

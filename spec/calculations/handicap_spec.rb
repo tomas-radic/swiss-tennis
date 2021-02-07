@@ -79,7 +79,7 @@ describe Handicap do
     ranking.round.rankings.includes(:round).map do |ranking|
       {
           player_id: ranking.player_id,
-          round: ranking.round.position,
+          round: ranking.round,
           points: ranking.points
       }
     end
