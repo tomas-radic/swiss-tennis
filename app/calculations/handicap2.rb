@@ -19,6 +19,17 @@ class Handicap2 < Patterns::Calculation
         (round_ranking[:round].position == ranking.round.position)
     end
 
+
+    # This sums points of all opponents, but excluding the one with least points (alternative way)
+    # if opponents_rankings.any?
+    #   opponents_rankings.map { |r| r[:points] }.sort[1..-1].inject(0) do |handicap, points|
+    #     handicap += points
+    #   end
+    # else
+    #   0
+    # end
+
+
     opponents_rankings.inject(0) do |handicap, opponent_ranking|
 
       opponent_enrollment = enrollments.find do |e|
