@@ -5,7 +5,8 @@ describe Handicap2 do
   subject { described_class.result_for(ranking: ranking,
                                        finished_season_matches: finished_season_matches,
                                        round_rankings: round_rankings,
-                                       enrollments: season.enrollments) }
+                                       enrollments: season.enrollments,
+                                       substitute_points: substitute_points) }
 
   let!(:season) { create(:season) }
 
@@ -89,6 +90,7 @@ describe Handicap2 do
 
   context "For round1" do
     let(:ranking) { ranking_r1 }
+    let(:substitute_points) { 14 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(12)
@@ -97,6 +99,7 @@ describe Handicap2 do
 
   context "For round2" do
     let(:ranking) { ranking_r2 }
+    let(:substitute_points) { 24 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(22 + 0) # player has not played match in round2, so 0 points to handicap
@@ -105,6 +108,7 @@ describe Handicap2 do
 
   context "For round3" do
     let(:ranking) { ranking_r3 }
+    let(:substitute_points) { 34 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(32 + 0 + 34)
@@ -113,6 +117,7 @@ describe Handicap2 do
 
   context "For round4" do
     let(:ranking) { ranking_r4 }
+    let(:substitute_points) { 44 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(42 + 0 + 44 + 45)
@@ -121,6 +126,7 @@ describe Handicap2 do
 
   context "For round5" do
     let(:ranking) { ranking_r5 }
+    let(:substitute_points) { 54 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(52 + 0 + 54 + 55 + 56)
@@ -129,6 +135,7 @@ describe Handicap2 do
 
   context "For round6" do
     let(:ranking) { ranking_r6 }
+    let(:substitute_points) { 64 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(62 + 0 + 64 + 65 + 66 + 0) # player's match in round6 is not finished
@@ -137,6 +144,7 @@ describe Handicap2 do
 
   context "For round7" do
     let(:ranking) { ranking_r7 }
+    let(:substitute_points) { 74 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(72 + 0 + 74 + 75 + 76 + 0 + 78)
@@ -158,6 +166,7 @@ describe Handicap2 do
 
     context "For round1" do
       let(:ranking) { ranking_r1 }
+      let(:substitute_points) { 14 }
 
       it "Returns calculated handicap of the ranking" do
         expect(subject).to eq(12)
@@ -166,6 +175,7 @@ describe Handicap2 do
 
     context "For round2" do
       let(:ranking) { ranking_r2 }
+      let(:substitute_points) { 24 }
 
       it "Returns calculated handicap of the ranking" do
         expect(subject).to eq(22 + 0) # player has not played match in round2, so 0 points to handicap
@@ -174,6 +184,7 @@ describe Handicap2 do
 
     context "For round3" do
       let(:ranking) { ranking_r3 }
+      let(:substitute_points) { 34 }
 
       it "Returns calculated handicap of the ranking" do
         expect(subject).to eq(32 + 0 + 34)
@@ -182,6 +193,7 @@ describe Handicap2 do
 
     context "For round4" do
       let(:ranking) { ranking_r4 }
+      let(:substitute_points) { 44 }
 
       it "Returns calculated handicap of the ranking" do
         expect(subject).to eq(42 + 0 + 44 + 45)
@@ -190,6 +202,7 @@ describe Handicap2 do
 
     context "For round5" do
       let(:ranking) { ranking_r5 }
+      let(:substitute_points) { 54 }
 
       it "Returns calculated handicap of the ranking" do
         expect(subject).to eq(52 + 0 + 54 + 55 + 56)
@@ -198,6 +211,7 @@ describe Handicap2 do
 
     context "For round6" do
       let(:ranking) { ranking_r6 }
+      let(:substitute_points) { 70 }
 
       it "Returns calculated handicap of the ranking" do
         expect(subject).to eq(62 + 0 + 70 + 65 + 66 + 0)  # opponent3 has inactive enrollment, used avg
@@ -207,6 +221,7 @@ describe Handicap2 do
 
     context "For round7" do
       let(:ranking) { ranking_r7 }
+      let(:substitute_points) { 85 }
 
       it "Returns calculated handicap of the ranking" do
         expect(subject).to eq(72 + 0 + 85 + 75 + 76 + 0 + 78)   # opponent3 has inactive enrollment, used avg

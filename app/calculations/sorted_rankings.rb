@@ -37,9 +37,12 @@ class SortedRankings < Patterns::Calculation
           relevant: ranking.relevant? ? 1 : 0,
           points: ranking.points,
           handicap: Handicap2.result_for(ranking: ranking,
-                                        finished_season_matches: matches_hashes,
-                                        round_rankings: rankings_hashes,
-                                        enrollments: enrollments),
+                                         finished_season_matches: matches_hashes,
+                                         round_rankings: rankings_hashes,
+                                         enrollments: enrollments,
+                                         substitute_points: substitute_points_from(
+                                           rankings_hashes, enrollments
+                                         )),
           sets_difference: ranking.sets_difference,
           games_difference: ranking.games_difference,
           enrollment_time: enrollments.find { |e| e.player_id == ranking.player_id }.created_at,
@@ -83,6 +86,19 @@ class SortedRankings < Patterns::Calculation
 
       last_point_level_ranking = ranking[:points]
     end
+  end
+
+
+  def substitute_points_from(rankings, enrollments)
+    active_player_ids = enrollments.select { |e| e.canceled_at.nil? }.map(&:player_id)
+
+    counted_rankings = rankings.select do |r|
+      r[:player_id].in?(active_player_ids)
+    end
+
+    @average_points = counted_rankings.inject(0) do |sum, ranking|
+      sum += ranking[:points]
+    end / counted_rankings.length
   end
 
 

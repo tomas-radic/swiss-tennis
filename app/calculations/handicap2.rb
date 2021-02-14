@@ -39,7 +39,7 @@ class Handicap2 < Patterns::Calculation
       points_to_add = if opponent_enrollment.canceled_at.nil? || (opponent_ranking[:round].period_begins && opponent_enrollment.canceled_at > opponent_ranking[:round].period_begins)
                         opponent_ranking[:points]
                       else
-                        opponent_ranking[:points] >= average_points ? opponent_ranking[:points] : average_points
+                        opponent_ranking[:points] >= substitute_points ? opponent_ranking[:points] : substitute_points
                       end
 
       handicap += points_to_add
@@ -67,15 +67,7 @@ class Handicap2 < Patterns::Calculation
   end
 
 
-  def average_points
-    return @average_points if @average_points
-
-    counted_rankings = round_rankings.select do |r|
-      r[:player_id].in?(enrollments.select { |e| e.canceled_at.nil? }.map(&:player_id))
-    end
-
-    @average_points = counted_rankings.inject(0) do |sum, ranking|
-      sum += ranking[:points]
-    end / counted_rankings.length
+  def substitute_points
+    @substitute_points ||= options.fetch(:substitute_points)
   end
 end
