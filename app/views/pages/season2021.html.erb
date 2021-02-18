@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-md-3 hidden-sm-down"></div>
+  <div class="col">
+    <h1 class="display-3 text-center pb-4">
+      Vitajte v sezóne <span class="px-4 bg-black"><strong>2021!</strong></span>
+    </h1>
+<!--    <h1 class="display-3 text-center">-->
+<!--      Vitajte v sezóne <strong class="text-light bg-dark p-4">2021!</strong>-->
+<!--    </h1>-->
+
+    <hr>
+    <h2 class="text-center pt-5">
+      Ahojte tenisti!
+    </h2>
+    <p class="text-justify">
+      Veríme, že sa tiež už tešíte na začiatok sezóny 2021 a že sa do nej plánujete aktívne zapojiť!
+      Po zimnej prestávke v znamení lockdownu sa žiada si to riadne vynahradiť :-)
+      Prihlásiť sa do tejto sezóny je jednoduché - stačí kontaktovať ktoréhokoľvek z organizátorov
+      a slušne pozdraviť :-)
+    </p>
+    <div class="row text-center">
+      <div class="col-md-6">
+        <p>
+          Tomáš Radič<br>
+          <%= link_to '0905 289 248', 'tel:0905289248' %>
+        </p>
+      </div>
+      <div class="col-md-6">
+        <p>
+          Ondrej Babala<br>
+          <%= link_to '0908 304 473', 'tel:0908304473' %>
+        </p>
+      </div>
+    </div>
+    <p class="text-center"><i>... no a potom aj zaplatiť štartovné 20€ :-)</i></p>
+    <%= image_tag "bart_playing_better.png", alt: "Bart Simpson", class: "center-image" %>
+
+    <hr>
+    <h2 class="text-center pt-5">
+      Novinky sezóny 2021
+    </h2>
+    <p class="text-justify">
+      Základný princíp súťaže ostáva, samozrejme, rovnaký, no je tu niekoľko noviniek.
+    </p>
+    <ol class="text-justify">
+      <li class="pt-1">
+        <strong>ŽREBOVANIE ZÁPASOV</strong><br>
+        Prvé kolo sezóny sa bude žrebovať použitím nasadených hráčov. Počet nasadených hráčov bude
+        určený podľa celkového počtu prihlásených hráčov do sezóny. Ku každému nasadenému hráčovi
+        sa dožrebuje nenasadený súper. Všetky ďalšie zápasy od druhého kola ďalej bude žrebovať
+        výlučne žrebovací algoritmus na základe aktuálneho počtu nahratých bodov v súlade
+        s pravidlami súťaže.
+      </li>
+      <li class="pt-1">
+        <strong>SÚČET BODOV SÚPEROV</strong><br>
+        Z predchádzajúcich skúseností vieme, že hráč, ktorého súper sa zo súťaže odhlásil (najmä v prvej
+        polovici sezóny) mohol byť trochu znevýhodnený, pretože v súčte bodov jeho súperov časom začali
+        chýbať potencionálne ďalšie body tohto odhláseného súpera, ktoré tento súper už nevybojoval. Z tohto
+        dôvodu, v prípade, že sa hráčov súper zo súťaže odhlásil, budú body tohto odhláseného súpera v tomto súčte
+        nahradené priemerným počtom bodov všetkých hráčov v danom kole (zaokrúhleným nadol). K tejto náhrade ale
+        dôjde iba v prípade, že je vypočítaný priemer už vyšší ako stihol nahrať tento odhlásený súper.
+      </li>
+      <li class="pt-1">
+        <strong>SÚŤAŽNÝ PORIADOK</strong><br>
+        Pravidlá platné pre zápasy tejto súťaže popisuje
+        <%= link_to "súťažný poriadok", pages_game_rules_path, target: :_blank %>, ktorý je záväzný
+        pre každého hráča v každom zápase.
+      </li>
+    </ol>
+
+    <hr>
+    <h2 class="text-center pt-5">
+      Prihlásení hráči - <strong>(<%= @enrollments&.count.to_i %>)</strong>
+    </h2>
+    <div class="pt-4">
+      <% if @enrollments&.any? %>
+        <div class="table-responsive my-1">
+          <table class="table table-sm">
+            <thead class="thead-dark">
+            <tr>
+              <th scope="col">Meno</th>
+              <th scope="col" class="text-center">Kategória</th>
+              <th scope="col">Dátum prihlášky</th>
+            </tr>
+            </thead>
+            <tbody class="players">
+            <% @enrollments.each do |enrollment| %>
+              <tr>
+                <td>
+                  <span class="js-filterable">
+                    <%= player_name_link(enrollment.player, current_user) %>
+                  </span>
+                </td>
+                <td class="text-center"><span class="badge badge-pill badge-light"><%= enrollment.player.category.name %></span></td>
+                <td><%= I18n.localize(enrollment.created_at, format: :date_month_year) %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <p class="text-center">Zatiaľ nie je prihlásený nikto.</p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-3 hidden-sm-down"></div>
+</div>

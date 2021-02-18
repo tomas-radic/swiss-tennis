@@ -12,4 +12,8 @@ class PagesController < ApplicationController
 
   # def season2020
   # end
+
+  def season2021
+    @players = Season.find_by(name: "2021")&.enrollments
+  end
 end
