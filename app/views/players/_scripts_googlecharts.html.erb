@@ -3,26 +3,18 @@
   google.charts.setOnLoadCallback(drawCharts);
 
   function drawCharts() {
-    var allGamesSeason = <%= @success_of_play.dig(:season, :all_games) %>;
-
-    if (allGamesSeason > 0) {
-      var wonGamesSeason = <%= @success_of_play.dig(:season, :won_games) %>;
-      var lostGamesSeason = allGamesSeason - wonGamesSeason;
-
-      setupChart('chart-season', wonGamesSeason, lostGamesSeason);
-    }
-
-    var allGamesHistory = <%= @success_of_play.dig(:history, :all_games) %>;
-
-    if (allGamesHistory > 0) {
-      var wonGamesHistory = <%= @success_of_play.dig(:history, :won_games) %>;
-      var lostGamesHistory = allGamesHistory - wonGamesHistory;
-
-      setupChart('chart-history', wonGamesHistory, lostGamesHistory);
-    }
+    let sopChartElements = $(".player-sop-chart");
+    <% @success_of_play.each.with_index do |season_sop, i| %>
+      setupChart(
+          sopChartElements[<%= i %>].id,
+          <%= season_sop.dig(:won_games) %>,
+          <%= season_sop.dig(:all_games) %>);
+    <% end %>
   }
 
-  function setupChart(elementId, wonGames, lostGames) {
+  function setupChart(elementId, wonGames, allGames) {
+    let lostGames = allGames - wonGames;
+
     var data = google.visualization.arrayToDataTable([
       ['Hry', 'Počet'],
       ['Vyhraté hry (' + wonGames + ')', wonGames],
@@ -39,8 +31,4 @@
 
     chart.draw(data, options);
   }
-
-  $(document).on('turbolinks:load', function() {
-    drawCharts();
-  });
 </script>

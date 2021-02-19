@@ -3,7 +3,11 @@ class PlayersController < ApplicationController
   before_action :load_record, only: [:show, :edit, :update]
 
   def show
-    @success_of_play = SuccessOfPlay.result_for(player: @player, season: selected_season)
+    seasons = Season.default
+
+    @success_of_play = []
+    @success_of_play << SuccessOfPlay.result_for(player: @player, season: seasons[0]) if seasons[0]
+    @success_of_play << SuccessOfPlay.result_for(player: @player, season: seasons[1]) if seasons[1]
   end
 
   def edit

@@ -22,28 +22,19 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-12 col-md-6">
-    <div class="card mb-3 <%= success_of_play_color_class(@success_of_play.dig(:season, :percentage)) %>">
-      <div class="card-header"><%= "V sezóne #{selected_season.name}" %></div>
-      <div class="card-body">
-        <h5 class="card-title">
-          <%= @success_of_play.dig(:season, :all_games).zero? ? '(žiadne zápasy)' : "#{@success_of_play.dig(:season, :percentage)}%" %>
-        </h5>
-        <div id="chart-season" style="width: 100%; height: 280px;"></div>
+  <% @success_of_play.each.with_index do |season_sop, i| %>
+    <div class="col-12 col-md-6">
+      <div class="card mb-3 <%= success_of_play_color_class(season_sop.dig(:percentage)) %>">
+        <div class="card-header"><%= "V sezóne #{season_sop.dig(:season)&.name}" %></div>
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= season_sop.dig(:all_games).zero? ? '(žiadne zápasy)' : "#{season_sop.dig(:percentage)}%" %>
+          </h5>
+          <div id='<%= "player-sop-chart-#{i}" %>' class="player-sop-chart" style="width: 100%; height: 280px;"></div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-12 col-md-6">
-    <div class="card mb-3 <%= success_of_play_color_class(@success_of_play.dig(:history, :percentage)) %>">
-      <div class="card-header">V histórii súťaže</div>
-      <div class="card-body">
-        <h5 class="card-title">
-          <%= @success_of_play.dig(:history, :all_games).zero? ? '(žiadne zápasy)' : "#{@success_of_play.dig(:history, :percentage)}%" %>
-        </h5>
-        <div id="chart-history" style="width: 100%; height: 280px;"></div>
-      </div>
-    </div>
-  </div>
+  <% end %>
 </div>
 <hr>
 
