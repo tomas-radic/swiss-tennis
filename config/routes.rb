@@ -40,5 +40,5 @@ Rails.application.routes.draw do
   end
 
   resources :payments, only: [:index, :new, :create]
-  resources :seasons, only: [:index, :new, :create, :edit, :update]
+  resources :seasons, only: [:index, :new, :create, :edit, :update, :destroy]
 end

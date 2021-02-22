@@ -165,4 +165,44 @@ RSpec.describe "Seasons", type: :request do
       end
     end
   end
+
+
+  describe "DELETE /seasons/abc" do
+    subject(:delete_seasons) { delete season_path(season) }
+
+    let!(:season) { create(:season) }
+
+    context 'When logged in' do
+      before(:each) do
+        requests_login(user, 'password')
+      end
+
+      it "Destroys given season" do
+        id = season.id
+        delete_seasons
+
+        expect(Season.find_by(id: id)).to be_nil
+      end
+
+      it "Redirects to seasons" do
+        delete_seasons
+
+        expect(response).to redirect_to seasons_path
+      end
+    end
+
+    context 'When logged out' do
+      it 'Redirects to login' do
+        delete_seasons
+
+        expect(response).to redirect_to login_path
+      end
+
+      it 'Does not destroy the season' do
+        delete_seasons
+
+        expect { delete_seasons }.not_to change(Season, :count)
+      end
+    end
+  end
 end

@@ -1,8 +1,8 @@
 class Round < ApplicationRecord
   belongs_to :season
-  has_many :matches, dependent: :restrict_with_error
+  has_many :matches, dependent: :destroy
   has_many :finished_matches, -> { where("matches.finished_at is not null") }, class_name: "Match"
-  has_many :rankings, dependent: :restrict_with_error
+  has_many :rankings, dependent: :destroy
   has_many :players, through: :rankings
 
   acts_as_list scope: :season

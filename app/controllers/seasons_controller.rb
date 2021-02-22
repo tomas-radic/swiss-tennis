@@ -40,6 +40,14 @@ class SeasonsController < ApplicationController
   end
 
 
+  def destroy
+    @season = Season.find(params[:id])
+    @season.destroy
+
+    redirect_to seasons_path, notice: true
+  end
+
+
   private
 
   def whitelisted_params

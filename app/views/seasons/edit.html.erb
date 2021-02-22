@@ -4,6 +4,10 @@
     <h2><%= @heading %></h2>
     <hr>
     <%= render 'form', season: @season %>
+    <%= link_to "Zmazať celú sezónu",
+                season_path(@season),
+                method: :delete,
+                data: { confirm: "POZOR!!! Zmaže sa celá sezóna, všetky jej zápasy aj rebríček!" } %>
   </div>
   <div class="col-md-3 hidden-sm-down"></div>
 </div>
