@@ -285,8 +285,10 @@ RSpec.describe "Matches", type: :request do
       context 'With finished match' do
         let!(:match) { create(:match, :finished, round: round) }
 
-        it 'Raises error' do
-          expect { delete_matches }.to raise_error Pundit::NotAuthorizedError
+        it 'Calls DestroyMatch service' do
+          expect(DestroyMatch).to(receive(:call).with(match))
+
+          delete_matches
         end
       end
     end

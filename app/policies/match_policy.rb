@@ -18,15 +18,15 @@ class MatchPolicy < ApplicationPolicy
   end
 
   def destroy?
-    match_not_finished?
+    user.present?
   end
 
   def finish?
-    match_not_finished?
+    user.present? && match_not_finished?
   end
 
   def swap_players?
-    match_not_finished?
+    user.present? && match_not_finished?
   end
 
   private

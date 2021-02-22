@@ -4,7 +4,9 @@ describe Handicap do
 
   subject { described_class.result_for(ranking: ranking,
                                        finished_season_matches: finished_season_matches,
-                                       round_rankings: round_rankings) }
+                                       round_rankings: round_rankings,
+                                       enrollments: season.enrollments,
+                                       substitute_points: substitute_points) }
 
   let!(:season) { create(:season) }
 
@@ -28,13 +30,13 @@ describe Handicap do
   let!(:opponent7) { create(:player, seasons: [season]) }
 
   # Rounds and rankings of player's opponents
-  let!(:round1) { create(:round, season: season, rankings: [create(:ranking, player: opponent1, points: 12), create(:ranking, player: opponent2, points: 13), create(:ranking, player: opponent3, points: 14), create(:ranking, player: opponent4, points: 15), create(:ranking, player: opponent5, points: 16), create(:ranking, player: opponent6, points: 17), create(:ranking, player: opponent7, points: 18)]) }
-  let!(:round2) { create(:round, season: season, rankings: [create(:ranking, player: opponent1, points: 22), create(:ranking, player: opponent2, points: 23), create(:ranking, player: opponent3, points: 24), create(:ranking, player: opponent4, points: 25), create(:ranking, player: opponent5, points: 26), create(:ranking, player: opponent6, points: 27), create(:ranking, player: opponent7, points: 28)]) }
-  let!(:round3) { create(:round, season: season, rankings: [create(:ranking, player: opponent1, points: 32), create(:ranking, player: opponent2, points: 33), create(:ranking, player: opponent3, points: 34), create(:ranking, player: opponent4, points: 35), create(:ranking, player: opponent5, points: 36), create(:ranking, player: opponent6, points: 37), create(:ranking, player: opponent7, points: 38)]) }
-  let!(:round4) { create(:round, season: season, rankings: [create(:ranking, player: opponent1, points: 42), create(:ranking, player: opponent2, points: 43), create(:ranking, player: opponent3, points: 44), create(:ranking, player: opponent4, points: 45), create(:ranking, player: opponent5, points: 46), create(:ranking, player: opponent6, points: 47), create(:ranking, player: opponent7, points: 48)]) }
-  let!(:round5) { create(:round, season: season, rankings: [create(:ranking, player: opponent1, points: 52), create(:ranking, player: opponent2, points: 53), create(:ranking, player: opponent3, points: 54), create(:ranking, player: opponent4, points: 55), create(:ranking, player: opponent5, points: 56), create(:ranking, player: opponent6, points: 57), create(:ranking, player: opponent7, points: 58)]) }
-  let!(:round6) { create(:round, season: season, rankings: [create(:ranking, player: opponent1, points: 62), create(:ranking, player: opponent2, points: 63), create(:ranking, player: opponent3, points: 64), create(:ranking, player: opponent4, points: 65), create(:ranking, player: opponent5, points: 66), create(:ranking, player: opponent6, points: 67), create(:ranking, player: opponent7, points: 68)]) }
-  let!(:round7) { create(:round, season: season, rankings: [create(:ranking, player: opponent1, points: 72), create(:ranking, player: opponent2, points: 73), create(:ranking, player: opponent3, points: 74), create(:ranking, player: opponent4, points: 75), create(:ranking, player: opponent5, points: 76), create(:ranking, player: opponent6, points: 77), create(:ranking, player: opponent7, points: 78)]) }
+  let!(:round1) { create(:round, season: season, period_begins: Time.now - 156.hours, period_ends: Time.now - 132.hours, rankings: [create(:ranking, player: opponent1, points: 12), create(:ranking, player: opponent2, points: 13), create(:ranking, player: opponent3, points: 14), create(:ranking, player: opponent4, points: 15), create(:ranking, player: opponent5, points: 16), create(:ranking, player: opponent6, points: 17), create(:ranking, player: opponent7, points: 18)]) }
+  let!(:round2) { create(:round, season: season, period_begins: Time.now - 132.hours, period_ends: Time.now - 108.hours, rankings: [create(:ranking, player: opponent1, points: 22), create(:ranking, player: opponent2, points: 23), create(:ranking, player: opponent3, points: 24), create(:ranking, player: opponent4, points: 25), create(:ranking, player: opponent5, points: 26), create(:ranking, player: opponent6, points: 27), create(:ranking, player: opponent7, points: 28)]) }
+  let!(:round3) { create(:round, season: season, period_begins: Time.now - 108.hours, period_ends: Time.now - 84.hours, rankings: [create(:ranking, player: opponent1, points: 32), create(:ranking, player: opponent2, points: 33), create(:ranking, player: opponent3, points: 34), create(:ranking, player: opponent4, points: 35), create(:ranking, player: opponent5, points: 36), create(:ranking, player: opponent6, points: 37), create(:ranking, player: opponent7, points: 38)]) }
+  let!(:round4) { create(:round, season: season, period_begins: Time.now - 84.hours, period_ends: Time.now - 60.hours, rankings: [create(:ranking, player: opponent1, points: 42), create(:ranking, player: opponent2, points: 43), create(:ranking, player: opponent3, points: 44), create(:ranking, player: opponent4, points: 45), create(:ranking, player: opponent5, points: 46), create(:ranking, player: opponent6, points: 47), create(:ranking, player: opponent7, points: 48)]) }
+  let!(:round5) { create(:round, season: season, period_begins: Time.now - 60.hours, period_ends: Time.now - 36.hours, rankings: [create(:ranking, player: opponent1, points: 52), create(:ranking, player: opponent2, points: 53), create(:ranking, player: opponent3, points: 54), create(:ranking, player: opponent4, points: 55), create(:ranking, player: opponent5, points: 56), create(:ranking, player: opponent6, points: 57), create(:ranking, player: opponent7, points: 58)]) }
+  let!(:round6) { create(:round, season: season, period_begins: Time.now - 36.hours, period_ends: Time.now - 12.hours, rankings: [create(:ranking, player: opponent1, points: 62), create(:ranking, player: opponent2, points: 63), create(:ranking, player: opponent3, points: 64), create(:ranking, player: opponent4, points: 65), create(:ranking, player: opponent5, points: 66), create(:ranking, player: opponent6, points: 67), create(:ranking, player: opponent7, points: 68)]) }
+  let!(:round7) { create(:round, season: season, period_begins: Time.now - 12.hours, period_ends: Time.now + 12.hours, rankings: [create(:ranking, player: opponent1, points: 72), create(:ranking, player: opponent2, points: 73), create(:ranking, player: opponent3, points: 74), create(:ranking, player: opponent4, points: 75), create(:ranking, player: opponent5, points: 76), create(:ranking, player: opponent6, points: 77), create(:ranking, player: opponent7, points: 78)]) }
 
   # Matches in season
   let!(:match1) { create(:match, :finished, round: round1, player1: player, player2: opponent1, players: [player, opponent1],
@@ -61,16 +63,16 @@ describe Handicap do
 
   let(:finished_season_matches) do
     ranking.round.season.matches.finished.joins(:round)
-        .where("rounds.position <= ?", ranking.round.position)
-        .includes(:round).map do |match|
+           .where("rounds.position <= ?", ranking.round.position)
+           .includes(:round).map do |match|
       {
-          id: match.id,
-          round: match.round.position,
-          player1_id: match.player1_id,
-          player2_id: match.player2_id,
-          winner_id: match.winner_id,
-          set1_player1_score: match.set1_player1_score,
-          set1_player2_score: match.set1_player2_score
+        id: match.id,
+        round: match.round.position,
+        player1_id: match.player1_id,
+        player2_id: match.player2_id,
+        winner_id: match.winner_id,
+        set1_player1_score: match.set1_player1_score,
+        set1_player2_score: match.set1_player2_score
       }
     end
   end
@@ -78,9 +80,9 @@ describe Handicap do
   let(:round_rankings) do
     ranking.round.rankings.includes(:round).map do |ranking|
       {
-          player_id: ranking.player_id,
-          round: ranking.round,
-          points: ranking.points
+        player_id: ranking.player_id,
+        round: ranking.round,
+        points: ranking.points
       }
     end
   end
@@ -88,6 +90,7 @@ describe Handicap do
 
   context "For round1" do
     let(:ranking) { ranking_r1 }
+    let(:substitute_points) { 14 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(12)
@@ -96,6 +99,7 @@ describe Handicap do
 
   context "For round2" do
     let(:ranking) { ranking_r2 }
+    let(:substitute_points) { 24 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(22 + 0) # player has not played match in round2, so 0 points to handicap
@@ -104,6 +108,7 @@ describe Handicap do
 
   context "For round3" do
     let(:ranking) { ranking_r3 }
+    let(:substitute_points) { 34 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(32 + 0 + 34)
@@ -112,6 +117,7 @@ describe Handicap do
 
   context "For round4" do
     let(:ranking) { ranking_r4 }
+    let(:substitute_points) { 44 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(42 + 0 + 44 + 45)
@@ -120,6 +126,7 @@ describe Handicap do
 
   context "For round5" do
     let(:ranking) { ranking_r5 }
+    let(:substitute_points) { 54 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(52 + 0 + 54 + 55 + 56)
@@ -128,6 +135,7 @@ describe Handicap do
 
   context "For round6" do
     let(:ranking) { ranking_r6 }
+    let(:substitute_points) { 64 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(62 + 0 + 64 + 65 + 66 + 0) # player's match in round6 is not finished
@@ -136,9 +144,88 @@ describe Handicap do
 
   context "For round7" do
     let(:ranking) { ranking_r7 }
+    let(:substitute_points) { 74 }
 
     it "Returns calculated handicap of the ranking" do
       expect(subject).to eq(72 + 0 + 74 + 75 + 76 + 0 + 78)
+    end
+  end
+
+
+  context "Opponent3 abandoned competition in round 5" do
+    before do
+      season.enrollments.find_by(player: opponent3).update!(canceled_at: 48.hours.ago)
+
+      round6.rankings.find_by(player: opponent3).update!(points: 44)
+      round7.rankings.find_by(player: opponent3).update!(points: 44)
+
+      ranking_r6.update!(points: 100)
+      ranking_r7.update!(points: 150)
+    end
+
+
+    context "For round1" do
+      let(:ranking) { ranking_r1 }
+      let(:substitute_points) { 14 }
+
+      it "Returns calculated handicap of the ranking" do
+        expect(subject).to eq(12)
+      end
+    end
+
+    context "For round2" do
+      let(:ranking) { ranking_r2 }
+      let(:substitute_points) { 24 }
+
+      it "Returns calculated handicap of the ranking" do
+        expect(subject).to eq(22 + 0) # player has not played match in round2, so 0 points to handicap
+      end
+    end
+
+    context "For round3" do
+      let(:ranking) { ranking_r3 }
+      let(:substitute_points) { 34 }
+
+      it "Returns calculated handicap of the ranking" do
+        expect(subject).to eq(32 + 0 + 34)
+      end
+    end
+
+    context "For round4" do
+      let(:ranking) { ranking_r4 }
+      let(:substitute_points) { 44 }
+
+      it "Returns calculated handicap of the ranking" do
+        expect(subject).to eq(42 + 0 + 44 + 45)
+      end
+    end
+
+    context "For round5" do
+      let(:ranking) { ranking_r5 }
+      let(:substitute_points) { 54 }
+
+      it "Returns calculated handicap of the ranking" do
+        expect(subject).to eq(52 + 0 + 54 + 55 + 56)
+      end
+    end
+
+    context "For round6" do
+      let(:ranking) { ranking_r6 }
+      let(:substitute_points) { 70 }
+
+      it "Returns calculated handicap of the ranking" do
+        expect(subject).to eq(62 + 0 + 70 + 65 + 66 + 0)  # opponent3 has inactive enrollment, used avg
+                                                          # player's match in round6 is not finished
+      end
+    end
+
+    context "For round7" do
+      let(:ranking) { ranking_r7 }
+      let(:substitute_points) { 85 }
+
+      it "Returns calculated handicap of the ranking" do
+        expect(subject).to eq(72 + 0 + 85 + 75 + 76 + 0 + 78)   # opponent3 has inactive enrollment, used avg
+      end
     end
   end
 end

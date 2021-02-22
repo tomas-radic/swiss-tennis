@@ -12,6 +12,7 @@ class SortedRankings < Patterns::Calculation
           player1_id: match.player1_id,
           player2_id: match.player2_id,
           winner_id: match.winner_id,
+          retired_player_id: match.retired_player_id,
           set1_player1_score: match.set1_player1_score,
           set1_player2_score: match.set1_player2_score
       }
@@ -36,11 +37,11 @@ class SortedRankings < Patterns::Calculation
       {
           relevant: ranking.relevant? ? 1 : 0,
           points: ranking.points,
-          handicap: Handicap2.result_for(ranking: ranking,
-                                         finished_season_matches: matches_hashes,
-                                         round_rankings: rankings_hashes,
-                                         enrollments: enrollments,
-                                         substitute_points: substitute_points_from(
+          handicap: Handicap.result_for(ranking: ranking,
+                                        finished_season_matches: matches_hashes,
+                                        round_rankings: rankings_hashes,
+                                        enrollments: enrollments,
+                                        substitute_points: substitute_points_from(
                                            rankings_hashes, enrollments
                                          )),
           sets_difference: ranking.sets_difference,

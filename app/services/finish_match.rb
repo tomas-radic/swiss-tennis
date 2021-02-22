@@ -75,10 +75,7 @@ class FinishMatch < Patterns::Service
   end
 
   def update_rankings!
-    match_outcomes = MatchOutcomes.result_for(
-        match: match,
-        winner_current_points: match.round.rankings.find_by(player: match.winner).points,
-        looser_current_points: match.round.rankings.find_by(player: match.looser).points)
+    match_outcomes = MatchOutcomes.result_for(match: match)
 
     rounds.each do |round|
       match_winner_ranking = round.rankings.find do |round_ranking|

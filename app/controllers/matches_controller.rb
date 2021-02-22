@@ -65,7 +65,8 @@ class MatchesController < ApplicationController
   def destroy
     authorize @match
 
-    round = @match.destroy.round
+    round = @match.round
+    DestroyMatch.call(@match)
     redirect_to round_path(round), notice: true
   end
 
