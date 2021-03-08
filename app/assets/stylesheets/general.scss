@@ -152,10 +152,10 @@ ol {
 // Image banner
 
 .img-banner {
-  height: 192px;
+  height: 228px;
   width: 100%;
   background-attachment: fixed;
-  background-image: url("banner-img2.jpg");
+  background-image: url("banner-img2.png");
   background-repeat: no-repeat;
   background-position: center top;
   //background-size: 100% 192px;
@@ -211,7 +211,7 @@ ol {
 
 @media only screen and (min-width: 768px) {
   .img-banner {
-    height: 228px;
+    //height: 228px;
     background-position: center center;
     background-size: cover;
   }
