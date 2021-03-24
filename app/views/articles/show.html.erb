@@ -13,36 +13,32 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-3 hidden-sm-down"></div>
-  <div class="col">
+<div class="center-panel">
 
-    <h1 class="display-4 text-center"><%= @article.title %></h1>
-    <% if user_signed_in? %>
-      <hr>
-      <p class="lead text-center">
-        <%= article_published_pill(@article) %>
-      </p>
-      <% if @article.last_date_interesting %>
-        <p class="text-center">
-          Označený ako relevantný do <%= I18n.localize(@article.last_date_interesting, format: :date_month) %>
-        </p>
-      <% end %>
-    <% end %>
-
+  <h1 class="display-4 text-center"><%= @article.title %></h1>
+  <% if user_signed_in? %>
     <hr>
-    <p class="text-justify">
-      <%= simple_format(@article.content) %>
+    <p class="lead text-center">
+      <%= article_published_pill(@article) %>
     </p>
-    <div class="clearfix">
-      <p class="text-secondary text-center">
-        <small>
-          <%= link_to @article.user.email, "mailto:#{@article.user.email}", class: 'quiet-link' %>,
-          <%= I18n.localize(@article.updated_at, format: :date_month) %>
-        </small>
+    <% if @article.last_date_interesting %>
+      <p class="text-center">
+        Označený ako relevantný do <%= I18n.localize(@article.last_date_interesting, format: :date_month) %>
       </p>
-    </div>
+    <% end %>
+  <% end %>
 
+  <hr>
+  <p class="text-justify">
+    <%= simple_format(@article.content) %>
+  </p>
+  <div class="clearfix">
+    <p class="text-secondary text-center">
+      <small>
+        <%= link_to @article.user.email, "mailto:#{@article.user.email}", class: 'quiet-link' %>,
+        <%= I18n.localize(@article.updated_at, format: :date_month) %>
+      </small>
+    </p>
   </div>
-  <div class="col-md-3 hidden-sm-down"></div>
+
 </div>

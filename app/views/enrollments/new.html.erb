@@ -1,129 +1,125 @@
-<div class="row">
-  <div class="col-md-3 hidden-sm-down"></div>
-  <div class="col">
-    <h1 class="display-4 text-center">Prihlásenie do sezóny <%= selected_season.name %></h1>
-    <hr>
-    <div class="row">
-      <div class="col">
-        <p>
-          <label>
-            <input type="radio" name="enrollment-type" id="enroll-existing-player" value="enroll-existing-player" checked="true">
-            Pridať hráča z minulých sezón
-          </label>
-        </p>
-        <p>
-          <%= render 'shared/validation_errors_announcement', validated_object: @enrollment %>
-          <%= form_with(model: @enrollment, local: true) do |form| %>
-            <div class="<%= add_error_class_to('pl-2', @enrollment, :player) %>">
-              <div class="form-group">
-                <%= form.label :player_id, 'Meno hráča' %><br />
-                <%= form.collection_select :player_id,
-                                           @unenrolled_players, :id, :name,
-                                           { include_blank: 'Žiadny hráč' },
-                                           { class: 'form-control existing-player-control' } %>
-              </div>
+<div class="center-panel">
+  <h1 class="display-4 text-center">Prihlásenie do sezóny <%= selected_season.name %></h1>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <p>
+        <label>
+          <input type="radio" name="enrollment-type" id="enroll-existing-player" value="enroll-existing-player" checked="true">
+          Pridať hráča z minulých sezón
+        </label>
+      </p>
+      <p>
+        <%= render 'shared/validation_errors_announcement', validated_object: @enrollment %>
+        <%= form_with(model: @enrollment, local: true) do |form| %>
+          <div class="<%= add_error_class_to('pl-2', @enrollment, :player) %>">
+            <div class="form-group">
+              <%= form.label :player_id, 'Meno hráča' %><br />
+              <%= form.collection_select :player_id,
+                                         @unenrolled_players, :id, :name,
+                                         { include_blank: 'Žiadny hráč' },
+                                         { class: 'form-control existing-player-control' } %>
             </div>
-            <div class="actions pl-2">
-              <p class="text-center"><%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1 existing-player-control' %></p>
-            </div>
-          <% end %>
-        </p>
-      </div>
-    </div>
-    <hr>
-    <p><i>alebo</i></p>
-    <div class="row">
-      <div class="col">
-        <p>
-          <label>
-            <input type="radio" name="enrollment-type" id="enroll-new-player" value="enroll-new-player">
-            Vytvoriť úplne nového hráča
-          </label>
-        </p>
-        <p>
-          <%= render 'shared/validation_errors_announcement', validated_object: @player %>
-          <%= form_with(url: enrollments_path, local: true) do |form| %>
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="<%= add_error_class_to('pl-2', @player, :first_name) %>">
-                  <div class="field form-group">
-                    <%= form.label :first_name, 'Meno' %><br />
-                    <%= form.text_field :first_name, value: @first_name, class: 'form-control new-player-control' %>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="<%= add_error_class_to('pl-2', @player, :last_name) %>">
-                  <div class="field form-group">
-                    <%= form.label :last_name, 'Priezvisko' %><br />
-                    <%= form.text_field :last_name, value: @last_name, class: 'form-control new-player-control' %>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="<%= add_error_class_to('pl-2', @player, :phone) %>">
-                  <div class="field form-group">
-                    <%= form.label :phone, 'Telefónne číslo' %><br />
-                    <%= form.text_field :phone, value: @phone, class: 'form-control new-player-control' %>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="<%= add_error_class_to('pl-2', @player, :email) %>">
-                  <div class="field form-group">
-                    <%= form.label :email, 'Email' %><br />
-                    <%= form.email_field :email, value: @email, class: 'form-control new-player-control' %>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="field form-group pl-2">
-                  <%= form.label :birth_year, 'Rok narodenia' %><br />
-                  <%= form.number_field :birth_year, value: @birth_year, class: 'form-control new-player-control' %>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="<%= add_error_class_to('pl-2', @player, :category) %>">
-                  <div class="form-group">
-                    <%= form.label :category_id, 'Kategória' %><br />
-                    <%= form.select :category_id, options_from_collection_for_select(Category.default, :id, :name, @category_id), { include_blank: 'Vybrať kategóriu', selected: @category_id}, { class: 'form-control new-player-control' } %>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <hr>
-            <div class="row">
-              <div class="col">
-                <div class="custom-control custom-checkbox">
-                  <%= form.check_box :consent_given, checked: @consent_given, class: 'custom-control-input new-player-control' %>
-                  <%= form.label :consent_given, 'Tento hráč podpísal súhlas na zverejnenie svojich osobných údajov na stránke matotenis.sk', class: 'custom-control-label' %>
-                </div>
-              </div>
-            </div>
-            <hr>
-
-            <div class="row">
-              <div class="col">
-                <div class="actions pl-2">
-                  <p class="text-center">
-                    <%= form.submit 'Potvrdiť', class: 'btn btn-lg btn-success my-1 new-player-control' %>
-                  </p>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </p>
-      </div>
+          </div>
+          <div class="actions pl-2">
+            <p class="text-center"><%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1 existing-player-control' %></p>
+          </div>
+        <% end %>
+      </p>
     </div>
   </div>
-  <div class="col-md-3 hidden-sm-down"></div>
+  <hr>
+  <p><i>alebo</i></p>
+  <div class="row">
+    <div class="col">
+      <p>
+        <label>
+          <input type="radio" name="enrollment-type" id="enroll-new-player" value="enroll-new-player">
+          Vytvoriť úplne nového hráča
+        </label>
+      </p>
+      <p>
+        <%= render 'shared/validation_errors_announcement', validated_object: @player %>
+        <%= form_with(url: enrollments_path, local: true) do |form| %>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="<%= add_error_class_to('pl-2', @player, :first_name) %>">
+                <div class="field form-group">
+                  <%= form.label :first_name, 'Meno' %><br />
+                  <%= form.text_field :first_name, value: @first_name, class: 'form-control new-player-control' %>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="<%= add_error_class_to('pl-2', @player, :last_name) %>">
+                <div class="field form-group">
+                  <%= form.label :last_name, 'Priezvisko' %><br />
+                  <%= form.text_field :last_name, value: @last_name, class: 'form-control new-player-control' %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="<%= add_error_class_to('pl-2', @player, :phone) %>">
+                <div class="field form-group">
+                  <%= form.label :phone, 'Telefónne číslo' %><br />
+                  <%= form.text_field :phone, value: @phone, class: 'form-control new-player-control' %>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="<%= add_error_class_to('pl-2', @player, :email) %>">
+                <div class="field form-group">
+                  <%= form.label :email, 'Email' %><br />
+                  <%= form.email_field :email, value: @email, class: 'form-control new-player-control' %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="field form-group pl-2">
+                <%= form.label :birth_year, 'Rok narodenia' %><br />
+                <%= form.number_field :birth_year, value: @birth_year, class: 'form-control new-player-control' %>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="<%= add_error_class_to('pl-2', @player, :category) %>">
+                <div class="form-group">
+                  <%= form.label :category_id, 'Kategória' %><br />
+                  <%= form.select :category_id, options_from_collection_for_select(Category.default, :id, :name, @category_id), { include_blank: 'Vybrať kategóriu', selected: @category_id}, { class: 'form-control new-player-control' } %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+          <div class="row">
+            <div class="col">
+              <div class="custom-control custom-checkbox">
+                <%= form.check_box :consent_given, checked: @consent_given, class: 'custom-control-input new-player-control' %>
+                <%= form.label :consent_given, 'Tento hráč podpísal súhlas na zverejnenie svojich osobných údajov na stránke matotenis.sk', class: 'custom-control-label' %>
+              </div>
+            </div>
+          </div>
+          <hr>
+
+          <div class="row">
+            <div class="col">
+              <div class="actions pl-2">
+                <p class="text-center">
+                  <%= form.submit 'Potvrdiť', class: 'btn btn-lg btn-success my-1 new-player-control' %>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </p>
+    </div>
+  </div>
 </div>
 
 <%= render 'enrollments/scripts' %>
