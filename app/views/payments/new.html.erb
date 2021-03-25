@@ -19,7 +19,7 @@
         <div class="<%= add_error_class_to('pl-2', @payment, :paid_on) %>">
           <div class="field form-group">
             <%= form.label :paid_on, 'Dátum' %><br />
-            <%= form.date_field :paid_on, class: 'form-control' %>
+            <%= form.date_field :paid_on, class: 'form-control', placeholder: 'yyyy-mm-dd' %>
           </div>
         </div>
       </div>
