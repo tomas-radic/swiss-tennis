@@ -196,6 +196,22 @@ ol {
   color: $gray;
 }
 
+.table-bg-green {
+  background-color: $greenbg;
+}
+.table-bg-darken-green {
+  background-color: $greenbg_darken;
+}
+.table-bg-yellow {
+  background-color: $yellowbg;
+}
+.table-bg-darken-yellow {
+  background-color: $yellowbg_darken;
+}
+.dark-gray {
+  color: $dark_gray;
+}
+
 .attention-background {
   animation: attention 3s 20;
   -webkit-animation: attention 3s 20;

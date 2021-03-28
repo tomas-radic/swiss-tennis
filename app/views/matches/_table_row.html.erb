@@ -1,60 +1,7 @@
-<tr class="<%= matches_table_row_color_class(match) %>">
-  <td>
-    <% if match.player1_id == match.winner_id %>
-      <span class="js-filterable">
-        <strong>
-          <%= player_name_link(match.player1, current_user) %>
-        </strong>
-      </span>
-    <% elsif match.player1_id == match.retired_player_id %>
-      <span class="text-secondary js-filterable">
-        <%= player_name_link(match.player1, current_user) %>
-      </span>
-    <% else %>
-      <span class="js-filterable">
-        <%= player_name_link(match.player1, current_user) %>
-      </span>
-    <% end %>
-    (<%= match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
-    <br>
-    <small>
-      <i>
-        <% if match.player1.phone.present? && match.player1.consent_given? %>
-          <%= link_to formatted_phone(match.player1.phone), "tel:#{match.player1.phone}" %>
-        <% else %>
-          <%= link_to_manager_phone('tel. č. u organizátora') %>
-        <% end %>
-      </i>
-    </small>
-  </td>
-  <td>
-    <% if match.player2_id == match.winner_id %>
-      <span class="js-filterable">
-        <strong>
-          <%= player_name_link(match.player2, current_user) %>
-        </strong>
-      </span>
-    <% elsif match.player2 == match.retired_player %>
-      <span class="text-secondary js-filterable">
-        <%= player_name_link(match.player2, current_user) %>
-      </span>
-    <% else %>
-      <span class="js-filterable">
-        <%= player_name_link(match.player2, current_user) %>
-      </span>
-    <% end %>
-    (<%= match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
-    <br>
-    <small>
-      <i>
-        <% if match.player2.phone.present? && match.player2.consent_given? %>
-          <%= link_to formatted_phone(match.player2.phone), "tel:#{match.player2.phone}" %>
-        <% else %>
-          <%= link_to_manager_phone('tel. č. u organizátora') %>
-        <% end %>
-      </i>
-    </small>
-  </td>
+<tr class="<%= match_css_class(match) %>">
+  <%= render "matches/player_cell", match: match, player: match.player1 %>
+  <%= render "matches/player_cell", match: match, player: match.player2 %>
+
   <td>
     <%= match_info(match) %>
   </td>
