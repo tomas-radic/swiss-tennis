@@ -21,7 +21,7 @@ RSpec.describe RankingsHelper, type: :helper do
       end
 
       it "Returns correct css classes" do
-        expect(method_result).to eq("bg-green border-top-thick")
+        expect(method_result).to eq("table-bg-green border-top-thick")
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe RankingsHelper, type: :helper do
       end
 
       it "Returns correct css classes" do
-        expect(method_result).to eq("bg-green")
+        expect(method_result).to eq("table-bg-green")
       end
     end
 
