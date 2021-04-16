@@ -11,6 +11,14 @@
 </div>
 <hr>
 
+<div class="text-center">
+  <p class="lead">Posledné zápasy</p>
+  <% @recent_matches_sequence.times do |i| %>
+    <%= match_badge(@recent_matches[i], @player) %>
+  <% end %>
+</div>
+
+<hr>
 <div class="row">
   <div class="col">
     <p class="lead text-center">
