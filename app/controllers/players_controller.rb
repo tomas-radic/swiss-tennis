@@ -7,13 +7,11 @@ class PlayersController < ApplicationController
   def show
     seasons = Season.default
 
-    @recent_matches_sequence = 5
     @recent_matches = Match.finished
-                           .where("finished_at >= ?", 3.month.ago)
+                           .where("finished_at >= ?", 2.month.ago)
                            .where("player1_id = ? or player2_id = ?", @player.id, @player.id)
                            .where("set1_player1_score > 0 or set1_player2_score > 0")
-                           .order(finished_at: :desc).limit(@recent_matches_sequence)
-                           .to_a.reverse
+                           .reorder(:finished_at).last(3)
 
     @success_of_play = []
     @success_of_play << SuccessOfPlay.result_for(player: @player, season: seasons[0]) if seasons[0]

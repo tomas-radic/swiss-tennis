@@ -39,8 +39,8 @@ module PlayersHelper
   end
 
 
-  def match_badge(match, player)
-    if match.nil? || !match.been_played?
+  def match_badge(match = nil, player = nil)
+    if match.nil? || player.nil? || !match.been_played?
       content_tag :span, '-', class: "badge badge-secondary"
 
     elsif match.winner == player
