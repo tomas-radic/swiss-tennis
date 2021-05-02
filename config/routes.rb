@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  # root to: 'matches#index'
   root to: 'matches#index'
 
   resources :users, only: [:edit, :update]
@@ -11,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :categories
   resources :places
-  # resources :seasons, except: [:index, :show, :new, :create, :edit, :update, :destroy] do
+
   resources :enrollments, only: [:index, :new, :create] do
     get :cancel, on: :member
   end
