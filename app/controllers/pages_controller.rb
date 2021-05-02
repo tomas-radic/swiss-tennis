@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   # end
 
   def season2021
-    @enrollments = Season.find_by(name: "2021")&.enrollments.active
+    @enrollments = Season.find_by(name: "2021")&.enrollments&.active
                      &.order('enrollments.created_at desc')
                      &.includes(player: :category)
   end
