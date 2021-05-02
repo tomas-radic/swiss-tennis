@@ -1,0 +1,2 @@
+module HistorySeasonsHelper
+end

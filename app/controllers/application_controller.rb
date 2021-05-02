@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :completed
 
+
   def current_user
     if session[:user_id]
       @current_user ||= User.find_by(id: session[:user_id])
@@ -22,17 +23,33 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
   def user_signed_in?
     current_user.present?
   end
+
 
   def verify_user_logged_in
     redirect_to login_path and return if current_user.nil?
   end
 
+
   def selected_season
-    @selected_season ||= SelectedSeason.result_for(season_id: params[:season_id]) || not_found!
+    return @selected_season if @selected_season
+
+    unless cookies[:selected_season_id].blank?
+      @selected_season = Season.find_by(id: cookies[:selected_season_id])
+
+      if @selected_season
+        set_selected_season_cookie(@selected_season)
+      else
+        cookies.delete(:selected_season_id)
+      end
+    end
+
+    @selected_season ||= Season.default.first
   end
+
 
   def selected_round
     @selected_round ||= SelectedRound.result_for(
@@ -41,9 +58,16 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def not_found!
-    raise ActionController::RoutingError.new('Not Found')
+
+  def set_selected_season_cookie(season)
+    cookies.delete(:selected_season_id)
+    cookies[:selected_season_id] = { value: season.id, expires: 10.minutes }
   end
+
+  # def not_found!
+  #   raise ActionController::RoutingError.new('Not Found')
+  # end
+
 
   def calculate_payment_balance
     @payment_balance = Rails.cache.fetch(

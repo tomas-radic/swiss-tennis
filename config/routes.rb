@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     get 'swap_players', on: :member
   end
   resources :rankings, only: [:index]
-  # end
+
 
   # Static pages
   get '/pages/about', to: 'pages#about'
@@ -40,4 +40,5 @@ Rails.application.routes.draw do
 
   resources :payments, only: [:index, :new, :create]
   resources :seasons, only: [:index, :new, :create, :edit, :update, :destroy]
+  resources :history_seasons, only: [:index, :show]
 end

@@ -23,6 +23,12 @@
     <% if user_signed_in? && @payment_balance.present? %>
       <%= render 'payments/payment_balance' %>
     <% end %>
+    <% if selected_season != Season.default.first %>
+      <div class="attention-background text-center">
+        POZOR, je zvolená sezóna <%= selected_season.name %>.
+        <%= link_to "Prejsť na súčasnú.", history_season_path(Season.default.first) %>
+      </div>
+    <% end %>
     <%= render 'shared/navbar' %>
     <%#= render 'shared/hot_announcement' %>
     <%= render 'shared/flash_message' unless flash.blank? %>

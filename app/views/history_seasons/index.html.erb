@@ -1,0 +1,40 @@
+<% Season.default.includes(:matches, :rounds, :players).each do |season| %>
+  <section class="p-5">
+    <h1 class="text-center"><%= season.name %></h1>
+    <div class="row">
+      <div class="col-xl-4">
+        <div class="table-responsive">
+          <table class="table table-sm table-borderless">
+            <tbody>
+              <tr>
+                <td>Začiatok</td>
+                <td><%= I18n.localize(season.created_at, format: :date_month) %></td>
+              </tr>
+              <% last_finished_match = season.matches.finished.reorder(:finished_at).last %>
+              <% if (Season.default.first != season) && last_finished_match %>
+                <tr>
+                  <td>Koniec</td>
+                  <td><%= I18n.localize(last_finished_match.finished_at, format: :date_month) %></td>
+                </tr>
+              <% end %>
+              <tr>
+                <td>Počet kol</td>
+                <td><%= season.rounds.regular.count %></td>
+              </tr>
+              <tr>
+                <td>Hráči (aj odhlásení)</td>
+                <td><%= season.players.count %></td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <%= link_to "Prejsť na túto sezónu", history_season_path(season) %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <hr>
+<% end %>
