@@ -16,11 +16,11 @@
                   <td>Koniec</td>
                   <td><%= I18n.localize(last_finished_match.finished_at, format: :date_month) %></td>
                 </tr>
+                <tr>
+                  <td>Počet kol</td>
+                  <td><%= season.rounds.regular.count %></td>
+                </tr>
               <% end %>
-              <tr>
-                <td>Počet kol</td>
-                <td><%= season.rounds.regular.count %></td>
-              </tr>
               <tr>
                 <td>Hráči (aj odhlásení)</td>
                 <td><%= season.players.count %></td>
