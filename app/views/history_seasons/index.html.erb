@@ -8,7 +8,9 @@
             <tbody>
               <tr>
                 <td>Začiatok</td>
-                <td><%= I18n.localize(season.created_at, format: :date_month) %></td>
+                <% start_date = season.rounds.regular.default.last&.created_at %>
+                <td>
+                  <%= start_date ? I18n.localize(start_date, format: :date_month) : '-' %></td>
               </tr>
               <% last_finished_match = season.matches.finished.reorder(:finished_at).last %>
               <% if (Season.default.first != season) && last_finished_match %>
