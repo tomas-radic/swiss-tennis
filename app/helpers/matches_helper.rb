@@ -1,6 +1,6 @@
 module MatchesHelper
 
-  RECENT = Date.yesterday.midnight
+  RECENT = Time.zone.yesterday.midnight.freeze
 
 
   def match_published_pill(match)
