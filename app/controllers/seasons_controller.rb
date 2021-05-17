@@ -14,10 +14,18 @@ class SeasonsController < ApplicationController
   def create
     @season = Season.new(whitelisted_params)
 
-    if @season.save
-      redirect_to rounds_path, notice: true
-    else
-      render :new
+    ActiveRecord::Base.transaction do
+      if @season.save
+        dummy_player = Player.where(dummy: true).first_or_create!(
+          first_name: "Večný",
+          last_name: "Looser",
+          category: Category.where(name: "Dummy").first_or_create!)
+        Enrollment.where(season: @season, player: dummy_player).first_or_create!
+
+        redirect_to rounds_path, notice: true
+      else
+        render :new
+      end
     end
   end
 

@@ -90,9 +90,28 @@ RSpec.describe "Seasons", type: :request do
         { season: { name: 'Name' } }
       end
 
-      it "Creates new season" do
-        expect { post_seasons }.to change(Season, :count).by(1)
+      context "When dummy player is not existing" do
+        it "Creates new season, new dummy player and enrolls dummy player to the season" do
+          expect { post_seasons }.to change(Season, :count).by(1)
+          season = Season.all.order(:created_at).last
+          dummy_player = Player.find_by!(dummy: true)
+          expect(season.enrollments.find_by(player: dummy_player)).not_to be_nil
+        end
       end
+
+      context "When dummy player exists" do
+        let!(:dummy_player) { create(:player, :dummy) }
+
+        it "Creates new season and enrolls dummy player to it" do
+          expect { post_seasons }.to change(Season, :count).by(1)
+          season = Season.all.order(:created_at).last
+          expect(season.enrollments.find_by(player: dummy_player)).not_to be_nil
+        end
+      end
+
+
+
+
 
       it "Redirects to rounds path" do
         post_seasons
