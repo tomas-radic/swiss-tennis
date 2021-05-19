@@ -26,28 +26,4 @@ namespace :data do
 
     puts 'Done.'
   end
-
-
-  desc 'Analyzes existing rankings based on matches played in given season, outputs possible differences'
-  task output_season_rankings_errors: :environment do
-    season = Season.default.first
-
-    if season
-      OutputSeasonRankingsErrors.call(season)
-    else
-      puts 'Season not found.'
-    end
-  end
-
-
-  desc 'Resets existing rankings based on matches played in given season'
-  task reset_season_rankings: :environment do
-    season = Season.default.first
-
-    if season
-      ResetSeasonRankings.call(season)
-    else
-      puts 'Season not found.'
-    end
-  end
 end
