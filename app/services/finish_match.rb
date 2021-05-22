@@ -70,7 +70,7 @@ class FinishMatch < Patterns::Service
   end
 
   def mark_match_finished
-    match.finished = true
+    match.finished_at = DateTime.now.in_time_zone
     match.published = true
   end
 
