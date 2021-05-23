@@ -16,7 +16,7 @@ module MatchesHelper
 
   def match_css_class(match)
     if match.finished_at.nil?
-      match.play_date.nil? ? '' : 'table-bg-salmon'
+      match.play_date.nil? ? '' : 'table-bg-smoke'
     elsif match.finished_at > RECENT
       'table-bg-yellow'
     else
