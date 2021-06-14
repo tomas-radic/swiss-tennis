@@ -12,8 +12,8 @@ module RoundsHelper
   def round_progress_info(round)
     return nil if round.nil?
 
-    published_matches_count = round.matches.published.size
-    finished_matches_count = round.matches.finished.size
+    published_matches_count = round.matches.published.not_dummy.size
+    finished_matches_count = round.matches.not_dummy.finished.size
     missing_matches = (published_matches_count - finished_matches_count) > 0
     highlight = missing_matches && last_days?(round)
     text = "#{finished_matches_count} z #{published_matches_count} zápasov ukončených."
