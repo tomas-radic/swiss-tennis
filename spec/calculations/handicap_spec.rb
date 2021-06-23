@@ -6,7 +6,7 @@ describe Handicap do
                                        finished_season_matches: finished_season_matches,
                                        round_rankings: round_rankings,
                                        enrollments: season.enrollments,
-                                       substitute_points: substitute_points) }
+                                       substitute_points: substitute_points(ranking.round)) }
 
   let!(:season) { create(:season) }
 
@@ -87,8 +87,9 @@ describe Handicap do
     end
   end
 
-  let(:substitute_points) do
-    ranking.round.rankings.pluck(:points).inject(0) { |sum, p| sum += p } / ranking.round.rankings.count
+
+  def substitute_points(round)
+    round.reload.rankings.pluck(:points).inject(0) { |sum, p| sum += p } / ranking.round.rankings.count
   end
 
 
@@ -206,7 +207,7 @@ describe Handicap do
       let(:ranking) { ranking_r6 }
 
       it "Returns calculated handicap of the ranking" do
-        expect(subject).to eq(62 + 0 + substitute_points + 65 + 66 + 0)  # 1) opponent3 has inactive enrollment, counted substitute_points instead
+        expect(subject).to eq(62 + 0 + substitute_points(ranking.round) + 65 + 66 + 0)  # 1) opponent3 has inactive enrollment, counted substitute_points instead
                                                                          # 2) player's match in round6 is not finished
       end
     end
@@ -215,7 +216,7 @@ describe Handicap do
       let(:ranking) { ranking_r7 }
 
       it "Returns calculated handicap of the ranking" do
-        expect(subject).to eq(72 + 0 + substitute_points + 75 + 76 + 0 + 78)   # opponent3 has inactive enrollment, counted substitute_points instead
+        expect(subject).to eq(72 + 0 + substitute_points(ranking.round) + 75 + 76 + 0 + 78)   # opponent3 has inactive enrollment, counted substitute_points instead
       end
     end
   end
