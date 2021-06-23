@@ -62,6 +62,13 @@
                   <s><%= player_name_link(ranking[:player], current_user) %></s>
                 <% end %>
               </span>
+              <% matches_to_play = @matches_to_play.select { |m| m.players.include? ranking[:player] } %>
+              <% if matches_to_play.any? %>
+                <br>
+                <small class="text-secondary">
+                  neodohraté s <%= matches_to_play.map { |m| m.players.find { |p| p.id != ranking[:player].id }.name }.join(", ") %>
+                </small>
+              <% end %>
             </td>
             <td class="js-filterable"><%= ranking[:player].category.name %></td>
             <td><%= ranking[:points] %></td>

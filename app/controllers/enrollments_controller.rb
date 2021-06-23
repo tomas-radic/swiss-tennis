@@ -4,7 +4,7 @@ class EnrollmentsController < ApplicationController
 
   def index
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
-    @enrollments = selected_season.enrollments.active
+    @enrollments = selected_season.enrollments
                        .joins(player: :category)
                        .where(players: { dummy: false })
                        .order('enrollments.created_at desc')
