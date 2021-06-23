@@ -62,7 +62,7 @@
                   <s><%= player_name_link(ranking[:player], current_user) %></s>
                 <% end %>
               </span>
-              <% matches_to_play = @matches_to_play.select { |m| m.players.include? ranking[:player] } %>
+              <% matches_to_play = @matches_to_play.select { |m| m.players.include? ranking[:player] }.sort { |m| m.round.position } %>
               <% if matches_to_play.any? %>
                 <br>
                 <small class="text-secondary">
