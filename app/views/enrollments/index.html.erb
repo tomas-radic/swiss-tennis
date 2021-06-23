@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col">
-    <p class="lead float-left"><%= "Zoznam hráčov sezóny #{selected_season.name} (#{@enrollments.count})" %></p>
+    <p class="lead float-left"><%= "Zoznam hráčov sezóny #{selected_season.name} (#{@enrollments.active.count})" %></p>
     <% if user_signed_in? %>
       <div class="float-right">
         <%= link_to 'Pridať hráča', new_enrollment_path, class: 'btn btn-sm btn-success my-1' %>
@@ -39,7 +39,11 @@
         <tr>
           <td>
             <span class="js-filterable">
-              <%= player_name_link(enrollment.player, current_user) %>
+              <% if enrollment.canceled? %>
+                <s><%= player_name_link(enrollment.player, current_user) %></s>
+              <% else %>
+                <%= player_name_link(enrollment.player, current_user) %>
+              <% end %>
             </span>
           </td>
           <td class="text-center"><span class="badge badge-pill badge-light"><%= enrollment.player.category.name %></span></td>
