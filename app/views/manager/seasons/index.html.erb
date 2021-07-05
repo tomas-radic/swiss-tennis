@@ -2,7 +2,7 @@
   <div class="col">
     <p class="lead float-left">Všetky sezóny</p>
     <div class="float-right">
-      <%= link_to 'Nová sezóna', new_season_path, class: 'btn btn-sm btn-success my-1' %>
+      <%= link_to 'Nová sezóna', new_manager_season_path, class: 'btn btn-sm btn-success my-1' %>
     </div>
   </div>
 </div>
@@ -21,7 +21,7 @@
       <% @seasons.each do |season| %>
         <% all_rounds_count = season.rounds.size %>
         <tr>
-          <td><%= link_to season.name, edit_season_path(season), class: 'quiet-link' %></td>
+          <td><%= link_to season.name, edit_manager_season_path(season), class: 'quiet-link' %></td>
           <td><%= all_rounds_count %></td>
         </tr>
       <% end %>

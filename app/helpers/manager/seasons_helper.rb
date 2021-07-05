@@ -1,0 +1,2 @@
+module Manager::SeasonsHelper
+end

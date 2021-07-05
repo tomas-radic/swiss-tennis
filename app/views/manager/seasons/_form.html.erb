@@ -1,4 +1,4 @@
-<%= form_with(model: season, local: true) do |form| %>
+<%= form_with(model: [:manager, season], local: true) do |form| %>
 
   <div class="row">
     <div class="col">
@@ -15,7 +15,7 @@
     <div class="col">
       <div class="actions">
         <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
-        <%= link_to 'Zrušiť', seasons_path, class: 'btn btn-lg btn-outline-success my-1' %>
+        <%= link_to 'Zrušiť', manager_seasons_path, class: 'btn btn-lg btn-outline-success my-1' %>
       </div>
     </div>
   </div>

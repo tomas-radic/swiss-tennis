@@ -43,7 +43,7 @@ class MatchesController < ApplicationController
     @match = CreateMatch.call(create_params.merge(from_toss: false)).result
 
     if @match.persisted?
-      redirect_to @match.round, notice: true
+      redirect_to manager_round_path(@match.round), notice: true
     else
       @round = selected_season.rounds.find(@match.round_id)
       @available_players = PlayersWithoutMatchQuery.call(round: @round, include_dummy: true)
@@ -67,7 +67,7 @@ class MatchesController < ApplicationController
 
     round = @match.round
     DestroyMatch.call(@match)
-    redirect_to round_path(round), notice: true
+    redirect_to manager_round_path(round), notice: true
   end
 
   def finish

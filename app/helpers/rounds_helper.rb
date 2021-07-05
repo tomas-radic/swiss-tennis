@@ -3,7 +3,7 @@ module RoundsHelper
     return nil unless round.present?
 
     if user.present?
-      link_to round.full_label, round_path(round), class: 'btn btn-success'
+      link_to round.full_label, manager_round_path(round), class: 'btn btn-success'
     else
       round.full_label
     end

@@ -15,10 +15,6 @@ Rails.application.routes.draw do
     get :cancel, on: :member
   end
   resources :players, only: [:show, :edit, :update]
-  resources :rounds, except: [:destroy] do
-    post 'toss_matches', on: :member
-    get 'publish_all_matches', on: :member
-  end
   resources :matches do
     post 'finish', on: :member
     get 'swap_players', on: :member
@@ -39,6 +35,17 @@ Rails.application.routes.draw do
   end
 
   resources :payments, only: [:index, :new, :create]
-  resources :seasons, only: [:index, :new, :create, :edit, :update, :destroy]
   resources :history_seasons, only: [:index, :show]
+
+  # Manager namespace - managing the competition, requires logged in user
+  namespace :manager do
+    # Seasons
+    resources :seasons, only: [:index, :new, :create, :edit, :update, :destroy]
+
+    # Rounds
+    resources :rounds, except: [:destroy] do
+      post 'toss_matches', on: :member
+      get 'publish_all_matches', on: :member
+    end
+  end
 end

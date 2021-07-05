@@ -3,7 +3,7 @@
   <hr>
   <%= render 'form', season: @season %>
   <%= link_to "Zmazať celú sezónu",
-              season_path(@season),
+              manager_season_path(@season),
               method: :delete,
               data: { confirm: "POZOR!!! Zmaže sa celá sezóna, všetky jej zápasy aj rebríček!" } %>
 </div>

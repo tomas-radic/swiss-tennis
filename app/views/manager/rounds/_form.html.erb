@@ -1,4 +1,4 @@
-<%= form_with(model: round, local: true) do |form| %>
+<%= form_with(model: [:manager, round], local: true) do |form| %>
 
   <%= form.hidden_field :season_id %>
 
@@ -42,7 +42,7 @@
     <div class="col">
       <div class="actions">
         <%= submit_tag 'Potvrdiť', class: 'btn btn-lg btn-success my-1' %>
-        <%= link_to 'Zrušiť', rounds_path, class: 'btn btn-lg btn-outline-success my-1' %>
+        <%= link_to 'Zrušiť', manager_rounds_path, class: 'btn btn-lg btn-outline-success my-1' %>
       </div>
     </div>
   </div>

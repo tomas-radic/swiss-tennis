@@ -1,0 +1,99 @@
+<%= render 'rounds/toss_completed' if flash[:completed] == 'toss' %>
+<div class="row">
+  <div class="col">
+    <h1 class="float-left"><%= @round.full_label %></h1>
+    <div class="float-right">
+      <%= link_to 'Upraviť', edit_manager_round_path(@round), class: 'btn btn-success my-1' %>
+      <%= link_to 'Všetky kolá', manager_rounds_path, class: 'btn btn-outline-success my-1' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="table-responsive my-1">
+      <table class="table table-sm narrow">
+        <tbody>
+        <tr>
+          <td><strong>Poradie v sezóne</strong></td>
+          <td><%= @round.position %></td>
+        </tr>
+        <tr>
+          <td><strong>Označenie</strong></td>
+          <td><%= maybe_missing(@round.label) %></td>
+        </tr>
+        <tr>
+          <td><strong>Začiatok</strong></td>
+          <td>
+            <%= maybe_missing(@round.period_begins ? I18n.localize(@round.period_begins, format: :date_month) : nil) %>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Koniec</strong></td>
+          <td>
+            <%= maybe_missing(@round.period_ends ? I18n.localize(@round.period_ends, format: :date_month) : nil) %>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<% if @round.specific_purpose? %>
+  <p class="text-danger">Toto kolo hrajú iba niektorí hráči.</p>
+<% end %>
+
+<hr>
+<% if @unplanned_matches_count %>
+  <div class="row">
+    <div class="col">
+      <p class="text-danger my-2"><i><%= unplanned_matches_info(@unplanned_matches_count) %></i></p>
+    </div>
+  </div>
+<% end %>
+
+<p class="lead">Zápasy v tomto kole</p>
+<%= render 'manager/rounds/matches_table',
+           matches: @round_matches,
+           round: @round %>
+
+<hr>
+<% if @players_without_match.any? %>
+  <%= form_tag toss_matches_round_path(@round) do %>
+    <p class="lead">Hráči bez zápasu (<%= @players_without_match.count %>)</p>
+    <p>
+      <%= link_to 'Nový zápas', new_match_path(round_id: @round.id), class: 'btn btn-sm btn-success my-1' %>
+      <%= submit_tag 'Vyžrebovať!', class: 'btn btn-sm btn-danger my-1', data: { confirm: "Spustiť žrebovanie zápasov v #{@round.full_label} pre NIŽŠIE ZAŠKRTNUTÝCH hráčov?" } %>
+    </p>
+    <div class="table-responsive my-1">
+      <table class="table table-sm">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Meno</th>
+          <th scope="col">Body</th>
+          <th scope="col">Body pre žreb</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @players_without_match.each do |player| %>
+          <tr>
+            <td><div class="form-check"><%= check_box_tag "toss_this_player_#{player.id}", nil, true, class: 'form-check-input element-enabler', data: { 'element-id' => "toss_points_#{player.id}" } %></div></td>
+            <td><%= player_name_link(player, current_user) %></td>
+            <td><%= player.rankings.find { |r| r[:round_id] == @round.id }.points %></td>
+            <td><%= text_field_tag "toss_points[#{player.id}]", player.rankings.find { |r| r[:round_id] == @round.id }.points, class: 'form-control toss-points' %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Všetci hráči sú v tomto kole priradení na zápas.</p>
+    </div>
+  </div>
+<% end %>
+
+<%= render 'manager/rounds/scripts' %>

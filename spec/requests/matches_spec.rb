@@ -115,7 +115,7 @@ RSpec.describe "Matches", type: :request do
         it "Redirects to the round" do
           post_matches
 
-          expect(response).to redirect_to round_path(round)
+          expect(response).to redirect_to manager_round_path(round)
         end
       end
 
@@ -278,7 +278,7 @@ RSpec.describe "Matches", type: :request do
         it "Redirects to the match round" do
           delete_matches
 
-          expect(response).to redirect_to(round_path(round))
+          expect(response).to redirect_to(manager_round_path(round))
         end
       end
 

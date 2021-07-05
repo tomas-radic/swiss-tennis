@@ -2,7 +2,7 @@
   <div class="col">
     <p class="lead float-left">Všetky kolá</p>
     <div class="float-right">
-      <%= link_to 'Nové kolo', new_round_path, class: 'btn btn-sm btn-success my-1' %>
+      <%= link_to 'Nové kolo', new_manager_round_path, class: 'btn btn-sm btn-success my-1' %>
     </div>
   </div>
 </div>
@@ -24,7 +24,7 @@
           <% finished_matches_count = round.finished_matches.size %>
           <tr>
             <td><%= round.position %></td>
-            <td><%= link_to round.full_label, round_path(round), class: 'quiet-link' %></td>
+            <td><%= link_to round.full_label, manager_round_path(round), class: 'quiet-link' %></td>
             <td class="text-nowrap <%= "text-success" if finished_matches_count == all_matches_count %>">
               <%= finished_matches_count %> / <%= all_matches_count %>
             </td>
