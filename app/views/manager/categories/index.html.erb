@@ -2,7 +2,7 @@
   <div class="col">
     <p class="lead float-left">Kategórie hráčov</p>
     <div class="float-right">
-      <%= link_to 'Nová kategória', new_category_path, class: 'btn btn-sm btn-success my-1' %>
+      <%= link_to 'Nová kategória', new_manager_category_path, class: 'btn btn-sm btn-success my-1' %>
     </div>
   </div>
 </div>
@@ -22,9 +22,9 @@
           <tr>
             <td><%= category.name %></td>
             <td>
-              <%= link_to 'Upraviť', edit_category_path(category), class: 'btn btn-sm btn-success' %>
+              <%= link_to 'Upraviť', edit_manager_category_path(category), class: 'btn btn-sm btn-success' %>
               <% unless @undeletable_category_ids.include?(category.id) %>
-                <%= link_to 'Odstrániť', category_path(category), method: :delete, data: { confirm: "Táto kategória bude zmazaná." }, class: 'btn btn-sm btn-danger' %>
+                <%= link_to 'Odstrániť', manager_category_path(category), method: :delete, data: { confirm: "Táto kategória bude zmazaná." }, class: 'btn btn-sm btn-danger' %>
               <% end %>
             </td>
           </tr>

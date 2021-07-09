@@ -11,7 +11,8 @@ require 'rails_helper'
 #   end
 # end
 
-RSpec.describe RoundsHelper, type: :helper do
+RSpec.describe Manager::RoundsHelper, type: :helper do
+
   describe 'round_progress_info' do
     subject(:method) { round_progress_info(round) }
 

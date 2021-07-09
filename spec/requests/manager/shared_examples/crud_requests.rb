@@ -66,7 +66,7 @@ shared_examples_for "manager_request_create" do
       let(:params) { valid_params }
 
       it "Creates new record" do
-        expect { subject }.to change{model.count}.by(1)
+        expect { subject }.to change{ model.count }.by(1)
       end
     end
 

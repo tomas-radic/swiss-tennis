@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
-  resources :categories
-  resources :places
 
   resources :enrollments, only: [:index, :new, :create] do
     get :cancel, on: :member
@@ -47,5 +45,11 @@ Rails.application.routes.draw do
       post 'toss_matches', on: :member
       get 'publish_all_matches', on: :member
     end
+
+    # Places
+    resources :places
+
+    # Categories
+    resources :categories
   end
 end

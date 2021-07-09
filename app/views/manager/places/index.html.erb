@@ -2,7 +2,7 @@
   <div class="col">
     <p class="lead float-left">Miesta</p>
     <div class="float-right">
-      <%= link_to 'Nové miesto', new_place_path, class: 'btn btn-sm btn-success my-1' %>
+      <%= link_to 'Nové miesto', new_manager_place_path, class: 'btn btn-sm btn-success my-1' %>
     </div>
   </div>
 </div>
@@ -22,8 +22,8 @@
           <tr>
             <td><%= place.name %></td>
             <td>
-              <%= link_to 'Upraviť', edit_place_path(place), class: 'btn btn-sm btn-success' %>
-              <%= link_to 'Odstrániť', place_path(place), method: :delete, data: { confirm: "Toto miesto bude zmazané a zápasy priradené na toto miesto ostanú bez miesta." }, class: 'btn btn-sm btn-danger' %>
+              <%= link_to 'Upraviť', edit_manager_place_path(place), class: 'btn btn-sm btn-success' %>
+              <%= link_to 'Odstrániť', manager_place_path(place), method: :delete, data: { confirm: "Toto miesto bude zmazané a zápasy priradené na toto miesto ostanú bez miesta." }, class: 'btn btn-sm btn-danger' %>
             </td>
           </tr>
         <% end %>

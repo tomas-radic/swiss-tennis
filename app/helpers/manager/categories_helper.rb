@@ -1,0 +1,2 @@
+module Manager::CategoriesHelper
+end

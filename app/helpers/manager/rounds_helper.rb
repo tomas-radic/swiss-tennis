@@ -1,4 +1,5 @@
-module RoundsHelper
+module Manager::RoundsHelper
+
   def round_element(round, user)
     return nil unless round.present?
 
