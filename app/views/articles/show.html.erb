@@ -3,12 +3,12 @@
     <%= link_to 'Všetky novinky', articles_path, class: 'btn btn-outline-success my-1' %>
     <% if user_signed_in? %>
       <%=
-        link_to 'Vyvesiť', pin_article_path(@article),
+        link_to 'Vyvesiť', pin_manager_article_path(@article),
             class: 'btn btn-outline-success my-1',
             data: { confirm: "Tento článok sa zobrazí ako naj-novinka na stránke zápasov a stránke rebríčka a zaradí sa na prvé miesto v zozname noviniek." }
       %>
-      <%= link_to 'Upraviť', edit_article_path(@article), class: 'btn btn-success my-1' %>
-      <%= link_to 'Vymazať', article_path(@article), method: :delete, data: { confirm: "Naozaj vymazať?" }, class: 'btn btn-danger my-1' %>
+      <%= link_to 'Upraviť', edit_manager_article_path(@article), class: 'btn btn-success my-1' %>
+      <%= link_to 'Vymazať', manager_article_path(@article), method: :delete, data: { confirm: "Naozaj vymazať?" }, class: 'btn btn-danger my-1' %>
     <% end %>
   </div>
 </div>

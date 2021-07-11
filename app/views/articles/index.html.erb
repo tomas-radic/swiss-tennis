@@ -5,7 +5,7 @@
     </p>
     <% if selected_season && user_signed_in? %>
       <div class="float-right">
-        <%= link_to 'Pridať novinku', new_article_path, class: 'btn btn-sm btn-success my-1' %>
+        <%= link_to 'Pridať novinku', new_manager_article_path, class: 'btn btn-sm btn-success my-1' %>
       </div>
     <% end %>
   </div>
@@ -16,7 +16,7 @@
   <div class="row">
     <% @articles.each do |article| %>
       <div class="col-lg-6 eq-height-container">
-        <%= render 'tile', article: article, expand_content: false %>
+        <%= render 'articles/tile', article: article, expand_content: false %>
       </div>
     <% end %>
   </div>

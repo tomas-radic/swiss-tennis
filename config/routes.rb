@@ -27,8 +27,7 @@ Rails.application.routes.draw do
   # get '/pages/season2020', to: 'pages#season2020'
   get '/pages/season2021', to: 'pages#season2021'
 
-  resources :articles do
-    get :pin, on: :member
+  resources :articles, only: [:index, :show] do
     get :load_content, on: :member
   end
 
@@ -37,6 +36,7 @@ Rails.application.routes.draw do
 
   # Manager namespace - managing the competition, requires logged in user
   namespace :manager do
+
     # Seasons
     resources :seasons, only: [:index, :new, :create, :edit, :update, :destroy]
 
@@ -51,5 +51,10 @@ Rails.application.routes.draw do
 
     # Categories
     resources :categories
+
+    # Articles
+    resources :articles, only: [:new, :create, :edit, :update, :destroy] do
+      get :pin, on: :member
+    end
   end
 end

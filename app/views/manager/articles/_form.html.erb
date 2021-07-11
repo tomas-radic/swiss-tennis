@@ -1,5 +1,5 @@
 <%= render 'shared/validation_errors_announcement', validated_object: @article %>
-<%= form_with(model: article, local: true) do |form| %>
+<%= form_with(model: [:manager, article], local: true) do |form| %>
   <div class="row">
     <div class="col-12">
       <div class="<%= add_error_class_to('pl-2', @article, :title) %>">
