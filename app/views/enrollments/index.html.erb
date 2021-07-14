@@ -3,7 +3,7 @@
     <p class="lead float-left"><%= "Zoznam hráčov sezóny #{selected_season.name} (#{@enrollments.active.count})" %></p>
     <% if user_signed_in? %>
       <div class="float-right">
-        <%= link_to 'Pridať hráča', new_enrollment_path, class: 'btn btn-sm btn-success my-1' %>
+        <%= link_to 'Pridať hráča', new_manager_enrollment_path, class: 'btn btn-sm btn-success my-1' %>
       </div>
     <% end %>
   </div>
@@ -51,7 +51,7 @@
           <% if user_signed_in? %>
             <td>
               <%= link_to 'Odstrániť',
-                          cancel_enrollment_path(enrollment),
+                          cancel_manager_enrollment_path(enrollment),
                           data: { confirm: "Naozaj odstrániť #{enrollment.player.name} zo sezóny #{selected_season.name}?" },
                           class: 'btn btn-sm btn-danger' %>
             </td>

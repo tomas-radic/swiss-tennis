@@ -9,9 +9,7 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
 
-  resources :enrollments, only: [:index, :new, :create] do
-    get :cancel, on: :member
-  end
+  resources :enrollments, only: [:index]
   resources :players, only: [:show, :edit, :update]
   resources :matches do
     post 'finish', on: :member
@@ -44,6 +42,11 @@ Rails.application.routes.draw do
     resources :rounds, except: [:destroy] do
       post 'toss_matches', on: :member
       get 'publish_all_matches', on: :member
+    end
+
+    # Enrollments
+    resources :enrollments, only: [:new, :create] do
+      get :cancel, on: :member
     end
 
     # Places
