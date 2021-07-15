@@ -16,6 +16,13 @@ class PlayersController < ApplicationController
     @success_of_play = []
     @success_of_play << SuccessOfPlay.result_for(player: @player, season: seasons[0]) if seasons[0]
     @success_of_play << SuccessOfPlay.result_for(player: @player, season: seasons[1]) if seasons[1]
+
+    if seasons[0] && seasons[1]
+      @opponents_comparison = {
+        current_opponents: @player.opponents_in(seasons[0]).map(&:id),
+        previous_opponents: @player.opponents_in(seasons[1]).map(&:id)
+      }
+    end
   end
 
 
