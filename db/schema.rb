@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_31_124358) do
+ActiveRecord::Schema.define(version: 2021_07_16_142545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(version: 2021_01_31_124358) do
     t.index ["player_id"], name: "index_enrollments_on_player_id"
     t.index ["season_id", "player_id"], name: "index_enrollments_on_season_id_and_player_id", unique: true
     t.index ["season_id"], name: "index_enrollments_on_season_id"
+  end
+
+  create_table "http_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "path", null: false
+    t.integer "year", null: false
+    t.integer "week", null: false
+    t.string "ip_address", null: false
+    t.integer "count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path", "year", "week", "ip_address"], name: "index_http_requests_on_path_and_year_and_week_and_ip_address", unique: true
   end
 
   create_table "match_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

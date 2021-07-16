@@ -1,6 +1,8 @@
 class RankingsController < ApplicationController
 
   def index
+    log_http_request!
+
     if selected_round
       @rankings = SortedRankings.result_for(round: selected_round)
       @matches_to_play = Match.published.pending.not_dummy
