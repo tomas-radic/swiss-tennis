@@ -15,9 +15,6 @@ module MatchesHelper
 
 
   def match_css_class(match)
-    Rails.logger.debug "match.id #{match.id}"
-    Rails.logger.debug "match.finished_at #{match.finished_at}"
-    Rails.logger.debug "RECENT #{RECENT}"
     if match.finished_at.nil?
       match.play_date.nil? ? '' : 'table-bg-smoke'
     elsif match.finished_at > RECENT
