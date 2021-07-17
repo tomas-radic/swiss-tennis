@@ -3,6 +3,8 @@ class MatchesController < ApplicationController
   before_action :load_record, only: [:show, :edit, :update, :destroy, :finish, :swap_players]
 
   def index
+    log_http_request!
+
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
 
     if selected_round.present?
@@ -31,6 +33,7 @@ class MatchesController < ApplicationController
   end
 
   def show
+    log_http_request!
   end
 
   def new

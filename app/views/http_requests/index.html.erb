@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col">
+    <p class="lead float-left"><%= "Návštevnosť stránok - rok #{@year}" %></p>
+  </div>
+</div>
+
+<hr>
+<% if @http_requests.any? %>
+  <div class="table-responsive my-1">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Stránka</th>
+        <th scope="col" class="text-center">Týždeň v roku (dnes je <%= Date.today.cweek %>)</th>
+        <th scope="col">IP adresa</th>
+        <th scope="col">Počet návštev</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @http_requests.each do |http_request| %>
+        <tr>
+          <td><%= http_request.path %></td>
+          <td class="text-center"><%= http_request.week %></td>
+          <td class="text-center"><%= http_request.ip_address %></td>
+          <td class="text-center"><%= http_request.count %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Žiadne návštevy.</p>
+    </div>
+  </div>
+<% end %>

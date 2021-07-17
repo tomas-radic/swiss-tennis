@@ -30,13 +30,24 @@ class Player < ApplicationRecord
   scope :default, -> { active.where(dummy: false) }
   scope :active, -> { where(active: true) }
 
+
   has_paper_trail on: [:update], only: [:first_name, :last_name, :category_id]
+
 
   def name
     [first_name, last_name].join(' ')
   end
 
+
   def normalize_phone
     phone.gsub!(/\s/, '') if phone
+  end
+
+
+  def opponents_in(season)
+    Player.joins(matches: :round)
+          .where("rounds.season_id = ?", season.id)
+          .where("matches.player1_id = ? or matches.player2_id = ?", id, id)
+          .where("players.id != ?", id).distinct
   end
 end

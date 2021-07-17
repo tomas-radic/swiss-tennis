@@ -12,15 +12,29 @@
 <hr>
 
 <div class="text-center">
-  <p class="lead">Posledné zápasy</p>
-  <% if @recent_matches.any? %>
-    <% @recent_matches.each do |match| %>
-      <%= match_badge(match, @player) %>
+  <div class="d-inline-block px-3">
+    <p class="lead">Posledné zápasy</p>
+    <% if @recent_matches.any? %>
+      <% @recent_matches.each do |match| %>
+        <%= match_badge(match, @player) %>
+      <% end %>
+    <% else %>
+      <%= match_badge %>
     <% end %>
-  <% else %>
-    <%= match_badge %>
+  </div>
+  <% if @opponents_comparison && @opponents_comparison[:previous_opponents].any? && @opponents_comparison[:current_opponents].any? %>
+    <div class="d-inline-block px-3 mt-4">
+      <p class="lead">
+        Noví súperi
+        <span data-toggle="tooltip" data-placement="top" title="Počet súperov v súčasnej (poslednej) sezóne, s ktorými hráč nehral v sezóne predchádzajúcej">
+        <%= fa_icon 'question-circle' %>
+      </span>
+      </p>
+      <p>
+        <%= @opponents_comparison[:current_opponents].count { |o| !@opponents_comparison[:previous_opponents].include? o } %>/<%= @opponents_comparison[:current_opponents].length %>
+      </p>
+    </div>
   <% end %>
-
 </div>
 
 <hr>

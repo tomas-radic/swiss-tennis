@@ -79,4 +79,23 @@ class ApplicationController < ActionController::Base
 
     @payment_balance_text = helpers.currency_string(@payment_balance)
   end
+
+
+  private
+
+  def log_http_request!
+    path = request.fullpath
+    year = Date.today.year
+    week = Date.today.cweek
+    ip_address = request.remote_ip
+
+    http_request = HttpRequest.where(
+      path: path,
+      year: year,
+      week: week,
+      ip_address: ip_address).first_or_initialize(count: 0)
+
+    http_request.count += 1
+    http_request.save
+  end
 end

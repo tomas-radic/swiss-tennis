@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     get 'swap_players', on: :member
   end
   resources :rankings, only: [:index]
+  resources :http_requests, only: [:index]
 
 
   # Static pages
