@@ -12,7 +12,7 @@
       <tr>
         <th scope="col">Stránka</th>
         <th scope="col" class="text-center">Týždeň v roku (dnes je <%= Date.today.cweek %>)</th>
-        <th scope="col">IP adresa</th>
+<!--        <th scope="col">IP adresa</th>-->
         <th scope="col">Počet návštev</th>
       </tr>
       </thead>
@@ -21,7 +21,7 @@
         <tr>
           <td><%= http_request.path %></td>
           <td class="text-center"><%= http_request.week %></td>
-          <td class="text-center"><%= http_request.ip_address %></td>
+<!--          <td class="text-center"><%#= http_request.ip_address %></td>-->
           <td class="text-center"><%= http_request.count %></td>
         </tr>
       <% end %>

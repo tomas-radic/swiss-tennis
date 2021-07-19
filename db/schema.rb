@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_16_142545) do
+ActiveRecord::Schema.define(version: 2021_07_19_085953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2021_07_16_142545) do
     t.string "path", null: false
     t.integer "year", null: false
     t.integer "week", null: false
-    t.string "ip_address", null: false
+    t.string "ip_address"
     t.integer "count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

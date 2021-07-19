@@ -1,8 +1,8 @@
 class HttpRequest < ApplicationRecord
 
   # Validations ---------------- #
-  validates :path, :year, :week, :ip_address, :count,
+  validates :path, :year, :week, :count,
             presence: true
-  validates :path, uniqueness: { scope: [:year, :week, :ip_address] }
+  validates :path, uniqueness: { scope: [:year, :week] }
 
 end

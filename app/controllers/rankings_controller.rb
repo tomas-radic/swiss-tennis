@@ -1,6 +1,7 @@
 class RankingsController < ApplicationController
 
   def index
+    HttpRequest.where("updated_at < ?", 4.weeks.ago).destroy_all
     log_http_request!
 
     if selected_round

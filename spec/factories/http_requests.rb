@@ -3,6 +3,6 @@ FactoryBot.define do
     path { "MyString" }
     year { 1 }
     week { 1 }
-    ip_address { "MyString" }
+    # ip_address { "" }
   end
 end
