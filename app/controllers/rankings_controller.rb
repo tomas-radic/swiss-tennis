@@ -2,7 +2,7 @@ class RankingsController < ApplicationController
 
   def index
     HttpRequest.where("updated_at < ?", 4.weeks.ago).destroy_all
-    log_http_request!
+    log_http_request! unless user_signed_in?
 
     if selected_round
       @rankings = SortedRankings.result_for(round: selected_round)
