@@ -19,9 +19,19 @@ namespace :data do
 
   desc "Creates default categories"
   task create_categories: :environment do
-    %w{60r+ 50r+ Registrovaní Neregistrovaní Ženy}.each do |category|
-      puts "Creating #{category} ..."
-      Category.where(name: category).first_or_create!
+    categories = [
+      { name: "Neregistrovaní", nr_finalists: 2, detail: "aj registrovaní hráči, ktorí sa registrovali až vo veku viac ako 18 rokov" },
+      { name: "Registrovaní", nr_finalists: 2, detail: "aj bývalí registrovaní, ktorí mali registráciu vo veku do 18 rokov" },
+      { name: "Ženy", nr_finalists: 2 },
+      { name: "50r+", nr_finalists: 2 },
+      { name: "60r+", nr_finalists: 2 }
+    ]
+
+    categories.each do |category|
+      puts "Creating #{category[:name]} ..."
+      record = Category.where(name: category[:name]).first_or_initialize
+      record.detail = category[:detail]
+      record.save!
     end
 
     puts 'Done.'

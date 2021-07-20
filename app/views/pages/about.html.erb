@@ -71,25 +71,17 @@
     o celkového víťaza svojej kategórie.
   </p>
   <p>Kategórie sú nasledovné</p>
-  <p>
   <ul>
-    <li>
-      Neregistrovaní (aj registrovaní hráči, ktorí sa registrovali až vo veku viac ako 18 rokov)
-    </li>
-    <li>
-      60 roční a starší
-    </li>
-    <li>
-      50 roční a starší
-    </li>
-    <li>
-      Registrovaní (aj bývalí registrovaní, ktorí mali registráciu vo veku do 18 rokov)
-    </li>
-    <li>
-      Ženy
-    </li>
+    <% Category.all.each do |category| %>
+      <li>
+        <%= category.name %>
+        <% if category.detail.present? %>
+          (<%= category.detail %>)
+        <% end %>
+      </li>
+    <% end %>
   </ul>
-  </p>
+
   <hr>
   <p class="text-justify">
     <i>

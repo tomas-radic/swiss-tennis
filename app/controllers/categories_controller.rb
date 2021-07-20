@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   before_action :load_record, only: [:edit, :update, :destroy]
 
   def index
-    @categories = Category.all.default
+    @categories = Category.sorted
     @undeletable_category_ids = Category.joins(:players).ids
   end
 
@@ -46,6 +46,6 @@ class CategoriesController < ApplicationController
   end
 
   def category_params
-    params.require(:category).permit(:name)
+    params.require(:category).permit(:name, :detail, :nr_finalists)
   end
 end

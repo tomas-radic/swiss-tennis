@@ -1,7 +1,9 @@
 class Category < ApplicationRecord
   has_many :players, dependent: :restrict_with_error
 
-  validates :name, presence: true
+  validates :name, :nr_finalists, presence: true
 
-  scope :default, -> { order(created_at: :desc) } # (default_scope is not preferred)
+  scope :sorted, -> { order(position: :asc) }
+
+  acts_as_list
 end
