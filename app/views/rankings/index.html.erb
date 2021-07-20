@@ -127,3 +127,8 @@
 <% end %>
 
 <%= render "shared/scripts_autoreload" %>
+<script>
+  $(document).on("turbolinks:load", function() {
+    $('#carouselNominations').carousel();
+  });
+</script>
