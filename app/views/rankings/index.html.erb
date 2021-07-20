@@ -37,7 +37,6 @@
         <tr>
           <th></th>
           <th scope="col">Meno</th>
-          <th scope="col">Kategória</th>
           <th scope="col">Body</th>
           <th scope="col">
             Body
@@ -48,6 +47,7 @@
               </span>
             </span>
           </th>
+          <th scope="col">Kategória</th>
         </tr>
       </thead>
       <tbody class="rankings">
@@ -70,9 +70,9 @@
                 </small>
               <% end %>
             </td>
-            <td class="js-filterable"><%= ranking[:player].category.name %></td>
             <td><%= ranking[:points] %></td>
             <td><%= ranking[:handicap] %></td>
+            <td class="js-filterable"><%= ranking[:player].category.name %></td>
           </tr>
         <% end %>
       </tbody>
