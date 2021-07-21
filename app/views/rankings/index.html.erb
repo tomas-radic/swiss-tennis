@@ -18,7 +18,7 @@
 
 <% if @nominations_to_finals&.any? %>
   <h2 class="text-center">Nominácie na finále!</h2>
-  <div id="carouselNominations" class="carousel slide" data-ride="carousel">
+  <div id="carouselNominations" class="carousel slide" data-ride="carousel" style="min-height: 340px; border: 1px solid #eceaea; border-radius: 2px;">
     <ol class="carousel-indicators">
       <% @nominations_to_finals.each.with_index do |nomination, idx_nomination| %>
         <li data-target="#carouselNominations" data-slide-to="<%= idx_nomination %>" class="<%= 'active' if idx_nomination == 0 %>"></li>
