@@ -90,7 +90,7 @@
               <div class="<%= add_error_class_to('pl-2', @player, :category) %>">
                 <div class="form-group">
                   <%= form.label :category_id, 'Kategória' %><br />
-                  <%= form.select :category_id, options_from_collection_for_select(Category.default, :id, :name, @category_id), { include_blank: 'Vybrať kategóriu', selected: @category_id}, { class: 'form-control new-player-control' } %>
+                  <%= form.select :category_id, options_from_collection_for_select(Category.sorted, :id, :name, @category_id), { include_blank: 'Vybrať kategóriu', selected: @category_id}, { class: 'form-control new-player-control' } %>
                 </div>
               </div>
             </div>

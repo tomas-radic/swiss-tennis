@@ -87,13 +87,12 @@ class ApplicationController < ActionController::Base
     path = request.fullpath
     year = Date.today.year
     week = Date.today.cweek
-    ip_address = request.remote_ip
+    # ip_address = request.remote_ip
 
     http_request = HttpRequest.where(
       path: path,
       year: year,
-      week: week,
-      ip_address: ip_address).first_or_initialize(count: 0)
+      week: week).first_or_initialize(count: 0)
 
     http_request.count += 1
     http_request.save

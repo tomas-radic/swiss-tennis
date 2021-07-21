@@ -11,12 +11,51 @@
   </div>
 </div>
 
+
 <%= round_progress_info(selected_round) if selected_round.present? %>
 <%= render "seasons/heading", season: selected_season %>
+
+
+<% if @nominations_to_finals&.any? %>
+  <h2 class="text-center">Nominácie na finále!</h2>
+  <div id="carouselNominations" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <% @nominations_to_finals.each.with_index do |nomination, idx_nomination| %>
+        <li data-target="#carouselNominations" data-slide-to="<%= idx_nomination %>" class="<%= 'active' if idx_nomination == 0 %>"></li>
+      <% end %>
+    </ol>
+    <div class="carousel-inner" style="padding: 0 0 50px 0;">
+      <% @nominations_to_finals.each.with_index do |nomination, idx_nomination| %>
+        <div class="carousel-item <%= 'active' if idx_nomination == 0 %>">
+          <div>
+            <p class="text-center"><b><%= nomination[:category].name %></b></p>
+            <div class="d-flex justify-content-center">
+              <ul class="list-group">
+                <% nomination[:finalists].each.with_index(1) do |finalist, idx_finalist| %>
+                  <li class="list-group-item list-group-item-success"><%= "#{idx_finalist} - #{finalist.name}" %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <a class="carousel-control-prev" href="#carouselNominations" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Predchádzajúca</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselNominations" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Ďalšia</span>
+    </a>
+  </div>
+<% end %>
+
 
 <% if @most_recent_article.present? %>
   <div class="mb-4"><%= render 'articles/tile', article: @most_recent_article, expand_content: true %></div>
 <% end %>
+
 
 <% if @rankings.any? %>
   <div class="row">
@@ -37,7 +76,6 @@
         <tr>
           <th></th>
           <th scope="col">Meno</th>
-          <th scope="col">Kategória</th>
           <th scope="col">Body</th>
           <th scope="col">
             Body
@@ -48,6 +86,7 @@
               </span>
             </span>
           </th>
+          <th scope="col">Kategória</th>
         </tr>
       </thead>
       <tbody class="rankings">
@@ -70,9 +109,9 @@
                 </small>
               <% end %>
             </td>
-            <td class="js-filterable"><%= ranking[:player].category.name %></td>
             <td><%= ranking[:points] %></td>
             <td><%= ranking[:handicap] %></td>
+            <td class="js-filterable"><%= ranking[:player].category.name %></td>
           </tr>
         <% end %>
       </tbody>
@@ -88,3 +127,8 @@
 <% end %>
 
 <%= render "shared/scripts_autoreload" %>
+<script>
+  $(document).on("turbolinks:load", function() {
+    $('#carouselNominations').carousel();
+  });
+</script>

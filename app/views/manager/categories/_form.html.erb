@@ -1,7 +1,7 @@
 <%= render 'shared/validation_errors_announcement', validated_object: category %>
 <%= form_with(model: [:manager, category], local: true) do |form| %>
   <div class="row">
-    <div class="col">
+    <div class="col-12">
       <div class="<%= add_error_class_to('pl-2', category, :name) %>">
         <div class="field form-group">
           <%= form.label :name, 'Názov' %><br />
@@ -9,6 +9,23 @@
         </div>
       </div>
     </div>
+
+    <div class="col-12">
+      <div class="field form-group">
+        <%= form.label :detail, 'Detail' %><br />
+        <%= form.text_area :detail, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="<%= add_error_class_to('pl-2', category, :nr_finalists) %>">
+        <div class="field form-group">
+          <%= form.label :nr_finalists, 'Počet finalistov' %><br />
+          <%= form.number_field :nr_finalists, step: 1, class: 'form-control' %>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="row">

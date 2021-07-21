@@ -4,7 +4,7 @@ class Manager::CategoriesController < Manager::BaseController
 
 
   def index
-    @categories = Category.all.default
+    @categories = Category.sorted
     @undeletable_category_ids = Category.joins(:players).ids
   end
 
@@ -54,6 +54,6 @@ class Manager::CategoriesController < Manager::BaseController
 
 
   def category_params
-    params.require(:category).permit(:name)
+    params.require(:category).permit(:name, :detail, :nr_finalists)
   end
 end
