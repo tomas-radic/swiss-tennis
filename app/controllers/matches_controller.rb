@@ -33,7 +33,7 @@ class MatchesController < ApplicationController
   end
 
   def show
-    log_http_request! unless user_signed_in?
+
   end
 
   def new
