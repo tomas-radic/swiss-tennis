@@ -130,6 +130,18 @@ ol {
   margin: 0 auto;
 }
 
+.carousel {
+  .carousel-indicators {
+    li {
+      background-color: $dark_gray;
+    }
+  }
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 2px;
+  }
+}
+
 //
 // Tables
 
