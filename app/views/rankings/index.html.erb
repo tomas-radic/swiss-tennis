@@ -128,7 +128,7 @@
 
 <%= render "shared/scripts_autoreload" %>
 <script>
-  $(document).on("turbolinks:load", function() {
-    $('#carouselNominations').carousel();
+  $(document).on("turbolinks:load ready", function() {
+    $('#carouselNominations').carousel({ interval: 4000 });
   });
 </script>
