@@ -7,7 +7,7 @@ class PlayersController < ApplicationController
   def show
     seasons = Season.default
 
-    @recent_matches = Match.finished
+    @recent_matches = policy_scope(Match).finished
                            .where("finished_at >= ?", 2.month.ago)
                            .where("player1_id = ? or player2_id = ?", @player.id, @player.id)
                            .where("set1_player1_score > 0 or set1_player2_score > 0")

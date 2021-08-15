@@ -1,6 +1,8 @@
 class MatchesController < ApplicationController
+
   before_action :verify_user_logged_in, except: [:index, :show]
   before_action :load_record, only: [:show, :edit, :update, :destroy, :finish, :swap_players]
+
 
   def index
     log_http_request! unless user_signed_in?
@@ -8,33 +10,27 @@ class MatchesController < ApplicationController
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
 
     if selected_round.present?
-      @matches = policy_scope(Match).default
-          .where(matches: { round_id: selected_round.id })
-          .includes(:round, :place, { player1: :rankings, player2: :rankings }, :winner, :retired_player)
-      @last_update_time = @matches.pluck(:updated_at).max&.in_time_zone
-    else
-      @matches = Match.none
+      @matches = policy_scope(Match)
+                   .default
+                   .joins(:round)
+                   .where(rounds: { season_id: selected_season.id })
+                   .where("(rounds.position = ?) or (matches.finished_at is null and rounds.position < ?)",
+                          selected_round.position, selected_round.position)
+                   .includes(:round, :place, { player1: :rankings, player2: :rankings }, :winner, :retired_player)
     end
 
-    @delayed_matches = if selected_round.present?
-                         DelayedMatchesQuery.call(round: selected_round)
-                       else
-                         Match.none
-                       end
-
-    @last_update_time = (
-        @matches.map(&:updated_at) + @delayed_matches.map(&:updated_at)
-    ).max&.in_time_zone
+    @last_update_time = @matches.pluck(:updated_at).max&.in_time_zone
 
     if user_signed_in? && selected_round&.period_ends && (selected_round&.period_ends - 7 < Date.today)
-      @unplanned_matches_count = UnplannedMatchesCount.result_for(@matches) +
-          UnplannedMatchesCount.result_for(@delayed_matches)
+      @unplanned_matches_count = UnplannedMatchesCount.result_for(@matches)
     end
   end
+
 
   def show
 
   end
+
 
   def new
     @round = selected_season.rounds.find(params[:round_id])
@@ -54,8 +50,10 @@ class MatchesController < ApplicationController
     end
   end
 
+
   def edit
   end
+
 
   def update
     if @match.update(update_params)
@@ -65,6 +63,7 @@ class MatchesController < ApplicationController
     end
   end
 
+
   def destroy
     authorize @match
 
@@ -72,6 +71,7 @@ class MatchesController < ApplicationController
     DestroyMatch.call(@match)
     redirect_to round_path(round), notice: true
   end
+
 
   def finish
     authorize @match
@@ -88,6 +88,7 @@ class MatchesController < ApplicationController
     redirect_to @match, notice: true
   end
 
+
   def swap_players
     authorize @match
 
@@ -102,6 +103,7 @@ class MatchesController < ApplicationController
     @match = policy_scope(Match).find(params[:id])
   end
 
+
   def create_params
     params.require(:match).permit(
         :player1_id,
@@ -114,6 +116,7 @@ class MatchesController < ApplicationController
         :note
     )
   end
+
 
   def update_params
     params.require(:match).permit(

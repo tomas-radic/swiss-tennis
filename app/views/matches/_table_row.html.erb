@@ -1,16 +1,18 @@
-<tr class="<%= match_css_class(match) %>">
+<tr class="<%= color_class %>">
   <%= render "matches/player_cell", match: match, player: match.player1 %>
   <%= render "matches/player_cell", match: match, player: match.player2 %>
 
   <td>
+    <% if (match.round.position < selected_round.position) && match.round.season == selected_season %>
+      <%= link_to match.round.full_label,
+                  matches_path(round_id: match.round.id),
+                  class: 'btn btn-sm btn-success' %>
+    <% end %>
+
     <%= match_info(match) %>
   </td>
   <td class="text-nowrap">
-    <% if delayed %>
-      <%= link_to match.round.full_label, matches_path(round_id: match.round.id), class: 'btn btn-sm btn-success' %>
-    <% else %>
-      <%= MatchDecorator.new(match).score %>
-    <% end %>
+    <%= MatchDecorator.new(match).score %>
   </td>
   <td>
     <%= link_to 'Detail', match_path(match), class: 'btn btn-sm btn-success' %>

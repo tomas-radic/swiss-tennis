@@ -29,13 +29,16 @@ class Match < ApplicationRecord
             :looser,
             presence: true, if: :finished?
 
-  scope :default, -> { order("matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.play_time asc nulls last").order(note: :desc, updated_at: :desc) }
+  scope :default, -> { joins(:round).order("matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.play_time asc nulls last").order("rounds.position desc, matches.note desc, matches.updated_at desc") }
   scope :manual, -> { where(from_toss: false) }
   scope :toss, -> { where(from_toss: true) }
   scope :published, -> { default.where(published: true) }
   scope :draft, -> { default.where(published: false) }
-  scope :finished, -> { published.where.not(finished_at: nil) }
-  scope :pending, -> { published.where(finished_at: nil) }
+  scope :finished, -> { where.not(finished_at: nil) }
+  scope :recent, -> { finished.where("matches.finished_at > ?", MatchesHelper::RECENT) }
+  scope :previous, -> { finished.where("matches.finished_at <= ?", MatchesHelper::RECENT) }
+  scope :pending, -> { where(finished_at: nil) }
+  scope :planned, -> { pending.where.not(play_date: nil) }
   scope :not_dummy, -> { joins("join players p1 on p1.id = matches.player1_id")
                              .joins("join players p2 on p2.id = matches.player2_id")
                              .where("p1.dummy is false and p2.dummy is false") }

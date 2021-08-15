@@ -18,7 +18,7 @@ class RankingsController < ApplicationController
         }
       end
 
-      @matches_to_play = Match.published.pending.not_dummy
+      @matches_to_play = policy_scope(Match).published.pending
                               .joins(:round)
                               .where("rounds.position <= ?", selected_round.position)
                               .where("rounds.season_id = ?", selected_season.id)
