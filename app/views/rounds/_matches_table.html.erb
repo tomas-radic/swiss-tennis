@@ -17,14 +17,12 @@
       <div class="tab-pane fade show active" id="published" role="tabpanel" aria-labelledby="published-tab">
         <%= render 'matches/table',
                    matches: matches.published,
-                   delayed_matches: nil,
                    js_filter_target: 'matches-published',
                    last_update_time: nil %>
       </div>
       <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
         <%= render 'matches/table',
                    matches: matches.draft,
-                   delayed_matches: nil,
                    js_filter_target: 'matches-draft',
                    last_update_time: nil %>
         <% if matches.draft.any? %>

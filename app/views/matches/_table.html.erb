@@ -1,4 +1,4 @@
-<% if matches&.any? || delayed_matches&.any? %>
+<% if matches&.any? %>
   <div class="row">
     <div class="col">
       <%= render 'shared/js_filter', target_table_body: js_filter_target, placeholder: 'meno hráča' %>
@@ -8,7 +8,7 @@
     <i><small>(aktualizácia: <%= I18n.localize(last_update_time, format: :date_with_time) %>)</small></i>
   <% end %>
   <div class="table-responsive my-1">
-    <table class="table table-sm">
+    <table class="table table-sm table-borderless">
       <thead class="thead-dark">
         <tr>
           <th class="phone-nr-width" scope="col">Hráč 1 - kurt</th>
@@ -20,34 +20,43 @@
       </thead>
       <tbody class="<%= js_filter_target %>">
 
-        <% if matches.planned.any? %>
+        <% planned_matches = matches.select { |m| !m.play_date.blank? && m.finished_at.blank? } %>
+        <% if planned_matches.any? %>
           <tr class="text-center">
             <td colspan="5">Naplánované zápasy</td>
           </tr>
-          <% matches.planned.each do |match| %>
+          <% @separator = nil %>
+          <% planned_matches.each do |match| %>
+
+            <% @separator = !@play_date.nil? && (match.play_date != @play_date) %>
+            <% @play_date = match.play_date %>
+
             <%= render partial: 'matches/table_row', locals: { match: match, color_class: "table-bg-smoke" } %>
           <% end %>
+          <% @separator = nil %>
         <% end %>
 
-        <% if matches.recent.any? %>
+        <% recent_matches = matches.select { |m| !m.finished_at.blank? && m.finished_at > MatchesHelper::RECENT } %>
+        <% if recent_matches.any? %>
           <tr class="text-center border-top-thick">
             <td colspan="5">Posledné odohraté zápasy</td>
           </tr>
-          <% matches.recent.each do |match| %>
+          <% recent_matches.each do |match| %>
             <%= render partial: 'matches/table_row', locals: { match: match, color_class: "table-bg-yellow" } %>
           <% end %>
         <% end %>
 
-        <% if matches.previous.any? %>
+        <% previous_matches = matches.select { |m| !m.finished_at.blank? && m.finished_at <= MatchesHelper::RECENT } %>
+        <% if previous_matches.any? %>
           <tr class="text-center border-top-thick">
             <td colspan="5">Odohraté predtým</td>
           </tr>
-          <% matches.previous.each do |match| %>
+          <% previous_matches.each do |match| %>
             <%= render partial: 'matches/table_row', locals: { match: match, color_class: "table-bg-green" } %>
           <% end %>
         <% end %>
 
-        <% unplanned_matches = matches.pending.where(play_date: nil) %>
+        <% unplanned_matches = matches.select { |m| m.finished_at.blank? && m.play_date.blank? } %>
         <% if unplanned_matches.any? %>
           <tr class="text-center border-top-thick">
             <td colspan="5">Čakajúce na termín</td>
