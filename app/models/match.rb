@@ -32,8 +32,8 @@ class Match < ApplicationRecord
   scope :default, -> { joins(:round).order("matches.finished_at desc nulls last, matches.play_date asc nulls last, matches.play_time asc nulls last").order("rounds.position desc, matches.note desc, matches.updated_at desc") }
   scope :manual, -> { where(from_toss: false) }
   scope :toss, -> { where(from_toss: true) }
-  scope :published, -> { default.where(published: true) }
-  scope :draft, -> { default.where(published: false) }
+  scope :published, -> { where(published: true) }
+  scope :draft, -> { where(published: false) }
   scope :finished, -> { where.not(finished_at: nil) }
   scope :recent, -> { finished.where("matches.finished_at > ?", MatchesHelper::RECENT) }
   scope :previous, -> { finished.where("matches.finished_at <= ?", MatchesHelper::RECENT) }

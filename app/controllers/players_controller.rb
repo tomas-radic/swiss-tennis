@@ -5,14 +5,37 @@ class PlayersController < ApplicationController
 
 
   def show
+    @planned_matches = @player.matches.published.planned
+                         .order("play_date desc, play_time desc, note")
+                         .includes(:round, :place, {
+                           player1: :rankings, player2: :rankings
+                         })
+
+    @recent_matches = @player.matches.published.recent
+                        .order("finished_at desc")
+                        .includes(:round, :place, {
+                          player1: :rankings, player2: :rankings
+                        }, :winner, :retired_player)
+
+    @previous_matches = @player.matches.published.previous
+                          .order("finished_at desc")
+                          .includes(:round, :place, {
+                            player1: :rankings, player2: :rankings
+                          }, :winner, :retired_player)
+
+    @unplanned_matches = @player.matches.published.pending
+                           .where(play_date: nil).order("note asc")
+                           .includes(:round, :place, {
+                             player1: :rankings, player2: :rankings
+                           })
+
+    @last_played_matches = @player.matches.finished
+                             .where("finished_at >= ?", 2.month.ago)
+                             .where("set1_player1_score > 0 or set1_player2_score > 0")
+                             .reorder(:finished_at).last(3)
+
+
     seasons = Season.default
-
-    @recent_matches = policy_scope(Match).finished
-                           .where("finished_at >= ?", 2.month.ago)
-                           .where("player1_id = ? or player2_id = ?", @player.id, @player.id)
-                           .where("set1_player1_score > 0 or set1_player2_score > 0")
-                           .reorder(:finished_at).last(3)
-
     @success_of_play = []
     @success_of_play << SuccessOfPlay.result_for(player: @player, season: seasons[0]) if seasons[0]
     @success_of_play << SuccessOfPlay.result_for(player: @player, season: seasons[1]) if seasons[1]

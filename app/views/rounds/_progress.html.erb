@@ -1,0 +1,32 @@
+<% missing_matches = (total - finished) > 0 %>
+<% highlight = missing_matches && last_days?(round) %>
+
+<div class="progress" style="height: 4px;">
+  <div class="progress-bar <%= highlight ? 'bg-danger' : 'bg-success' %>"
+       role="progressbar"
+       style="width: <%= "#{(finished / total.to_f) * 100}%;" %>"
+       aria-valuenow="<%= finished %>" aria-valuemin="0" aria-valuemax="<%= total %>">
+  </div>
+</div>
+<p>
+  <small>
+    <i>
+      <%= "#{finished} z #{total} zápasov ukončených." %>
+      <% if round.period_begins || round.period_ends %>
+        Toto kolo sa hrá
+        <%= "od #{I18n.localize(round.period_begins, format: :date_month)}" if round.period_begins %>
+        <%= "do #{I18n.localize(round.period_ends, format: :date_month)}" if round.period_ends %>.
+      <% end %>
+
+      <% if round.period_ends && missing_matches %>
+        <b>
+          <span class="attention-background <%= highlight ? 'text-danger' : 'text-success' %>">
+            Prosíme hráčov, aby organizátorovi súťaže nahlásili čas a miesto svojho zápasu
+            v tomto kole najneskôr do termínu
+            <%= I18n.localize(round.period_ends - 7.days, format: :date_month) %>, 20:00.
+          </span>
+        </b>
+      <% end %>
+    </i>
+  </small>
+</p>

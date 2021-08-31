@@ -9,20 +9,102 @@ class MatchesController < ApplicationController
 
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
 
+
     if selected_round.present?
-      @matches = policy_scope(Match)
-                   .default
-                   .joins(:round)
-                   .where(rounds: { season_id: selected_season.id })
-                   .where("(rounds.position = ?) or (matches.finished_at is null and rounds.position < ?)",
-                          selected_round.position, selected_round.position)
-                   .includes(:round, :place, { player1: :rankings, player2: :rankings }, :winner, :retired_player)
-    end
+      @planned_matches = selected_season.matches.published.planned
+                                        .where("rounds.position = ?", selected_round.position)
+                                        .order("play_date desc, play_time desc, note")
+                                        .includes(:round, :place, {
+                                          player1: :rankings, player2: :rankings
+                                        })
 
-    @last_update_time = @matches.pluck(:updated_at).max&.in_time_zone
+      @recent_matches = selected_season.matches.published.recent
+                                       .where("rounds.position <= ?", selected_round.position)
+                                       .order("finished_at desc")
+                                       .includes(:round, :place, {
+                                         player1: :rankings, player2: :rankings
+                                       }, :winner, :retired_player)
 
-    if user_signed_in? && selected_round&.period_ends && (selected_round&.period_ends - 7 < Date.today)
-      @unplanned_matches_count = UnplannedMatchesCount.result_for(@matches)
+      @previous_matches = selected_season.matches.published.previous
+                                         .where("rounds.position = ?", selected_round.position)
+                                         .order("finished_at desc")
+                                         .includes(:round, :place, {
+                                           player1: :rankings, player2: :rankings
+                                         }, :winner, :retired_player)
+
+      @unplanned_matches = selected_season.matches.published.pending
+                                          .where("rounds.position <= ?", selected_round.position)
+                                          .where(play_date: nil)
+                                          .order("matches.note desc nulls last")
+                                          .includes(:round, :place, {
+                                            player1: :rankings, player2: :rankings
+                                          })
+
+
+      @last_update_time = (@planned_matches.pluck(:updated_at) +
+        @recent_matches.pluck(:updated_at) +
+        @previous_matches.pluck(:updated_at) +
+        @unplanned_matches.pluck(:updated_at)).max&.in_time_zone
+
+
+      if user_signed_in? && selected_round.period_ends && ((selected_round.period_ends - 7) < Date.today)
+        @unplanned_matches_count = selected_season.matches.published.pending.not_dummy
+                                                  .where("rounds.position <= ?", selected_round.position)
+                                                  .count
+      end
+
+
+      # Counts
+      @nr_dummy_matches = 0
+      @nr_round_matches = 0
+      @nr_finished_matches = 0
+      @nr_all_real_matches = 0
+      @nr_round_finished_matches = selected_season.matches.published.not_dummy.finished
+                                            .joins(:round)
+                                            .where(rounds: { position: selected_round.position })
+                                            .count
+
+      @planned_matches.each do |match|
+        if match.player1.dummy? || match.player2.dummy?
+          @nr_dummy_matches += 1
+          next
+        end
+
+        @nr_all_real_matches += 1
+        @nr_round_matches += 1 if match.round.position == selected_round.position
+      end
+
+      @recent_matches.each do |match|
+        if match.player1.dummy? || match.player2.dummy?
+          @nr_dummy_matches += 1
+          next
+        end
+
+        @nr_finished_matches += 1
+        @nr_all_real_matches += 1
+        @nr_round_matches += 1 if match.round.position == selected_round.position
+      end
+
+      @previous_matches.each do |match|
+        if match.player1.dummy? || match.player2.dummy?
+          @nr_dummy_matches += 1
+          next
+        end
+
+        @nr_finished_matches += 1
+        @nr_all_real_matches += 1
+        @nr_round_matches += 1 if match.round.position == selected_round.position
+      end
+
+      @unplanned_matches.each do |match|
+        if match.player1.dummy? || match.player2.dummy?
+          @nr_dummy_matches += 1
+          next
+        end
+
+        @nr_all_real_matches += 1
+        @nr_round_matches += 1 if match.round.position == selected_round.position
+      end
     end
   end
 

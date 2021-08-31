@@ -12,15 +12,5 @@ require 'rails_helper'
 # end
 
 RSpec.describe RoundsHelper, type: :helper do
-  describe 'round_progress_info' do
-    subject(:method) { round_progress_info(round) }
 
-    context 'When there are no dates specified' do
-      let!(:round) { create(:round, period_begins: nil, period_ends: nil) }
-
-      it 'Does not raise an error' do
-        expect { method }.not_to raise_error
-      end
-    end
-  end
 end

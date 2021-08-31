@@ -12,7 +12,16 @@
 </div>
 
 
-<%= round_progress_info(selected_round) if selected_round.present? %>
+<% if selected_round && @nr_finished_matches && @nr_round_matches %>
+  <%= render partial: "rounds/progress",
+             locals: {
+               round: selected_round,
+               finished: @nr_finished_matches,
+               total: @nr_round_matches
+             }
+  %>
+<% end %>
+
 <%= render "seasons/heading", season: selected_season %>
 
 

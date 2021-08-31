@@ -53,9 +53,72 @@
 <% end %>
 
 <p class="lead">Zápasy v tomto kole</p>
-<%= render 'rounds/matches_table',
-    matches: @round_matches,
-    round: @round %>
+
+<div class="row">
+  <div class="col">
+    <ul class="nav nav-tabs" id="tab-matches" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="published-tab" data-toggle="tab" href="#published" role="tab" aria-controls="published" aria-selected="true">
+          Zverejnené <span class="badge badge-light"><%= @nr_published_matches %></span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="draft-tab" data-toggle="tab" href="#draft" role="tab" aria-controls="draft" aria-selected="false">
+          Nezverejnené <span class="badge badge-light"><%= @nr_draft_matches %></span>
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content" id="tab-matches-content">
+      <div class="tab-pane fade show active" id="published" role="tabpanel" aria-labelledby="published-tab">
+        <% planned_matches = @planned_matches.published %>
+        <% recent_matches = @recent_matches.published %>
+        <% previous_matches = @previous_matches.published %>
+        <% unplanned_matches = @unplanned_matches.published %>
+        <% if planned_matches.any? || recent_matches.any? || previous_matches.any?|| unplanned_matches.any? %>
+          <%= render 'matches/table',
+                     planned_matches: planned_matches,
+                     recent_matches: recent_matches,
+                     previous_matches: previous_matches,
+                     unplanned_matches: unplanned_matches,
+                     js_filter_target: 'matches-published',
+                     last_update_time: nil %>
+        <% else %>
+          <div class="row">
+            <div class="col">
+              <p class="lead text-center">Žiadne zápasy.</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab">
+        <% planned_matches = @planned_matches.draft %>
+        <% recent_matches = @recent_matches.draft %>
+        <% previous_matches = @previous_matches.draft %>
+        <% unplanned_matches = @unplanned_matches.draft %>
+        <% if planned_matches.any? || recent_matches.any? || previous_matches.any? || unplanned_matches.any? %>
+          <%= render 'matches/table',
+                     planned_matches: planned_matches,
+                     recent_matches: recent_matches,
+                     previous_matches: previous_matches,
+                     unplanned_matches: unplanned_matches,
+                     js_filter_target: 'matches-draft',
+                     last_update_time: nil %>
+
+          <p class="text-center">
+            <%= double_confirm_button('Zverejniť všetky!', publish_all_matches_round_path(@round), 'btn btn-sm btn-success') %>
+          </p>
+        <% else %>
+          <div class="row">
+            <div class="col">
+              <p class="lead text-center">Žiadne zápasy.</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <hr>
 <% if @players_without_match.any? %>

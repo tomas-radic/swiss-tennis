@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     <p class="lead float-left">
-      Zoznam zápasov (<%= @matches.count %>)
+      Zoznam zápasov (<%= @nr_all_real_matches %>)
       <%= '|' if selected_round.present? %>
       <%= round_element(selected_round, current_user) %>
     </p>
@@ -13,7 +13,15 @@
   </div>
 </div>
 
-<%= round_progress_info(selected_round) if selected_round.present? %>
+<% if selected_round && @nr_round_finished_matches && @nr_round_matches %>
+  <%= render partial: "rounds/progress",
+             locals: {
+               round: selected_round,
+               finished: @nr_round_finished_matches,
+               total: @nr_round_matches
+             }
+  %>
+<% end %>
 
 <%#= render 'shared/special_instructions' unless cookies[:special_instructions_accepted] == "true" %>
 
@@ -60,9 +68,20 @@
   </div>
 <% end %>
 
-<%= render 'matches/table',
-           matches: @matches,
-           js_filter_target: 'matches',
-           last_update_time: @last_update_time %>
+<% if selected_round && @planned_matches.any? || @recent_matches.any? || @previous_matches.any? || @unplanned_matches.any? %>
+  <%= render 'matches/table',
+             planned_matches: @planned_matches,
+             recent_matches: @recent_matches,
+             previous_matches: @previous_matches,
+             unplanned_matches: @unplanned_matches,
+             js_filter_target: 'matches',
+             last_update_time: @last_update_time %>
+<% else %>
+  <div class="row">
+    <div class="col">
+      <p class="lead text-center">Žiadne zápasy.</p>
+    </div>
+  </div>
+<% end %>
 
 <%= render "shared/scripts_autoreload" %>

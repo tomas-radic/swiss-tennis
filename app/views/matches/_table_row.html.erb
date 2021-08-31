@@ -3,7 +3,7 @@
   <%= render "matches/player_cell", match: match, player: match.player2 %>
 
   <td>
-    <% if (match.round.position < selected_round.position) && match.round.season == selected_season %>
+    <% if match.round.season == selected_season %>
       <%= link_to match.round.full_label,
                   matches_path(round_id: match.round.id),
                   class: 'btn btn-sm btn-success' %>

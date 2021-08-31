@@ -25,9 +25,20 @@ class RankingsController < ApplicationController
                               .includes(:players, :round)
 
       @last_update_time = @rankings.map { |r| r[:updated_at] }.max&.in_time_zone
+
+      # Counts
+      @nr_round_matches = selected_season.matches.published.not_dummy
+                                         .joins(:round)
+                                         .where(rounds: { position: selected_round.position })
+                                         .count
+      @nr_finished_matches = selected_season.matches.published.not_dummy.finished
+                                            .joins(:round)
+                                            .where(rounds: { position: selected_round.position })
+                                            .count
     else
       @rankings = []
     end
+
 
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
   end
