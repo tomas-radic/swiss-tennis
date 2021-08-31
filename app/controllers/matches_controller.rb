@@ -35,7 +35,7 @@ class MatchesController < ApplicationController
       @unplanned_matches = selected_season.matches.published.pending
                                           .where("rounds.position <= ?", selected_round.position)
                                           .where(play_date: nil)
-                                          .order("matches.note desc nulls last")
+                                          .order("rounds.position desc, matches.note desc nulls last")
                                           .includes(:round, :place, {
                                             player1: :rankings, player2: :rankings
                                           })
