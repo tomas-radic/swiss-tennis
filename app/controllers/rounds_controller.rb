@@ -11,7 +11,7 @@ class RoundsController < ApplicationController
 
 
     @planned_matches = @round.matches.planned
-                         .order("play_date desc, play_time desc, note")
+                         .order("play_date asc, play_time asc, note desc nulls last")
                          .includes(:round, :place, {
                            player1: :rankings, player2: :rankings
                          })
