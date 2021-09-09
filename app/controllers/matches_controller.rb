@@ -12,7 +12,7 @@ class MatchesController < ApplicationController
 
     if selected_round.present?
       @planned_matches = selected_season.matches.published.planned
-                                        .where("rounds.position = ?", selected_round.position)
+                                        .where("rounds.position <= ?", selected_round.position)
                                         .order("play_date asc, play_time asc, note desc nulls last")
                                         .includes(:round, :place, {
                                           player1: :rankings, player2: :rankings
