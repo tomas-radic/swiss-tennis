@@ -49,6 +49,7 @@ class MatchesController < ApplicationController
 
       if user_signed_in? && selected_round.period_ends && ((selected_round.period_ends - 7) < Date.today)
         @unplanned_matches_count = selected_season.matches.published.pending.not_dummy
+                                                  .where("matches.play_date is null")
                                                   .where("rounds.position <= ?", selected_round.position)
                                                   .count
       end
