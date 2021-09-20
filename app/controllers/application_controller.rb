@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   add_flash_types :completed
 
 
+  private
+
   def current_user
     if session[:user_id]
       @current_user ||= User.find_by(id: session[:user_id])
@@ -80,8 +82,6 @@ class ApplicationController < ActionController::Base
     @payment_balance_text = helpers.currency_string(@payment_balance)
   end
 
-
-  private
 
   def log_http_request!
     path = request.fullpath

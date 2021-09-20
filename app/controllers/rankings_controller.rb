@@ -42,4 +42,19 @@ class RankingsController < ApplicationController
 
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
   end
+
+
+  private
+
+  def selected_round
+    if params["round_id"].present?
+      round = selected_season.rounds.find params["round_id"]
+    else
+      round = selected_season.rounds.default.regular.joins(:matches).where('matches.published is true').first
+      round ||= selected_season.rounds.default.regular.first
+      round ||= selected_season.rounds.default.first
+    end
+
+    round
+  end
 end
