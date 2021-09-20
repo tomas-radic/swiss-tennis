@@ -57,6 +57,8 @@ class CreateMatch < Patterns::Service
       :round_id,
       :published,
       :play_date,
+      :play_time,
+      :place_id,
       :note
     )
   end
