@@ -6,7 +6,7 @@ class CreateMatch < Patterns::Service
 
     initialize_match
     add_players_relations if player1.present? && player2.present?
-    # @match.save   # temporarily disabled creating new matches
+    @match.save
 
     @match
   end
