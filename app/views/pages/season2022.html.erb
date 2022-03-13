@@ -1,0 +1,118 @@
+<div class="center-panel">
+  <h1 class="display-3 text-center pb-4">
+    Sezóna <span class="px-4 bg-black"><strong>2022</strong></span>
+  </h1>
+
+  <hr>
+  <h2 class="text-center pt-5">
+    Ahojte tenisti!
+  </h2>
+  <p class="text-justify">
+    Po troch rokoch tvrdej driny
+    <%= Emoji.find_by_alias("grimacing").raw %>
+    na kurtoch aj za barovým pultom
+    <%= Emoji.find_by_alias("beer").raw %>
+    <%= Emoji.find_by_alias("beer").raw %>
+    <%= Emoji.find_by_alias("beer").raw %>
+    <%= Emoji.find_by_alias("beer").raw %>
+    <%= Emoji.find_by_alias("beer").raw %>
+    sa Babalovci rozhodli dať si zaslúžený oddych
+    a v tejto sezóne sa tenisu v Topoľčanoch zúčastniť pasívnejšie. Na kurtoch v parku ich už nestretnete
+    a Ondro túto súťaž už nebude manažovať. Podľa odpovedí hráčov po poslednej sezóne je stále záujem zasúťažiť
+    si a preto budú obe ligy - Matotenis aj TOtal pokračovať. Hrať sa bude, tak ako aj doteraz, na ktorýchkoľvek
+    kurtoch v Topoľčanoch (a okolí). Kontakt na organizátora je Tomáš Radič,
+    <%= link_to '0905 289 248', 'tel:0905289248' %>,
+    <%= link_to 'tomas.radic@gmail.com', 'mailto:tomas.radic@gmail.com' %>.
+  </p>
+  <h3 class="text-justify">
+    Dátum štartu súťaže a počet kol, ktoré sa budú hrať zverejním neskôr, aj podľa počtu záujemcov -
+    <strong class="text-danger">preto prosím, kontaktujte ma už teraz, ak máte záujem sa prihlásiť.</strong>
+    Prosím, prečítajte si dôležité zmeny nižšie na tejto stránke.
+  </h3>
+
+  <p class="text-center mt-4">
+    Tomáš Radič<br>
+    <%= link_to '0905 289 248', 'tel:0905289248' %><br>
+    <%= link_to 'tomas.radic@gmail.com', 'mailto:tomas.radic@gmail.com' %>
+  </p>
+
+  <div class="text-center">
+    <%= image_tag "bart_playing_better.jpg", alt: "Bart Simpson", class: "center-image", style: "max-width: 640px;" %>
+  </div>
+
+  <hr>
+  <h2 class="text-center pt-5">
+    Dôležité zmeny 2022!
+  </h2>
+  <p class="text-justify">
+    Ako viete, žrebovanie každého ďalšieho kola je pri tomto systéme hry závislé na výsledkoch z predchádzajúceho
+    kola. Preto keď nejaká dvojica neodohrá svoj zápas ani za celé dva týždne vznikal vždy problém, ako vyžrebovať a čo
+    s neodohratými zápasmi. Je potrebné zaviesť všeobecné pravidlo, ako sa tento problém rieši.
+    Od tejto sezóny sa preto zavádza nasledovný princíp.
+  </p>
+  <ol class="text-justify">
+    <li class="pt-1">
+      <strong>NEODOHRATÉ ZÁPASY</strong><br>
+      Obaja hráči zodpovedajú za to, aby stihli odohrať a nahlásiť výsledok zápasu v danom kole do okamihu
+      žrebovania ďalšieho kola (žreb - nedeľa 20:00). V prípade, že niektorý z hráčov nemôže odohrať zápas
+      počas daného kola, odohratie zápasu sa môže presunúť do nasledujúceho kola
+      <strong class="text-danger">
+        iba v prípade, že sa hráči dohodli a do okamihu žrebovania nahlásili organizátorovi presný
+        náhradný termín zápasu.
+      </strong>
+      Zápas sa dá presunúť iba do najbližsieho ďalšieho kola. Zápasy, ktoré sú do času žrebovania odignorované
+      (tzn. nenahlásený ani výsledok, ani náhradný termín) budú zmazané a nezapočítané.<br>
+      Ak sa zápas presúva, obaja hráči zápasu sú do ďalšieho kola žrebovaní akoby mali o 3 body viac.
+      <strong class="text-danger">
+        Z tohto dôvodu nebude možné presúvať zápas z predposledného kola do posledného, aby boli
+        do posledného kola všetci žrebovaní podľa svojich reálne nahratých bodov.
+      </strong>
+      Predposledné kolo je nutné odohrať v riadnom termíne, ak niekto nemôže, prehráva kontumačne a bude
+      musieť o body zabojovať v poslednom kole.
+    </li>
+    <li class="pt-1">
+      <strong>NEZHODA NA TERMÍNE ZÁPASU</strong><br>
+      V prípade, že sa hráči nevedia dohodnúť na žiadnom termíne zápasu, postupuje sa tak, že každý z hráčov
+      nahlási organizátorovi jeden až tri také dátumy, kedy nemá problém zápas odohrať. Z takto ponúknutých
+      termínov organizátor vyžrebuje konečný termín pre zápas. Čas zápasu si hráči dohodnú, alebo bude v krajnom prípade
+      stanovený.
+    </li>
+  </ol>
+
+  <hr>
+  <% if @enrollments.present? %>
+    <h2 class="text-center pt-5">
+      Prihlásení hráči - <strong>(<%= @enrollments&.count.to_i %>)</strong>
+    </h2>
+    <div class="pt-4">
+      <% if @enrollments&.any? %>
+        <div class="table-responsive my-1">
+          <table class="table table-sm">
+            <thead class="thead-dark">
+            <tr>
+              <th scope="col">Meno</th>
+              <th scope="col" class="text-center">Kategória</th>
+              <th scope="col">Dátum prihlášky</th>
+            </tr>
+            </thead>
+            <tbody class="players">
+            <% @enrollments.each do |enrollment| %>
+              <tr>
+                <td>
+                  <span class="js-filterable">
+                    <%= player_name_link(enrollment.player, current_user) %>
+                  </span>
+                </td>
+                <td class="text-center"><span class="badge badge-pill badge-light"><%= enrollment.player.category.name %></span></td>
+                <td><%= I18n.localize(enrollment.created_at, format: :date_month_year) %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <p class="text-center">Zatiaľ nie je prihlásený nikto.</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

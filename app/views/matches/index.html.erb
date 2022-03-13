@@ -46,7 +46,7 @@
       Termín a miesto zápasu si dohodnite <strong>čím skôr</strong> po vyžrebovaní každého hracieho kola.
       <strong>
         Po dohodnutí zápasu informujte organizátora o mieste a čase dohodnutého zápasu správou
-        na číslo 0905 289 248, alebo 0908 304 473.
+        na číslo 0905 289 248.
       </strong>
       Oficiálnymi loptami súťaže sú <strong>Dunlop Fort, Dunlop ATP, Head ATP a Slazenger Wimbledon</strong>.
       Iné lopty možno použiť len so súhlasom súpera.
@@ -68,7 +68,7 @@
   </div>
 <% end %>
 
-<% if selected_round && @planned_matches.any? || @recent_matches.any? || @previous_matches.any? || @unplanned_matches.any? %>
+<% if selected_round && (@planned_matches.any? || @recent_matches.any? || @previous_matches.any? || @unplanned_matches.any?) %>
   <%= render 'matches/table',
              planned_matches: @planned_matches,
              recent_matches: @recent_matches,

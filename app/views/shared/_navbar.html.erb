@@ -15,6 +15,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
+          <%= link_to 'Sezóna 2022', pages_season2022_path, class: 'nav-link'  %>
+        </li>
+        <li class="nav-item">
           <%= link_to 'Rebríček', rankings_path, class: 'nav-link'  %>
         </li>
         <li class="nav-item">
@@ -24,16 +27,16 @@
           <%= link_to 'Hráči', enrollments_path, class: 'nav-link'  %>
         </li>
         <li class="nav-item">
-          <%= link_to 'O súťaži', pages_about_path, class: 'nav-link'  %>
-        </li>
-<!--        <li class="nav-item">-->
-          <%#= link_to 'Sezóna 2020', pages_season2020_path, class: 'nav-link'  %>
-<!--        </li>-->
-        <li class="nav-item">
-          <%= link_to 'Sezóna 2021', pages_season2021_path, class: 'nav-link'  %>
-        </li>
-        <li class="nav-item">
           <%= link_to "História", history_seasons_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            O súťaži
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= link_to 'Princíp', pages_about_path, class: 'dropdown-item' %>
+            <%= link_to 'Pravidlá', pages_game_rules_path, class: 'dropdown-item' %>
+          </div>
         </li>
       </ul>
       <ul class="navbar-nav">
