@@ -119,10 +119,10 @@
       </h3>
       <% if @planned_matches.any? || @recent_matches.any? || @previous_matches.any? || @unplanned_matches.any? %>
         <%= render 'matches/table',
-                   planned_matches: @planned_matches.where(rounds: { season_id: enrollment.season_id }),
-                   recent_matches: @recent_matches.where(rounds: { season_id: enrollment.season_id }),
-                   previous_matches: @previous_matches.where(rounds: { season_id: enrollment.season_id }),
-                   unplanned_matches: @unplanned_matches.where(rounds: { season_id: enrollment.season_id }),
+                   planned_matches: @planned_matches.select { |m| m.round.season_id == enrollment.season_id },
+                   recent_matches: @recent_matches.select { |m| m.round.season_id == enrollment.season_id },
+                   previous_matches: @previous_matches.select { |m| m.round.season_id == enrollment.season_id },
+                   unplanned_matches: @unplanned_matches.select { |m| m.round.season_id == enrollment.season_id },
                    js_filter_target: "matches-#{enrollment.season.position}",
                    last_update_time: nil %>
       <% else %>
