@@ -3,7 +3,6 @@
     Sezóna <span class="px-4 bg-black"><strong>2022</strong></span>
   </h1>
 
-  <hr>
   <h2 class="text-center pt-5">
     Ahojte tenisti!
   </h2>
@@ -20,16 +19,8 @@
     a v tejto sezóne sa tenisu v Topoľčanoch zúčastniť pasívnejšie. Na kurtoch v parku ich už nestretnete
     a Ondro túto súťaž už nebude manažovať. Podľa odpovedí hráčov po poslednej sezóne je stále záujem zasúťažiť
     si a preto budú obe ligy - Matotenis aj TOtal pokračovať. Hrať sa bude, tak ako aj doteraz, na ktorýchkoľvek
-    kurtoch v Topoľčanoch a okolí. Kontakt na organizátora je Tomáš Radič,
-    <%= link_to '0905 289 248', 'tel:0905289248' %>,
-    <%= link_to 'tomas.radic@gmail.com', 'mailto:tomas.radic@gmail.com' %>.
+    kurtoch v Topoľčanoch a okolí. Kontakt na organizátora je
   </p>
-  <h3 class="text-justify">
-    Dátum štartu súťaže a počet kol, ktoré sa budú hrať zverejním neskôr, aj podľa počtu záujemcov -
-    <strong class="text-danger">preto prosím, kontaktujte ma už teraz, ak máte záujem sa prihlásiť.</strong>
-    Prosím, prečítajte si dôležité zmeny nižšie na tejto stránke.
-  </h3>
-
   <p class="text-center mt-4">
     Tomáš Radič<br>
     <%= link_to '0905 289 248', 'tel:0905289248' %><br>
@@ -40,7 +31,23 @@
     <%= image_tag "bart_playing_better.jpg", alt: "Bart Simpson", class: "center-image", style: "max-width: 640px;" %>
   </div>
 
-  <hr>
+  <h2 class="text-center pt-5">Harmonogram</h2>
+  <ul>
+    <li><b>Žrebovanie 1. kola:</b> 1. máj 16:00 - Mravenisko</li>
+    <li><b>1. kolo:</b> 2. máj - 15. máj</li>
+    <li><b>2. kolo:</b> 16. máj - 29. máj</li>
+    <li><b>3. kolo:</b> 30. máj - 12. jún</li>
+    <li><b>4. kolo:</b> 13. jún - 26. jún</li>
+    <li><b>5. kolo:</b> 27. jún - 10. júl</li>
+    <li><b>6. kolo:</b> 11. júl - 24. júl</li>
+    <li><b>7. kolo:</b> 25. júl - 7. august</li>
+    <li><b>8. kolo:</b> 8. august - 21. august</li>
+  </ul>
+  <p class="text-justify">
+    Finálové zápasy sa budú hrať v dvoch možných termínoch: 27.-28. august, prípadne 10.-11. september
+    podľa dohody s nominovanými hráčmi.
+  </p>
+
   <h2 class="text-center pt-5">
     Dôležité zmeny 2022!
   </h2>
@@ -124,7 +131,6 @@
     </li>
   </ol>
 
-  <hr>
   <% if @enrollments.present? %>
     <h2 class="text-center pt-5">
       Prihlásení hráči - <strong>(<%= @enrollments&.count.to_i %>)</strong>
