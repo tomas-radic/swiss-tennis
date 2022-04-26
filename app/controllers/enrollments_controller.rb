@@ -7,7 +7,7 @@ class EnrollmentsController < ApplicationController
     @enrollments = selected_season.enrollments
                        .joins(player: :category)
                        .where(players: { dummy: false })
-                       .order('enrollments.created_at desc')
+                       .order('enrollments.updated_at desc')
                        .order('categories.name')
                        .order('players.last_name')
                        .includes(player: :category)

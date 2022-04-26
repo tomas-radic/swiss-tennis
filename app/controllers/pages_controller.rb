@@ -17,7 +17,7 @@ class PagesController < ApplicationController
   def season2022
     @enrollments = Season.find_by(name: "2022")&.enrollments&.active
                      &.joins(:player)&.where("players.dummy is false")
-                     &.order('enrollments.created_at desc')
+                     &.order('enrollments.updated_at desc')
                      &.includes(player: :category)
   end
 
