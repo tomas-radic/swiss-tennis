@@ -4,13 +4,14 @@
 
   $(document).on('turbolinks:load', function() {
 
-    // Consider page reload after stopped page scrolling
+    // Consider page reload after window focus and after page stopped scrolling
+    window.addEventListener("focus", considerPageReload);
     $(window).scroll(function() {
       if (timer !== null) {
         clearTimeout(timer);
       }
 
-      timer = setTimeout(considerPageReload, 500);
+      timer = setTimeout(considerPageReload, 300);
     });
   });
 
