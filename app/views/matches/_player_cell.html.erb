@@ -4,13 +4,11 @@
     </span>
   (<%= player.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
   <br>
-  <small>
-    <i>
-      <% if player.phone.present? && player.consent_given? %>
-        <%= link_to formatted_phone(player.phone), "tel:#{player.phone}" %>
-      <% else %>
-        <%= link_to_manager_phone('tel. č. u organizátora') %>
-      <% end %>
-    </i>
-  </small>
+  <i>
+    <% if player.phone.present? && player.consent_given? %>
+      <%= link_to formatted_phone(player.phone), "tel:#{player.phone}" %>
+    <% else %>
+      <%= link_to_manager_phone('tel. č. u organizátora') %>
+    <% end %>
+  </i>
 </td>
