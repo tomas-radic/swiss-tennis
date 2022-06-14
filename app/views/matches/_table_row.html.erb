@@ -6,7 +6,7 @@
     <% if match.round.season == selected_season %>
       <%= link_to match.round.full_label,
                   matches_path(round_id: match.round.id),
-                  class: 'btn btn-sm btn-success' %>
+                  class: 'table__btn btn btn-sm btn-success' %>
     <% end %>
 
     <%= match_info(match) %>
@@ -15,6 +15,6 @@
     <%= MatchDecorator.new(match).score %>
   </td>
   <td>
-    <%= link_to 'Detail', match_path(match), class: 'btn btn-sm btn-success' %>
+    <%= link_to 'Detail', match_path(match), class: 'table__btn btn btn-sm btn-success' %>
   </td>
 </tr>

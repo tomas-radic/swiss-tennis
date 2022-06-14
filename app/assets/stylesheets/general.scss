@@ -152,6 +152,20 @@ ol {
 }
 
 .table {
+  font-size: 0.7rem;
+
+  &__btn {
+    font-size: 0.7rem;
+  }
+
+  @media (min-width: 992px) {
+    font-size: inherit;
+
+    &__btn {
+      font-size: inherit;
+    }
+  }
+
   thead th {
     border-top: none;
     border-bottom: none;
