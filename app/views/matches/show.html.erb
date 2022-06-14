@@ -32,14 +32,14 @@
     </div>
   </div>
   <p class="lead text-center">
-    <%= player_name_link(@match.winner, current_user, false) %>
+    <%= player_name_link(@match.winner, current_user, quiet: false) %>
     <% if user_signed_in? || @match.winner.consent_given? %>
       <i>(tel.č. <%= link_to "#{formatted_phone(@match.winner.phone)}", "tel:#{@match.winner.phone}" %>)</i>
     <% end %>
     <b>zvíťazil<small>/a</small> v tomto zápase</b>.
   </p>
   <p class="lead text-center">
-    <%= player_name_link(@match.looser, current_user, false) %>
+    <%= player_name_link(@match.looser, current_user, quiet: false) %>
     <% if user_signed_in? || @match.looser.consent_given? %>
       <i>(tel.č. <%= link_to "#{formatted_phone(@match.looser.phone)}", "tel:#{@match.looser.phone}" %>)</i>
     <% end %>
@@ -51,14 +51,14 @@
   </p>
 <% else %>
   <p class="lead text-center">
-    <%= player_name_link(@match.player1, current_user, false) %>
+    <%= player_name_link(@match.player1, current_user, quiet: false) %>
     <% if user_signed_in? || @match.player1.consent_given? %>
       <i>(tel.č. <%= link_to "#{formatted_phone(@match.player1.phone)}", "tel:#{@match.player1.phone}" %>)</i>
     <% end %>
     <b>zabezpečuje <i>kurt</i></b>.
   </p>
   <p class="lead text-center">
-    <%= player_name_link(@match.player2, current_user, false) %>
+    <%= player_name_link(@match.player2, current_user, quiet: false) %>
     <% if user_signed_in? || @match.player2.consent_given? %>
       <i>(tel.č. <%= link_to "#{formatted_phone(@match.player2.phone)}", "tel:#{@match.player2.phone}" %>)</i>
     <% end %>

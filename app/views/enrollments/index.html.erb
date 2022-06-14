@@ -40,9 +40,9 @@
           <td>
             <span class="js-filterable">
               <% if enrollment.canceled? %>
-                <s><%= player_name_link(enrollment.player, current_user) %></s>
+                <s><%= player_name_link(enrollment.player, current_user, vertical: true) %></s>
               <% else %>
-                <%= player_name_link(enrollment.player, current_user) %>
+                <%= player_name_link(enrollment.player, current_user, vertical: true) %>
               <% end %>
             </span>
           </td>

@@ -1,7 +1,7 @@
 module PlayersHelper
 
-  def player_name_link(player, user, quiet = true)
-    player_name = player_name_by_consent(player, user)
+  def player_name_link(player, user, quiet: true, vertical: false)
+    player_name = player_name_by_consent(player, user, vertical: vertical)
 
     if player.dummy?
       player_name
@@ -11,8 +11,15 @@ module PlayersHelper
   end
 
 
-  def player_name_by_consent(player, user = nil)
-    return player.name if player.consent_given? || player.dummy?
+  def player_name_by_consent(player, user = nil, vertical: false)
+    if player.consent_given? || player.dummy?
+      if vertical
+        return player.name.gsub(/\s+/, "<br>").html_safe
+      else
+        return player.name
+      end
+
+    end
 
     anonymized_last_name = if user.blank?
                              player.last_name.split('').map.with_index do |letter, index|
@@ -22,7 +29,13 @@ module PlayersHelper
                              player.last_name.split('').tap { |a| a[-1] = '*' }.join
                            end
 
-    [player.first_name, anonymized_last_name].join(' ')
+    if vertical
+      content_tag :span do
+        [player.first_name, anonymized_last_name].join("<br>")
+      end.html_safe
+    else
+      [player.first_name, anonymized_last_name].join(' ')
+    end
   end
 
 

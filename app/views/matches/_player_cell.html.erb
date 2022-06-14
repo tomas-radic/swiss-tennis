@@ -1,6 +1,6 @@
 <td class="<%= match_player_css_class(match, player) %>">
     <span class="js-filterable">
-      <%= player_name_link(player, current_user) %>
+      <%= player_name_link(player, current_user, vertical: true) %>
     </span>
   (<%= player.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
   <br>
