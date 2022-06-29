@@ -32,8 +32,14 @@ module MatchesHelper
 
 
   def match_info(match)
-    play_date = I18n.l(match.finished_at&.to_date || match.play_date, format: :date_month) if match.finished_at || match.play_date
-    result = [play_date, match.play_time, match.place&.name].reject(&:blank?).join(' ')
+    play_date = match.finished_at || match.play_date
+    play_date = I18n.l(play_date, format: :date_month) if play_date
+
+    result = []
+    result << play_date if play_date
+    result << match.play_time if match.finished_at.blank? && play_date
+    result << match.place.name if match.place && play_date
+    result = result.join(' ')
 
     unless match.note.blank?
       result += ", " unless result.blank?
