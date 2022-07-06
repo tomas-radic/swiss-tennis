@@ -16,16 +16,16 @@ RSpec.describe PagesController, type: :controller do
   end
 
 
-  describe 'GET game_rules' do
-    subject(:get_game_rules) { get :game_rules }
+  describe 'GET rules' do
+    subject(:get_rules) { get :rules }
 
-    it 'Renders game_rules template' do
-      get_game_rules
-      expect(response).to render_template(:game_rules)
+    it 'Renders rules template' do
+      get_rules
+      expect(response).to render_template(:rules)
     end
 
     it 'Responds with success' do
-      get_game_rules
+      get_rules
       expect(response).to have_http_status(:ok)
     end
   end

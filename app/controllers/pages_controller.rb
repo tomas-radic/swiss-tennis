@@ -10,7 +10,7 @@ class PagesController < ApplicationController
   end
 
 
-  def game_rules
+  def rules
   end
 
 
