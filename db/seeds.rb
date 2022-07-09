@@ -81,7 +81,7 @@ ActiveRecord::Base.transaction do
   # Places
 
   puts "\nCreating places ..."
-  ["v parku", "na Mravenisku", "v nemocnici", "u Tobiášovcov"].each do |place_name|
+  ["park", "Mravenisko", "nemocnica", "u Tobiášovcov"].each do |place_name|
     Place.create!(name: place_name)
   end unless Place.any?
 

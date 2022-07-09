@@ -1,6 +1,6 @@
 module MatchesHelper
 
-  RECENT = Time.zone.yesterday.midnight.freeze
+  RECENT = (Date.current - 1.day).beginning_of_day.in_time_zone(Time.zone)
 
 
   def match_published_pill(match)
@@ -41,8 +41,8 @@ module MatchesHelper
     result << match.place.name if match.place && play_date
     result = result.join(' ')
 
-    unless match.note.blank?
-      result += ", " unless result.blank?
+    if match.note.present?
+      result += ", " if result.present?
       result += match.note
     end
 

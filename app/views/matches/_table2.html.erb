@@ -1,0 +1,69 @@
+<h3 class="text-center mt-4"><%= heading_text %></h3>
+<div class="grid-row grid-row-matches-header <%= dark_css_class %>">
+  <div class="grid-row-matches-header__r1c1 text-center">
+    Hráč 1<br>
+    kurt
+  </div>
+  <div class="grid-row-matches-header__r1c2 text-center">
+    Hráč 2<br>
+    lopty
+  </div>
+  <div class="grid-row-matches-header__r1c3 text-center">
+    Info
+  </div>
+</div>
+
+<% matches.each do |match| %>
+  <div class="grid-row grid-row-matches <%= light_css_class %>">
+    <% player1_class = match_player_css_class(match, match.player1) %>
+    <% player2_class = match_player_css_class(match, match.player2) %>
+    <div class="grid-row__cell grid-row-matches__r1c1 text-center <%= player1_class %>">
+      <div>
+        <span class="js-filterable">
+          <%= player_name_link(match.player1, current_user, vertical: true) %>
+        </span><br>
+        (<%= match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
+      </div>
+    </div>
+    <div class="grid-row__cell grid-row-matches__r1c2 text-center <%= player2_class %>">
+      <div>
+        <span class="js-filterable">
+          <%= player_name_link(match.player2, current_user, vertical: true) %>
+        </span><br>
+        (<%= match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
+      </div>
+    </div>
+    <div class="grid-row__cell grid-row-matches__r1c3 text-center">
+      <% if info_partial_up %>
+        <div>
+          <%= render partial: info_partial_up, locals: { match: match } %>
+        </div>
+      <% end %>
+    </div>
+    <div class="grid-row__cell grid-row-matches__r2c1 text-center <%= player1_class %>">
+      <% if match.player1.phone.present? && match.player1.consent_given? %>
+        <span class="nowrap">
+          <%= link_to formatted_phone(match.player1.phone), "tel:#{match.player1.phone}" %>
+        </span>
+      <% else %>
+        <span><%= link_to_manager_phone('tel. č. u organizátora') %></span>
+      <% end %>
+    </div>
+    <div class="grid-row__cell grid-row-matches__r2c2 text-center <%= player2_class %>">
+      <% if match.player2.phone.present? && match.player2.consent_given? %>
+        <span class="nowrap">
+          <%= link_to formatted_phone(match.player2.phone), "tel:#{match.player2.phone}" %>
+        </span>
+      <% else %>
+        <span><%= link_to_manager_phone('tel. č. u organizátora') %></span>
+      <% end %>
+    </div>
+    <div class="grid-row-matches__r2c3 text-center">
+      <%= match.round.full_label %>
+      <% if info_partial_down %>
+        <br>
+        <%= render partial: info_partial_down, locals: { match: match } %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

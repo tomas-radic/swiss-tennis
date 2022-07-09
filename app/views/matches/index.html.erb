@@ -68,14 +68,64 @@
   </div>
 <% end %>
 
-<% if selected_round && (@planned_matches.any? || @recent_matches.any? || @previous_matches.any? || @unplanned_matches.any?) %>
-  <%= render 'matches/table',
-             planned_matches: @planned_matches,
-             recent_matches: @recent_matches,
-             previous_matches: @previous_matches,
-             unplanned_matches: @unplanned_matches,
-             js_filter_target: 'matches',
-             last_update_time: @last_update_time %>
+
+
+
+
+<% if @last_update_time.present? %>
+  <div class="text-center my-3">
+    <i><small>(aktualizácia: <%= I18n.localize(@last_update_time, format: :date_with_time) %>)</small></i>
+  </div>
+<% end %>
+
+
+
+<% if selected_round && (@planned_matches.first || @recent_matches.first || @previous_matches.first || @unplanned_matches.first) %>
+
+  <div class="grid-wrapper matches">
+
+    <%= render 'shared/js_filter', target_table_body: "matches", placeholder: 'meno hráča' %>
+    <%= render partial: "matches/table2",
+               locals: {
+                 heading_text: "Naplánované",
+                 matches: @planned_matches,
+                 dark_css_class: "table-bg-smoke",
+                 light_css_class: "table-bg-smoke",
+                 info_partial_up: "matches/datetime",
+                 info_partial_down: "matches/note"
+               } if @planned_matches.first %>
+
+    <%= render partial: "matches/table2",
+               locals: {
+                 heading_text: "Najnovšie",
+                 matches: @recent_matches,
+                 dark_css_class: "table-bg-darken-yellow",
+                 light_css_class: "table-bg-yellow",
+                 info_partial_up: "matches/score",
+                 info_partial_down: "matches/datetime"
+               } if @recent_matches.first %>
+
+    <%= render partial: "matches/table2",
+               locals: {
+                 heading_text: "Odohraté",
+                 matches: @previous_matches,
+                 dark_css_class: "table-bg-darken-green",
+                 light_css_class: "table-bg-green",
+                 info_partial_up: "matches/score",
+                 info_partial_down: "matches/datetime"
+               } if @previous_matches.first %>
+
+    <%= render partial: "matches/table2",
+               locals: {
+                 heading_text: "Žreb",
+                 matches: @unplanned_matches,
+                 dark_css_class: nil,
+                 light_css_class: nil,
+                 info_partial_up: "matches/datetime",
+                 info_partial_down: "matches/note"
+               } if @planned_matches.first %>
+
+  </div>
 <% else %>
   <div class="row">
     <div class="col">

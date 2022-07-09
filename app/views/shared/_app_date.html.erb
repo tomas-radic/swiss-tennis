@@ -1,0 +1,17 @@
+<%
+  vertical ||= false
+  day = ["ned", "pon", "uto", "str", "štv", "pia", "sob"][date.wday]
+  dt = date.day
+  mn = ["jan", "feb", "mar", "apr", "máj", "jún", "júl", "aug", "sep", "okt", "nov", "dec"][date.month - 1]
+%>
+
+<% if vertical %>
+  <div class="text-center" style="display: inline-block;">
+    <%= day %><br>
+    <span class="nowrap">
+      <%= "#{dt}. #{mn}" %>
+    </span>
+  </div>
+<% else %>
+  <span class="nowrap"><%= "#{day} #{dt}. #{mn}" %></span>
+<% end %>

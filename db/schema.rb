@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "articles", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "articles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "content", null: false
     t.date "last_date_interesting"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
-  create_table "categories", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.integer "nr_finalists", default: 0, null: false
   end
 
-  create_table "enrollments", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "enrollments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "season_id", null: false
     t.uuid "player_id", null: false
     t.boolean "active", default: true, null: false
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["season_id"], name: "index_enrollments_on_season_id"
   end
 
-  create_table "http_requests", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "http_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "path", null: false
     t.integer "year", null: false
     t.integer "week", null: false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["path", "year", "week", "ip_address"], name: "index_http_requests_on_path_and_year_and_week_and_ip_address", unique: true
   end
 
-  create_table "match_assignments", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "match_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player_id"
     t.uuid "match_id"
     t.datetime "created_at", null: false
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["player_id"], name: "index_match_assignments_on_player_id"
   end
 
-  create_table "matches", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "matches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player1_id", null: false
     t.uuid "player2_id", null: false
     t.uuid "winner_id"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 
-  create_table "payments", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "amount", null: false
     t.string "text_amount", null: false
     t.date "paid_on", null: false
@@ -111,14 +111,14 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
-  create_table "places", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "places", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.integer "position", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "players", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "phone"
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["category_id"], name: "index_players_on_category_id"
   end
 
-  create_table "rankings", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "rankings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player_id", null: false
     t.uuid "round_id", null: false
     t.integer "points", default: 0, null: false
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["round_id"], name: "index_rankings_on_round_id"
   end
 
-  create_table "rounds", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "season_id"
     t.integer "position"
     t.string "label"
@@ -160,14 +160,14 @@ ActiveRecord::Schema.define(version: 2021_07_20_175022) do
     t.index ["season_id"], name: "index_rounds_on_season_id"
   end
 
-  create_table "seasons", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "seasons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position", default: 1, null: false
   end
 
-  create_table "users", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
     t.datetime "created_at", null: false

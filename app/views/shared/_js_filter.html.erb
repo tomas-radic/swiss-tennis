@@ -20,7 +20,7 @@
 
   $('.js-filter').on('keyup search', function() {
     var searchedText = filterableText($(this).val());
-    var tableRows = $('.' + $(this).data('target') + ' > tr');
+    var tableRows = $('.' + $(this).data('target') + ' > .grid-row');
 
     tableRows.each(function() {
       var currentRow = $(this);

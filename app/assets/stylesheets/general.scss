@@ -99,6 +99,11 @@ a.quiet-link {
   color: inherit;
 }
 
+a.link {
+  text-decoration: underline;
+  color: inherit;
+}
+
 .pagination-switcher {
   display: inline-block;
 }
@@ -201,6 +206,107 @@ ol {
 
 .field_with_errors { display: inline; }
 
+
+.grid-wrapper {
+  @media only screen and (min-width: 768px) {
+    max-width: 1260px;
+    margin: 0 auto;
+  }
+}
+.grid-row {
+  display: grid;
+  font-size: 0.8rem;
+  justify-items: center;
+  align-items: center;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+
+  &__cell {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media only screen and (min-width: 768px) {
+    font-size: inherit;
+  }
+}
+.grid-row-matches-header {
+  grid-template-columns: 3fr 3fr 2fr;
+
+  &__c1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+
+  &__c2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+
+  &__c3 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+  }
+}
+.grid-row-matches {
+  grid-template-columns: 3fr 3fr 2fr;
+  grid-template-rows: auto auto;
+  border-top: 2px solid black;
+
+  &__r1c1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+
+  &__r1c2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+
+  &__r1c3 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+
+  &__r2c1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+
+  &__r2c2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+
+  &__r2c3 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+}
+
+
+.nowrap {
+  white-space: nowrap;
+}
+
+
 //
 // Colors
 
@@ -227,7 +333,7 @@ ol {
   background-color: $yellowbg_darken;
 }
 .table-bg-smoke {
-  background-color: $smokebg
+  background-color: $smokebg;
 }
 .dark-gray {
   color: $dark_gray;

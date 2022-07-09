@@ -19,6 +19,7 @@ module ApplicationHelper
     '(chýba)'
   end
 
+
   def formatted_phone(phone)
     return phone if phone.blank?
 

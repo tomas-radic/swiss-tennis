@@ -1,0 +1,11 @@
+<% if match.date %>
+  <%= render partial: "shared/app_date", locals: { date: match.date, vertical: true } %>
+
+  <% if match.play_time %>
+    <div><%= match.play_time %></div>
+  <% end %>
+<% end %>
+
+<% if match.place %>
+  <div><%= match.place.name %></div>
+<% end %>

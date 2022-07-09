@@ -2,7 +2,7 @@ class MatchDecorator < SimpleDelegator
   include PlayersHelper
 
   def score
-    [set1, set2, set3].reject(&:blank?).join(' | ')
+    [set1, set2, set3].reject(&:blank?).join("<br>").html_safe
   end
 
   def set1

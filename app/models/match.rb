@@ -55,6 +55,11 @@ class Match < ApplicationRecord
     set1_player1_score.to_i > 0 || set1_player2_score.to_i > 0
   end
 
+
+  def date
+    @date ||= (finished_at&.to_date || play_date)
+  end
+
   private
 
   def set_defaults
