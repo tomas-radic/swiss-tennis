@@ -37,7 +37,7 @@ module MatchesHelper
 
     result = []
     result << play_date if play_date
-    result << match.play_time if match.finished_at.blank? && play_date
+    result << match.play_time if match.finished_at.blank? && play_date && match.play_time
     result << match.place.name if match.place && play_date
     result = result.join(' ')
 

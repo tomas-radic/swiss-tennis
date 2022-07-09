@@ -15,7 +15,7 @@ describe MatchDecorator do
     subject(:score) { described_class.new(match).score }
 
     it 'Returns match score string' do
-      expect(score).to eq '6:4 | 6:3'
+      expect(score).to eq '6:4<br>6:3'
     end
   end
 

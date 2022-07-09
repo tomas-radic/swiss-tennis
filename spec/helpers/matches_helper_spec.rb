@@ -31,7 +31,7 @@ RSpec.describe MatchesHelper, type: :helper do
     end
 
     context "Match has date and place" do
-      let!(:match) { create(:match, play_date: Date.tomorrow, play_time: nil, place: create(:place), note: nil) }
+      let!(:match) { create(:match, play_date: Date.tomorrow, play_time: nil, place: create(:place, name: "Place"), note: nil) }
 
       it "Returns formatted result" do
         expect(method_result).to eq("#{I18n.l(Date.tomorrow, format: :date_month)} Place")
@@ -42,7 +42,7 @@ RSpec.describe MatchesHelper, type: :helper do
       let!(:match) { create(:match, play_date: nil, play_time: nil, place: create(:place), note: "Some text") }
 
       it "Returns formatted result" do
-        expect(method_result).to eq("Place, Some text")
+        expect(method_result).to eq("Some text")
       end
     end
 
