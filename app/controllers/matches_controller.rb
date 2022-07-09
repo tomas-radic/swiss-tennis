@@ -5,7 +5,7 @@ class MatchesController < ApplicationController
 
 
   def index
-    log_http_request! unless user_signed_in?
+    # log_http_request! unless user_signed_in?
 
     @most_recent_article = MostRecentArticlesQuery.call(season: selected_season).first
 

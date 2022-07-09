@@ -1,11 +1,13 @@
-<% if match.date %>
-  <%= render partial: "shared/app_date", locals: { date: match.date, vertical: true } %>
+<%= link_to match_path(match), class: "link" do %>
+  <% if match.date %>
+    <%= render partial: "shared/app_date", locals: { date: match.date, vertical: true } %>
 
-  <% if match.play_time %>
-    <div><%= match.play_time %></div>
+    <% if match.play_time %>
+      <div><%= match.play_time %></div>
+    <% end %>
   <% end %>
-<% end %>
 
-<% if match.place %>
-  <div><%= match.place.name %></div>
+  <% if match.place %>
+    <div><%= match.place.name %></div>
+  <% end %>
 <% end %>

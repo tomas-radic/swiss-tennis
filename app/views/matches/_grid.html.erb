@@ -59,11 +59,12 @@
       <% end %>
     </div>
     <div class="grid-row-matches__r2c3 text-center">
-      <%= match.round.full_label %>
       <% if info_partial_down %>
-        <br>
-        <%= render partial: info_partial_down, locals: { match: match } %>
+        <div>
+          <%= render partial: info_partial_down, locals: { match: match } %>
+        </div>
       <% end %>
+      <%= link_to match.round.full_label, match_path(match), class: "link" %>
     </div>
   </div>
 <% end %>
