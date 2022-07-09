@@ -5,31 +5,14 @@ class PlayersController < ApplicationController
 
 
   def show
-    @planned_matches = @player.matches.published.planned
-                         .order("play_date asc, play_time asc, note desc nulls last")
-                         .includes(:round, :place, {
-                           player1: :rankings, player2: :rankings
-                         })
+    @matches = @player.matches.published
+                      .order("finished_at desc nulls first, play_date asc nulls last, play_time asc")
+                      .includes(:round,
+                                :place,
+                                { player1: :rankings, player2: :rankings },
+                                :winner, :retired_player)
 
-    @recent_matches = @player.matches.published.recent
-                        .order("finished_at desc")
-                        .includes(:round, :place, {
-                          player1: :rankings, player2: :rankings
-                        }, :winner, :retired_player)
-
-    @previous_matches = @player.matches.published.previous
-                          .order("finished_at desc")
-                          .includes(:round, :place, {
-                            player1: :rankings, player2: :rankings
-                          }, :winner, :retired_player)
-
-    @unplanned_matches = @player.matches.published.pending
-                           .where(play_date: nil).order("note asc")
-                           .includes(:round, :place, {
-                             player1: :rankings, player2: :rankings
-                           })
-
-    @last_played_matches = @player.matches.finished
+    @last_played_matches = @player.matches.published.finished
                              .where("finished_at >= ?", 2.month.ago)
                              .where("set1_player1_score > 0 or set1_player2_score > 0")
                              .reorder(:finished_at).last(3)

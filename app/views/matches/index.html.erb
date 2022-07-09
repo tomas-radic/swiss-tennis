@@ -85,7 +85,7 @@
   <div class="grid-wrapper matches">
 
     <%= render 'shared/js_filter', target_table_body: "matches", placeholder: 'meno hráča' %>
-    <%= render partial: "matches/table2",
+    <%= render partial: "matches/grid",
                locals: {
                  heading_text: "Naplánované",
                  matches: @planned_matches,
@@ -95,7 +95,7 @@
                  info_partial_down: "matches/note"
                } if @planned_matches.first %>
 
-    <%= render partial: "matches/table2",
+    <%= render partial: "matches/grid",
                locals: {
                  heading_text: "Najnovšie",
                  matches: @recent_matches,
@@ -105,7 +105,7 @@
                  info_partial_down: "matches/datetime"
                } if @recent_matches.first %>
 
-    <%= render partial: "matches/table2",
+    <%= render partial: "matches/grid",
                locals: {
                  heading_text: "Odohraté",
                  matches: @previous_matches,
@@ -115,7 +115,7 @@
                  info_partial_down: "matches/datetime"
                } if @previous_matches.first %>
 
-    <%= render partial: "matches/table2",
+    <%= render partial: "matches/grid",
                locals: {
                  heading_text: "Žreb",
                  matches: @unplanned_matches,

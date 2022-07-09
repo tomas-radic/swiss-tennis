@@ -110,6 +110,7 @@
   </div>
 </div>
 
+<%= render 'shared/js_filter', target_table_body: "matches", placeholder: 'meno hráča' %>
 <% @player.enrollments.joins(:season).order('seasons.position desc').includes(:season).each do |enrollment| %>
   <hr>
   <div class="row">
@@ -117,14 +118,33 @@
       <h3 class="text-center">
         <%= "Zápasy sezóny #{enrollment.season.name}" %>
       </h3>
-      <% if @planned_matches.any? || @recent_matches.any? || @previous_matches.any? || @unplanned_matches.any? %>
-        <%= render 'matches/table',
-                   planned_matches: @planned_matches.select { |m| m.round.season_id == enrollment.season_id },
-                   recent_matches: @recent_matches.select { |m| m.round.season_id == enrollment.season_id },
-                   previous_matches: @previous_matches.select { |m| m.round.season_id == enrollment.season_id },
-                   unplanned_matches: @unplanned_matches.select { |m| m.round.season_id == enrollment.season_id },
-                   js_filter_target: "matches-#{enrollment.season.position}",
-                   last_update_time: nil %>
+      <% season_matches = @matches.select { |m| (m.round.season_id == enrollment.season_id) } %>
+      <% finished_season_matches = season_matches.select { |m| m.finished_at.present? } %>
+      <% unfinished_season_matches = season_matches.select { |m| m.finished_at.blank? } %>
+      <% if season_matches.length > 0 %>
+
+        <div class="grid-wrapper matches">
+
+          <%= render partial: "matches/grid",
+                     locals: {
+                       heading_text: "Neodohraté",
+                       matches: unfinished_season_matches,
+                       dark_css_class: nil,
+                       light_css_class: nil,
+                       info_partial_up: "matches/datetime",
+                       info_partial_down: "matches/note"
+                     } if unfinished_season_matches.length > 0 %>
+
+          <%= render partial: "matches/grid",
+                     locals: {
+                       heading_text: "Odohraté",
+                       matches: finished_season_matches,
+                       dark_css_class: "table-bg-darken-green",
+                       light_css_class: "table-bg-green",
+                       info_partial_up: "matches/score",
+                       info_partial_down: "matches/datetime"
+                     } if finished_season_matches.length > 0 %>
+        </div>
       <% else %>
         <div class="row">
           <div class="col">

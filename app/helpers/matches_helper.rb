@@ -14,23 +14,6 @@ module MatchesHelper
   end
 
 
-  def match_player_css_class(match, player)
-    if match.finished_at.nil?
-      ''
-
-    elsif player == match.winner
-      if match.finished_at > RECENT
-        'font-weight-bold table-bg-darken-yellow'
-      else
-        'font-weight-bold table-bg-darken-green'
-      end
-
-    elsif player == match.retired_player
-      'dark-gray'
-    end
-  end
-
-
   def match_info(match)
     play_date = match.finished_at || match.play_date
     play_date = I18n.l(play_date, format: :date_month) if play_date

@@ -15,8 +15,8 @@
 
 <% matches.each do |match| %>
   <div class="grid-row grid-row-matches <%= light_css_class %>">
-    <% player1_class = match_player_css_class(match, match.player1) %>
-    <% player2_class = match_player_css_class(match, match.player2) %>
+    <% player1_class = match.player1 == match.winner ? dark_css_class : light_css_class %>
+    <% player2_class = match.player2 == match.winner ? dark_css_class : light_css_class %>
     <div class="grid-row__cell grid-row-matches__r1c1 text-center <%= player1_class %>">
       <div>
         <span class="js-filterable">

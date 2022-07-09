@@ -9,43 +9,12 @@ class RoundsController < ApplicationController
   def show
     @players_without_match = PlayersWithoutMatchQuery.call(round: @round).includes(:rankings)
 
-
-    @planned_matches = @round.matches.planned
-                         .order("play_date asc, play_time asc, note desc nulls last")
-                         .includes(:round, :place, {
-                           player1: :rankings, player2: :rankings
-                         })
-
-    @recent_matches = @round.matches.recent
-                        .order("finished_at desc")
-                        .includes(:round, :place, {
-                          player1: :rankings, player2: :rankings
-                        }, :winner, :retired_player)
-
-    @previous_matches = @round.matches.previous
-                          .order("finished_at desc")
-                          .includes(:round, :place, {
-                            player1: :rankings, player2: :rankings
-                          }, :winner, :retired_player)
-
-    @unplanned_matches = @round.matches.pending
-                           .where(play_date: nil)
-                           .order("rounds.position desc, matches.note desc nulls last")
-                           .includes(:round, :place, {
-                             player1: :rankings, player2: :rankings
-                           })
-
-    # Counts
-    @nr_published_matches = @planned_matches.published.count +
-      @recent_matches.published.count +
-      @previous_matches.published.count +
-      @unplanned_matches.published.count
-
-    @nr_draft_matches = @planned_matches.draft.count +
-      @recent_matches.draft.count +
-      @previous_matches.draft.count +
-      @unplanned_matches.draft.count
-
+    @matches = @round.matches
+                     .order("finished_at desc nulls first, play_date asc nulls last, play_time asc")
+                     .includes(:round,
+                               :place,
+                               { player1: :rankings, player2: :rankings },
+                               :winner, :retired_player)
 
     if selected_round.period_ends && ((selected_round.period_ends - 7) < Date.today)
       @unplanned_matches_count = @round.matches.published.pending.not_dummy.where("matches.play_date is null").count
