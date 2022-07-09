@@ -20,8 +20,8 @@
       </thead>
       <tbody>
         <% @rounds.each do |round| %>
-          <% all_matches_count = round.matches.size %>
-          <% finished_matches_count = round.finished_matches.size %>
+          <% all_matches_count = round.matches.published.size %>
+          <% finished_matches_count = round.finished_matches.published.size %>
           <tr>
             <td><%= round.position %></td>
             <td><%= link_to round.full_label, round_path(round), class: 'quiet-link' %></td>
