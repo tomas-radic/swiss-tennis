@@ -136,6 +136,10 @@
                          info_partial_down: "matches/datetime"
                        } if finished_matches.length > 0 %>
           </div>
+
+          <p class="text-center">
+            <%= double_confirm_button('Zverejniť všetky!', publish_all_matches_round_path(@round), 'btn btn-sm btn-success') %>
+          </p>
         <% else %>
           <div class="row">
             <div class="col">
