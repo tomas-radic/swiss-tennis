@@ -19,7 +19,7 @@
     <% player2_class = match.player2 == match.winner ? dark_css_class : light_css_class %>
     <div class="grid-row__cell grid-row-matches__r1c1 text-center <%= player1_class %>">
       <div>
-        <span class="js-filterable">
+        <span class="js-filterable <%= 'dark-gray' if match.player1_id == match.retired_player_id %>">
           <%= player_name_link(match.player1, current_user, vertical: true) %>
         </span><br>
         (<%= match.player1.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)
@@ -27,7 +27,7 @@
     </div>
     <div class="grid-row__cell grid-row-matches__r1c2 text-center <%= player2_class %>">
       <div>
-        <span class="js-filterable">
+        <span class="js-filterable <%= 'dark-gray' if match.player2_id == match.retired_player_id %>">
           <%= player_name_link(match.player2, current_user, vertical: true) %>
         </span><br>
         (<%= match.player2.rankings.find { |r| r[:round_id] == match.round.id }&.points.to_i %>b)

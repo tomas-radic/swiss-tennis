@@ -1,1 +1,15 @@
-<%= link_to MatchDecorator.new(match).score, match_path(match), class: "link" %>
+<% if match.set1.present? %>
+  <%= match.set1 %>
+<% end %>
+<% if match.set2.present? %>
+  <br><%= match.set2 %>
+<% end %>
+<% if match.set3.present? %>
+  <br><%= match.set3 %>
+<% end %>
+<% if match.retired_player_id.present? %>
+  <% if match.set1.present? %>
+    <br>
+  <% end %>
+  (skreč)
+<% end %>

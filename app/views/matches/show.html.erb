@@ -22,7 +22,7 @@
 <% if @match.finished? %>
   <div class="row">
     <div class="col">
-      <h2 class="text-center"><%= MatchDecorator.new(@match).score %></h2>
+      <h2 class="text-center"><%= render partial: "matches/score", locals: { match: @match } %></h2>
     </div>
   </div>
   <p class="lead text-center">

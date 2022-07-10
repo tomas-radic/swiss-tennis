@@ -33,7 +33,6 @@ describe CreateMatch do
         expect(match.play_date).to eq Date.tomorrow
         expect(match.note).to eq('A note here')
         expect(match.finished_at).to be_nil
-        expect(MatchDecorator.new(match).score).to be_empty
       end
     end
 
@@ -157,7 +156,6 @@ describe CreateMatch do
       expect(match.play_date).to eq Date.tomorrow
       expect(match.note).to eq('A note here')
       expect(match.finished_at).to be_nil
-      expect(MatchDecorator.new(match).score).to be_empty
     end
   end
 end
