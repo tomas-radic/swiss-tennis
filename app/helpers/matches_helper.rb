@@ -1,6 +1,6 @@
 module MatchesHelper
 
-  RECENT = (Date.current - 1.day).beginning_of_day.in_time_zone(Time.zone)
+  RECENT = (Time.now.in_time_zone - 1.day).beginning_of_day
 
 
   def match_published_pill(match)
