@@ -79,53 +79,52 @@
       </small>
     </i>
   <% end %>
-  <div class="table-responsive my-1">
-    <table class="table table-sm">
-      <thead class="thead-dark">
-        <tr>
-          <th></th>
-          <th scope="col">Meno</th>
-          <th scope="col">Body</th>
-          <th scope="col">
-            Body
-            <span class="text-nowrap">
-              súperov
-              <span data-toggle="tooltip" data-placement="left" title="Súčet bodov tých hráčov, s ktorými má hráč odohratý zápas v tejto sezóne vrátane tohto kola">
-                <%= fa_icon 'question-circle' %>
-              </span>
+
+  <table class="table table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th>Meno</th>
+        <th>Body</th>
+        <th>
+          Body
+          <span class="text-nowrap">
+            súperov
+            <span data-toggle="tooltip" data-placement="left" title="Súčet bodov tých hráčov, s ktorými má hráč odohratý zápas v tejto sezóne vrátane tohto kola">
+              <%= fa_icon 'question-circle' %>
             </span>
-          </th>
-          <th scope="col">Kategória</th>
-        </tr>
-      </thead>
-      <tbody class="rankings">
-        <% @rankings.each_with_index do |ranking, i| %>
-          <tr class="<%= rankings_table_row_css_class(ranking) %>">
-            <td><%= i + 1 %></td>
-            <td>
-              <span class="js-filterable">
-                <% if ranking[:player_enrollment_active] %>
-                  <%= player_name_link(ranking[:player], current_user) %>
-                <% else %>
-                  <s><%= player_name_link(ranking[:player], current_user) %></s>
-                <% end %>
-              </span>
-              <% matches_to_play = @matches_to_play.select { |m| m.players.include? ranking[:player] }.sort { |m| m.round.position } %>
-              <% if matches_to_play.any? %>
-                <br>
-                <small class="text-secondary">
-                  neodohraté s <%= matches_to_play.map { |m| m.players.find { |p| p.id != ranking[:player].id }.name }.join(", ") %>
-                </small>
+          </span>
+        </th>
+        <th scope="col">Kategória</th>
+      </tr>
+    </thead>
+    <tbody class="rankings">
+      <% @rankings.each_with_index do |ranking, i| %>
+        <tr class="<%= rankings_table_row_css_class(ranking) %>">
+          <td><%= i + 1 %></td>
+          <td>
+            <span class="js-filterable">
+              <% if ranking[:player_enrollment_active] %>
+                <%= player_name_link(ranking[:player], current_user) %>
+              <% else %>
+                <s><%= player_name_link(ranking[:player], current_user) %></s>
               <% end %>
-            </td>
-            <td><%= ranking[:points] %></td>
-            <td><%= ranking[:handicap] %></td>
-            <td class="js-filterable"><%= ranking[:player].category.name %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+            </span>
+            <% matches_to_play = @matches_to_play.select { |m| m.players.include? ranking[:player] }.sort { |m| m.round.position } %>
+            <% if matches_to_play.any? %>
+              <br>
+              <small class="text-secondary">
+                neodohraté s <%= matches_to_play.map { |m| m.players.find { |p| p.id != ranking[:player].id }.name }.join(", ") %>
+              </small>
+            <% end %>
+          </td>
+          <td><%= ranking[:points] %></td>
+          <td><%= ranking[:handicap] %></td>
+          <td class="js-filterable break-word"><%= ranking[:player].category.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
   <p class="text-center"><i><small><span class="table-bg-green px-2 py-1">zápas v kole odohratý</span></small></i></p>
 <% else %>
   <div class="row">
