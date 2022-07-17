@@ -17,7 +17,7 @@ RSpec.describe RankingsHelper, type: :helper do
 
     context "With round match finished and new point level" do
       let(:ranking) do
-        { round_match_finished: true, new_point_level: true }
+        { all_matches_finished: true, new_point_level: true }
       end
 
       it "Returns correct css classes" do
@@ -27,7 +27,7 @@ RSpec.describe RankingsHelper, type: :helper do
 
     context "With round match finished only" do
       let(:ranking) do
-        { round_match_finished: true }
+        { all_matches_finished: true }
       end
 
       it "Returns correct css classes" do
@@ -37,7 +37,7 @@ RSpec.describe RankingsHelper, type: :helper do
 
     context "With new point level" do
       let(:ranking) do
-        { round_match_finished: false, new_point_level: true }
+        { all_matches_finished: false, new_point_level: true }
       end
 
       it "Returns correct css classes" do
@@ -47,7 +47,7 @@ RSpec.describe RankingsHelper, type: :helper do
 
     context "With ranking having no special properties" do
       let(:ranking) do
-        { round_match_finished: false }
+        { all_matches_finished: false }
       end
 
       it "Returns correct css classes" do

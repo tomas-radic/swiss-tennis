@@ -238,6 +238,10 @@ ol {
 .grid-row-matches-header {
   grid-template-columns: 3fr 3fr 2fr;
 
+  @media only screen and (min-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
   &__c1 {
     grid-column-start: 1;
     grid-column-end: 2;
@@ -257,6 +261,10 @@ ol {
   grid-template-columns: 3fr 3fr 2fr;
   grid-template-rows: auto auto;
   border-top: 2px solid black;
+
+  @media only screen and (min-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 
   &__r1c1 {
     grid-column-start: 1;
