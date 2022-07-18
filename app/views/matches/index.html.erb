@@ -60,25 +60,16 @@
   </div>
 </div>
 
-<% if @unplanned_matches_count %>
-  <div class="row">
-    <div class="col">
-      <p class="text-danger my-2"><i><%= unplanned_matches_info(@unplanned_matches_count) %></i></p>
-    </div>
-  </div>
-<% end %>
-
-
-
 
 
 <% if @last_update_time.present? %>
   <div class="text-center my-3">
     <i><small>(aktualizácia: <%= I18n.localize(@last_update_time, format: :date_with_time) %>)</small></i>
+    <% if @unplanned_matches_count %>
+      <p class="text-danger"><i><%= unplanned_matches_info(@unplanned_matches_count) %></i></p>
+    <% end %>
   </div>
 <% end %>
-
-
 
 <% if selected_round && (@planned_matches.first || @recent_matches.first || @previous_matches.first || @unplanned_matches.first) %>
 
