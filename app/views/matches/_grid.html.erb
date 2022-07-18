@@ -58,13 +58,14 @@
         <span><%= link_to_manager_phone('tel. č. u organizátora') %></span>
       <% end %>
     </div>
-    <div class="grid-row-matches__r2c3 text-center">
+    <div class="grid-row__cell grid-row-matches__r2c3 text-center">
       <% if info_partial_down %>
         <div>
           <%= render partial: info_partial_down, locals: { match: match } %>
         </div>
       <% end %>
-      <%= link_to match.round.full_label, match_path(match), class: "link" %>
+      <div><%= match.round.full_label %></div>
+      <div><%= link_to ">>", match_path(match), class: "btn btn-light btn-sm" %></div>
     </div>
   </div>
 <% end %>
