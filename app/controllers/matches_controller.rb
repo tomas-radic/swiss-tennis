@@ -24,7 +24,6 @@ class MatchesController < ApplicationController
       #                                  .includes(:round, :place, {
       #                                    player1: :rankings, player2: :rankings
       #                                  }, :winner, :retired_player)
-
       @planned_matches = selected_season.matches.published.planned
                                         .where("rounds.position = ?", selected_round.position)
                                         .order("play_date asc, play_time asc, note desc nulls last")
@@ -46,8 +45,15 @@ class MatchesController < ApplicationController
                                            player1: :rankings, player2: :rankings
                                          }, :winner, :retired_player)
 
+      # @unplanned_matches = selected_season.matches.published.pending
+      #                                     .where("rounds.position <= ?", selected_round.position)
+      #                                     .where(play_date: nil)
+      #                                     .order("rounds.position desc, matches.note desc nulls last")
+      #                                     .includes(:round, :place, {
+      #                                       player1: :rankings, player2: :rankings
+      #                                     })
       @unplanned_matches = selected_season.matches.published.pending
-                                          .where("rounds.position <= ?", selected_round.position)
+                                          .where("rounds.position = ?", selected_round.position)
                                           .where(play_date: nil)
                                           .order("rounds.position desc, matches.note desc nulls last")
                                           .includes(:round, :place, {
