@@ -32,9 +32,7 @@ Rails.application.routes.draw do
   get '/pages/about', to: 'pages#about'
   get '/pages/season-jumpers', to: 'pages#season_jumpers'
   get '/pages/rules', to: 'pages#rules'
-  # get '/pages/season2020', to: 'pages#season2020'
-  # get '/pages/season2021', to: 'pages#season2021'
-  get '/pages/season2022', to: 'pages#season2022'
+  # get '/pages/season2022', to: 'pages#season2022'
 
   resources :articles do
     get :pin, on: :member
