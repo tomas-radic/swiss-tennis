@@ -310,6 +310,16 @@ ol {
 }
 
 
+.separator > :nth-child(1) {
+  height: 4px;
+  background-color: #015bbc;
+}
+.separator > :nth-child(2) {
+  height: 4px;
+  background-color: #fed601;
+}
+
+
 .nowrap {
   white-space: nowrap;
 }
