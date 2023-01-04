@@ -20,9 +20,9 @@
   </head>
 
   <body>
-    <% if user_signed_in? && @payment_balance.present? %>
-      <%= render 'payments/payment_balance' %>
-    <% end %>
+    <%# if user_signed_in? && @payment_balance.present? %>
+      <%#= render 'payments/payment_balance' %>
+    <%# end %>
     <% if selected_season != Season.default.first %>
       <div class="attention-background text-center">
         POZOR, je zvolená sezóna <%= selected_season.name %>.
