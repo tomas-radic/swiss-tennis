@@ -4,7 +4,7 @@
       <%#= link_to matches_path, class: 'navbar-brand' do %>
 <!--        <em>ma</em><strong>TO</strong><em>tenis</em>-->
       <%# end %>
-      <%= link_to matches_path, class: 'navbar-brand' do %>
+      <%= link_to root_path, class: 'navbar-brand' do %>
         <em>ma</em><strong>TO</strong><em>tenis</em>
       <% end %>
     </div>
@@ -14,9 +14,9 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-<!--        <li class="nav-item">-->
-          <%#= link_to 'Sezóna 2022', pages_season2022_path, class: 'nav-link'  %>
-<!--        </li>-->
+        <li class="nav-item">
+          <%= link_to 'Sezóna 2023', pages_season2023_path, class: 'nav-link'  %>
+        </li>
         <li class="nav-item">
           <%= link_to 'Rebríček', rankings_path, class: 'nav-link'  %>
         </li>
