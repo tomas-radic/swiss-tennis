@@ -1,16 +1,56 @@
 class TossRoundMatches < Patterns::Service
   pattr_initialize :round, :toss_points, [:mandatory_player_ids]
 
-  TOSS_VARIANTS_COUNT = 10
-
   def call
     return if toss_points.blank?
 
     create_toss_players
     assign_exlusions_to_toss_players
-    create_several_toss_variants
-    compute_toss_variants_suitabilities
-    create_toss_matches!
+
+    matches = Match.joins(round: :season)
+                   .where('seasons.id = ?', round.season_id)
+                   .where('matches.published is true')
+
+    p1_counts = matches.group('matches.player1_id').count
+    p2_counts = matches.group('matches.player2_id').count
+
+    toss = Swissper.pair(@toss_players) # [[p1, p2], [p3, p4]]
+
+    toss.each do |pair| # [p1, p2]
+      p1 = pair[0]
+      p2 = pair[1]
+
+      next unless p1.instance_of?(TossRoundMatches::TossPlayer)
+      next unless p2.instance_of?(TossRoundMatches::TossPlayer)
+
+      diff1 = p1_counts[p1.id].to_i - p2_counts[p1.id].to_i
+      diff2 = p1_counts[p2.id].to_i - p2_counts[p2.id].to_i
+
+      if diff1 > 0 # player1 had more matches at position 1
+        if diff2 > 0 # player2 had more matches at position 1
+          pair.reverse! if diff1 > diff2
+        elsif diff2 <= 0 # player2 balanced or had more matches at position 2
+          pair.reverse!
+        end
+      elsif diff1 == 0 # player1 balanced
+        if diff2 < 0 # player2 had more matches at position 2
+          pair.reverse!
+        end
+      elsif diff1 < 0 # player1 had more matches at position 2
+        if diff2 < 0 #player2 had more matches at position 2
+          pair.reverse! if diff2 < diff1
+        end
+      end
+
+      Match.create!(
+        player1_id: pair[0].id,
+        player2_id: pair[1].id,
+        players: [players.find { |p| p[:id] == pair[0].id }, players.find { |p| p[:id] == pair[1].id }],
+        from_toss: true,
+        round_id: round.id,
+        published: false
+      )
+    end
   end
 
   private
@@ -41,71 +81,10 @@ class TossRoundMatches < Patterns::Service
     end
   end
 
-  def create_several_toss_variants
-    @toss_variants = []
-
-    TOSS_VARIANTS_COUNT.times do
-      @toss_variants << Swissper.pair(@toss_players)
-    end
-  end
-
-  def compute_toss_variants_suitabilities
-    @toss_variants_suitabilities = {}
-
-    @toss_variants.each do |toss_variant|
-      toss_variant_suitability = 0
-
-      toss_variant.each do |players_pair|
-        court_player = players_pair[0]
-        balls_player = players_pair[1]
-
-        next unless court_player.instance_of?(TossRoundMatches::TossPlayer)
-        next unless balls_player.instance_of?(TossRoundMatches::TossPlayer)
-        next if court_player_counts[court_player.id].nil? || court_player_counts[balls_player.id].nil?
-        next if court_player_counts[court_player.id] == court_player_counts[balls_player.id]
-
-        if court_player_counts[court_player.id] > court_player_counts[balls_player.id]
-          players_pair.reverse!
-        end
-
-        toss_variant_suitability += 1
-      end
-
-      @toss_variants_suitabilities[toss_variant_suitability] ||= []
-      @toss_variants_suitabilities[toss_variant_suitability] << toss_variant
-    end
-  end
-
-  def create_toss_matches!
-    final_variant.each do |pair|
-      next unless pair[0].instance_of?(TossRoundMatches::TossPlayer)
-      next unless pair[1].instance_of?(TossRoundMatches::TossPlayer)
-
-      court_player_id = pair[0].id
-      balls_player_id = pair[1].id
-
-      Match.create!(
-        player1_id: court_player_id,
-        player2_id: balls_player_id,
-        players: [players.find { |p| p[:id] == court_player_id }, players.find { |p| p[:id] == balls_player_id }],
-        from_toss: true,
-        round_id: round.id,
-        published: false
-      )
-    end
-  end
-
-  def final_variant
-    @final_variant ||= @toss_variants_suitabilities[@toss_variants_suitabilities.keys.max].sample
-  end
 
   def players
     @players ||= PlayersWithoutMatchQuery.call(round: round)
         .where(id: toss_points.keys)
-  end
-
-  def court_player_counts
-    @court_player_counts ||= AllPlayersMatchesCountsAsPlayer1.call(round.season).result
   end
 
   class TossPlayer < Swissper::Player
