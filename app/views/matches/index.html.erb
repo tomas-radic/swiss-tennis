@@ -32,13 +32,10 @@
 <% end %>
 
 <p class="text-center">
-  <% if selected_season && selected_round && policy(Match).create? %>
-    <%= link_to 'Nový zápas', new_match_path(round_id: selected_round.id), class: 'btn btn-sm btn-success' %>
-  <% end %>
-
   <button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target="#match-instructions" aria-expanded="false" aria-controls="match-instructions">
     Inštrukcie k zápasom
   </button>
+  <%= link_to 'Rezervácie kurtov', pages_reservations_path, class: 'btn btn-sm btn-success' %>
 </p>
 <div class="collapse" id="match-instructions">
   <div class="card card-body text-justify">
