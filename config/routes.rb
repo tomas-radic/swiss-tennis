@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get '/pages/season-jumpers', to: 'pages#season_jumpers'
   get '/pages/rules', to: 'pages#rules'
   get '/pages/season2023', to: 'pages#season2023'
+  get '/pages/reservations', to: 'pages#reservations'
 
   resources :articles do
     get :pin, on: :member

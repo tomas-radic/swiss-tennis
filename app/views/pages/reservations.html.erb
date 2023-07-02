@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col">
+    <p class="lead float-left">
+      Rezervácie kurtov
+    </p>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-lg-6 eq-height-container">
+    <div class="card my-2 eq-height-col">
+      <div class="card-body">
+        <div class="clearfix">
+          <h3 class="card-title text-center">
+            Mravenisko 🐜
+          </h3>
+        </div>
+        <hr>
+<!--        <p class="card-text text-justify">-->
+<!--          Kurty na Mravenisku si hráči rezervujú sami v rezervačnom systéme. Na otvorenie rezervačného systému-->
+<!--          slúži tlačidlo nižšie.-->
+<!--        </p>-->
+        <p class="card-text text-center">
+          Rezervačný systém pre tento klub bude sprístupnený onedlho.
+        </p>
+        <p class="text-center">
+          <%= link_to 'Rezervácie 🐜',
+                      'https://booking.reservanto.sk/Modal/?id=4297',
+                      class: 'btn btn-danger disabled', target: :_blank %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 eq-height-container">
+    <div class="card my-2 eq-height-col">
+      <div class="card-body">
+        <div class="clearfix">
+          <h3 class="card-title text-center">
+            Park 🌳
+          </h3>
+        </div>
+        <hr>
+        <p class="card-text text-justify">
+          Kurty v parku sa rezervujú cez SMS na číslo 0911 503 355. Voľné termíny je možné vidieť vopred cez
+          tlačidlo nižšie. Na stránke sú dva kalendáre pre každý kurt zvlášť, po výbere dátumu sa zobrazia voľné možnosti.
+          Rezervácia platí po obdržaní potvrdenia.
+        </p>
+        <p class="text-center">
+          <%= link_to 'Rezervácie 🌳', 'https://kurty.zap.sk', class: 'btn btn-danger', target: :_blank %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 eq-height-container">
+    <div class="card my-2 eq-height-col">
+      <div class="card-body">
+        <div class="clearfix">
+          <h3 class="card-title text-center">
+            Kúpalisko 💦
+          </h3>
+        </div>
+        <hr>
+        <p class="card-text text-justify">
+          Kurty na kúpalisku sa rezervujú telefonicky na čísle 0903 260 749. Voľné termíny je možné vidieť vopred cez
+          tlačidlo nižšie. Na stránke je kalendár, po výbere dátumu sa zobrazia voľné možnosti oboch kurtov.
+        </p>
+        <p class="text-center">
+          <%= link_to 'Rezervácie 💦', 'https://kurtykupko.skedda.com/booking', class: 'btn btn-danger', target: :_blank %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

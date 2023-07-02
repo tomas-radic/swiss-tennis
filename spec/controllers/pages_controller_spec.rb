@@ -29,4 +29,18 @@ RSpec.describe PagesController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
   end
+
+  describe 'GET reservations' do
+    subject(:get_reservations) { get :reservations }
+
+    it 'Renders reservations template' do
+      get_reservations
+      expect(response).to render_template(:reservations)
+    end
+
+    it 'Responds with success' do
+      get_reservations
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end

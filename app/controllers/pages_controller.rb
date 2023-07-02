@@ -1,7 +1,6 @@
 class PagesController < ApplicationController
 
-  def about
-  end
+  def about; end
 
 
   def season_jumpers
@@ -10,8 +9,7 @@ class PagesController < ApplicationController
   end
 
 
-  def rules
-  end
+  def rules; end
 
 
   def season2023
@@ -21,4 +19,5 @@ class PagesController < ApplicationController
                      &.includes(player: :category)
   end
 
+  def reservations; end
 end
