@@ -23,12 +23,14 @@
 <!--          slúži tlačidlo nižšie.-->
 <!--        </p>-->
         <p class="card-text text-center">
-          Rezervačný systém pre tento klub bude sprístupnený onedlho.
+          Rezervačný systém pre tento klub bude sprístupnený onedlho. Nateraz volaj
+          <span class="nowrap"><%= link_to '0911 272 070', 'tel:0911272070' %>.</span>
         </p>
         <p class="text-center">
           <%= link_to 'Rezervácie 🐜',
                       'https://booking.reservanto.sk/Modal/?id=4297',
-                      class: 'btn btn-danger disabled', target: :_blank %>
+                      class: 'btn btn-success disabled', target: :_blank %>
+          <%= link_to "📞", "tel:0911272070", class: "btn btn-warning" %>
         </p>
       </div>
     </div>
@@ -44,12 +46,12 @@
         </div>
         <hr>
         <p class="card-text text-justify">
-          Kurty v parku sa rezervujú cez SMS na číslo 0911 503 355. Voľné termíny je možné vidieť vopred cez
+          Kurty v parku sa rezervujú cez SMS na číslo <span class="nowrap">0911 503 355.</span> Voľné termíny je možné vidieť vopred cez
           tlačidlo nižšie. Na stránke sú dva kalendáre pre každý kurt zvlášť, po výbere dátumu sa zobrazia voľné možnosti pre daný kurt.
           Rezervácia platí po obdržaní potvrdenia SMS správou.
         </p>
         <p class="text-center">
-          <%= link_to 'Rezervácie 🌳', 'https://kurty.zap.sk', class: 'btn btn-danger', target: :_blank %>
+          <%= link_to 'Rezervácie 🌳', 'https://kurty.zap.sk', class: 'btn btn-success', target: :_blank %>
         </p>
       </div>
     </div>
@@ -65,11 +67,14 @@
         </div>
         <hr>
         <p class="card-text text-justify">
-          Kurty na kúpalisku sa rezervujú telefonicky na čísle 0903 260 749. Voľné termíny je možné vidieť vopred cez
+          Kurty na kúpalisku sa rezervujú telefonicky na čísle
+          <span class="nowrap"><%= link_to '0903 260 749', 'tel:0903260749' %>.</span>
+          Voľné termíny je možné vidieť vopred cez
           tlačidlo nižšie. Na stránke je kalendár, po výbere dátumu sa zobrazia voľné možnosti oboch kurtov.
         </p>
         <p class="text-center">
-          <%= link_to 'Rezervácie 💦', 'https://kurtykupko.skedda.com/booking', class: 'btn btn-danger', target: :_blank %>
+          <%= link_to 'Rezervácie 💦', 'https://kurtykupko.skedda.com/booking', class: 'btn btn-success', target: :_blank %>
+          <%= link_to "📞", 'tel:0903260749', class: "btn btn-warning" %>
         </p>
       </div>
     </div>
