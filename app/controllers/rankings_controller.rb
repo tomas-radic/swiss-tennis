@@ -9,14 +9,14 @@ class RankingsController < ApplicationController
     if selected_round
       @rankings = SortedRankings.result_for(round: selected_round)
 
-      # Category.sorted.where("nr_finalists > ?", 0).each do |category|
-      #   finalists = @rankings.select { |r| r[:player_enrollment_active] && r[:player].category == category }.first(category.nr_finalists).map { |r| r[:player] }
-      #
-      #   @nominations_to_finals << {
-      #     category: category,
-      #     finalists: finalists
-      #   }
-      # end
+      Category.sorted.where("nr_finalists > ?", 0).each do |category|
+        finalists = @rankings.select { |r| r[:player_enrollment_active] && r[:player].category == category }.first(category.nr_finalists).map { |r| r[:player] }
+
+        @nominations_to_finals << {
+          category: category,
+          finalists: finalists
+        }
+      end
 
       @matches_to_play = policy_scope(Match).published.pending
                               .joins(:round)
