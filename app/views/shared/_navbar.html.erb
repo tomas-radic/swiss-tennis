@@ -47,7 +47,7 @@
         <% if user_signed_in? %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Administrácia
+              Manažment
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <%= link_to 'Sezóny', seasons_path, class: 'dropdown-item' %>
@@ -72,7 +72,7 @@
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to 'Prihlásiť sa', login_path, class: 'nav-link'  %>
+            <%= link_to 'Manažment', login_path, class: 'nav-link'  %>
           </li>
         <% end %>
       </ul>
