@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  # root to: 'matches#index'
-  root to: "pages#season2024"
+  root to: 'matches#index'
+  # root to: "pages#season2024"
 
   resources :users, only: [:edit, :update]
   resources :sessions, only: [:new, :create, :destroy]
