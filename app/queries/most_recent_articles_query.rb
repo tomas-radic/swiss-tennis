@@ -5,8 +5,8 @@ class MostRecentArticlesQuery < Patterns::Query
 
   def query
     season.articles.published.sorted
-        .where('updated_at >= ?', Article::RECENT_PERIOD.ago)
-        .where('last_date_interesting is null or last_date_interesting >= ?', Date.today)
+        .where('last_date_interesting >= ? or (last_date_interesting is null and updated_at >= ?)',
+               Date.today, Article::RECENT_PERIOD.ago)
   end
 
   def season
